@@ -14,8 +14,8 @@ class CreateSpecializationAreaUsersTable extends Migration
     public function up()
     {
         Schema::create('specialization_area_users', function (Blueprint $table) {
-            $table->integer('specialization_area_id');
-            $table->foreign('specialization_area_id')
+            $table->integer('specialization_area_number');
+            $table->foreign('specialization_area_number')
                   ->references('number')
                   ->on('specialization_areas')
                   ->onDelete('cascade');

@@ -31,7 +31,7 @@ class CourseSeeder extends Seeder
             DB::table('courses')->insert([
                 'name' => $course[0],
                 'initials' => $course[1],
-                'specialization_area_id' => $specializationAreaIds->random(),
+                'specialization_area_number' => $specializationAreaNumbers->random(),
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

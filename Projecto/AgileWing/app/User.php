@@ -38,7 +38,7 @@ class User extends Authenticatable
 
     public function specializationAreas()
     {
-        return $this->belongsToMany(SpecializationArea::class, 'specialization_area_users', 'user_id', 'specialization_area_id');
+        return $this->belongsToMany(SpecializationArea::class, 'specialization_area_users', 'user_id', 'specialization_area_number');
     }
 
     public function scheduleAtributions()

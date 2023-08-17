@@ -27,7 +27,7 @@ class SpecializationAreaUserSeeder extends Seeder
             // Attach the random specialization areas to the user
             foreach ($randomSpecializationAreas as $specializationArea) {
                 DB::table('specialization_area_users')->insert([
-                    'specialization_area_id' => $specializationArea->number, // Assuming the number is the field you want
+                    'specialization_area_number' => $specializationArea->number,
                     'user_id' => $user->id,
                     'created_at' => now(),
                     'updated_at' => now(),

@@ -25,7 +25,7 @@ class CourseSeeder extends Seeder
             ['Gestão de Projetos de Construção', 'GPC'],
         ];
 
-        $specializationAreaIds = SpecializationArea::pluck('number');
+        $specializationAreaNumbers = SpecializationArea::pluck('number');
 
         foreach ($courses as $course) {
             DB::table('courses')->insert([

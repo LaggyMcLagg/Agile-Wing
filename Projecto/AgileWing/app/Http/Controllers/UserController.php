@@ -51,10 +51,12 @@ class UserController extends Controller
                 $lastUpdated
             ];
 
-            $objectId = [$user->id];
-
             array_push($rows, $row);
-            array_push($objectIds, $objectId);
+
+            //como só precisas de um array unidimensional(vetor) tem de ficar assim e
+            //resulta com aquilo do index que te tinha dito antes em vez de ficar como
+            //matriz bidimensional. Mais leve ;) 
+            array_push($objectIds, $user->id);
         }
     
         return view('pages.users.show', compact('columns', 'rows', 'objectIds'));

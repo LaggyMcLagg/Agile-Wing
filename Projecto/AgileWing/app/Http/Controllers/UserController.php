@@ -14,7 +14,50 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+
+        $columns = ['Nome do formador', 'Área de formação', 'Grupo pedagógico', 'Último login', 'Data última gravação'];
+        $rows = [];
+        $objectIds = [];
+
+        //lógica para ir buscar os users que são apenas formadores
+        $users = User::whereHas('userType', function ($query)
+        {
+            $query->where('name', 'professor');
+        })->with('specializationAreas', 'pedagogicalGroups')->get();
+        
+        foreach ($users as $user)
+        {
+            $specializationList = [];
+            foreach ($user->specializationAreas as $specializationArea)
+            {
+                $specializationList[] = $specializationArea->name;
+            }
+        
+            $pedagogicalGroupList = [];
+            foreach ($user->pedagogicalGroups as $pedagogicalGroup)
+            {
+                $pedagogicalGroupList[] = $pedagogicalGroup->name;
+            }
+
+            $lastAvailability = $user->teacherAvailabilities()->latest('updated_at')->first();
+            $lastUpdated = $lastAvailability ? $lastAvailability->updated_at->format('Y-m-d H:i:s') : 'N/A';
+        
+            $row = 
+            [
+                $user->name,
+                $specializationList,
+                $pedagogicalGroupList,
+                $user->last_login,
+                $lastUpdated
+            ];
+
+            $objectId = [$user->id];
+
+            array_push($rows, $row);
+            array_push($objectIds, $objectId);
+        }
+    
+        return view('pages.users.show', compact('columns', 'rows', 'objectIds'));
     }
 
     /**
@@ -46,7 +89,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+
     }
 
     /**
@@ -57,7 +100,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        return view ('pages.users.edit', ['user' => $user]);
     }
 
     /**

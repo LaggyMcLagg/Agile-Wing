@@ -22,6 +22,8 @@ class TeacherAvailabilitySeeder extends Seeder
                     'user_id' => $i+2,
                     'hour_block_id' => $y,
                     'availability_type_id' => random_int(1, 4),
+                    'created_at' => now(),
+                    'updated_at' => now(),
                 ]);
                 $y++;
             }

@@ -30,6 +30,7 @@ $factory->define(User::class, function (Faker $faker) {
         'token_used' => true,
         'token_created_at' => now(),
         'remember_token' => Str::random(10),
+        'last_login' => now(),
         'created_at' => now(),
         'updated_at' => now(),
     ];

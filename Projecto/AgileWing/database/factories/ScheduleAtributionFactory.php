@@ -37,13 +37,13 @@ $factory->define(ScheduleAtribution::class, function (Faker $faker) {
     $hourEnd = date('H:i', strtotime($hourStart . ' +2 hours'));
     
     return [
-        'date' => $faker->dateTimeBetween('tomorrow', '+10 days'),
-        'hour_start' => $hourStart,
-        'hour_end' => $hourEnd,
-        'availability_type_id' => $faker->numberBetween(2, 3),
-        'course_class_id' => CourseClass::all()->random()->id,
-        'ufcd_id' => Ufcd::all()->random()->id,
-        'user_id' => User::all()->random()->id,
+        'date'                  => $faker->dateTimeBetween('tomorrow', '+10 days'),
+        'hour_start'            => $hourStart,
+        'hour_end'              => $hourEnd,
+        'availability_type_id'  => $faker->numberBetween(2, 3),
+        'course_class_id'       => CourseClass::all()->random()->id,
+        'ufcd_id'               => Ufcd::all()->random()->id,
+        'user_id'               => User::all()->random()->id,
     ];
 
 });

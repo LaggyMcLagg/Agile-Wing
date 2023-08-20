@@ -22,6 +22,7 @@ class CreateSpecializationAreaUsersTable extends Migration
                   
             $table->foreignid('user_id')->constrained();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

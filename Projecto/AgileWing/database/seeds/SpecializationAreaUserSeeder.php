@@ -28,9 +28,9 @@ class SpecializationAreaUserSeeder extends Seeder
             foreach ($randomSpecializationAreas as $specializationArea) {
                 DB::table('specialization_area_users')->insert([
                     'specialization_area_number' => $specializationArea->number,
-                    'user_id' => $user->id,
-                    'created_at' => now(),
-                    'updated_at' => now(),
+                    'user_id'       => $user->id,
+                    'created_at'    => now(),
+                    'updated_at'    => now(),
                 ]);
             }
         }

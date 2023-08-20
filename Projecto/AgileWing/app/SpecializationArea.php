@@ -3,12 +3,15 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\User;
 use App\Course;
 
 class SpecializationArea extends Model
 {
-    //Since the primary key is not 'id' but number so that laravel knows
+    use SoftDeletes;
+    
+    //Since the primary key is not 'id' but 'number' so that laravel knows
     protected $primaryKey = 'number';
 
     public function users()

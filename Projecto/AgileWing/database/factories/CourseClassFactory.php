@@ -21,8 +21,8 @@ $factory->define(CourseClass::class, function (Faker $faker) {
     $number = ($firstPart < 10 ? '0' . $firstPart : $firstPart) . '.' . $secondPart;
     
     return [
-        'name' => $course->initials,
-        'number' => $number,
+        'name'      => $course->initials,
+        'number'    => $number,
         'course_id' => $course->id,
     ];
 

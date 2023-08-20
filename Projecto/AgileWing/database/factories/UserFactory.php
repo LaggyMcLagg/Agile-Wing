@@ -18,20 +18,20 @@ use Illuminate\Support\Str;
 */
 
 $factory->define(User::class, function (Faker $faker) {
-    $name = $faker->firstName . $faker->lastName;
+    $name = $faker->firstName . ' ' . $faker->lastName;
     $email = Str::lower(str_replace(' ', '.', $name)) . '@edu.atec.pt';
 
     return [
-        'name' => $name,
-        'email' => $email,
-        'password' => bcrypt('password'),
-        'user_type_id' => 2,
-        'token_password' => bcrypt(Str::random(10)),
-        'token_used' => true,
+        'name'             => $name,
+        'email'            => $email,
+        'password'         => bcrypt('password'),
+        'user_type_id'     => 2,
+        'token_password'   => bcrypt(Str::random(10)),
+        'token_used'       => true,
         'token_created_at' => now(),
-        'remember_token' => Str::random(10),
-        'last_login' => now(),
-        'created_at' => now(),
-        'updated_at' => now(),
+        'notes'            => $faker->paragraph,
+        'last_login'       => now(),
+        'created_at'       => now(),
+        'updated_at'       => now(),
     ];
 });

@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\PedagogicalGroup;
 use App\Ufcd;
 use App\UserType;
@@ -14,6 +15,8 @@ use App\ScheduleAtribution;
 
 class User extends Authenticatable
 {
+    use SoftDeletes;
+    
     use Notifiable;
 
     public function pedagogicalGroups()

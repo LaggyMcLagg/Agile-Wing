@@ -20,6 +20,7 @@ class CreateUfcdsTable extends Migration
             $table->integer('number');
             $table->integer('hours');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

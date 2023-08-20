@@ -24,9 +24,11 @@ class CreateUsersTable extends Migration
             $table->date('token_created_at');
             $table->string('color_1')->nullable();
             $table->string('color_2')->nullable();
+            $table->text('notes')->nullable();
             $table->date('last_login');
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

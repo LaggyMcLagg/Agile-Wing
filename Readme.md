@@ -54,7 +54,7 @@ mix.js('resources/js/app.js', 'public/js')
 
 **4. Utilização**
 
-Para estes assets estarem disponiveis à DOM têm de ser compilado com o **npm run dev** sempre que houverem alterações a estes ficheiros teremos de correr este comando.
+Para estes assets estarem disponiveis à DOM têm de ser compilados com o **npm run dev**. Sempre que houverem alterações a estes ficheiros teremos de correr este comando.
 
 Para ambiente de DEV, abrir um novo terminal no IDE e correr o comando **npm run watch** desta forma qualquer alteração feita aos ficheiros js, css e sass/scss será compilada de imediato.
 

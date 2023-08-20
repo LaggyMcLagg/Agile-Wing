@@ -29,11 +29,11 @@ class CourseSeeder extends Seeder
 
         foreach ($courses as $course) {
             DB::table('courses')->insert([
-                'name' => $course[0],
-                'initials' => $course[1],
+                'name'                       => $course[0],
+                'initials'                   => $course[1],
                 'specialization_area_number' => $specializationAreaNumbers->random(),
-                'created_at' => now(),
-                'updated_at' => now(),
+                'created_at'                 => now(),
+                'updated_at'                 => now(),
             ]);
         }
     }

@@ -2,7 +2,16 @@
 
 @section('content')
 
-@component('components.content_table.content_table', ['columns' => $columns, 'rows' => $rows, 'objectIds' => $objectIds])
+@php
+$useCheckbox = true;
+@endphp
+
+@component('components.users.show', [
+    'user' => $user,
+    'pedagogicalGroups' => $pedagogicalGroups,
+    'pedagogicalGroupUser' => $pedagogicalGroupUser,
+    'useCheckbox' => $useCheckbox
+])
 @endcomponent
 
 @endsection

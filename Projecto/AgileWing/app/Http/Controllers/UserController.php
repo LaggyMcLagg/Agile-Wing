@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\PedagogicalGroup;
+use App\SpecializationArea;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -14,7 +16,7 @@ class UserController extends Controller
      */
     public function index()
     {
-
+        $useCheckbox = false;
         $columns = ['Nome do formador', 'Área de formação', 'Grupo pedagógico', 'Último login', 'Data última gravação'];
         $rows = [];
         $objectIds = [];
@@ -59,7 +61,11 @@ class UserController extends Controller
             array_push($objectIds, $user->id);
         }
     
-        return view('pages.users.show', compact('columns', 'rows', 'objectIds'));
+        return view('pages.users.index', compact(
+            'columns', 
+            'rows', 
+            'objectIds', 
+            'useCheckbox'));
     }
 
     /**
@@ -91,7 +97,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-
+//      ###PASSAR O CONTEUDO DO EDIT PARA AQUI E ALTERAR A ROTA###
     }
 
     /**
@@ -102,7 +108,22 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view ('pages.users.edit', ['user' => $user]);
+        $useCheckbox = true;
+        $pedagogicalGroups = PedagogicalGroup::all();
+        $pedagogicalGroupUser = [];
+
+        foreach ($pedagogicalGroups as $pedagogicalGroup)
+        {
+            $userAssociated= $user->pedagogicalGroups->contains($pedagogicalGroup->id);
+            $pedagogicalGroupUser[$pedagogicalGroup->name] = $userAssociated;
+        }
+
+        return view ('pages.users.show', compact(
+            'useCheckbox',
+            'user',
+            'pedagogicalGroupUser',
+            'pedagogicalGroups',
+            'userAssociated'));
     }
 
     /**

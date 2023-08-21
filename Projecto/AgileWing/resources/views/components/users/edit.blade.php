@@ -1,4 +1,4 @@
-<form method="POST" action="{{ url('formadores/' . $user->id) }}">
+<form method="POST" action="{{ url('teachers/' . $user->id) }}">
 @csrf
 @method('PUT')
 <div class="form-group">

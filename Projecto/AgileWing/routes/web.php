@@ -23,7 +23,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 //ROTAS CONTENT TABLE FORMADORES
 //rever quais os métodos CRUD não vão ser utilizados
-Route::prefix('formadores')->group(function(){
+Route::prefix('users')->group(function(){
     Route::get('', 'UserController@index');
     Route::get('create', 'UserController@create');
     Route::post('', 'UserController@store');

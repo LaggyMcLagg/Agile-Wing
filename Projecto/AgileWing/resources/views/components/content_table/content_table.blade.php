@@ -3,10 +3,12 @@
 @endsection
 
 <div class="table-responsive">
+@if(!$useCheckbox)
   <form class="form-inline my-2 my-lg-0">
     <input id="search-input" class="form-control mr-sm-2" type="search" placeholder="Pesquisa" aria-label="Search">
     <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
 </form>
+@endif
 
   <table class="table table-bordered" id="sortable-table">
     <thead>
@@ -14,35 +16,35 @@
             @foreach($columns as $index => $column)
             <th scope="col" data-column-index="{{$index}}">{{$column}}</th>
             @endforeach
-            @if($useCheckbox)
-            <th scope="col">Selected</th>
-            @endif
         </tr>
     </thead>
     <tbody>
         @foreach($rows as $index => $row)
-        @if(isset($objectIds))
-        <tr class="clickable-row" data-user-id="{{$objectIds[$index]}}">
-        @endif
-            @foreach($row as $cell)
-            <td>
-                @if(is_array($cell))
-                <ul>
-                    @foreach($cell as $item)
-                    <li>{{ $item }}</li>
-                    @endforeach
-                </ul>
-                @else
-                {{ $cell }}
-                @endif
-            </td>
-            @endforeach
+          
             @if($useCheckbox)
-            <td>
-                @if(isset($pedagogicalGroupUser) && isset($pedagogicalGroupUser[$row[0]]))
-        <input type="checkbox" {{ $pedagogicalGroupUser[$row[2]] ? 'checked' : '' }}>
+                <td>
+                    {{ $row['itemName'] }}
+                </td>
+                <td>
+                    <input type="checkbox" {{ $row['isAssociated'] ? 'checked' : '' }}>
+                </td>
+            @else
+            @if(isset($objectIds))
+            <tr class="clickable-row" data-user-id="{{$objectIds[$index]}}">
+            @endif
+                @foreach($row as $cell)
+                <td>
+                    @if(is_array($cell))
+                    <ul>
+                        @foreach($cell as $item)
+                        <li>{{ $item }}</li>
+                        @endforeach
+                    </ul>
+                @else
+                    {{ $cell }}
                 @endif
-            </td>
+                </td>
+                @endforeach
             @endif
         </tr>
         @endforeach

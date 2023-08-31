@@ -98,6 +98,9 @@ class UserController extends Controller
     public function show(User $user)
     {
 //      ###PASSAR O CONTEUDO DO EDIT PARA AQUI E ALTERAR A ROTA###
+//      ###PASSAR O CONTEUDO DO EDIT PARA AQUI E ALTERAR A ROTA###
+//      ###PASSAR O CONTEUDO DO EDIT PARA AQUI E ALTERAR A ROTA###
+//      ###PASSAR O CONTEUDO DO EDIT PARA AQUI E ALTERAR A ROTA###
     }
 
     /**
@@ -109,21 +112,46 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $useCheckbox = true;
-        $pedagogicalGroups = PedagogicalGroup::all();
-        $pedagogicalGroupUser = [];
+        $columnsPedagogicalGroup = ['Grupo Pedagógico', 'Associado ou Não'];
+        $rowsPedagogicalGroup = [];
 
+        $pedagogicalGroups = PedagogicalGroup::all();
         foreach ($pedagogicalGroups as $pedagogicalGroup)
         {
-            $userAssociated= $user->pedagogicalGroups->contains($pedagogicalGroup->id);
-            $pedagogicalGroupUser[$pedagogicalGroup->name] = $userAssociated;
+            //containts() devolve true or false
+            $userAssociatedPedagogicalGroup = $user->pedagogicalGroups->contains($pedagogicalGroup->id);
+            $rowPedagogicalGroup = [
+                'itemName'     => $pedagogicalGroup->name,
+                'isAssociated' => $userAssociatedPedagogicalGroup
+            ];
+            
+            $rowsPedagogicalGroup[] = $rowPedagogicalGroup;
         }
 
+
+        $columnsSpecializationArea = ['Área de Formação', 'Associado ou Não'];
+        $rowsSpecializationArea = [];
+
+        $specializationAreas = SpecializationArea::all();
+        foreach ($specializationAreas as $specializationArea)
+        {
+            $userAssociatedSpecializationArea = $user->specializationAreas->contains($specializationArea->number);
+            $rowSpecializationArea = [
+                'itemName'      => $specializationArea->name,
+                'isAssociated'  =>$userAssociatedSpecializationArea   
+            ];
+
+            $rowsSpecializationArea[] = $rowSpecializationArea;
+        }
+        
         return view ('pages.users.show', compact(
             'useCheckbox',
             'user',
-            'pedagogicalGroupUser',
-            'pedagogicalGroups',
-            'userAssociated'));
+            'columnsPedagogicalGroup',
+            'columnsSpecializationArea',
+            'rowsSpecializationArea',
+            'rowsPedagogicalGroup'
+        ));
     }
 
     /**

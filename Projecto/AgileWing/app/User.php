@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\PedagogicalGroup;
 use App\Ufcd;
 use App\UserType;
@@ -12,8 +13,11 @@ use App\TeacherAvailability;
 use App\SpecializationArea;
 use App\ScheduleAtribution;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
+
 {
+    use SoftDeletes;
+    
     use Notifiable;
 
     public function pedagogicalGroups()
@@ -38,7 +42,7 @@ class User extends Authenticatable
 
     public function specializationAreas()
     {
-        return $this->belongsToMany(SpecializationArea::class, 'specialization_area_users', 'user_id', 'specialization_area_id');
+        return $this->belongsToMany(SpecializationArea::class, 'specialization_area_users', 'user_id', 'specialization_area_number');
     }
 
     public function scheduleAtributions()

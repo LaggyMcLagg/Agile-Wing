@@ -1,10 +1,62 @@
 # Projecto Agile Wing
 
-## Assets js & css
+## Assets js & css *(Laravel Mix)*
+*notas: 
+- reduz pedidos http ao servidor por css e/ou js que não estão a ser utilizados **granularidade**
+- utilizando JS ES6+ **transpila** para ES5, retrocompatibilidade para browsers mais antigos.* 
 
-**Localização** - *./public/js & ./public/css*
+**1. Localizações**
+ 
+**1.1. JS** - *./resources/js/logic*
 
-![Localização assets js & css](image.png)
+Nesta pasta deverão criar os ficheiros js com os scripts que necessitarem.
+
+*nota: se dentro da pasta js a pasta logic ainda não existir criem com letras minusculas*
+
+**1.2. CSS** - *./resources/css*
+
+Nesta pasta deverão criar os ficheiros css com o css específico que necessitarem.
+
+*nota: se a pasta css ainda não existir, criem com letras minusculas*
+
+**2. Ficheiro de compilação de js, css e scss/sass.**
+
+**webpack.mix.js** - *./* (raiz do projecto)
+
+Acrescentar ao mix.css OU js('localização/do/ficheiro/a/integrar', 'local/exportação')
+
+```PHP
+const mix = require('laravel-mix');
+
+mix.js('resources/js/app.js', 'public/js')
+    .sass('resources/sass/app.scss', 'public/css')
+    .js('resources/js/nomeFicheiroJs.js', 'public/js')
+    .css('resources/css/nomeFicheiroCss.css','public/css');
+```
+
+**3. Inclusão numa blade que necessita do js/css especifico**
+
+```PHP
+@section('scripts')
+<script src="{{ asset('js/nomeDoFicheiroJS.js')}}"></script>
+@endsection
+// OU
+@section('styles')
+<link href="{{ asset('css/nomeDoFicheiroCSS.css')}}" rel="stylesheet">
+@endsection
+
+// isto irá fazer uso do 
+@yield('scripts') 
+// OU
+@yield('styles')
+// na master page
+```
+
+**4. Utilização**
+
+Para estes assets estarem disponiveis à DOM têm de ser compilados com o **npm run dev**. Sempre que houverem alterações a estes ficheiros teremos de correr este comando.
+
+Para ambiente de DEV, abrir um novo terminal no IDE e correr o comando **npm run watch** desta forma qualquer alteração feita aos ficheiros js, css e sass/scss será compilada de imediato.
 
 ## Convenções nomeação
 

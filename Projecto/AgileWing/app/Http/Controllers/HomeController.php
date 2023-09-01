@@ -11,10 +11,10 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    //public function __construct()
+    //{
+        //$this->middleware('auth');
+    //} isto pode ser eliminado, com o contrutor colocado na web.php grupo de rotas feitas
 
     /**
      * Show the application dashboard.

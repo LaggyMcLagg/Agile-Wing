@@ -21,6 +21,7 @@ class CreateTeacherAvailabilitiesTable extends Migration
             $table->foreignid('hour_block_id')->constrained();
             $table->foreignid('availability_type_id')->constrained();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

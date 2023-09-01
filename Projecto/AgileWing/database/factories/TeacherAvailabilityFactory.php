@@ -7,7 +7,6 @@ use Faker\Generator as Faker;
 
 $factory->define(TeacherAvailability::class, function (Faker $faker) {
     return [
-        'created_at' => now(),
-        'updated_at' => now(),
+        //
     ];
 });

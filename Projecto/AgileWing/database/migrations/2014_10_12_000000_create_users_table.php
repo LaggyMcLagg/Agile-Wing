@@ -17,6 +17,7 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->foreignid('user_type_id')->constrained();
             $table->string('token_password');
@@ -24,8 +25,11 @@ class CreateUsersTable extends Migration
             $table->date('token_created_at');
             $table->string('color_1')->nullable();
             $table->string('color_2')->nullable();
+            $table->text('notes')->nullable();
+            $table->date('last_login');
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -3,15 +3,18 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Ufcd;
 use App\SpecializationArea;
 use App\CourseClass;
 
 class Course extends Model
 {
+    use SoftDeletes;
+    
     public function specializationArea()
     {
-        return $this->belongsTo(SpecializationArea::class);
+        return $this->belongsTo(SpecializationArea::class, 'specialization_area_number');
     }
 
     public function courseClasses()

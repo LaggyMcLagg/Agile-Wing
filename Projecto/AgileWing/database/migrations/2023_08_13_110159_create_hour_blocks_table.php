@@ -18,6 +18,7 @@ class CreateHourBlocksTable extends Migration
             $table->time('hour_beginning');
             $table->time('hour_end');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

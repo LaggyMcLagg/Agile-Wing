@@ -19,11 +19,12 @@ class CreateCoursesTable extends Migration
             $table->string('initials');
             $table->timestamps();
 
-            $table->integer('specialization_area_id');
-            $table->foreign('specialization_area_id')
+            $table->integer('specialization_area_number');
+            $table->foreign('specialization_area_number')
                   ->references('number')
                   ->on('specialization_areas')
                   ->onDelete('cascade');
+            $table->softDeletes();
         });
     }
 

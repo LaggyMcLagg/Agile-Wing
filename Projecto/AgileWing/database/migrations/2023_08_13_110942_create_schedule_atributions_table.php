@@ -23,6 +23,7 @@ class CreateScheduleAtributionsTable extends Migration
             $table->foreignid('ufcd_id')->constrained();
             $table->foreignid('user_id')->constrained();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -18,6 +18,7 @@ class CreateUserUfcdsTable extends Migration
             $table->foreignid('ufcd_id')->constrained();
             $table->timestamps();
             $table->primary(['user_id', 'ufcd_id']);
+            $table->softDeletes();
         });
     }
 

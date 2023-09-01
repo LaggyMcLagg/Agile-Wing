@@ -18,6 +18,7 @@ class CreateCourseUfcdsTable extends Migration
             $table->foreignid('ufcd_id')->constrained();
             $table->timestamps();
             $table->primary(['course_id', 'ufcd_id']);
+            $table->softDeletes();
         });
     }
 

@@ -18,6 +18,7 @@ class CreatePedagogicalGroupUsersTable extends Migration
             $table->foreignid('user_id')->constrained();
             $table->timestamps();
             $table->primary(['pedagogical_group_id', 'user_id']);
+            $table->softDeletes();
         });
     }
 

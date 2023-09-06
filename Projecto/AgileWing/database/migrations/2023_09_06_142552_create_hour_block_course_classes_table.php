@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSpecializationAreasTable extends Migration
+class CreateHourBlockCourseClassesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class CreateSpecializationAreasTable extends Migration
      */
     public function up()
     {
-        Schema::create('specialization_areas', function (Blueprint $table) {
-            $table->integer('number')->primary();
-            $table->string('name');
+        Schema::create('hour_block_course_classes', function (Blueprint $table) {
+            $table->id();
+            $table->foreignid('course_class_id')->constrained();
+            $table->time('hour_beginning');
+            $table->time('hour_end');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -28,6 +30,6 @@ class CreateSpecializationAreasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('specialization_areas');
+        Schema::dropIfExists('hour_block_course_classes');
     }
 }

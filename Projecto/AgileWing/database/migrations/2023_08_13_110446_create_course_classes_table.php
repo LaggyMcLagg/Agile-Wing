@@ -19,6 +19,7 @@ class CreateCourseClassesTable extends Migration
             $table->string('number');
             $table->foreignid('course_id')->constrained();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

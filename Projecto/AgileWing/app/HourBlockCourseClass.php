@@ -3,15 +3,16 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\User;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\CourseClass;
 
-class UserType extends Model
+class HourBlockCourseClass extends Model
 {
     use SoftDeletes;
     
-    public function users()
+    public function courseClass()
     {
-        return $this->hasMany(User::class);
+        return $this->belongsTo(CourseClass::class);
     }
+
 }

@@ -6,9 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use App\Ufcd;
 use App\SpecializationArea;
 use App\CourseClass;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Course extends Model
 {
+    use SoftDeletes;
+    
     public function specializationArea()
     {
         return $this->belongsTo(SpecializationArea::class, 'specialization_area_number');

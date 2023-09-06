@@ -14,14 +14,15 @@ class CreateSpecializationAreaUsersTable extends Migration
     public function up()
     {
         Schema::create('specialization_area_users', function (Blueprint $table) {
+            $table->id();
             $table->integer('specialization_area_number');
             $table->foreign('specialization_area_number')
                   ->references('number')
                   ->on('specialization_areas')
                   ->onDelete('cascade');
-                  
             $table->foreignid('user_id')->constrained();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

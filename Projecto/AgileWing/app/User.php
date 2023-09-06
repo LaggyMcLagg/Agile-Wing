@@ -12,6 +12,8 @@ use App\UserType;
 use App\TeacherAvailability;
 use App\SpecializationArea;
 use App\ScheduleAtribution;
+use App\HourBlockCourse;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Ufcd;
 use App\SpecializationArea;
 use App\CourseClass;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Course extends Model
 {

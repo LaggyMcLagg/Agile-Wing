@@ -29,8 +29,8 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item {{ Request::is('ROTA1*') ? 'active' : '' }}">
-                <a class="nav-link" href="{{url('/ROTA1')}}">METER AQUI NOME</a>
+            <li class="nav-item {{ Request::is('agenda*') ? 'active' : '' }}">
+                <a class="nav-link" href="{{url('/agenda')}}">Agenda</a>
             </li>
             <li class="nav-item {{ Request::is('ROTA2*') ? 'active' : '' }}">
                 <a class="nav-link" href="{{url('/ROTA2')}}">METER AQUI NOME</a>

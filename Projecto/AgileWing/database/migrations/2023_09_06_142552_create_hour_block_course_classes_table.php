@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePedagogicalGroupUsersTable extends Migration
+class CreateHourBlockCourseClassesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreatePedagogicalGroupUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('pedagogical_group_users', function (Blueprint $table) {
+        Schema::create('hour_block_course_classes', function (Blueprint $table) {
             $table->id();
-            $table->foreignid('pedagogical_group_id')->constrained();
-            $table->foreignid('user_id')->constrained();
+            $table->foreignid('course_class_id')->constrained();
+            $table->time('hour_beginning');
+            $table->time('hour_end');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -29,6 +30,6 @@ class CreatePedagogicalGroupUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pedagogical_group_users');
+        Schema::dropIfExists('hour_block_course_classes');
     }
 }

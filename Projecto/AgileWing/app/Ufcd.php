@@ -8,6 +8,7 @@ use App\PedagogicalGroup;
 use App\Course;
 use App\User;
 use App\ScheduleAtribution;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 
 class Ufcd extends Model

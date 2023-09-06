@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\TeacherAvailability;
 use App\ScheduleAtribution;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 class AvailabilityType extends Model
 {

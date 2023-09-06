@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\User;
 use App\Course;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class SpecializationArea extends Model
 {

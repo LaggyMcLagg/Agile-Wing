@@ -2,9 +2,8 @@
 
 use Illuminate\Database\Seeder;
 use App\CourseClass;
-use Faker\Factory as Faker;
 
-class HourBlockCourseClassesTableSeeder extends Seeder
+class HourBlockCourseClassSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,9 +11,7 @@ class HourBlockCourseClassesTableSeeder extends Seeder
      * @return void
      */
     public function run()
-    {
-        $faker = Faker::create();
-        
+    {        
         // These schedule groups are used in the school, so a good test base.
         $timeGroups = [
             [
@@ -114,7 +111,7 @@ class HourBlockCourseClassesTableSeeder extends Seeder
         $courseClasses = CourseClass::all();
 
         foreach ($courseClasses as $courseClass) {
-            $randomGroupIndex = $faker->numberBetween(0, count($timeGroups) - 1);
+            $randomGroupIndex = random_int(0, count($timeGroups) - 1);
             $selectedGroup = $timeGroups[$randomGroupIndex];
             
             foreach ($selectedGroup as $slot) {

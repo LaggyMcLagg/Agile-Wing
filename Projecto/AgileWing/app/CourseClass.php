@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Course;
 use App\ScheduleAtribution;
-use App\HourBlockCourse;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use App\HourBlockCourseClass;
 
 class CourseClass extends Model
 {

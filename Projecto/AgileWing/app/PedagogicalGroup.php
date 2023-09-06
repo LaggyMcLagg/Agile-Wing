@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\User;
 use App\Ufcd;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PedagogicalGroup extends Model
 {

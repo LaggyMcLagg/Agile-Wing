@@ -23,6 +23,7 @@ class CreateHourBlockCourseClassesTable extends Migration
         });
     }
 
+
     /**
      * Reverse the migrations.
      *

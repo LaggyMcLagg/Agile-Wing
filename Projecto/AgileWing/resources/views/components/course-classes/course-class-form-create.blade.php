@@ -22,8 +22,27 @@
             <strong>{{ $message }}</strong>
         </span>
         @enderror
+    </div>
 
-        <div class="form-group">
+     <!-- Country ComboBox -->
+     <div class="form-group">
+        <label for="course_id">Country</label>
+        <select name="course_id" id="course_id" class="form-control @error('course_id') is-invalid @enderror">
+            <option value="">Select a Course</option>
+            @foreach($courses as $course)
+                <option value="{{ $course->id }}" {{ old('course_id') == $course->id ? 'selected' : '' }}>
+                    {{ $course->name }}
+                </option>
+            @endforeach
+        </select>
+        @error('course_id')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+        @enderror
+    </div>
+    
+    <!-- <div class="form-group">
         <label for="courseId">Course ID</label>
         <input type="text" id="courseId" name="courseId" autocomplete="courseId" placeholder="Inser Course ID" class="form-control
  @error('courseId') is-invalid @enderror" value="{{ old('courseId') }}" required aria-describedby="courseIdHelp">
@@ -33,7 +52,7 @@
             <strong>{{ $message }}</strong>
         </span>
         @enderror
-    </div>
+    </div> -->
 
     <button type="submit" class="mt-2 mb-5 btn btn-primary">Submit</button>
 </form>

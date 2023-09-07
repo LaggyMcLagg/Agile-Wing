@@ -37,3 +37,14 @@ Route::prefix('users')->group(function(){
     Route::put('{user}', 'UserController@update');
     Route::delete('{user}', 'UserController@destroy');
    });
+
+
+//CRUD ROUTES
+//Course Class
+Route::get('/course-classes', 'CourseClassController@index');
+Route::get('/course-classes/create', 'CourseClassController@create');
+Route::post('/course-classes', 'CourseClassController@store');
+Route::get('/course-classes/{course-class}', 'CourseClassController@show');
+Route::get('/course-classes/{course-class}/edit', 'CourseClassController@edit');
+Route::put('/course-classes/{course-class}', 'CourseClassController@update');
+Route::delete('/course-classes/{course-class}', 'CourseClassController@destroy');

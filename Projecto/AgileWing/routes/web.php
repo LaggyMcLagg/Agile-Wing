@@ -59,11 +59,3 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/login', [CustomAuth::class, 'login']);
 Route::post('login-user', [CustomAuth::class, 'loginUser'])->name('login-user');
 Route::get('/dashboard', [CustomAuth::class, 'dashboard']);
-Auth::routes([
-    'verify' => true
-]);
-
-Route::middleware(['auth', 'verified'])->group(function(){
-    Route::get('/home', 'HomeController@index')->name('home');
-});
-

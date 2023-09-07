@@ -25,6 +25,7 @@ class CreateCoursesTable extends Migration
                   ->references('number')
                   ->on('specialization_areas')
                   ->onDelete('cascade');
+            $table->softDeletes();
         });
     }
 

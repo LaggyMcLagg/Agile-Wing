@@ -3,8 +3,7 @@
     <div class="form-group">
         <label for="name">Name</label>
         <input type="text" id="name" name="name" autocomplete="name" placeholder="Insert Name" class="form-control
- @error('name') is-invalid @enderror" value="{{ old('name') }}" required aria-describedby="nameHelp">
-        <small id="nameHelp" class="form-text text-muted">We'll never share your data with anyone else.</small>
+ @error('name') is-invalid @enderror" value="{{ old('name') }}">
         @error('name')
         <span class="invalid-feedback" role="alert">
             <strong>{{ $message }}</strong>
@@ -15,8 +14,7 @@
     <div class="form-group">
         <label for="number">Number</label>
         <input type="text" id="number" name="number" autocomplete="number" placeholder="Inser Number" class="form-control
- @error('number') is-invalid @enderror" value="{{ old('number') }}" required aria-describedby="numberHelp">
-        <small id="numberHelp" class="form-text text-muted">We'll never share your data with anyone else.</small>
+ @error('number') is-invalid @enderror" value="{{ old('number') }}">
         @error('number')
         <span class="invalid-feedback" role="alert">
             <strong>{{ $message }}</strong>

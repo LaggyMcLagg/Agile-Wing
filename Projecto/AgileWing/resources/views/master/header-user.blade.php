@@ -1,3 +1,6 @@
+@section('styles')
+<link href="{{ asset('css/nomeDoFicheiroCSS.css')}}" rel="stylesheet">
+@endsection
 <div class="container">
     <div class="row">
         <div class="justify-content-end d-flex">
@@ -39,8 +42,7 @@
                 <a class="nav-link dropdown-style" href="{{url('/ROTA3')}}">Alterar Palavra-Passe</a>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <x-button class="btn-light-blue logout" modal-id="">Logout</x-button>
-        </form>
+
+        <a href="login">Logout</a>
     </div>
 </nav>

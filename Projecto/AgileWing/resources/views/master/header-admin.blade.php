@@ -1,6 +1,3 @@
-@section('styles')
-<link href="{{ asset('css/nomeDoFicheiroCSS.css')}}" rel="stylesheet">
-@endsection
 <div class="container">
     <div class="row">
         <div class="justify-content-end d-flex">

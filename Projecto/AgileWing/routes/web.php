@@ -2,7 +2,6 @@
 
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CustomAuth;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,8 +53,3 @@ Route::prefix('users')->group(function(){
     Route::put('{user}', 'UserController@update');
     Route::delete('{user}', 'UserController@destroy');
    });
-   
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/login', [CustomAuth::class, 'login']);
-Route::post('login-user', [CustomAuth::class, 'loginUser'])->name('login-user');
-Route::get('/dashboard', [CustomAuth::class, 'dashboard']);

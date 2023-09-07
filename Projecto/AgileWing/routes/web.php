@@ -41,10 +41,12 @@ Route::prefix('users')->group(function(){
 
 //CRUD ROUTES
 //Course Class
-Route::get('/course-classes', 'CourseClassController@index');
-Route::get('/course-classes/create', 'CourseClassController@create');
-Route::post('/course-classes', 'CourseClassController@store');
-Route::get('/course-classes/{course-class}', 'CourseClassController@show');
-Route::get('/course-classes/{course-class}/edit', 'CourseClassController@edit');
-Route::put('/course-classes/{course-class}', 'CourseClassController@update');
-Route::delete('/course-classes/{course-class}', 'CourseClassController@destroy');
+Route::prefix('course-classes')->group(function(){
+    Route::get('', 'CourseClassController@index');
+    Route::get('create', 'CourseClassController@create');
+    Route::post('', 'CourseClassController@store');
+    Route::get('{course-class}', 'CourseClassController@show');
+    Route::get('{course-class}/edit', 'CourseClassController@edit');
+    Route::put('{course-class}', 'CourseClassController@update');
+    Route::delete('{course-class}', 'CourseClassController@destroy');
+});

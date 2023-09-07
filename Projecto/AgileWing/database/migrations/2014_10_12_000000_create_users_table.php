@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->foreignid('user_type_id')->constrained();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('token_password');
+            
             $table->boolean('token_used');
             $table->date('token_created_at');
             $table->text('notes')->nullable();

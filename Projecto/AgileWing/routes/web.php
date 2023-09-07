@@ -18,23 +18,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Test Routes
-Route::get('/page1', function () {
-    return view('layouts.test');
-});
-
-
-Route::get('/page2', function () {
-    return view('layouts.test');
-});
-
-Route::get('/page3', function () {
-    return view('layouts.test-modal');
-});
-
-// End Test Routes
-
-Auth::routes();
+Auth::routes([
+    'verify' => true
+]);
 
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/home', 'HomeController@index')->name('home');

@@ -20,7 +20,6 @@
     </div>
 </div>
 
-
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#">Agile Wing</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,14 +28,65 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item {{ Request::is('agenda*') ? 'active' : '' }}">
-                <a class="nav-link" href="{{url('/agenda')}}">Agenda</a>
+            <li class="nav-item dropdown ">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Gestão Formadores
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                    <a class="dropdown-item" href="{{url('/ROTA1/ROUTE1')}}">ROUTE1</a>
+                    <a class="dropdown-item" href="{{url('/ROTA1/ROUTE2')}}">ROUTE2</a>
+                    <!-- ADD THE ROUTES HERE -->
+                </div>
             </li>
-            <li class="nav-item {{ Request::is('ROTA2*') ? 'active' : '' }}">
-                <a class="nav-link" href="{{url('/ROTA2')}}">METER AQUI NOME</a>
+            <li class="nav-item dropdown ">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Gestão Horários
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                    <a class="dropdown-item" href="{{url('/ROTA2/ROUTE1')}}">ROUTE1</a>
+                    <a class="dropdown-item" href="{{url('/ROTA2/ROUTE2')}}">ROUTE2</a>
+                    <!-- ADD THE ROUTES HERE -->
+                </div>
             </li>
-            <li class="nav-item {{ Request::is('ROTA3*') ? 'active' : '' }}">
-                <a class="nav-link" href="{{url('/ROTA3')}}">METER AQUI NOME</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Geral
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown3">
+                    <a class="dropdown-item" href="{{url('/ROTA3/ROUTE1')}}">ROUTE1</a>
+                    <a class="dropdown-item" href="{{url('/ROTA3/ROUTE2')}}">ROUTE2</a>
+                    <!-- ADD THE ROUTES HERE -->
+                </div>
+            </li>
+            <li class="nav-item dropdown ">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Preencher Disponibilidade
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                    <a class="dropdown-item" href="{{url('/ROTA1/ROUTE1')}}">ROUTE1</a>
+                    <a class="dropdown-item" href="{{url('/ROTA1/ROUTE2')}}">ROUTE2</a>
+                    <!-- ADD THE ROUTES HERE -->
+                </div>
+            </li>
+            <li class="nav-item dropdown ">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Consultar Horários
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                    <a class="dropdown-item" href="{{url('/ROTA1/ROUTE1')}}">ROUTE1</a>
+                    <a class="dropdown-item" href="{{url('/ROTA1/ROUTE2')}}">ROUTE2</a>
+                    <!-- ADD THE ROUTES HERE -->
+                </div>
+            </li>
+            <li class="nav-item dropdown ">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Alterar Palavra-passe
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                    <a class="dropdown-item" href="{{url('/ROTA1/ROUTE1')}}">ROUTE1</a>
+                    <a class="dropdown-item" href="{{url('/ROTA1/ROUTE2')}}">ROUTE2</a>
+                    <!-- ADD THE ROUTES HERE -->
+                </div>
             </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">

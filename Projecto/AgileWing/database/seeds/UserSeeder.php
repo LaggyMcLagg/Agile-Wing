@@ -26,6 +26,7 @@ class UserSeeder extends Seeder
             [
                 'name'              => 'Carmen Teixeira',
                 'email'             => 'carmen.teixeira@edu.atec.pt',
+                'email_verified_at' => now(), 
                 'password'          =>  bcrypt('password'),
                 'user_type_id'      => 1,
                 'token_password'    => bcrypt(Str::random(10)),
@@ -38,6 +39,7 @@ class UserSeeder extends Seeder
             [
                 'name'              => 'Professor Beterraba',
                 'email'             => 'prof.beterraba@edu.atec.pt',
+                'email_verified_at' => now(), 
                 'password'          =>  bcrypt('password'), 
                 'user_type_id'      => 1,
                 'token_password'    => bcrypt(Str::random(10)),

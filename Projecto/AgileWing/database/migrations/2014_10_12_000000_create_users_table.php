@@ -17,14 +17,14 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('color_2')->nullable();
+            $table->string('color_1')->nullable();
             $table->foreignid('user_type_id')->constrained();
+            $table->timestamp('email_verified_at')->nullable();
             $table->string('token_password');
             $table->boolean('token_used');
             $table->date('token_created_at');
-            $table->string('color_1')->nullable();
-            $table->string('color_2')->nullable();
             $table->text('notes')->nullable();
             $table->date('last_login');
             $table->rememberToken();

@@ -43,7 +43,7 @@ class CourseClassController extends Controller
             'number' => 'required',
             'course_id' => 'required',
             ]);
-            
+
             CourseClass::create($request->all());
 
             return redirect('course-classes')->with('status','Item created successfully!');
@@ -55,9 +55,11 @@ class CourseClassController extends Controller
      * @param  \App\CourseClass  $courseClass
      * @return \Illuminate\Http\Response
      */
-    public function show(CourseClass $courseClass)
+    public function show($id)
     {
-        //
+        $courseClass = CourseClass::find($id);
+        
+        return view('pages.course-classes.show', ['courseClass' => $courseClass]);
     }
 
     /**

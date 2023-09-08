@@ -41,12 +41,14 @@ Route::prefix('users')->group(function(){
 
 //CRUD ROUTES
 //Course Class
+//Since we are using Ids and not objects we must adapt the info in the routes
 Route::prefix('course-classes')->group(function(){
     Route::get('', 'CourseClassController@index');
     Route::get('create', 'CourseClassController@create');
     Route::post('', 'CourseClassController@store');
-    Route::get('{course-class}', 'CourseClassController@show');
-    Route::get('{course-class}/edit', 'CourseClassController@edit');
-    Route::put('{course-class}', 'CourseClassController@update');
-    Route::delete('{course-class}', 'CourseClassController@destroy');
+    Route::get('{id}', 'CourseClassController@show');
+    Route::get('{id}/edit', 'CourseClassController@edit');
+    Route::put('{id}', 'CourseClassController@update');
+    Route::delete('{id}', 'CourseClassController@destroy');
 });
+

@@ -58,6 +58,11 @@ class CourseClassController extends Controller
     public function show($id)
     {
         $courseClass = CourseClass::find($id);
+
+        //To ensure that if it doesn't find the Id it is not a route problem
+        if (!$courseClass) {
+            abort(404, 'Course class not found');
+        }
         
         return view('pages.course-classes.show', ['courseClass' => $courseClass]);
     }

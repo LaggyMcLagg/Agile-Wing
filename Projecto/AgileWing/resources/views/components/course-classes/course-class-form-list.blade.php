@@ -31,12 +31,15 @@
 
             <td>
                 <div class="pr-1">
-                    <a href="{{url('course-class/' . $courseClass->id)}}" type="button" class="btn btn-success">Show</a>
+                    <!-- The name in the urls must match the name in the route prefix. It must be plural. -->
+                    <a href="{{url('course-classes/' . $courseClass->id)}}" type="button" class="btn btn-success">Show</a>
                 </div>
                 <div class="pr-1">
-                    <a href="{{url('course-class/' . $courseClass->id . '/edit')}}" type="button" class="btn btn-primary">Edit</a>
+                    <!-- The name in the urls must match the name in the route prefix. It must be plural. -->
+                    <a href="{{url('course-classes/' . $courseClass->id . '/edit')}}" type="button" class="btn btn-primary">Edit</a>
                 </div>
-                <form action="{{url('course-class/' . $courseClass->id)}}" method="POST">
+                    <!-- The name in the urls must match the name in the route prefix. It must be plural. -->
+                <form action="{{url('course-classes/' . $courseClass->id)}}" method="POST">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">Delete</button>

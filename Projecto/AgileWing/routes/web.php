@@ -37,3 +37,14 @@ Route::prefix('users')->group(function(){
     Route::put('{user}', 'UserController@update');
     Route::delete('{user}', 'UserController@destroy');
    });
+
+// ROUTES for Teacher Availabilities
+Route::prefix('teacher-availabilities')->group(function(){
+    Route::get('', 'TeacherAvailabilityController@index')->name('teacher-availabilities.index');
+    Route::get('create', 'TeacherAvailabilityController@create')->name('teacher-availabilities.create');
+    Route::post('', 'TeacherAvailabilityController@store')->name('teacher-availabilities.store');
+    Route::get('{teacherAvailability}/edit', 'TeacherAvailabilityController@edit')->name('teacher-availabilities.edit');
+    Route::put('{teacherAvailability}', 'TeacherAvailabilityController@update')->name('teacher-availabilities.update');
+    Route::get('{teacherAvailability}', 'TeacherAvailabilityController@show')->name('teacher-availabilities.show');
+    Route::delete('{teacherAvailability}', 'TeacherAvailabilityController@destroy')->name('teacher-availabilities.destroy');
+});

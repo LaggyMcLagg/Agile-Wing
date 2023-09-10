@@ -1,5 +1,7 @@
 @extends('master.main')
 @section('content')
-@component('components.course-classes.course-class-form-show', ['courseClass' => $courseClass])
+@component('components.teacher-availabilities.teacher-availabilities-form-show', [
+    
+    ])
 @endcomponent
 @endsection

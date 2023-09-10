@@ -7,44 +7,42 @@
 </div>
 @endif
 
-
-
 <table class="table table-dark">
     <thead>
         <tr>
             <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Number</th>
-            <th scope="col">Course ID</th>
-            <th scope="col">Actions</th>
+            <th scope="col">User Name</th>
+            <th scope="col">Availability Date</th>
+            <th scope="col">Hour Block Beguining</th>
+            <th scope="col">Hour Block End</th>
+            <th scope="col">Availability Type</th>
         </tr>
     </thead>
 
     <tbody>
-        @foreach($courseClasses as $courseClass)
+        @foreach($teacherAvailabilities as $teacherAvailability)
 
         <tr scope="row">
-            <td scope="col">{{ $courseClass->id }}</td>
-            <td scope="col">{{ $courseClass->name }}</td>
-            <td scope="col">{{ $courseClass->number }}</td>
-            <td scope="col">{{ $courseClass->course_id}}</td>
+            <td scope="col">{{ $teacherAvailability->id }}</td>
+            <td scope="col">{{ $teacherAvailability->User->name }}</td>
+            <td scope="col">{{ $teacherAvailability->HourBlock->hour_beginning }}</td>
+            <td scope="col">{{ $teacherAvailability->HourBlock->hour_end }}</td>
+            <td scope="col">{{ $teacherAvailability->AvailabilityType->name }}</td>
 
             <td>
                 <div class="pr-1">
-                    <!-- The name in the urls must match the name in the route prefix. It must be plural. -->
-                    <a href="{{url('course-classes/' . $courseClass->id)}}" type="button" class="btn btn-success">Show</a>
+                    <a href="{{ route('teacher-availabilities.show', ['teacherAvailability' => $teacherAvailability]) }}" type="button" class="btn btn-success">Show</a>
                 </div>
                 <div class="pr-1">
-                    <!-- The name in the urls must match the name in the route prefix. It must be plural. -->
-                    <a href="{{url('course-classes/' . $courseClass->id . '/edit')}}" type="button" class="btn btn-primary">Edit</a>
+                    <a href="{{ route('teacher-availabilities.edit', ['teacherAvailability' => $teacherAvailability]) }}" type="button" class="btn btn-primary">Edit</a>
                 </div>
-                    <!-- The name in the urls must match the name in the route prefix. It must be plural. -->
-                <form action="{{url('course-classes/' . $courseClass->id)}}" method="POST">
+                <form action="{{ route('teacher-availabilities.destroy', ['teacherAvailability' => $teacherAvailability]) }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
             </td>
+
         </tr>
         @endforeach
     </tbody>

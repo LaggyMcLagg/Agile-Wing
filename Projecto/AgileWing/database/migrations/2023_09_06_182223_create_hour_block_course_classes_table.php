@@ -15,7 +15,7 @@ class CreateHourBlockCourseClassesTable extends Migration
     {
         Schema::create('hour_block_course_classes', function (Blueprint $table) {
             $table->id();
-            $table->foreignid('course_class_id')->constrained();
+            $table->foreignid('course_class_id')->constrained()->onDelete('cascade');
             $table->time('hour_beginning');
             $table->time('hour_end');
             $table->timestamps();

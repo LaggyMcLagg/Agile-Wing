@@ -17,7 +17,7 @@ class CreateCourseClassesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('number');
-            $table->foreignid('course_id')->constrained();
+            $table->foreignid('course_id')->constrained()->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

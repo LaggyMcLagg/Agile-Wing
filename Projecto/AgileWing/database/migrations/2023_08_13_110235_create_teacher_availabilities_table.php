@@ -17,8 +17,8 @@ class CreateTeacherAvailabilitiesTable extends Migration
             $table->id();
             $table->date('availability_date');
             $table->boolean('is_locked');
-            $table->foreignid('user_id')->constrained();
-            $table->foreignid('hour_block_id')->constrained();
+            $table->foreignid('user_id')->constrained()->onDelete('cascade');
+            $table->foreignid('hour_block_id')->constrained()->onDelete('cascade');
             $table->foreignid('availability_type_id')->constrained();
             $table->timestamps();
             $table->softDeletes();

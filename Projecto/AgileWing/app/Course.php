@@ -25,4 +25,11 @@ class Course extends Model
     public function ufcds() {
         return $this->belongsToMany(Ufcd::class, 'course_ufcds');
     }
+
+    protected $fillable = [
+        'name',
+        'initials', 
+        'user_id', 
+        'specialization_area_number'
+    ];
 }

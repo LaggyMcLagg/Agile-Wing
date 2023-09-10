@@ -15,8 +15,8 @@ class CreatePedagogicalGroupUsersTable extends Migration
     {
         Schema::create('pedagogical_group_users', function (Blueprint $table) {
             $table->id();
-            $table->foreignid('pedagogical_group_id')->constrained();
-            $table->foreignid('user_id')->constrained();
+            $table->foreignid('pedagogical_group_id')->constrained()->onDelete('cascade');
+            $table->foreignid('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

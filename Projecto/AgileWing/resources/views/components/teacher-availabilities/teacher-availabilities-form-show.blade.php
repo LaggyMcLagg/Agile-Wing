@@ -5,17 +5,49 @@
             Teacher Availability Details
         </div>
         <ul class="list-group list-group-flush">
-            <li class="list-group-item list-group-item-action"><strong>ID:</strong> {{ $teacherAvailability->id }}</li>
-            <li class="list-group-item list-group-item-action"><strong>User Name:</strong> {{ $teacherAvailability->user->name }}</li>
-            <li class="list-group-item list-group-item-action"><strong>Availability Date:</strong> {{ $teacherAvailability->availability_date }}</li>
-            <li class="list-group-item list-group-item-action"><strong>Hour Block Beginning:</strong> {{ $teacherAvailability->hourBlock->hour_beginning }}</li>
-            <li class="list-group-item list-group-item-action"><strong>Hour Block End:</strong> {{ $teacherAvailability->hourBlock->hour_end }}</li>
-            <li class="list-group-item list-group-item-action"><strong>Availability Type:</strong> {{ $teacherAvailability->availabilityType->name }}</li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-3 font-weight-bold">ID:</div>
+                    <div class="col-md-9">{{ $teacherAvailability->id }}</div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-3 font-weight-bold">User Name:</div>
+                    <div class="col-md-9">{{ $teacherAvailability->user->name }}</div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-3 font-weight-bold">Availability Date:</div>
+                    <div class="col-md-9">{{ $teacherAvailability->availability_date }}</div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-3 font-weight-bold">Hour Block Beginning:</div>
+                    <div class="col-md-9">{{ $teacherAvailability->hourBlock->hour_beginning }}</div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-3 font-weight-bold">Hour Block End:</div>
+                    <div class="col-md-9">{{ $teacherAvailability->hourBlock->hour_end }}</div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-3 font-weight-bold">Availability Type:</div>
+                    <div class="col-md-9">{{ $teacherAvailability->availabilityType->name }}</div>
+                </div>
+            </li>
         </ul>
     </div>
 </div>
 @else
 <div class="container mt-5">
-    <p class="text-danger">No data available</p>
+    <div class="alert alert-danger" role="alert">
+        No data available
+    </div>
 </div>
 @endif

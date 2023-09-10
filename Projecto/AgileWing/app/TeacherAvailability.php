@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon;
+
 
 class TeacherAvailability extends Model
 {
@@ -23,4 +25,22 @@ class TeacherAvailability extends Model
     {
         return $this->belongsTo(AvailabilityType::class, 'availability_type_id');
     }
+
+    //to use it as a formatable date
+    protected $casts = [
+        'availability_date' => 'datetime',
+    ];
+    //OR
+    // protected $dates = [
+    //     'availability_date',
+    // ];
+
+    protected $fillable = [
+        'availability_date',
+        'is_locked', 
+        'user_id', 
+        'hour_block_id', 
+        'availability_type_id'
+    ];
+
 }

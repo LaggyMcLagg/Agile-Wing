@@ -1,56 +1,66 @@
-<form method="POST" action="{{ url('course-classes') }}">
+<form action="{{ route('teacher-availabilities.store') }}" method="POST">
     @csrf
-    <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" id="name" name="name" autocomplete="name" placeholder="Insert Name" class="form-control
- @error('name') is-invalid @enderror" value="{{ old('name') }}">
-        @error('name')
-        <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
-        </span>
-        @enderror
-    </div>
-
-    <div class="form-group">
-        <label for="number">Number</label>
-        <input type="text" id="number" name="number" autocomplete="number" placeholder="Inser Number" class="form-control
- @error('number') is-invalid @enderror" value="{{ old('number') }}">
-        @error('number')
-        <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
-        </span>
-        @enderror
-    </div>
-
-     <!-- Country ComboBox -->
-     <div class="form-group">
-        <label for="course_id">Country</label>
-        <select name="course_id" id="course_id" class="form-control @error('course_id') is-invalid @enderror">
-            <option value="">Select a Course</option>
-            @foreach($courses as $course)
-                <option value="{{ $course->id }}" {{ old('course_id') == $course->id ? 'selected' : '' }}>
-                    {{ $course->name }}
-                </option>
+    <div class="mb-3">
+        <label for="user_id" class="form-label">User</label>
+        <select class="form-select @error('user_id') is-invalid @enderror" id="user_id" name="user_id">
+            @foreach($users as $user)
+                <option value="{{ $user->id }}">{{ $user->id }} - {{ $user->name }}</option>
             @endforeach
         </select>
-        @error('course_id')
+        @error('user_id')
             <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
             </span>
         @enderror
     </div>
-    
-    <!-- <div class="form-group">
-        <label for="courseId">Course ID</label>
-        <input type="text" id="courseId" name="courseId" autocomplete="courseId" placeholder="Inser Course ID" class="form-control
- @error('courseId') is-invalid @enderror" value="{{ old('courseId') }}" required aria-describedby="courseIdHelp">
-        <small id="courseIdHelp" class="form-text text-muted">We'll never share your data with anyone else.</small>
-        @error('courseId')
-        <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
-        </span>
-        @enderror
-    </div> -->
 
-    <button type="submit" class="mt-2 mb-5 btn btn-primary">Submit</button>
+    <div class="mb-3">
+        <label for="availability_date" class="form-label">Availability Date</label>
+        <input type="date" class="form-control @error('availability_date') is-invalid @enderror" id="availability_date" name="availability_date">
+        @error('availability_date')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+        @enderror
+    </div>
+
+    <div class="mb-3">
+        <label for="is_locked" class="form-label">Is Locked</label>
+        <input type="checkbox" class="form-check-input @error('is_locked') is-invalid @enderror" id="is_locked" name="is_locked">
+        @error('is_locked')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+        @enderror
+    </div>
+
+    <div class="mb-3">
+        <label for="hour_block_id" class="form-label">Hour Block</label>
+        <select class="form-select @error('hour_block_id') is-invalid @enderror" id="hour_block_id" name="hour_block_id">
+            @foreach($hourBlocks as $hourBlock)
+                <option value="{{ $hourBlock->id }}">{{ $hourBlock->hour_beginning }} - {{ $hourBlock->hour_end }}</option>
+            @endforeach
+        </select>
+        @error('hour_block_id')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+        @enderror
+    </div>
+
+    <div class="mb-3">
+        <label for="availability_type_id" class="form-label">Availability Type</label>
+        <select class="form-select @error('availability_type_id') is-invalid @enderror" id="availability_type_id" name="availability_type_id">
+            @foreach($availabilityTypes as $availabilityType)
+                <option value="{{ $availabilityType->id }}">{{ $availabilityType->name }}</option>
+            @endforeach
+        </select>
+        @error('availability_type_id')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+        @enderror
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
 </form>

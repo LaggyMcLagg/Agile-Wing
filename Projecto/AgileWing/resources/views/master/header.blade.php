@@ -63,7 +63,7 @@
                     Preencher Disponibilidade
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
-                    <a class="dropdown-item" href="{{url('/ROTA1/ROUTE1')}}">ROUTE1</a>
+                    <a class="dropdown-item" href="{{ route('teacher-availabilities.index') }}">Gerir Disponibilidade</a>
                     <a class="dropdown-item" href="{{url('/ROTA1/ROUTE2')}}">ROUTE2</a>
                     <!-- ADD THE ROUTES HERE -->
                 </div>

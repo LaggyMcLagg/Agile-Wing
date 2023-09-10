@@ -2,7 +2,7 @@
 
 @section('content')
 
-@component('components.users.user-form-show', ['user' => $user])
+@component('components.users.user-form-edit', ['user' => $user])
 @endcomponent
 
 @endsection

@@ -2,11 +2,11 @@
 
 @section('content')
 
-@component('components.users.list', [
-    'columns'       => $columns, 
-    'rows'          => $rows, 
-    'objectIds'     => $objectIds, 
-    'useCheckbox'   => $useCheckbox])
+@component('components.users.user-list', [
+    'users'             => $users,
+    'lastUpdated'       => $lastUpdated,
+    'lastLogin'         => $lastLogin
+    ])
 @endcomponent
 
-@endsection
+@endsection 

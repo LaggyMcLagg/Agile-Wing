@@ -2,7 +2,7 @@
 
 @section('content')
 
-@component('components.users.user-form-show', ['user' => $user])
+@component('components.user-types.user-type-form-create')
 @endcomponent
 
 @endsection

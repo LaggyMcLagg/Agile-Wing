@@ -22,11 +22,11 @@ class CreateUsersTable extends Migration
             $table->string('color_1')->nullable();
             $table->foreignid('user_type_id')->constrained();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('token_password');
-            $table->boolean('token_used');
-            $table->date('token_created_at');
+            $table->string('token_password')->nullable();
+            $table->boolean('token_used')->nullable();
+            $table->date('token_created_at')->nullable();
             $table->text('notes')->nullable();
-            $table->date('last_login');
+            $table->date('last_login')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

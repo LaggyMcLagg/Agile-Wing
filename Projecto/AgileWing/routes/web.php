@@ -70,3 +70,15 @@ Route::prefix('course-classes')->group(function(){
     Route::put('{course-class}', 'CourseClassController@update');
     Route::delete('{course-class}', 'CourseClassController@destroy');
 });
+
+
+//Hour block course class
+Route::prefix('hour-block-course-classes')->group(function(){
+    Route::get('', 'HourBlockCourseClassController@index')->name('hour-block-course-classes.index');
+    Route::get('create', 'HourBlockCourseClassController@create')->name('hour-block-course-classes.create');
+    Route::post('', 'HourBlockCourseClassController@store')->name('hour-block-course-classes.store');
+    Route::get('{hourBlockCourseClass}/edit', 'HourBlockCourseClassController@edit')->name('hour-block-course-classes.edit');
+    Route::put('{hourBlockCourseClass}', 'HourBlockCourseClassController@update')->name('hour-block-course-classes.update');
+    Route::get('{hourBlockCourseClass}', 'HourBlockCourseClassController@show')->name('hour-block-course-classes.show');
+    Route::delete('{hourBlockCourseClass}', 'HourBlockCourseClassController@destroy')->name('hour-block-course-classes.destroy');
+});

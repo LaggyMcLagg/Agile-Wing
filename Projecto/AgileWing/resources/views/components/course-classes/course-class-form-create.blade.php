@@ -41,6 +41,7 @@
     </div>
     
     <!-- <div class="form-group">
+    <div class="form-group">
         <label for="courseId">Course ID</label>
         <input type="text" id="courseId" name="courseId" autocomplete="courseId" placeholder="Inser Course ID" class="form-control
  @error('courseId') is-invalid @enderror" value="{{ old('courseId') }}" required aria-describedby="courseIdHelp">

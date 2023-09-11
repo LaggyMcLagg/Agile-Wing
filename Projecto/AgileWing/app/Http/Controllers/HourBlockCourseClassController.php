@@ -24,7 +24,8 @@ class HourBlockCourseClassController extends Controller
      */
     public function create()
     {
-        //
+        $hourBlockCourseClasses = HourBlockCourseClass::orderBy('id', 'desc')->get();
+        return view('pages.hour-block-course-classes.index', ['hourBlockCourseClasses' => $hourBlockCourseClasses]);
     }
 
     /**

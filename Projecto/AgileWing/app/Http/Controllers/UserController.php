@@ -166,12 +166,43 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return view('pages.users.show', ['user' => $user]);
-//      ###PASSAR O CONTEUDO DO EDIT PARA AQUI E ALTERAR A ROTA###
-//      ###PASSAR O CONTEUDO DO EDIT PARA AQUI E ALTERAR A ROTA###
-//      ###PASSAR O CONTEUDO DO EDIT PARA AQUI E ALTERAR A ROTA###
-//      ###PASSAR O CONTEUDO DO EDIT PARA AQUI E ALTERAR A ROTA###
+        $pedagogicalGroups = PedagogicalGroup::all();
+        $pedagogicalGroupUserList = [];
+        
+        foreach ($pedagogicalGroups as $pedagogicalGroup)
+        {
+            // Verificar se o usuário está associado a este grupo pedagógico
+            $userAssociatedPedagogicalGroup = $user->pedagogicalGroups->contains($pedagogicalGroup->id);
+            
+            // Adicionar um elemento ao array
+            $pedagogicalGroupUserList[$pedagogicalGroup->id] = [
+                'isAssociated' => $userAssociatedPedagogicalGroup
+            ];
+        }
+        
+        $specializationAreas = SpecializationArea::all();
+        $specializationAreaUserList = [];
+        
+        foreach ($specializationAreas as $specializationArea)
+        {
+            $userAssociatedSpecializationArea = $user->specializationAreas->contains($specializationArea->number);
+            
+            // Adicionar um elemento ao array
+            $specializationAreaUserList[$specializationArea->number] = [
+                'isAssociated' => $userAssociatedSpecializationArea
+            ];
+        }
+        
+        return view('pages.users.show', [
+            'user' => $user,
+            'pedagogicalGroupUserList' => $pedagogicalGroupUserList,
+            'specializationAreaUserList' => $specializationAreaUserList,
+            'pedagogicalGroups' => $pedagogicalGroups,
+            'specializationAreas' => $specializationAreas
+        ]);
     }
+    
+    
 
     /**
      * Show the form for editing the specified resource.

@@ -2,7 +2,7 @@
 
 @section('content')
 
-@component('components.user-types.user-type-list', ['user-types' => $userTypes])
+@component('components.user-types.user-type-list', ['userTypes' => $userTypes])
 @endcomponent
 
 @endsection 

@@ -1,5 +1,5 @@
 <h2>Edição de Tipos de Utilizador</h2>
-<form method="POST" action="{{ url('user-types/' . $userType->id) }}">
+<form method="POST" action="{{ url('hour_blocks/' . $hourBlock->id) }}">
 @csrf
 @method('PUT')
 
@@ -9,7 +9,7 @@
         id="id"
         name="id"
         autocomplete="name"
-        placeholder="{{ $userType->id }}"
+        placeholder="{{ $hourBlock->id }}"
         class="form-control
 @error('name') is-invalid @enderror" value="{{ old('id') }}" required aria-describedby="idHelp" readonly>
         @error('id')
@@ -19,30 +19,30 @@
         @enderror
     </div>
     <div class="form-group">
-        <label for="name">Nome</label>
+        <label for="hour_beginning">Hora de início</label>
         <input type="text"
-        id="name"
-        name="inamed"
-        autocomplete="name"
-        placeholder="{{ $userType->name }}"
+        id="hour_beginning"
+        name="hour_beginning"
+        autocomplete="hour_beginning"
+        placeholder="{{ $hourBlock->hour_beginning }}"
         class="form-control
-@error('name') is-invalid @enderror" value="{{ old('name') }}" required aria-describedby="nameHelp">
-        @error('name')
+@error('name') is-invalid @enderror" value="{{ old('hour_beginning') }}" required aria-describedby="hour_beginningHelp">
+        @error('hour_beginning')
         <span class="invalid-feedback" role="alert">
         <strong>{{ $message }}</strong>
         </span>
         @enderror
     </div>
     <div class="form-group">
-        <label for="created_at">Data de criação</label>
+        <label for="hour_end">Hora de fim</label>
         <input type="text"
-        id="created_at"
-        name="created_at"
-        autocomplete="name"
-        placeholder="{{ $userType->created_at }}"
+        id="hour_end"
+        name="hour_end"
+        autocomplete="namhour_ende"
+        placeholder="{{ $hourBlock->hour_end }}"
         class="form-control
-@error('name') is-invalid @enderror" value="{{ old('created_at') }}" required aria-describedby="created_atHelp" readonly>
-        @error('created_at')
+@error('name') is-invalid @enderror" value="{{ old('hour_end') }}" required aria-describedby="created_atHelp">
+        @error('hour_end')
         <span class="invalid-feedback" role="alert">
         <strong>{{ $message }}</strong>
         </span>
@@ -54,7 +54,7 @@
         id="updated_at"
         name="updated_at"
         autocomplete="name"
-        placeholder="{{ $userType->updated_at }}"
+        placeholder="{{ $hourBlock->updated_at }}"
         class="form-control
 @error('name') is-invalid @enderror" value="{{ old('updated_at') }}" required aria-describedby="updated_atHelp" readonly>
         @error('updated_at')
@@ -65,5 +65,5 @@
     </div>
 
 <button type="submit" class="mt-2 mb-5 btn btn-primary">Guardar</button>
-<a href="/user_types" class="mt-2 mb-5 btn btn-primary">Voltar à listagem</a>
+<a href="/hour_blocks" class="mt-2 mb-5 btn btn-primary">Voltar à listagem</a>
 </form>

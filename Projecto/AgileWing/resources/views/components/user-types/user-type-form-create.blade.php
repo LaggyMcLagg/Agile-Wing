@@ -2,7 +2,7 @@
 <form method="POST" action="{{ url('players') }}">
     @csrf
     <div class="form-group">
-    <label for="name">Name</label>
+    <label for="name">Nome</label>
         <input
             type="text"
             id="name"
@@ -21,4 +21,4 @@
     @enderror
     </div>
     <button type="submit" class="mt-2 mb-5 btn btn-primary">Criar</button>
-</form
+</form>

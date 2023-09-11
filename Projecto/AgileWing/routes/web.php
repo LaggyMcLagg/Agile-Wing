@@ -26,8 +26,8 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/home', 'HomeController@index')->name('home');
 });
 
-//ROTAS CONTENT TABLE FORMADORES
-//rever quais os métodos CRUD não vão ser utilizados
+//######## -->> RUI <<-- ########
+//######## -->> RUI <<-- ########
 Route::prefix('users')->group(function(){
     Route::get('', 'UserController@index');
     Route::get('create', 'UserController@create');
@@ -37,6 +37,37 @@ Route::prefix('users')->group(function(){
     Route::put('{user}', 'UserController@update');
     Route::delete('{user}', 'UserController@destroy');
    });
+
+Route::prefix('hour_blocks')->group(function(){
+    Route::get('', 'HourBlockController@index');
+    Route::get('create', 'HourBlockController@create');
+    Route::post('', 'HourBlockController@store');
+    Route::get('{hourBlock}', 'HourBlockController@show');
+    Route::get('{hourBlock}/edit', 'HourBlockController@edit');
+    Route::put('{hourBlock}', 'HourBlockController@update');
+    Route::delete('{hourBlock}', 'HourBlockController@destroy');
+   });
+
+Route::prefix('availability_types')->group(function(){
+ Route::get('', 'AvailabilityTypeController@index');
+ Route::get('create', 'AvailabilityTypeController@create');
+ Route::post('', 'AvailabilityTypeController@store');
+ Route::get('{availabilityType}', 'AvailabilityTypeController@show');
+ Route::get('{availabilityType}/edit', 'AvailabilityTypeController@edit');
+ Route::put('{availabilityType}', 'AvailabilityTypeController@update');
+ Route::delete('{availabilityType}', 'AvailabilityTypeController@destroy');
+});
+Route::prefix('user_types')->group(function(){
+ Route::get('', 'UserTypeController@index');
+ Route::get('create', 'UserTypeController@create');
+ Route::post('', 'UserTypeController@store');
+ Route::get('{userType}', 'UserTypeController@show');
+ Route::get('{userType}/edit', 'UserTypeController@edit');
+ Route::put('{userType}', 'UserTypeController@update');
+ Route::delete('{userType}', 'UserTypeController@destroy');
+});
+//######## -->> RUI <<-- ########
+//######## -->> RUI <<-- ########
 
 // ROUTES for Teacher Availabilities
 Route::prefix('teacher-availabilities')->group(function(){

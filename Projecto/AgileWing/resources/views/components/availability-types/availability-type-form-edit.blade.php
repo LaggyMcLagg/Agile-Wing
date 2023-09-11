@@ -1,5 +1,5 @@
 <h2>Edição de Tipos de Utilizador</h2>
-<form method="POST" action="{{ url('user-types/' . $userType->id) }}">
+<form method="POST" action="{{ url('availability_types/' . $availabilityType->id) }}">
 @csrf
 @method('PUT')
 
@@ -9,7 +9,7 @@
         id="id"
         name="id"
         autocomplete="name"
-        placeholder="{{ $userType->id }}"
+        placeholder="{{ $availabilityType->id }}"
         class="form-control
 @error('name') is-invalid @enderror" value="{{ old('id') }}" required aria-describedby="idHelp" readonly>
         @error('id')
@@ -22,27 +22,12 @@
         <label for="name">Nome</label>
         <input type="text"
         id="name"
-        name="inamed"
+        name="name"
         autocomplete="name"
-        placeholder="{{ $userType->name }}"
+        placeholder="{{ $availabilityType->name }}"
         class="form-control
 @error('name') is-invalid @enderror" value="{{ old('name') }}" required aria-describedby="nameHelp">
         @error('name')
-        <span class="invalid-feedback" role="alert">
-        <strong>{{ $message }}</strong>
-        </span>
-        @enderror
-    </div>
-    <div class="form-group">
-        <label for="created_at">Data de criação</label>
-        <input type="text"
-        id="created_at"
-        name="created_at"
-        autocomplete="name"
-        placeholder="{{ $userType->created_at }}"
-        class="form-control
-@error('name') is-invalid @enderror" value="{{ old('created_at') }}" required aria-describedby="created_atHelp" readonly>
-        @error('created_at')
         <span class="invalid-feedback" role="alert">
         <strong>{{ $message }}</strong>
         </span>
@@ -54,7 +39,7 @@
         id="updated_at"
         name="updated_at"
         autocomplete="name"
-        placeholder="{{ $userType->updated_at }}"
+        placeholder="{{ $availabilityType->updated_at }}"
         class="form-control
 @error('name') is-invalid @enderror" value="{{ old('updated_at') }}" required aria-describedby="updated_atHelp" readonly>
         @error('updated_at')
@@ -65,5 +50,5 @@
     </div>
 
 <button type="submit" class="mt-2 mb-5 btn btn-primary">Guardar</button>
-<a href="/user_types" class="mt-2 mb-5 btn btn-primary">Voltar à listagem</a>
+<a href="/availability_types" class="mt-2 mb-5 btn btn-primary">Voltar à listagem</a>
 </form>

@@ -53,21 +53,81 @@
 </div>
 
 <div class="form-group">
-    <label for="name">Observações</label>
+    <label for="name">Email</label>
         <input type="text"
-        id="notes"
-        name="notes"
-        autocomplete="notes"
-        placeholder="{{ $user->notes }}"
+        id="email"
+        name="email"
+        autocomplete="email"
+        placeholder="{{ $user->email }}"
         class="form-control
-        @error('notes') is-invalid @enderror" value="{{ old('notes') }}" required aria-describedby="notesHelp"
+        @error('email') is-invalid @enderror" value="{{ old('email') }}" required aria-describedby="emailHelp"
         readonly>
-    @error('notes')
+    @error('email')
     <span class="invalid-feedback" role="alert">
     <strong>{{ $message }}</strong>
     </span>
     @enderror
 </div>
+
+<div class="form-group">
+    <label for="color_1">Cor 1</label>
+    <div style="width: 30px; height: 30px; background-color: {{ $user->color_1 }};"></div>
+</div>
+
+<div class="form-group">
+    <label for="color_2">Cor 2</label>
+    <div style="width: 30px; height: 30px; background-color: {{ $user->color_2 }};"></div>
+</div>
+
+<!-- Grupos Pedagógicos -->
+<div class="form-group">
+    <label>Grupos Pedagógicos</label>
+    @foreach($pedagogicalGroups as $pedagogicalGroup)
+    <div class="form-check">
+        <input 
+            class="form-check-input" 
+            type="checkbox" 
+            name="pedagogicalGroups[]" 
+            value="{{ $pedagogicalGroup->id }}" 
+            id="pedagogicalGroup_{{ $pedagogicalGroup->id }}"
+            @if($pedagogicalGroupUserList[$pedagogicalGroup->id]['isAssociated'])
+                checked
+            @endif
+        >
+        <label 
+            class="form-check-label" 
+            for="pedagogicalGroup_{{ $pedagogicalGroup->id }}">
+            {{ $pedagogicalGroup->name }}
+        </label>
+    </div>
+    @endforeach
+</div>
+
+
+<!-- Áreas de Formação -->
+<div class="form-group">
+    <label>Áreas de Formação</label>
+    @foreach($specializationAreas as $specializationArea)
+    <div class="form-check">
+        <input 
+            class="form-check-input" 
+            type="checkbox" 
+            name="specializationAreas[]" 
+            value="{{ $specializationArea->number }}" 
+            id="specializationArea_{{ $specializationArea->number }}"
+            @if($specializationAreaUserList[$specializationArea->number]['isAssociated'])
+                checked
+            @endif
+        >
+        <label 
+            class="form-check-label" 
+            for="specializationArea_{{ $specializationArea->number }}">
+            {{ $specializationArea->name }}
+        </label>
+    </div>
+    @endforeach
+</div>
+
 
 <a href="/users" class="mt-2 mb-5 btn btn-primary">Voltar à Listagem</a>
 </form>

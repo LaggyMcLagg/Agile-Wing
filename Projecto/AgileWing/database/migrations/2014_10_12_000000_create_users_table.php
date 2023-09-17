@@ -23,8 +23,9 @@ class CreateUsersTable extends Migration
             $table->foreignid('user_type_id')->constrained();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('token_password')->nullable();
-            $table->boolean('token_used')->nullable();
+            $table->boolean('token_used')->default(false);
             $table->date('token_created_at')->nullable();
+            $table->boolean('password_reset_resquested')->default(false);
             $table->text('notes')->nullable();
             $table->date('last_login')->nullable();
             $table->rememberToken();

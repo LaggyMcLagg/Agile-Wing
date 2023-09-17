@@ -64,9 +64,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'notes', 
         'color_1', 
         'color_2',
-        'specializationAreas',
-        'pedagogicalGroups'
     ];
+    
 
     /**
      * The attributes that should be hidden for arrays.

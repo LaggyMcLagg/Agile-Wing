@@ -81,15 +81,15 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./resources/js/logic/content_table.js":
-/*!*********************************************!*\
-  !*** ./resources/js/logic/content_table.js ***!
-  \*********************************************/
+/***/ "./resources/js/logic/users_list_table.js":
+/*!************************************************!*\
+  !*** ./resources/js/logic/users_list_table.js ***!
+  \************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -150,19 +150,19 @@ function filterRowsBySearchInput(searchInput, rows) {
 }
 function redirectToEditPage(cell) {
   var userId = cell.getAttribute("data-user-id");
-  window.location.href = "/users/" + userId + "/edit";
+  window.location.href = "/users/" + userId;
 }
 
 /***/ }),
 
-/***/ 1:
-/*!***************************************************!*\
-  !*** multi ./resources/js/logic/content_table.js ***!
-  \***************************************************/
+/***/ 2:
+/*!******************************************************!*\
+  !*** multi ./resources/js/logic/users_list_table.js ***!
+  \******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! F:\PROJETO_FINAL\Agile-Wing\Projecto\AgileWing\resources\js\logic\content_table.js */"./resources/js/logic/content_table.js");
+module.exports = __webpack_require__(/*! F:\PROJETO_FINAL\Agile-Wing\Projecto\AgileWing\resources\js\logic\users_list_table.js */"./resources/js/logic/users_list_table.js");
 
 
 /***/ })

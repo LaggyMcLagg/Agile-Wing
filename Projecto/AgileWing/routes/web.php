@@ -49,22 +49,22 @@ Route::prefix('hour_blocks')->group(function(){
    });
 
 Route::prefix('availability_types')->group(function(){
- Route::get('', 'AvailabilityTypeController@index');
- Route::get('create', 'AvailabilityTypeController@create');
- Route::post('', 'AvailabilityTypeController@store');
- Route::get('{availabilityType}', 'AvailabilityTypeController@show');
- Route::get('{availabilityType}/edit', 'AvailabilityTypeController@edit');
- Route::put('{availabilityType}', 'AvailabilityTypeController@update');
- Route::delete('{availabilityType}', 'AvailabilityTypeController@destroy');
+    Route::get('', 'AvailabilityTypeController@index');
+    Route::get('create', 'AvailabilityTypeController@create');
+    Route::post('', 'AvailabilityTypeController@store');
+    Route::get('{availabilityType}', 'AvailabilityTypeController@show');
+    Route::get('{availabilityType}/edit', 'AvailabilityTypeController@edit');
+    Route::put('{availabilityType}', 'AvailabilityTypeController@update');
+    Route::delete('{availabilityType}', 'AvailabilityTypeController@destroy');
 });
 Route::prefix('user_types')->group(function(){
- Route::get('', 'UserTypeController@index');
- Route::get('create', 'UserTypeController@create');
- Route::post('', 'UserTypeController@store');
- Route::get('{userType}', 'UserTypeController@show');
- Route::get('{userType}/edit', 'UserTypeController@edit');
- Route::put('{userType}', 'UserTypeController@update');
- Route::delete('{userType}', 'UserTypeController@destroy');
+    Route::get('', 'UserTypeController@index');
+    Route::get('create', 'UserTypeController@create');
+    Route::post('', 'UserTypeController@store');
+    Route::get('{userType}', 'UserTypeController@show');
+    Route::get('{userType}/edit', 'UserTypeController@edit');
+    Route::put('{userType}', 'UserTypeController@update');
+    Route::delete('{userType}', 'UserTypeController@destroy');
 });
 //######## -->> RUI <<-- ########
 //######## -->> RUI <<-- ########

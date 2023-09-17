@@ -212,7 +212,42 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('pages.users.edit', ['user' => $user]);
+
+        $pedagogicalGroups = PedagogicalGroup::all();
+        $pedagogicalGroupUserList = [];
+        
+        foreach ($pedagogicalGroups as $pedagogicalGroup)
+        {
+            // Verificar se o usuário está associado a este grupo pedagógico
+            $userAssociatedPedagogicalGroup = $user->pedagogicalGroups->contains($pedagogicalGroup->id);
+            
+            // Adicionar um elemento ao array
+            $pedagogicalGroupUserList[$pedagogicalGroup->id] = [
+                'isAssociated' => $userAssociatedPedagogicalGroup
+            ];
+        }
+        
+        $specializationAreas = SpecializationArea::all();
+        $specializationAreaUserList = [];
+        
+        foreach ($specializationAreas as $specializationArea)
+        {
+            $userAssociatedSpecializationArea = $user->specializationAreas->contains($specializationArea->number);
+            
+            // Adicionar um elemento ao array
+            $specializationAreaUserList[$specializationArea->number] = [
+                'isAssociated' => $userAssociatedSpecializationArea
+            ];
+        }
+        
+        return view('pages.users.edit', [
+            'user' => $user,
+            'pedagogicalGroupUserList' => $pedagogicalGroupUserList,
+            'specializationAreaUserList' => $specializationAreaUserList,
+            'pedagogicalGroups' => $pedagogicalGroups,
+            'specializationAreas' => $specializationAreas
+        ]);
+
 
         // ####### -> CONTENT TABLE <- #######
         // ####### -> CONTENT TABLE <- #######
@@ -270,14 +305,33 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $user = User::find($user->id);
+        // Validar os dados do formulário (nome, email, etc.) como você já está fazendo
+    
+        // Atualizar os campos do usuário com base nos dados do formulário
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->notes = $request->notes;
+        // Atualize outros campos conforme necessário
+    
+        // Salvar as alterações nos campos básicos do usuário
         $user->save();
-
+    
+        // Agora, lide com as associações de grupos pedagógicos e áreas de formação
+    
+        // Obtenha os IDs dos grupos pedagógicos selecionados no formulário
+        $selectedPedagogicalGroups = $request->input('pedagogicalGroups', []);
+    
+        // Obtenha os IDs das áreas de formação selecionadas no formulário
+        $selectedSpecializationAreas = $request->input('specializationAreas', []);
+    
+        // Atualize as associações do usuário com grupos pedagógicos
+        $user->pedagogicalGroups()->sync($selectedPedagogicalGroups);
+    
+        // Atualize as associações do usuário com áreas de formação
+        $user->specializationAreas()->sync($selectedSpecializationAreas);
+    
         return redirect('users')->with('status', 'Registo editado com sucesso!');
     }
+    
 
     /**
      * Remove the specified resource from storage.

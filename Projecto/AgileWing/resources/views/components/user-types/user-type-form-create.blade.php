@@ -1,5 +1,5 @@
 <h2>Criação de Tipos de Utilizador</h2>
-<form method="POST" action="{{ url('players') }}">
+<form method="POST" action="{{ url('user_types') }}">
     @csrf
     <div class="form-group">
     <label for="name">Nome</label>

@@ -62,7 +62,7 @@ class UserTypeController extends Controller
      */
     public function edit(UserType $userType)
     {
-        return view('pages.user-types.edit', ['user-type' => $userType]);
+        return view('pages.user-types.edit', ['userType' => $userType]);
     }
 
     /**

@@ -13,5 +13,6 @@ const mix = require('laravel-mix');
 
 mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
-    .js('resources/js/logic/content_table.js', 'public/js');
+    .js('resources/js/logic/content_table.js', 'public/js')
+    .js('resources/js/logic/users_list_table.js', 'public/js')
 

@@ -1,5 +1,5 @@
 <h2>Edição de Tipos de Utilizador</h2>
-<form method="POST" action="{{ url('user-types/' . $userType->id) }}">
+<form method="POST" action="{{ url('user_types/' . $userType->id) }}">
 @csrf
 @method('PUT')
 
@@ -8,7 +8,7 @@
         <input type="text"
         id="id"
         name="id"
-        autocomplete="name"
+        autocomplete="id"
         placeholder="{{ $userType->id }}"
         class="form-control
 @error('name') is-invalid @enderror" value="{{ old('id') }}" required aria-describedby="idHelp" readonly>
@@ -22,7 +22,7 @@
         <label for="name">Nome</label>
         <input type="text"
         id="name"
-        name="inamed"
+        name="name"
         autocomplete="name"
         placeholder="{{ $userType->name }}"
         class="form-control

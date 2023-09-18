@@ -21,4 +21,6 @@ class AvailabilityType extends Model
     {
         return $this->hasMany(ScheduleAtribution::class);
     }
+
+    protected $fillable = ['name'];
 }

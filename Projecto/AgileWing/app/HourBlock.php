@@ -14,4 +14,9 @@ class HourBlock extends Model
     {
         return $this->hasMany(TeacherAvailability::class);
     }
+
+    protected $fillable = [
+        'hour_beginning',
+        'hour_end'
+    ];
 }

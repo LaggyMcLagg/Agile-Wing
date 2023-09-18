@@ -14,7 +14,8 @@ class HourBlockController extends Controller
      */
     public function index()
     {
-        //
+        $hourBlocks = HourBlock::all();
+        return view('pages.hour-blocks.index', ['hourBlocks' => $hourBlocks]);
     }
 
     /**
@@ -24,7 +25,7 @@ class HourBlockController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.hour-blocks.create');
     }
 
     /**
@@ -35,7 +36,14 @@ class HourBlockController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'hour_beginning'    => 'required',
+            'hour_end'          => 'required',
+        ]);
+
+        HourBlock::create($request->all());
+
+        return redirect('hour_blocks')->with('status', 'Registo criado com sucesso!');
     }
 
     /**
@@ -46,7 +54,7 @@ class HourBlockController extends Controller
      */
     public function show(HourBlock $hourBlock)
     {
-        //
+        return view('pages.hour-blocks.show', ['hourBlock' => $hourBlock]);
     }
 
     /**
@@ -57,7 +65,7 @@ class HourBlockController extends Controller
      */
     public function edit(HourBlock $hourBlock)
     {
-        //
+        return view('pages.hour-blocks.edit', ['hourBlock' => $hourBlock]);
     }
 
     /**
@@ -69,7 +77,12 @@ class HourBlockController extends Controller
      */
     public function update(Request $request, HourBlock $hourBlock)
     {
-        //
+        $hourBlock = HourBlock::find($hourBlock->id);
+        $hourBlock->hour_beginning = $request->hour_beginning;
+        $hourBlock->hour_end = $request->hour_end;
+        $hourBlock->save();
+
+        return redirect('hour_blocks')->with('status', 'Registo editado com sucesso!');
     }
 
     /**
@@ -80,6 +93,7 @@ class HourBlockController extends Controller
      */
     public function destroy(HourBlock $hourBlock)
     {
-        //
+        $hourBlock->delete();
+        return redirect('hour_blocks')->with('status', 'Registo apagado com sucesso');
     }
 }

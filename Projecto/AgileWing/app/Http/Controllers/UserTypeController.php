@@ -14,7 +14,8 @@ class UserTypeController extends Controller
      */
     public function index()
     {
-        //
+        $userTypes=UserType::all();
+        return view('pages.user-types.index', ['userTypes' => UserType::all()]);
     }
 
     /**
@@ -24,7 +25,7 @@ class UserTypeController extends Controller
      */
     public function create()
     {
-        //
+        return view ('pages.user-types.create');
     }
 
     /**
@@ -35,7 +36,11 @@ class UserTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required',
+            ]);
+            UserType::create($request->all());
+            return redirect('user_types')->with('status', 'Registo criado com sucesso!');
     }
 
     /**
@@ -46,7 +51,7 @@ class UserTypeController extends Controller
      */
     public function show(UserType $userType)
     {
-        //
+        return view('pages.user-types.show', ['userType' => $userType]);
     }
 
     /**
@@ -57,7 +62,7 @@ class UserTypeController extends Controller
      */
     public function edit(UserType $userType)
     {
-        //
+        return view('pages.user-types.edit', ['user-type' => $userType]);
     }
 
     /**
@@ -69,7 +74,11 @@ class UserTypeController extends Controller
      */
     public function update(Request $request, UserType $userType)
     {
-        //
+        $userType = UserType::find($userType->id);
+        $userType->name = $request->name;
+        $userType->save();
+        
+        return redirect('user_types')->with('status', 'Registo editado com sucesso!');
     }
 
     /**
@@ -80,6 +89,7 @@ class UserTypeController extends Controller
      */
     public function destroy(UserType $userType)
     {
-        //
+        $userType->delete();
+        return redirect('user_types')->with('status', 'Registo apagado com sucesso!');
     }
 }

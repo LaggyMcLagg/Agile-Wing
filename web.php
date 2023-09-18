@@ -23,3 +23,17 @@ Auth::routes([
 ]);
 
 Route::get('/home', 'HomeController@index')->name('home') -> Middleware('verified');
+
+//####### -> ROTAS RUI <- #######
+Route::prefix('user-types')->group(function(){
+    Route::get('', 'UserTypeController@index');
+    Route::get('create', 'UserTypeController@create');
+    Route::post('', 'UserTypeController@store');
+    Route::get('{userType}', 'UserTypeController@show');
+    Route::get('{userType}/edit', 'UserTypeController@edit');
+    Route::put('{userType}', 'UserTypeController@update');
+    Route::delete('{userType}', 'UserTypeController@destroy');
+    });
+
+
+//####### -> ROTAS RUI <- #######

@@ -2,25 +2,12 @@
 
 @section('content')
 
-@component('components.header_show.user_header_show', [
-    'user'  => $user
-    ])
-@endcomponent
-
-@component('components.users.show', [
-    'user'                  => $user,
-    'columns'               => $columnsSpecializationArea,
-    'rows'                  => $rowsSpecializationArea, 
-    'useCheckbox'           => $useCheckbox,
-])
-@endcomponent
-
-@component('components.users.show', [
-    'user'                  => $user,
-    'columns'               => $columnsPedagogicalGroup,
-    'rows'                  => $rowsPedagogicalGroup, 
-    'useCheckbox'           => $useCheckbox,
-])
+@component('components.users.user-form-show', [
+    'user'                          => $user,
+    'pedagogicalGroupUserList'      => $pedagogicalGroupUserList,
+    'specializationAreaUserList'    => $specializationAreaUserList,
+    'pedagogicalGroups'             => $pedagogicalGroups,
+    'specializationAreas'           =>$specializationAreas])
 @endcomponent
 
 @endsection

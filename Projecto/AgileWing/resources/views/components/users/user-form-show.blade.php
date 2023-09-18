@@ -117,15 +117,14 @@
         </div>
 
 <div class="row">
-        <div class="col-md-4"></div>
-        <div class="col-md-4"></div>
-        <div class="col-md-4">
-            <a href="/users" class="mt-2 mb-5 btn btn-primary">Voltar</a>
-            <a id="editBtn" type="button" class="btn btn-primary">Editar</a>
-            <button id="saveBtn" type="submit" class="mt-2 mb-5 btn btn-primary" style="display: none;">Gravar</button>
-            </form>
-        </div>
-        
+    <div class="col-md-4"></div>
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <a href="/users" class="mt-2 mb-5 btn btn-primary">Voltar</a>
+        <a id="editBtn" type="button" class="btn btn-primary">Editar</a>
+        <button id="saveBtn" type="submit" class="mt-2 mb-5 btn btn-primary" style="display: none;">Gravar</button>
+        </form>
+    </div>
 </div>
 
 <script>

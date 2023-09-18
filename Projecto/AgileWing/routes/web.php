@@ -49,6 +49,7 @@ Route::prefix('teacher-availabilities')->group(function(){
     Route::delete('{teacherAvailability}', 'TeacherAvailabilityController@destroy')->name('teacher-availabilities.destroy');
 });
 
+<<<<<<< Updated upstream
 // ROUTES for Courses
 Route::prefix('courses')->group(function(){
     Route::get('', 'CourseController@index')->name('courses.index');
@@ -59,3 +60,26 @@ Route::prefix('courses')->group(function(){
     Route::get('{course}', 'CourseController@show')->name('courses.show');
     Route::delete('{course}', 'CourseController@destroy')->name('courses.destroy');
 });
+=======
+// ROUTES for Schedule Atribution
+Route::prefix('schedule-atribution')->group(function(){
+    Route::get('', 'ScheduleAtributionController@index')->name('schedule-atribution.index');
+    Route::get('create', 'ScheduleAtributionController@create')->name('schedule-atribution.create');
+    Route::post('', 'ScheduleAtributionController@store')->name('schedule-atribution.store');
+    Route::get('{scheduleAtribution}/edit', 'ScheduleAtributionController@edit')->name('schedule-atribution.edit');
+    Route::put('{scheduleAtribution}', 'ScheduleAtributionController@update')->name('schedule-atribution.update');
+    Route::get('{scheduleAtribution}', 'ScheduleAtributionController@show')->name('schedule-atribution.show');
+    Route::delete('{scheduleAtribution}', 'ScheduleAtributionController@destroy')->name('schedule-atribution.destroy');
+});
+
+// ROUTES for Courses Ufcd
+Route::prefix('course-ufcd')->group(function(){
+    Route::get('', 'CourseUfcdController@index')->name('course-ufcd.index');
+    Route::get('create', 'CourseUfcdController@create')->name('course-ufcd.create');
+    Route::post('', 'CourseUfcdController@store')->name('course-ufcd.store');
+    Route::get('{courseUfcd}/edit', 'CourseUfcdController@edit')->name('course-ufcd.edit');
+    Route::put('{courseUfcd}', 'CourseUfcdController@update')->name('course-ufcd.update');
+    Route::get('{courseUfcd}', 'CourseUfcdController@show')->name('course-ufcd.show');
+    Route::delete('courseUfcd}', 'CourseUfcdController@destroy')->name('course-ufcd.destroy');
+});
+>>>>>>> Stashed changes

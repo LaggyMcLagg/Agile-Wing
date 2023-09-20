@@ -33,8 +33,9 @@
                     Gestão Formadores
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
-                    <a class="dropdown-item" href="{{url('/ROTA1/ROUTE1')}}">ROUTE1</a>
-                    <a class="dropdown-item" href="{{url('/ROTA1/ROUTE2')}}">ROUTE2</a>
+                    <a class="dropdown-item" href="{{url('/users/create')}}">Inserir Formador</a>
+                    <a class="dropdown-item" href="{{url('/users')}}">Editar Formador</a>
+                    <a class="dropdown-item" href="{{url('/users')}}">Listar Formador</a> 
                     <!-- ADD THE ROUTES HERE -->
                 </div>
             </li>
@@ -43,7 +44,7 @@
                 Gestão Horários
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
-                    <a class="dropdown-item" href="{{url('/ROTA2/ROUTE1')}}">ROUTE1</a>
+                    <a class="dropdown-item" href="{{ route('course-class.schedule-attribution.index')}}">Turma</a>
                     <a class="dropdown-item" href="{{url('/ROTA2/ROUTE2')}}">ROUTE2</a>
                     <!-- ADD THE ROUTES HERE -->
                 </div>
@@ -54,7 +55,8 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown3">
                     <a class="dropdown-item" href="{{ route('courses.index') }}">Gerir Crusos</a>
-                    <a class="dropdown-item" href="{{url('/ROTA3/ROUTE2')}}">ROUTE2</a>
+                    <a class="dropdown-item" href="{{ url('/hour_blocks') }}">Gerir Blocos Horário</a>
+                    <a class="dropdown-item" href="{{ url('/availability_types') }}">Tipo de disponibilidades</a>
                     <!-- ADD THE ROUTES HERE -->
                 </div>
             </li>
@@ -89,9 +91,5 @@
                 </div>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
-        </form>
     </div>
 </nav>

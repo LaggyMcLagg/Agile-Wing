@@ -82,4 +82,16 @@ class CourseClassController extends Controller
     {
         //
     }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function indexForScheduleAtribution()
+    {
+        $courseClasses = CourseClass::with('course.specializationArea')->get();
+        return view('pages.course_classes.indexForScheduleAtribution', compact ('courseClasses'));
+    }
+    
 }

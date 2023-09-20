@@ -16,13 +16,14 @@ class ScheduleAtributionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(User $user)
+    public function index(CourseClass $courseClass)
     {
-        $scheduleAtributions = $user->scheduleAtributions()->with('availabilityType', 'courseClass', 'ufcd')->get();
-
-        return view('pages.schedule_atribution.index', compact('user', 'scheduleAtributions'));
+        $scheduleAtributions = ScheduleAtribution::where('course_class_id', $courseClass->id)->get();
+            
+        return view('pages.schedule_atribution.index', compact('scheduleAtributions'));
     }
-
+    
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -65,7 +66,7 @@ class ScheduleAtributionController extends Controller
 
         $scheduleUser->scheduleAtributions()->create($request->all());
 
-        return redirect()->route('schedule-atribution.index')->with('status', 'Schedule atribution created successfully');
+        return redirect()->route('schedule_atribution.index')->with('status', 'Schedule atribution created successfully');
     }
 
     /**
@@ -120,7 +121,7 @@ class ScheduleAtributionController extends Controller
 
         $scheduleAtribution->update($request->all());
 
-        return redirect()->route('schedule-atribution.index')->with('status', 'Schedule atribution updated successfully');
+        return redirect()->route('schedule_atribution.index')->with('status', 'Schedule atribution updated successfully');
     }
 
     /**
@@ -133,7 +134,7 @@ class ScheduleAtributionController extends Controller
     {
         $scheduleAtribution->delete();
 
-        return redirect()->route('schedule-atribution.index', $user);
+        return redirect()->route('schedule_atribution.index', $user);
     }
 }
 

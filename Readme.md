@@ -62,6 +62,8 @@ Para ambiente de DEV, abrir um novo terminal no IDE e correr o comando **npm run
 
 **Referência aulas** - *5417-Aula05-Laravel.pdf slide 5-10*
 
+    o	Rotas: teacher-availabilities (lower case, kebab-case, last word plural);
+
     o	Controladores: BlogController (capitalizado e singular);
     
     o	Tabelas:  utilizadores ou blog_posts (sempre no plural, snake_case);

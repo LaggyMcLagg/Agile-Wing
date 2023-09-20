@@ -29,11 +29,11 @@ class ScheduleAtribution extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-
-
     //to use it as a formatable date
     protected $casts = [
         'date' => 'datetime',
+        'hour_start' => 'datetime',
+        'hour_end' => 'datetime',
     ];
     //OR
 

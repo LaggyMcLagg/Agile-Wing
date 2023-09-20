@@ -26,16 +26,16 @@
     </thead>
 
     <tbody>
-        @foreach($scheduleAtributions as $ScheduleAtribution)
+        @foreach($scheduleAtributions as $scheduleAtribution)
         <tr>
-            <th scope="row">{{ $sheduleAtribution->id }}</th>
-            <td>{{ $sheduleAtribution->date }}</td>
-            <td>{{ $sheduleAtribution->hourStart}}</td>
-            <td>{{ $sheduleAtribution->hourEnd }}</td>
-            <td>{{ $sheduleAtribution->availabilityType->name }}</td>
-            <td>{{ $sheduleAtribution->courseClass->name }}</td>
-            <td>{{ $sheduleAtribution->ufcd->name }}</td>
-            <td>{{ $sheduleAtribution->user->name }}</td>
+            <th scope="row">{{ $scheduleAtribution->id }}</th>
+            <td>{{ $scheduleAtribution->date->format('d-m-Y') }}</td>
+            <td>{{ $scheduleAtribution->hour_start->format('H:i') }}</td>
+            <td>{{ $scheduleAtribution->hour_end->format('H:i') }}</td>
+            <td>{{ $scheduleAtribution->availabilityType->name }}</td>
+            <td>{{ $scheduleAtribution->courseClass->name }}</td>
+            <td>{{ $scheduleAtribution->ufcd->name }}</td>
+            <td>{{ $scheduleAtribution->user->name }}</td>
             <td>
                 <div class="btn-group" role="group" aria-label="Basic example">
                     <a href="{{ route('schedule-atribution.show', ['scheduleAtribution' => $scheduleAtribution]) }}" type="button" class="btn btn-success">Show</a>

@@ -16,6 +16,7 @@ class CreateAvailabilityTypesTable extends Migration
         Schema::create('availability_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('color');
             $table->timestamps();
             $table->softDeletes();
         });

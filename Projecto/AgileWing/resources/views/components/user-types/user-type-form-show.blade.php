@@ -46,4 +46,4 @@
         @enderror
     </div>
 
-<a href="/user_types" class="mt-2 mb-5 btn btn-primary">Back to List</a>
+<a href="/user-types" class="mt-2 mb-5 btn btn-primary">Back to List</a>

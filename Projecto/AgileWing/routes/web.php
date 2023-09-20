@@ -36,7 +36,7 @@ Route::prefix('users')->group(function(){
     Route::delete('{user}', 'UserController@destroy');
    });
 
-Route::prefix('hour_blocks')->group(function(){
+Route::prefix('hour-blocks')->group(function(){
     Route::get('', 'HourBlockController@index');
     Route::get('create', 'HourBlockController@create');
     Route::post('', 'HourBlockController@store');
@@ -46,7 +46,8 @@ Route::prefix('hour_blocks')->group(function(){
     Route::delete('{hourBlock}', 'HourBlockController@destroy');
    });
 
-Route::prefix('availability_types')->group(function(){
+   
+Route::prefix('availability-types')->group(function(){
     Route::get('', 'AvailabilityTypeController@index');
     Route::get('create', 'AvailabilityTypeController@create');
     Route::post('', 'AvailabilityTypeController@store');
@@ -55,7 +56,7 @@ Route::prefix('availability_types')->group(function(){
     Route::put('{availabilityType}', 'AvailabilityTypeController@update');
     Route::delete('{availabilityType}', 'AvailabilityTypeController@destroy');
 });
-Route::prefix('user_types')->group(function(){
+Route::prefix('user-types')->group(function(){
     Route::get('', 'UserTypeController@index');
     Route::get('create', 'UserTypeController@create');
     Route::post('', 'UserTypeController@store');

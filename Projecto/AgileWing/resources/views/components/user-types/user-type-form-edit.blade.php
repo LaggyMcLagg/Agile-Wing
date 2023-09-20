@@ -1,5 +1,5 @@
 <h2>Edição de Tipos de Utilizador</h2>
-<form method="POST" action="{{ url('user_types/' . $userType->id) }}">
+<form method="POST" action="{{ url('user-types/' . $userType->id) }}">
 @csrf
 @method('PUT')
 
@@ -65,5 +65,5 @@
     </div>
 
 <button type="submit" class="mt-2 mb-5 btn btn-primary">Guardar</button>
-<a href="/user_types" class="mt-2 mb-5 btn btn-primary">Voltar à listagem</a>
+<a href="/user-types" class="mt-2 mb-5 btn btn-primary">Voltar à listagem</a>
 </form>

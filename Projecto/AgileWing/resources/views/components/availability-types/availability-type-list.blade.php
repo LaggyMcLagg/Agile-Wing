@@ -14,7 +14,7 @@
             <th scope="col">Nome</th>
             <th scope="col">Data de criação</th>
             <th scope="col">Data de edição</th>
-            <th scope="col"><a href="{{ url('availability_types/create') }}" class="btn btn-primary">Nova disponibilidade</a></th>
+            <th scope="col"><a href="{{ url('availability-types/create') }}" class="btn btn-primary">Nova disponibilidade</a></th>
         </tr>
     </thead>
     <tbody>
@@ -25,9 +25,9 @@
             <td>{{ $availabilityType->created_at }}</td>
             <td>{{ $availabilityType->updated_at }}</td>
             <td>
-                <a href="{{ url('availability_types/' . $availabilityType->id) }}" type="button" class="btn btn-primary">Detalhes</a>
-                <a href="{{ url('availability_types/' . $availabilityType->id . '/edit') }}" type="button" class="btn btn-primary">Editar</a>
-                <form action="{{ url('availability_types/' . $availabilityType->id) }}" method="POST">
+                <a href="{{ url('availability-types/' . $availabilityType->id) }}" type="button" class="btn btn-primary">Detalhes</a>
+                <a href="{{ url('availability-types/' . $availabilityType->id . '/edit') }}" type="button" class="btn btn-primary">Editar</a>
+                <form action="{{ url('availability-types/' . $availabilityType->id) }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">Apagar registo</button>

@@ -1,5 +1,5 @@
 <h2>Edição de Tipos de Utilizador</h2>
-<form method="POST" action="{{ url('hour_blocks/' . $hourBlock->id) }}">
+<form method="POST" action="{{ url('hour-blocks/' . $hourBlock->id) }}">
 @csrf
 @method('PUT')
 
@@ -65,5 +65,5 @@
     </div>
 
 <button type="submit" class="mt-2 mb-5 btn btn-primary">Guardar</button>
-<a href="/hour_blocks" class="mt-2 mb-5 btn btn-primary">Voltar à listagem</a>
+<a href="/hour-blocks" class="mt-2 mb-5 btn btn-primary">Voltar à listagem</a>
 </form>

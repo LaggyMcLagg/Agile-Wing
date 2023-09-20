@@ -12,10 +12,12 @@ class HourBlockController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(HourBlock $hourBlock)
     {
         $hourBlocks = HourBlock::all();
-        return view('pages.hour-blocks.index', ['hourBlocks' => $hourBlocks]);
+        return view('pages.hour-blocks.index', [
+            'hourBlock'  =>$hourBlock,
+            'hourBlocks' => $hourBlocks]);
     }
 
     /**
@@ -43,7 +45,7 @@ class HourBlockController extends Controller
 
         HourBlock::create($request->all());
 
-        return redirect('hour_blocks')->with('status', 'Registo criado com sucesso!');
+        return redirect('hour-blocks')->with('status', 'Registo criado com sucesso!');
     }
 
     /**
@@ -54,7 +56,8 @@ class HourBlockController extends Controller
      */
     public function show(HourBlock $hourBlock)
     {
-        return view('pages.hour-blocks.show', ['hourBlock' => $hourBlock]);
+        return view('pages.hour-blocks.show', [
+            'hourBlock' => $hourBlock]);
     }
 
     /**
@@ -82,7 +85,7 @@ class HourBlockController extends Controller
         $hourBlock->hour_end = $request->hour_end;
         $hourBlock->save();
 
-        return redirect('hour_blocks')->with('status', 'Registo editado com sucesso!');
+        return redirect('hour-blocks')->with('status', 'Registo editado com sucesso!');
     }
 
     /**
@@ -94,6 +97,6 @@ class HourBlockController extends Controller
     public function destroy(HourBlock $hourBlock)
     {
         $hourBlock->delete();
-        return redirect('hour_blocks')->with('status', 'Registo apagado com sucesso');
+        return redirect('hour-blocks')->with('status', 'Registo apagado com sucesso');
     }
 }

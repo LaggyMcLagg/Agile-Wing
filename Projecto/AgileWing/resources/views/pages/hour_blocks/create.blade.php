@@ -2,7 +2,7 @@
 
 @section('content')
 
-@component('components.user-types.user-type-form-create')
+@component('components.hour_blocks.hour-block-form-create')
 @endcomponent
 
 @endsection

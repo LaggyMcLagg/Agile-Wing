@@ -33,6 +33,23 @@
         </span>
         @enderror
     </div>
+
+    <div class="form-group">
+        <label for="color">Cor</label>
+        <input
+            type="color"
+            id="color"
+            name="color"
+            class="form-control @error('color') is-invalid @enderror"
+            value="{{ old('color') }}"
+            aria-describedby="colorHelp">
+        @error('color')
+        <span class="invalid-feedback" role="alert">
+            <strong>{{ $message }}</strong>
+        </span>
+        @enderror
+    </div>
+
     <div class="form-group">
         <label for="updated_at">Data da última modificação</label>
         <input type="text"

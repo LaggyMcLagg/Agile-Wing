@@ -15,7 +15,7 @@ class HourBlockController extends Controller
     public function index(HourBlock $hourBlock)
     {
         $hourBlocks = HourBlock::all();
-        return view('pages.hour-blocks.index', [
+        return view('pages.hour_blocks.index', [
             'hourBlock'  =>$hourBlock,
             'hourBlocks' => $hourBlocks]);
     }
@@ -27,7 +27,7 @@ class HourBlockController extends Controller
      */
     public function create()
     {
-        return view('pages.hour-blocks.create');
+        return view('pages.hour_blocks.create');
     }
 
     /**
@@ -56,7 +56,7 @@ class HourBlockController extends Controller
      */
     public function show(HourBlock $hourBlock)
     {
-        return view('pages.hour-blocks.show', [
+        return view('pages.hour_blocks.show', [
             'hourBlock' => $hourBlock]);
     }
 
@@ -68,7 +68,7 @@ class HourBlockController extends Controller
      */
     public function edit(HourBlock $hourBlock)
     {
-        return view('pages.hour-blocks.edit', ['hourBlock' => $hourBlock]);
+        return view('pages.hour_blocks.edit', ['hourBlock' => $hourBlock]);
     }
 
     /**

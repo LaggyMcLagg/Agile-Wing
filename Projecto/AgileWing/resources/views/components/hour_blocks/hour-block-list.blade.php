@@ -80,7 +80,10 @@
                             <th scope="col">ID</th>
                             <th scope="col">Hora início</th>
                             <th scope="col">Hora de fim</th>
-                            <th scope="col"><a href="{{ url('hour-blocks/create') }}" class="btn btn-primary">Criar novo bloco</a></th>
+                            <th scope="col">
+                                <a href="{{ url('hour-blocks/create') }}" class="btn btn-primary">Criar</a>
+                                <a id="editBtn" type="button" class="btn btn-primary">Editar</a>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -89,6 +92,13 @@
                             <td>{{ $hourBlock->id }}</td>
                             <td>{{ $hourBlock->hour_beginning }}</td>
                             <td>{{ $hourBlock->hour_end }}</td>
+                            <td>
+                                <form action="{{ url('hour-blocks/' . $hourBlock->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">Apagar bloco</button>
+                                </form>
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -100,51 +110,64 @@
 
 <div class="row">
     <div class="col-md-4"></div>
-    <div class="col-md-4"></div>
     <div class="col-md-4">
-        <button id="editBtn" type="button" class="btn btn-primary">Editar</button>
-        <button id="newBtn" type="button" class="btn btn-primary">Criar Novo</button>
-        <form action="{{ url('hour-blocks/' . $hourBlock->id) }}" method="POST">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="btn btn-danger" name="">Apagar</button>
-        </form>
+    </div>
+    <div class="col-md-4">
+        <button id="saveBtn" type="submit" class="mt-2 mb-5 btn btn-primary" style="display: none";>Guardar</button>
     </div>
 </div>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const tableRows = document.querySelectorAll(".table-row");
-        const editBtn = document.getElementById("editBtn"); // Adicione um ID ao botão de edição
+        const editBtn = document.getElementById("editBtn"); // Botão de edição
+        const saveBtn = document.getElementById("saveBtn"); // Botão de salvar
 
-        // Adicione um ouvinte de evento de clique ao botão de edição
-        editBtn.addEventListener("click", function () {
+        // Variável para rastrear o estado de edição
+        let isEditing = false;
+
+        // Função para habilitar a edição dos campos
+        function enableEdit() {
             // Habilita a edição dos campos e desabilita os botões de exclusão
             document.querySelectorAll("input[readonly]").forEach(function (input) {
                 input.removeAttribute("readonly");
-                input.classList.remove("form-control-plaintext"); // Remova a classe de leitura para permitir a edição
+                input.classList.remove("form-control-plaintext");
             });
 
-            document.getElementById("newBtn").style.display = "none";
-    document.getElementById("saveBtn").style.display = "inline-block"; // Use "inline-block" para mostrar o botão
+            saveBtn.style.display = "inline-block"; // Mostrar o botão "Guardar"
+            isEditing = true;
+        }
+
+        // Adicione um ouvinte de evento de clique ao botão de edição
+        editBtn.addEventListener("click", function () {
+            if (!isEditing) {
+                enableEdit();
+            }
         });
 
+        // Adicione um ouvinte de evento de clique às linhas da tabela
         tableRows.forEach(function (row) {
             row.addEventListener("click", function () {
-                // Obtém os dados da linha clicada
-                const cells = row.getElementsByTagName("td");
-                const id = cells[0].textContent;
-                const hourBeginning = cells[1].textContent;
-                const hourEnd = cells[2].textContent;
+                if (!isEditing) {
+                    // Verifique se a edição não está ativada
+                    // Obtém os dados da linha clicada
+                    const cells = row.getElementsByTagName("td");
+                    const id = cells[0].textContent;
+                    const hourBeginning = cells[1].textContent;
+                    const hourEnd = cells[2].textContent;
 
-                // Preenche os campos à esquerda com os dados
-                document.getElementById("id").value = id;
-                document.getElementById("hour_beginning").value = hourBeginning;
-                document.getElementById("hour_end").value = hourEnd;
+                    // Preenche os campos à esquerda com os dados
+                    document.getElementById("id").value = id;
+                    document.getElementById("hour_beginning").value = hourBeginning;
+                    document.getElementById("hour_end").value = hourEnd;
+                }
             });
         });
     });
 </script>
+
+
+
 
 
 

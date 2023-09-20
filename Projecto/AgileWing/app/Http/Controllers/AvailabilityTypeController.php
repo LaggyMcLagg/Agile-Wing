@@ -15,7 +15,7 @@ class AvailabilityTypeController extends Controller
     public function index()
     {
         $availabilityTipes = AvailabilityType::all();
-        return view('pages.availability-types.index', ['availabilityTypes' => $availabilityTipes]);
+        return view('pages.availability_types.index', ['availabilityTypes' => $availabilityTipes]);
     }
 
     /**
@@ -25,7 +25,7 @@ class AvailabilityTypeController extends Controller
      */
     public function create()
     {
-        return view('pages.availability-types.create');
+        return view('pages.availability_types.create');
 
     }
 
@@ -39,11 +39,12 @@ class AvailabilityTypeController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
+            'color' => 'required|string|max:7',
         ]);
 
         AvailabilityType::create($request->all());
 
-        return redirect('availability_types')->with('status', 'Registo criado com sucesso!');
+        return redirect('availability-types')->with('status', 'Registo criado com sucesso!');
     }
 
     /**
@@ -54,7 +55,7 @@ class AvailabilityTypeController extends Controller
      */
     public function show(AvailabilityType $availabilityType)
     {
-        return view('pages.availability-types.show', ['availabilityType' => $availabilityType]);
+        return view('pages.availability_types.show', ['availabilityType' => $availabilityType]);
     }
 
     /**
@@ -65,7 +66,7 @@ class AvailabilityTypeController extends Controller
      */
     public function edit(AvailabilityType $availabilityType)
     {
-        return view('pages.availability-types.edit', ['availabilityType' => $availabilityType]);
+        return view('pages.availability_types.edit', ['availabilityType' => $availabilityType]);
     }
 
     /**
@@ -79,9 +80,10 @@ class AvailabilityTypeController extends Controller
     {
         $availabilityType = AvailabilityType::find($availabilityType->id);
         $availabilityType->name = $request->name;
+        $availabilityType->color = $request->color;
         $availabilityType->save();
 
-        return redirect('availability_types')->with('status', 'Registo editado com sucesso!');
+        return redirect('availability-types')->with('status', 'Registo editado com sucesso!');
     }
 
     /**
@@ -93,6 +95,6 @@ class AvailabilityTypeController extends Controller
     public function destroy(AvailabilityType $availabilityType)
     {
         $availabilityType->delete();
-        return redirect('availability_types')->with('status', 'Registo apagado com sucesso');
+        return redirect('availability-types')->with('status', 'Registo apagado com sucesso');
     }
 }

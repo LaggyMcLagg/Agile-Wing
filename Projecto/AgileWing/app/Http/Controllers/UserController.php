@@ -202,8 +202,12 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        // Validar os dados do formulário (nome, email, etc.) como você já está fazendo
-    
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,' . $user->id, 
+            'color_1' => 'required',
+            'color_2' => 'required',
+        ]);        
         // Atualizar os campos do usuário com base nos dados do formulário
         $user->name = $request->name;
         $user->email = $request->email;

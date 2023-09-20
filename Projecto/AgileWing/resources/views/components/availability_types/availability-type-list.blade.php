@@ -12,6 +12,7 @@
         <tr>
             <th scope="col">ID</th>
             <th scope="col">Nome</th>
+            <th scope="col">Cor</th>
             <th scope="col">Data de criação</th>
             <th scope="col">Data de edição</th>
             <th scope="col"><a href="{{ url('availability-types/create') }}" class="btn btn-primary">Nova disponibilidade</a></th>
@@ -22,6 +23,9 @@
         <tr>
             <td>{{ $availabilityType->id }}</td>
             <td>{{ $availabilityType->name }}</td>
+            <td>
+                <div style="width: 20px; height: 20px; background-color: {{ $availabilityType->color }};"></div>
+            </td>
             <td>{{ $availabilityType->created_at }}</td>
             <td>{{ $availabilityType->updated_at }}</td>
             <td>

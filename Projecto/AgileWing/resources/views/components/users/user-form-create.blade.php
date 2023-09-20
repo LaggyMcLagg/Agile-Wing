@@ -59,7 +59,23 @@
                         <strong>{{ $message }}</strong>
                     </span>
                     @enderror
+                    <small id="passwordHelp" class="form-text text-muted">
+                        Insira uma password com pelo menos 4 caracteres.
+                    </small>
                 </div>
+
+                <div class="form-group">
+                    <label for="password_confirmation">Confirmação de Senha</label>
+                    <input
+                        type="password"
+                        id="password_confirmation"
+                        name="password_confirmation"
+                        autocomplete="new-password"
+                        placeholder="Confirme a password"
+                        class="form-control"
+                        required>
+                </div>
+
 
                 <div class="form-group">
                     <label for="user_type_id">Tipo de Utilizador</label>

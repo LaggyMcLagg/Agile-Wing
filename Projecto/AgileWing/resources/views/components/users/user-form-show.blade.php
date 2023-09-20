@@ -7,22 +7,11 @@
                 @method('PUT')
                 <div class="form-group">
                     <label for="id">ID</label>
-                    <input type="text"
+                    <label
                         id="id"
                         name="id"
-                        autocomplete="id"
-                        placeholder="{{ $user->id }}"
-                        class="form-control @error('id') is-invalid @enderror"
-                        value="{{ old('id') }}"
-                        required aria-describedby="idHelp"
-                        readonly>
-                    @error('id')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
+                        class="form-control">{{ $user->id }}</label>
                 </div>
-
                 <div class="form-group">
                     <label for="name">Nome</label>
                     <input type="text"

@@ -2,8 +2,7 @@
 
 @section('content')
 
-@component('components.hour-blocks.hour-block-form-show', [
-    'hourBlock'             => $hourBlock,])
+@component('components.hour-blocks.hour-block-form-show', ['hourBlock' => $hourBlock,])
 @endcomponent
 
 @endsection

@@ -13,7 +13,7 @@
             <th scope="col">Tipos de Utilizador</th>
             <th scope="col">Data de criação</th>
             <th scope="col">Data da última alteração</th>
-            <th scope="col"><a href="{{ url('user_types/create') }}" class="btn btn-primary">Criar novo</a></th>
+            <th scope="col"><a href="{{ url('user-types/create') }}" class="btn btn-primary">Criar novo</a></th>
         </tr>
     </thead>
 <tbody>
@@ -23,9 +23,9 @@
         <td>{{ $userType->created_at }}</td>
         <td>{{ $userType->updated_at }}</td>
         <td>
-            <a href="{{ url('user_types/' . $userType->id) }}" type="button" class="btn btn-primary">Detalhes</a>
-            <a href="{{ url('user_types/' . $userType->id . '/edit') }}" type="button" class="btn btn-primary">Editar</a>
-            <form action="{{ url('user_types/' . $userType->id) }}" method="POST">
+            <a href="{{ url('user-types/' . $userType->id) }}" type="button" class="btn btn-primary">Detalhes</a>
+            <a href="{{ url('user-types/' . $userType->id . '/edit') }}" type="button" class="btn btn-primary">Editar</a>
+            <form action="{{ url('user-types/' . $userType->id) }}" method="POST">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="btn btn-danger">Apagar</button>

@@ -1,5 +1,5 @@
 <h3>Criação de bloco</h3>
-<form method="POST" action="{{ url('hour_blocks') }}">
+<form method="POST" action="{{ url('hour-blocks') }}">
 @csrf
 <div class="form-group">
     <label for="name">Hora início</label>

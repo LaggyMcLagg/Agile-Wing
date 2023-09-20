@@ -18,5 +18,5 @@
     @enderror
 </div>
 
-<a href="/availability_types" class="mt-2 mb-5 btn btn-primary">Voltar à Listagem</a>
+<a href="/availability-types" class="mt-2 mb-5 btn btn-primary">Voltar à Listagem</a>
 </form>

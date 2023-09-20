@@ -37,5 +37,5 @@
 
 
 
-<a href="/hour_blocks" class="mt-2 mb-5 btn btn-primary">Voltar à Listagem</a>
+<a href="/hour-blocks" class="mt-2 mb-5 btn btn-primary">Voltar à Listagem</a>
 </form>

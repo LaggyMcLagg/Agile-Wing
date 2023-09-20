@@ -1,5 +1,5 @@
 <h3>Criação de bloco</h3>
-<form method="POST" action="{{ url('availability_types') }}">
+<form method="POST" action="{{ url('availability-types') }}">
 @csrf
 <div class="form-group">
     <label for="name">Nome</label>

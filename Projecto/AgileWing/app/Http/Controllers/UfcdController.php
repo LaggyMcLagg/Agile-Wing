@@ -45,23 +45,14 @@ class UfcdController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
-
-        $request->validate([
+        $data = $request->validate([
             'name' => 'required',
             'pedagogical_group_id' => 'required',
             'number' => 'required',
             'hours' => 'required'
         ]);
     
-
-        Ufcd::create([
-            'name' => $request->name,
-            'pedagogical_group_id' => $request->initials,
-            'number' => $request->specialization_area_number,
-            'hours' => $request->hours,
-        ]);
-        Ufcd::create($request->all());
+        Ufcd::create($data);
     
         return redirect()->route('ufcds.index')->with('success', 'UFCD created successfully');
     }

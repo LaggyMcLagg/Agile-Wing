@@ -30,7 +30,7 @@ class CourseController extends Controller
     {
         $ufcds = Ufcd::all();
         $specializationAreas = SpecializationArea::all();
-        
+
         return view('pages.courses.create', compact('ufcds', 'specializationAreas'));
     }
 
@@ -49,15 +49,15 @@ class CourseController extends Controller
             'ufcds' => 'required|array',
             'ufcds.*' => 'exists:ufcds,id',
         ]);
-    
+
         $course = Course::create([
             'name' => $request->name,
             'initials' => $request->initials,
             'specialization_area_number' => $request->specialization_area_number,
         ]);
-    
+
         $course->ufcds()->attach($request->ufcds);
-    
+
         return redirect()->route('courses.index')->with('success', 'Course created successfully');
     }
 
@@ -85,10 +85,10 @@ class CourseController extends Controller
         $ufcds = Ufcd::all();
         $specializationAreas = SpecializationArea::all();
         $course->load('ufcds', 'specializationArea');
-    
+
         return view('pages.courses.edit', compact('course', 'ufcds', 'specializationAreas'));
     }
-    
+
 
     /**
      * Update the specified resource in storage.
@@ -106,18 +106,18 @@ class CourseController extends Controller
             'ufcds' => 'required|array',
             'ufcds.*' => 'exists:ufcds,id',
         ]);
-    
+
         $course->update([
             'name' => $request->name,
             'initials' => $request->initials,
             'specialization_area_number' => $request->specialization_area_number,
         ]);
-    
+
         $course->ufcds()->sync($request->ufcds);
-    
+
         return redirect()->route('courses.index')->with('success', 'Course updated successfully');
     }
-    
+
 
     /**
      * Remove the specified resource from storage.
@@ -129,14 +129,13 @@ class CourseController extends Controller
     {
         // Soft delete the entries in the pivot table
         \DB::table('course_ufcds')
-        ->where('course_id', $course->id)
-        ->update(['deleted_at' => now()]);
+            ->where('course_id', $course->id)
+            ->update(['deleted_at' => now()]);
 
         // Soft delete the course
         $course->delete();
 
         return redirect()->route('courses.index')
-                         ->with('success', 'Course deleted successfully');
- 
+            ->with('success', 'Course deleted successfully');
     }
 }

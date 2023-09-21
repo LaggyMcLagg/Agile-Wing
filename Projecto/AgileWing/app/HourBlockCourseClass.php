@@ -16,4 +16,10 @@ class HourBlockCourseClass extends Model
         return $this->belongsTo(CourseClass::class);
     }
 
+    protected $fillable = [
+        'course_class_id',
+        'hour_beginning', 
+        'hour_end'
+    ];
+
 }

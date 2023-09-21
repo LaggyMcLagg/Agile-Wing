@@ -1,0 +1,9 @@
+@extends('master.main')
+@section('content')
+@component(
+    'components.ufcds.ufcds-form-create',
+    compact(
+        'pedagogicalGroups',
+    ))
+@endcomponent
+@endsection

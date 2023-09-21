@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\CourseClass;
+use App\Course;
 use Illuminate\Http\Request;
 
 class CourseClassController extends Controller
@@ -14,7 +15,8 @@ class CourseClassController extends Controller
      */
     public function index()
     {
-        //
+        $courseClasses = CourseClass::orderBy('id', 'desc')->get();
+        return view('pages.course-classes.index', ['courseClasses' => $courseClasses]);
     }
 
     /**
@@ -24,7 +26,8 @@ class CourseClassController extends Controller
      */
     public function create()
     {
-        //
+        $courses = Course::all();
+        return view('pages.course-classes.create', compact('courses'));
     }
 
     /**
@@ -35,7 +38,15 @@ class CourseClassController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required',
+            'number' => 'required',
+            'course_id' => 'required',
+        ]);
+
+        CourseClass::create($request->all());
+
+        return redirect()->route('course-classes.index')->with('status', 'Item created successfully!');
     }
 
     /**
@@ -46,7 +57,9 @@ class CourseClassController extends Controller
      */
     public function show(CourseClass $courseClass)
     {
-        //
+
+        $courseClass->load('course');
+        return view('pages.course-classes.show', compact('courseClass'));
     }
 
     /**
@@ -57,7 +70,9 @@ class CourseClassController extends Controller
      */
     public function edit(CourseClass $courseClass)
     {
-        //
+        $courses = Course::all();
+        
+        return view('pages.course-classes.edit', compact('courseClass', 'courses'));
     }
 
     /**
@@ -68,8 +83,14 @@ class CourseClassController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, CourseClass $courseClass)
-    {
-        //
+    {    
+        $request->validate([
+            'course_id' => 'required|exists:courses,id',
+        ]);
+    
+        $courseClass->update($request->all());
+    
+        return redirect()->route('course-classes.index')->with('success', 'Course Class updated successfully');
     }
 
     /**
@@ -80,7 +101,10 @@ class CourseClassController extends Controller
      */
     public function destroy(CourseClass $courseClass)
     {
-        //
+        $courseClass->delete();
+
+        return redirect()->route('course-classes.index')
+            ->with('success', 'Course Class deleted successfully');
     }
 
     /**

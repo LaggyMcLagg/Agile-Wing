@@ -32,4 +32,11 @@ class Ufcd extends Model
     {
         return $this->hasMany(ScheduleAtribution::class);
     }
+
+    protected $fillable = [
+        'name',
+        'pedagogical_group_id',
+        'number',
+        'hours'
+        ];
 }

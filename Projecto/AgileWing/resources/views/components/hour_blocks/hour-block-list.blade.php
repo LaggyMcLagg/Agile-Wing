@@ -15,21 +15,10 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6">
-            <form method="POST" action="{{ url('hour-blocks') }}">
+            <form method="POST" action="{{ url('{hourBlock}') }}">
                 @csrf
-                <div class="form-group">
-                    <label for="id">ID</label>
-                    <input
-                        type="text"
-                        id="id"
-                        name="id"
-                        class="form-control"
-                        readonly
-                        value="{{ $hourBlock->id }}"
-                    >
-                </div>
-
-
+                    <label for="id">ID:</label>
+                    <label id="id_label"></label>
                 <div class="form-group">
                     <label for="hour_beginning">Hora de início</label>
                     <input
@@ -37,9 +26,7 @@
                         id="hour_beginning"
                         name="hour_beginning"
                         autocomplete="hour_beginning"
-                        placeholder="{{ $hourBlock->hour_beginning }}"
                         class="form-control @error('hour_beginning') is-invalid @enderror"
-                        value="{{ old('hour_beginning') }}"
                         required
                         aria-describedby="hour_beginningHelp"
                         readonly
@@ -57,9 +44,7 @@
                         id="hour_end"
                         name="hour_end"
                         autocomplete="hour_end"
-                        placeholder="{{ $hourBlock->hour_end }}"
                         class="form-control @error('hour_end') is-invalid @enderror"
-                        value="{{ old('hour_end') }}"
                         required
                         aria-describedby="hour_endHelp"
                         readonly
@@ -70,10 +55,12 @@
                     </span>
                     @enderror
                 </div>
-            </div>
-
-            <div class="col-md-6">
-                <h5>Lista de Blocos</h5>
+                <button id="saveBtn" type="submit" class="mt-2 mb-5 btn btn-primary" style="display: none;">Guardar</button>
+                <button id="cancelBtn" class="mt-2 mb-5 btn btn-secondary" style="display: none;">Cancelar</button>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <h5>Lista de Blocos</h5>
                 <table class="table table-bordered">
                     <thead>
                         <tr class="table-row">
@@ -93,35 +80,43 @@
                             <td>{{ $hourBlock->hour_beginning }}</td>
                             <td>{{ $hourBlock->hour_end }}</td>
                             <td>
-                                <form action="{{ url('hour-blocks/' . $hourBlock->id) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Apagar bloco</button>
+                                <form action="{{ url('hour-blocks/' . $hourBlock->id) }}" method="POST" onsubmit="return confirm('Tem a certeza que quer apagar este registo?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Apagar bloco</button>
                                 </form>
                             </td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-4"></div>
-    <div class="col-md-4">
-    </div>
-    <div class="col-md-4">
-        <button id="saveBtn" type="submit" class="mt-2 mb-5 btn btn-primary" style="display: none";>Guardar</button>
-    </div>
-</div>
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
+
         const tableRows = document.querySelectorAll(".table-row");
         const editBtn = document.getElementById("editBtn"); // Botão de edição
         const saveBtn = document.getElementById("saveBtn"); // Botão de salvar
+        const idLabel = document.getElementById("id_label");
+        const hourBeginningInput = document.getElementById("hour_beginning");
+        const hourEndInput = document.getElementById("hour_end");
+
+        const cancelButton = document.getElementById("cancelBtn");
+        cancelButton.addEventListener("click", clearForm);
+
+        //in case of refresh and or cancel
+        function clearForm() {
+            idLabel.innerText = "";
+            hourBeginningInput.value = "";
+            hourEndInput.value = "";            
+        };
+        clearForm();
+
 
         // Variável para rastrear o estado de edição
         let isEditing = false;
@@ -135,6 +130,7 @@
             });
 
             saveBtn.style.display = "inline-block"; // Mostrar o botão "Guardar"
+            cancelButton.style.display = "inline-block";
             isEditing = true;
         }
 
@@ -143,6 +139,25 @@
             if (!isEditing) {
                 enableEdit();
             }
+        });
+
+        // Cancel button functionality
+        cancelButton.addEventListener("click", function(event) {
+            event.preventDefault(); // Prevent form submission
+
+            // Clear form fields
+            clearForm();
+
+            // Disable the edit mode and hide the buttons
+            isEditing = false;
+            saveBtn.style.display = "none";
+            cancelButton.style.display = "none";
+
+            // Re-enable the read-only attribute of the input fields
+            document.querySelectorAll("input").forEach(function (input) {
+                input.setAttribute("readonly", true);
+                input.classList.add("form-control-plaintext");
+            });
         });
 
         // Adicione um ouvinte de evento de clique às linhas da tabela
@@ -157,68 +172,12 @@
                     const hourEnd = cells[2].textContent;
 
                     // Preenche os campos à esquerda com os dados
-                    document.getElementById("id").value = id;
+                    document.getElementById("id_label").innerText  = id;
                     document.getElementById("hour_beginning").value = hourBeginning;
                     document.getElementById("hour_end").value = hourEnd;
                 }
             });
         });
+
     });
 </script>
-
-
-
-
-
-
-
-
-
-
-
-<!-- DELETE não funciona -EM CONSTRUCAO MOVER PARA O hour-block-form-show como fiz com o user-form-show-->
-
-
-<!-- ORGINAL -->
-
-<h3>List de Blocos</h3>
-@if (session('status'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ session('status') }}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-@endif
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Hora início</th>
-            <th scope="col">Hora de fim</th>
-            <th scope="col">Data de criação</th>
-            <th scope="col">Data de edição</th>
-            <th scope="col"><a href="{{ url('hour-blocks/create') }}" class="btn btn-primary">Criar novo bloco</a></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($hourBlocks as $hourBlock)
-        <tr>
-            <td>{{ $hourBlock->id }}</td>
-            <td>{{ $hourBlock->hour_beginning }}</td>
-            <td>{{ $hourBlock->hour_end }}</td>
-            <td>{{ $hourBlock->created_at }}</td>
-            <td>{{ $hourBlock->updated_at }}</td>
-            <td>
-                <a href="{{ url('hour-blocks/' . $hourBlock->id) }}" type="button" class="btn btn-primary">Detalhes</a>
-                <a href="{{ url('hour-blocks/' . $hourBlock->id . '/edit') }}" type="button" class="btn btn-primary">Editar</a>
-                <form action="{{ url('hour-blocks/' . $hourBlock->id) }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger">Apagar bloco</button>
-                </form>
-            </td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>

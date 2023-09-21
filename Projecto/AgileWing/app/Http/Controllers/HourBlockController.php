@@ -12,11 +12,10 @@ class HourBlockController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(HourBlock $hourBlock)
+    public function index()
     {
         $hourBlocks = HourBlock::all();
         return view('pages.hour_blocks.index', [
-            'hourBlock'  =>$hourBlock,
             'hourBlocks' => $hourBlocks]);
     }
 
@@ -96,6 +95,7 @@ class HourBlockController extends Controller
      */
     public function destroy(HourBlock $hourBlock)
     {
+        //THIS IS NOT WORKING doesen't delete the first line of the table
         $hourBlock->delete();
         return redirect('hour-blocks')->with('status', 'Registo apagado com sucesso');
     }

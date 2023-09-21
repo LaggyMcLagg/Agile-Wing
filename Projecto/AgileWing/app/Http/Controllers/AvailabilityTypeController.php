@@ -14,8 +14,8 @@ class AvailabilityTypeController extends Controller
      */
     public function index()
     {
-        $availabilityTipes = AvailabilityType::all();
-        return view('pages.availability_types.index', ['availabilityTypes' => $availabilityTipes]);
+        $availabilityTypes = AvailabilityType::all();
+        return view('pages.availability_types.index', ['availabilityTypes' => $availabilityTypes]);
     }
 
     /**

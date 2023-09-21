@@ -55,8 +55,9 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown3">
                     <a class="dropdown-item" href="{{ route('courses.index') }}">Gerir Crusos</a>
-                    <a class="dropdown-item" href="{{ url('/hour_blocks') }}">Gerir Blocos Horário</a>
-                    <a class="dropdown-item" href="{{ url('/availability_types') }}">Tipo de disponibilidades</a>
+                    <a class="dropdown-item" href="{{ url('/hour-blocks') }}">Gerir Blocos Horário</a>
+                    <a class="dropdown-item" href="{{ url('/availability-types') }}">Tipo de disponibilidades</a>
+                    <a class="dropdown-item" href="{{ url('/hour-blocks') }}">Blocos Horário</a>
                     <!-- ADD THE ROUTES HERE -->
                 </div>
             </li>

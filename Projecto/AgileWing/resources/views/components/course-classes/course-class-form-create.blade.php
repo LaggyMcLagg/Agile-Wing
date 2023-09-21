@@ -39,18 +39,6 @@
             </span>
         @enderror
     </div>
-    
-    <!-- <div class="form-group">
-        <label for="courseId">Course ID</label>
-        <input type="text" id="courseId" name="courseId" autocomplete="courseId" placeholder="Inser Course ID" class="form-control
- @error('courseId') is-invalid @enderror" value="{{ old('courseId') }}" required aria-describedby="courseIdHelp">
-        <small id="courseIdHelp" class="form-text text-muted">We'll never share your data with anyone else.</small>
-        @error('courseId')
-        <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
-        </span>
-        @enderror
-    </div> -->
 
     <button type="submit" class="mt-2 mb-5 btn btn-primary">Submit</button>
 </form>

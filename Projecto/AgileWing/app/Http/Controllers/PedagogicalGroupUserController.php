@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\PedagogicalGroup;
 use App\PedagogicalGroupUser;
 use Illuminate\Http\Request;
+use App\User;
+
 
 class PedagogicalGroupUserController extends Controller
 {
@@ -14,7 +17,10 @@ class PedagogicalGroupUserController extends Controller
      */
     public function index()
     {
-        //
+        $pedagogicalGroupUsers = PedagogicalGroupUser::with('pedagogicalGroup', 'user')->get();
+
+        // Pass the data to the view
+        return view('pages.pedagogical-group-users.index', compact('pedagogicalGroupUsers'));
     }
 
     /**
@@ -24,7 +30,14 @@ class PedagogicalGroupUserController extends Controller
      */
     public function create()
     {
-        //
+        $users = User::all();
+        $pedagogicalGroups = PedagogicalGroup::all();
+
+
+        return view('pages.pedagogical-group-users.create', [
+            'users' => $users,
+            'pedagogicalGroups' => $pedagogicalGroups,
+        ]);
     }
 
     /**
@@ -35,7 +48,15 @@ class PedagogicalGroupUserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'pedagogical_group_id' => 'required|exists:pedagogicalGroups,id',
+        ]);
+
+        PedagogicalGroupUser::create($request->all());
+
+        return redirect()->route('pedagogical-group-users.index')->with('success', 'Pedagogical Group User created successfully');
     }
 
     /**
@@ -46,7 +67,11 @@ class PedagogicalGroupUserController extends Controller
      */
     public function show(PedagogicalGroupUser $pedagogicalGroupUser)
     {
-        //
+        // Eager load the necessary relationships
+        $pedagogicalGroupUser->load('user', 'pedagogicalGroup');
+
+        // Pass the data to the view
+        return view('pages.pedagogical-group-users.show', compact('pedagogicalGroupUser'));
     }
 
     /**
@@ -57,7 +82,10 @@ class PedagogicalGroupUserController extends Controller
      */
     public function edit(PedagogicalGroupUser $pedagogicalGroupUser)
     {
-        //
+        $users = User::all();
+        $pedagogicalGroups = PedagogicalGroup::all();
+        
+        return view('pages.pedagogical-group-users.edit', compact('users', 'pedagogicalGroups'));
     }
 
     /**
@@ -69,7 +97,14 @@ class PedagogicalGroupUserController extends Controller
      */
     public function update(Request $request, PedagogicalGroupUser $pedagogicalGroupUser)
     {
-        //
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'pedagogical_group_id' => 'required|exists:pedagogicalGroups,id'
+        ]);
+    
+        $pedagogicalGroupUser->update($request->all());
+    
+        return redirect()->route('pedagogical-group-users.index')->with('success', 'Teacher availability updated successfully');
     }
 
     /**
@@ -80,6 +115,9 @@ class PedagogicalGroupUserController extends Controller
      */
     public function destroy(PedagogicalGroupUser $pedagogicalGroupUser)
     {
-        //
+        $pedagogicalGroupUser->delete();
+    
+        return redirect()->route('pedagogical-group-users.index')
+                         ->with('success', 'Pedagogical Group User deleted successfully');
     }
 }

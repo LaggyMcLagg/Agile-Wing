@@ -20,7 +20,7 @@ class CreateCoursesTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->integer('specialization_area_number');
+            $table->integer('specialization_area_number')->onDelete('cascade');
             $table->foreign('specialization_area_number')
                   ->references('number')
                   ->on('specialization_areas')

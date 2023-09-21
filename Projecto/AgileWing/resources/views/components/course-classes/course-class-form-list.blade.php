@@ -30,19 +30,13 @@
             <td scope="col">{{ $courseClass->course_id}}</td>
 
             <td>
-                <div class="pr-1">
-                    <!-- The name in the urls must match the name in the route prefix. It must be plural. -->
-                    <a href="{{url('course-classes/' . $courseClass->id)}}" type="button" class="btn btn-success">Show</a>
-                </div>
-                <div class="pr-1">
-                    <!-- The name in the urls must match the name in the route prefix. It must be plural. -->
-                    <a href="{{url('course-classes/' . $courseClass->id . '/edit')}}" type="button" class="btn btn-primary">Edit</a>
-                </div>
-                    <!-- The name in the urls must match the name in the route prefix. It must be plural. -->
-                <form action="{{url('course-classes/' . $courseClass->id)}}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger">Delete</button>
+            <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href="{{ route('course-classes.show', ['courseClass' => $courseClass]) }}" type="button" class="btn btn-success">Show</a>
+                    <a href="{{ route('course-classes.edit', ['courseClass' => $courseClass]) }}" type="button" class="btn btn-primary">Edit</a>
+                    <form action="{{ route('course-classes.destroy', ['courseClass' => $courseClass]) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
             </td>
         </tr>

@@ -14,8 +14,8 @@ class CreateUserUfcdsTable extends Migration
     public function up()
     {
         Schema::create('user_ufcds', function (Blueprint $table) {
-            $table->foreignid('user_id')->constrained();
-            $table->foreignid('ufcd_id')->constrained();
+            $table->foreignid('user_id')->constrained()->onDelete('cascade');
+            $table->foreignid('ufcd_id')->constrained()->onDelete('cascade');
             $table->timestamps();
             $table->primary(['user_id', 'ufcd_id']);
             $table->softDeletes();

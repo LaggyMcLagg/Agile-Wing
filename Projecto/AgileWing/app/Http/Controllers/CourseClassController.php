@@ -42,11 +42,11 @@ class CourseClassController extends Controller
             'name' => 'required',
             'number' => 'required',
             'course_id' => 'required',
-            ]);
+        ]);
 
-            CourseClass::create($request->all());
+        CourseClass::create($request->all());
 
-            return redirect('course-classes')->with('status','Item created successfully!');
+        return redirect()->route('course-classes.index')->with('status', 'Item created successfully!');
     }
 
     /**
@@ -57,14 +57,9 @@ class CourseClassController extends Controller
      */
     public function show($id)
     {
-        $courseClass = CourseClass::find($id);
 
-        //To ensure that if it doesn't find the Id it is not a route problem
-        if (!$courseClass) {
-            abort(404, 'Course class not found');
-        }
-        
-        return view('pages.course-classes.show', ['courseClass' => $courseClass]);
+        $courseClass->load('course');
+        return view('pages.course-classes.show', compact('courseClass'));
     }
 
     /**
@@ -75,7 +70,9 @@ class CourseClassController extends Controller
      */
     public function edit(CourseClass $courseClass)
     {
-        //
+        $courses = Course::all();
+        
+        return view('pages.course-classes.edit', compact('courseClass', 'courses'));
     }
 
     /**
@@ -86,8 +83,14 @@ class CourseClassController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, CourseClass $courseClass)
-    {
-        //
+    {    
+        $request->validate([
+            'course_id' => 'required|exists:courses,id',
+        ]);
+    
+        $courseClass->update($request->all());
+    
+        return redirect()->route('course-classes.index')->with('success', 'Course Class updated successfully');
     }
 
     /**
@@ -98,6 +101,9 @@ class CourseClassController extends Controller
      */
     public function destroy(CourseClass $courseClass)
     {
-        //
+        $courseClass->delete();
+
+        return redirect()->route('course-classes.index')
+            ->with('success', 'Course Class deleted successfully');
     }
 }

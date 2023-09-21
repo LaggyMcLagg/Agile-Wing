@@ -13,8 +13,8 @@ class AvailabilityTypeSeeder extends Seeder
     {
         $availabilityTypes = [
             ['name' => 'Indisponível (Outra Entidade/Outros)'],
-            ['name' => 'Indisponível (ATEC - ONLINE)'],
-            ['name' => 'Indisponível (ATEC - PRESENCIAL)'],
+            ['name' => 'Disponível (ATEC - ONLINE)'],
+            ['name' => 'Disponível (ATEC - PRESENCIAL)'],
             ['name' => 'Disponível'],
         ];
 

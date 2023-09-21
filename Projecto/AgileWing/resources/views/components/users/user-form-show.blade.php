@@ -49,14 +49,38 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="color_1">Cor 1</label>
-                    <div style="width: 30px; height: 30px; background-color: {{ $user->color_1 }};"></div>
-                </div>
+                <label for="color1">Cor 1</label>
+                <input
+                    type="color"
+                    id="color1"
+                    name="color1"
+                    class="form-control color-field @error('color1') is-invalid @enderror"
+                    value="{{ $user->color_1 }}"
+                    aria-describedby="color1Help">
+                @error('color1')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+            </div>
+            
+            <div class="form-group">
+                <label for="color2">Cor 2</label>
+                <input
+                    type="color"
+                    id="color2"
+                    name="color2"
+                    class="form-control color-field @error('color2') is-invalid @enderror"
+                    value="{{ $user->color_2 }}"
+                    aria-describedby="color2Help">
+                @error('color2')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+            </div>
 
-                <div class="form-group">
-                    <label for="color_2">Cor 2</label>
-                    <div style="width: 30px; height: 30px; background-color: {{ $user->color_2 }};"></div>
-                </div>
+
         </div>
 
         <div class="col-md-4">
@@ -111,7 +135,7 @@
     <div class="col-md-4">
         <a href="/users" class="mt-2 mb-5 btn btn-primary">Voltar</a>
         <a id="editBtn" type="button" class="btn btn-primary">Editar</a>
-        <button id="saveBtn" type="submit" class="mt-2 mb-5 btn btn-primary" style="display: none;">Gravar</button>
+        <button href="{{route('users.update')}}" id="saveBtn" type="submit" class="mt-2 mb-5 btn btn-primary" style="display: none;">Gravar</button>
         </form>
     </div>
 </div>
@@ -124,6 +148,7 @@
         editBtn.addEventListener("click", function(event){
             event.preventDefault(); // Para evitar a navegação para a página de edição
 
+            // Habilitar campos editáveis
             document.querySelectorAll("input[readonly]").forEach(function(input){
                 input.removeAttribute("readonly");
             });
@@ -131,9 +156,11 @@
                 checkbox.removeAttribute("disabled");
             });
 
+            // Mostrar botão "Guardar" e esconder o botão "Editar"
             editBtn.style.display = "none";
             saveBtn.style.display = "inline-block";
         });
     });
 </script>
+
 

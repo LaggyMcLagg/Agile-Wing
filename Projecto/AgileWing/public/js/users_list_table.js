@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var editCells = document.querySelectorAll(".clickable-row");
   editCells.forEach(function (cell) {
     cell.addEventListener("dblclick", function () {
-      redirectToEditPage(cell);
+      redirectToShowPage(cell);
     });
   });
 });
@@ -148,7 +148,7 @@ function filterRowsBySearchInput(searchInput, rows) {
     }
   });
 }
-function redirectToEditPage(cell) {
+function redirectToShowPage(cell) {
   var userId = cell.getAttribute("data-user-id");
   window.location.href = "/users/" + userId;
 }

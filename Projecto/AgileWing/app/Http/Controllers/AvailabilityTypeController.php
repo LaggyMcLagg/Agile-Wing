@@ -78,13 +78,31 @@ class AvailabilityTypeController extends Controller
      */
     public function update(Request $request, AvailabilityType $availabilityType)
     {
+        // Carregue o objeto existente
         $availabilityType = AvailabilityType::find($availabilityType->id);
-        $availabilityType->name = $request->name;
-        $availabilityType->color = $request->color;
+    
+        // Verifique se o campo 'name' está presente na solicitação e não está vazio
+        if ($request->filled('name')) {
+            $availabilityType->name = $request->input('name');
+        }
+    
+        // Verifique se o campo 'color' está presente na solicitação e não está vazio
+        if ($request->filled('color')) {
+            $availabilityType->color = $request->input('color');
+        }
+    
+        // Salve as alterações
         $availabilityType->save();
-
+    
         return redirect('availability-types')->with('status', 'Registo editado com sucesso!');
     }
+    
+    
+    
+    
+    
+    
+    
 
     /**
      * Remove the specified resource from storage.

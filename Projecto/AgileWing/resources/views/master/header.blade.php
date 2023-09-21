@@ -33,9 +33,9 @@
                     Gestão Formadores
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
-                    <a class="dropdown-item" href="{{url('/users/create')}}">Inserir Formador</a>
+                    <a class="dropdown-item" href="{{ route ('users.create') }}">Inserir Formador</a>
                     <a class="dropdown-item" href="{{url('/users')}}">Editar Formador</a>
-                    <a class="dropdown-item" href="{{url('/users')}}">Listar Formador</a> 
+                    <a class="dropdown-item" href="{{route('users.index')}}">Listar Formador</a> 
                     <!-- ADD THE ROUTES HERE -->
                 </div>
             </li>
@@ -44,7 +44,7 @@
                 Gestão Horários
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
-                    <a class="dropdown-item" href="{{ route('course-class.schedule-attribution.index')}}">Turma</a>
+                    <a class="dropdown-item" href="{{ route('course-class-schedule-attribution.index')}}">Turma</a>
                     <a class="dropdown-item" href="{{url('/ROTA2/ROUTE2')}}">ROUTE2</a>
                     <!-- ADD THE ROUTES HERE -->
                 </div>

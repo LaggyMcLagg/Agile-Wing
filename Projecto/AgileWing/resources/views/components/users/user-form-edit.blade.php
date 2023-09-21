@@ -1,5 +1,5 @@
 <div class="container">
-    <h3>TESTE do Utilizador</h3>
+    <h3>TESTE do Utilizador - USER FORM EDIT</h3>
     <div class="row">
         <div class="col-md-4">
             <form method="POST" action="{{ url('users/' . $user->id) }}">

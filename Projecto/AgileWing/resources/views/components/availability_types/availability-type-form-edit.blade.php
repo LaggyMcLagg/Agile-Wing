@@ -11,7 +11,7 @@
         autocomplete="name"
         placeholder="{{ $availabilityType->id }}"
         class="form-control
-@error('name') is-invalid @enderror" value="{{ old('id') }}" required aria-describedby="idHelp" readonly>
+@error('name') is-invalid @enderror" value="{{ old('id') }}" aria-describedby="idHelp" readonly>
         @error('id')
         <span class="invalid-feedback" role="alert">
         <strong>{{ $message }}</strong>
@@ -26,7 +26,7 @@
         autocomplete="name"
         placeholder="{{ $availabilityType->name }}"
         class="form-control
-@error('name') is-invalid @enderror" value="{{ old('name') }}" required aria-describedby="nameHelp">
+@error('name') is-invalid @enderror" value="{{ old('name') }}" aria-describedby="nameHelp">
         @error('name')
         <span class="invalid-feedback" role="alert">
         <strong>{{ $message }}</strong>
@@ -41,7 +41,7 @@
             id="color"
             name="color"
             class="form-control @error('color') is-invalid @enderror"
-            value="{{ old('color') }}"
+            value="{{ $availabilityType->color }}"
             aria-describedby="colorHelp">
         @error('color')
         <span class="invalid-feedback" role="alert">
@@ -58,7 +58,7 @@
         autocomplete="name"
         placeholder="{{ $availabilityType->updated_at }}"
         class="form-control
-@error('name') is-invalid @enderror" value="{{ old('updated_at') }}" required aria-describedby="updated_atHelp" readonly>
+@error('name') is-invalid @enderror" value="{{ old('updated_at') }}" aria-describedby="updated_atHelp" readonly>
         @error('updated_at')
         <span class="invalid-feedback" role="alert">
         <strong>{{ $message }}</strong>

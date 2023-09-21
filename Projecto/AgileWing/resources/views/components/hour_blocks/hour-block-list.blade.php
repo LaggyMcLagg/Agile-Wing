@@ -1,7 +1,6 @@
 
 
 <!--EM CONSTRUCAO MOVER PARA O hour-block-form-show como fiz com o user-form-show-->
-<!-- DELETE não funciona -EM CONSTRUCAO MOVER PARA O hour-block-form-show como fiz com o user-form-show-->
 
 <h3>List de Blocos</h3>
 @if (session('status'))
@@ -15,8 +14,14 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6">
-            <form method="POST" action="{{ url('{hourBlock}') }}">
+        <form method="POST" action="{{ isset($hourBlock) ? route('hour-blocks.update', $hourBlock->id) : route('hour-blocks.store') }}">
                 @csrf
+                <!-- label para armazenar o id do hourBlock selecionado para verificar que metodo faz guardar/editar -->
+                <input type="hidden" name="_method" value="PUT" id="methodField">
+                <input type="hidden" id="hourBlockId" name="hourBlockId" value="">
+                @if(isset($hourBlock))
+                    @method('PUT')
+                @endif
                     <label for="id">ID:</label>
                     <label id="id_label"></label>
                 <div class="form-group">
@@ -68,7 +73,7 @@
                             <th scope="col">Hora início</th>
                             <th scope="col">Hora de fim</th>
                             <th scope="col">
-                                <a href="{{ url('hour-blocks/create') }}" class="btn btn-primary">Criar</a>
+                                <a id="createBtn" class="btn btn-primary">Criar</a>
                                 <a id="editBtn" type="button" class="btn btn-primary">Editar</a>
                             </th>
                         </tr>
@@ -105,6 +110,7 @@
         const idLabel = document.getElementById("id_label");
         const hourBeginningInput = document.getElementById("hour_beginning");
         const hourEndInput = document.getElementById("hour_end");
+        const createBtn = document.getElementById("createBtn");
 
         const cancelButton = document.getElementById("cancelBtn");
         cancelButton.addEventListener("click", clearForm);
@@ -141,6 +147,11 @@
             }
         });
 
+        createBtn.addEventListener("click", function(){
+            clearForm();
+            enableEdit();
+        })
+
         // Cancel button functionality
         cancelButton.addEventListener("click", function(event) {
             event.preventDefault(); // Prevent form submission
@@ -175,6 +186,8 @@
                     document.getElementById("id_label").innerText  = id;
                     document.getElementById("hour_beginning").value = hourBeginning;
                     document.getElementById("hour_end").value = hourEnd;
+                    //obtém o id do hourBlock a editar para fazer a distinção se faz o método store ou update
+                    document.getElementById("hourBlockId").value = id;
                 }
             });
         });

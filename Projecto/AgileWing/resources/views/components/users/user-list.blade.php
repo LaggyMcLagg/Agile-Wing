@@ -33,7 +33,7 @@
             <th data-column-index="2" scope="col">Grupo pedagógico</th>
             <th data-column-index="3" scope="col">Último Login</th>
             <th data-column-index="4" scope="col">Última Gravação</th>
-            <th scope="col"><a href="{{ url('users/create') }}" class="btn btn-primary">Create new</a></th>
+
         </tr>
     </thead>
     <tbody>
@@ -62,5 +62,3 @@
         @endforeach
     </tbody>
 </table>
-
-

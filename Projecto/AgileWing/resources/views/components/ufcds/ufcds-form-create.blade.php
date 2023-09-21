@@ -7,7 +7,7 @@
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name">
+                    <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}">
                     @error('name')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -21,7 +21,7 @@
                     <label for="pedagogical_group_id" class="form-label">Pedagogical Group Id</label>
                     <select class="form-select @error('pedagogical_group_id') is-invalid @enderror" id="pedagogical_group_id" name="pedagogical_group_id">
                         @foreach($pedagogicalGroups as $pedagogicalGroup)
-                            <option value="{{ $pedagogicalGroup->id }}">{{ $pedagogicalGroup->id }}</option>
+                            <option value="{{ $pedagogicalGroup->id }}">{{$pedagogicalGroup->name }}</option>
                         @endforeach
                     </select>
                     @error('pedagogical_group_id')
@@ -35,7 +35,7 @@
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="number" class="form-label">Number</label>
-                    <input type="number" class="form-control @error('name') is-invalid @enderror" id="name" name="name">
+                    <input type="number" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('number') }}">
                     @error('name')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -47,7 +47,7 @@
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="name" class="form-label">Hours</label>
-                    <input type="number" class="form-control @error('name') is-invalid @enderror" id="name" name="name">
+                    <input type="number" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('hours') }}"> 
                     @error('name')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>

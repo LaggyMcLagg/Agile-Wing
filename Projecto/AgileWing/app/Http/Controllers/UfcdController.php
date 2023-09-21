@@ -31,10 +31,10 @@ class UfcdController extends Controller
     {
         $pedagogicalGroups = PedagogicalGroup::all();
 
-        return view('pages.ufcds.create', [
-            'pedagogicalGroups' => $pedagogicalGroups,
+        return view('pages.ufcds.create', compact(
+            'pedagogicalGroups'
 
-        ]);
+        ));
     }
 
     /**
@@ -45,15 +45,25 @@ class UfcdController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+        dd($request);
+
+        $request->validate([
             'name' => 'required',
             'pedagogical_group_id' => 'required',
             'number' => 'required',
             'hours' => 'required'
         ]);
+    
 
+        Ufcd::create([
+            'name' => $request->name,
+            'pedagogical_group_id' => $request->initials,
+            'number' => $request->specialization_area_number,
+            'hours' => $request->hours,
+        ]);
         Ufcd::create($request->all());
-        return redirect('ufcds')->with('status', 'UFCD created successfully.');
+    
+        return redirect()->route('ufcds.index')->with('success', 'UFCD created successfully');
     }
 
     /**

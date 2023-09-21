@@ -55,7 +55,7 @@ class CourseClassController extends Controller
      * @param  \App\CourseClass  $courseClass
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(CourseClass $courseClass)
     {
 
         $courseClass->load('course');

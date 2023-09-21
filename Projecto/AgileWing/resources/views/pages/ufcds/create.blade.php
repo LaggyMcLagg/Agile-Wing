@@ -2,9 +2,8 @@
 @section('content')
 @component(
     'components.ufcds.ufcds-form-create',
-    [
-        'pedagogicalGroups' => $pedagogicalGroups,
-        ]
-    )
+    compact(
+        'pedagogicalGroups',
+    ))
 @endcomponent
 @endsection

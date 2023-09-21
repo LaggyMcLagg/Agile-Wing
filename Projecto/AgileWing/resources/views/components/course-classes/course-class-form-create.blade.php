@@ -24,7 +24,7 @@
 
      <!-- Country ComboBox -->
      <div class="form-group">
-        <label for="course_id">Country</label>
+        <label for="course_id">Course</label>
         <select name="course_id" id="course_id" class="form-control @error('course_id') is-invalid @enderror">
             <option value="">Select a Course</option>
             @foreach($courses as $course)

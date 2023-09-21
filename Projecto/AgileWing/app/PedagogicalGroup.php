@@ -20,4 +20,8 @@ class PedagogicalGroup extends Model
     {
         return $this->hasMany(Ufcd::class);
     }
+
+    protected $fillable = [
+        'name'
+        ];
 }

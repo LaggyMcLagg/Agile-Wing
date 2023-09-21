@@ -27,12 +27,12 @@
             <td scope="col">{{ $hourBlockCourseClass->hour_end}}</td>
             <td>
                 <div class="pr-1">
-                    <a href="{{url('hour-block-course-class/' . $hourBlockCourseClass->id)}}" type="button" class="btn btn-success">Show</a>
+                    <a href="{{ route('hour-block-course-classes.show', ['hourBlockCourseClass' => $hourBlockCourseClass]) }}" type="button" class="btn btn-success">Show</a>
                 </div>
                 <div class="pr-1">
-                    <a href="{{url('hour-block-course-class/' . $hourBlockCourseClass->id . '/edit')}}" type="button" class="btn btn-primary">Edit</a>
+                    <a href="{{route('hour-block-course-classes.edit', ['hourBlockCourseClass' => $hourBlockCourseClass]) }}" type="button" class="btn btn-primary">Edit</a>
                 </div>
-                <form action="{{url('hour-block-course-class/' . $hourBlockCourseClass->id)}}" method="POST">
+                <form action="{{route('hour-block-course-classes.destroy', ['hourBlockCourseClass' => $hourBlockCourseClass]) }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">Delete</button>

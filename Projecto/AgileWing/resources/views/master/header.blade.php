@@ -57,6 +57,9 @@
                     <a class="dropdown-item" href="{{ route('courses.index') }}">Gerir Crusos</a>
                     <a class="dropdown-item" href="{{ url('/hour_blocks') }}">Gerir Blocos Horário</a>
                     <a class="dropdown-item" href="{{ url('/availability_types') }}">Tipo de disponibilidades</a>
+                    <a class="dropdown-item" href="{{ route('course-classes.index')}}">Turma</a>
+                    <a class="dropdown-item" href="{{ route('hour-block-course-classes.index')}}">Turma blocos horário</a>
+
                     <!-- ADD THE ROUTES HERE -->
                 </div>
             </li>

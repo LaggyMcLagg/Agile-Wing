@@ -31,8 +31,8 @@ Route::prefix('users')->group(function(){
     Route::get('create', 'UserController@create')->name('users.create');
     Route::post('', 'UserController@store')->name('users.store');
     Route::get('/change-password', 'UserController@changePasswordView')->name('users.changePasswordView');;
-    Route::get('{id}', 'UserController@show')->name('users.show');
-    Route::get('{user}', 'UserController@edit')->name('users.edit');
+    Route::get('show/{id}', 'UserController@show');
+    Route::get('{user}/edit', 'UserController@edit')->name('users.edit');
     Route::put('{user}', 'UserController@update')->name('users.update');
     Route::delete('{user}', 'UserController@destroy')->name('users.destroy');
    });

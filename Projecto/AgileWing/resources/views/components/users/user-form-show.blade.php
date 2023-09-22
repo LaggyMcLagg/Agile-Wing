@@ -2,7 +2,7 @@
     <h3>Detalhes do Utilizador - é este que está a ser usado(user-form-show)</h3>
     <div class="row">
         <div class="col-md-4">
-            <form method="POST" action="{{ url('users/' . $user->id) }}">
+            <form method="POST" action="{{ route('users.update', $user) }}">
                 @csrf
                 @method('PUT')
                 <div class="form-group">
@@ -135,7 +135,7 @@
     <div class="col-md-4">
         <a href="/users" class="mt-2 mb-5 btn btn-primary">Voltar</a>
         <a id="editBtn" type="button" class="btn btn-primary">Editar</a>
-        <button href="{{route('users.update')}}" id="saveBtn" type="submit" class="mt-2 mb-5 btn btn-primary" style="display: none;">Gravar</button>
+        <button id="saveBtn" type="submit" class="mt-2 mb-5 btn btn-primary" style="display: none;">Gravar</button>
         </form>
     </div>
 </div>

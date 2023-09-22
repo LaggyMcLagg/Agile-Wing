@@ -53,9 +53,10 @@ function filterRowsBySearchInput(searchInput, rows) {
         }
     });
 }
+
 function redirectToShowPage(cell) 
 {
     var userId = cell.getAttribute("data-user-id");
-    window.location.href = "/users/" + userId;
+    window.location.href = "/users/show/" + userId;
 }
 

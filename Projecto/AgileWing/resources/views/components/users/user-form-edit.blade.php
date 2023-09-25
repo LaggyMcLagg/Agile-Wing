@@ -1,123 +1,64 @@
+@section('scripts')
+<script src="{{ asset('/js/users_edit_table.js') }}"></script>
+@endsection
+
 <div class="container">
-    <h3>TESTE do Utilizador - USER FORM EDIT</h3>
     <div class="row">
-        <div class="col-md-4">
-            <form method="POST" action="{{ url('users/' . $user->id) }}">
-                @csrf
-                @method('PUT')
-
-                <div class="form-group">
-                    <label for="id">ID</label>
-                    <input type="text"
-                        id="id"
-                        name="id"
-                        autocomplete="id"
-                        placeholder="{{ $user->id }}"
-                        class="form-control @error('id') is-invalid @enderror"
-                        value="{{ old('id') }}"
-                        required aria-describedby="idHelp" readonly>
-                    @error('id')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
-                </div>
-
-                <div class="form-group">
-                    <label for="name">Nome</label>
-                    <input type="text"
-                        id="name"
-                        name="name"
-                        autocomplete="name"
-                        placeholder="{{ $user->name }}"
-                        class="form-control @error('name') is-invalid @enderror"
-                        value="{{ old('name') }}"
-                        required aria-describedby="nameHelp">
-                    @error('name')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
-                </div>
-
-                <div class="form-group">
-                    <label for="name">Email</label>
-                    <input type="text"
-                        id="email"
-                        name="email"
-                        autocomplete="email"
-                        placeholder="{{ $user->email }}"
-                        class="form-control @error('email') is-invalid @enderror"
-                        value="{{ old('email') }}"
-                        required aria-describedby="emailHelp">
-                    @error('email')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
-                </div>
-
-                <div class="form-group">
-                    <label for="color_1">Cor 1</label>
-                    <div style="width: 30px; height: 30px; background-color: {{ $user->color_1 }};"></div>
-                </div>
-
-                <div class="form-group">
-                    <label for="color_2">Cor 2</label>
-                    <div style="width: 30px; height: 30px; background-color: {{ $user->color_2 }};"></div>
-                </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="form-group">
-                <label>Grupos Pedagógicos</label>
-                @foreach($pedagogicalGroups as $pedagogicalGroup)
-                    <div class="form-check">
-                        <input class="form-check-input" 
-                            type="checkbox" 
-                            name="pedagogicalGroups[]" 
-                            value="{{ $pedagogicalGroup->id }}" 
-                            id="pedagogicalGroup_{{ $pedagogicalGroup->id }}"
-                            @if($pedagogicalGroupUserList[$pedagogicalGroup->id]['isAssociated'])
-                                checked
-                            @endif>
-                        <label class="form-check-label" 
-                            for="pedagogicalGroup_{{ $pedagogicalGroup->id }}">
-                            {{ $pedagogicalGroup->name }}
-                        </label>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="form-group">
-                <label>Áreas de Formação</label>
-                @foreach($specializationAreas as $specializationArea)
-                    <div class="form-check">
-                        <input class="form-check-input" 
-                            type="checkbox" 
-                            name="specializationAreas[]" 
-                            value="{{ $specializationArea->number }}" 
-                            id="specializationArea_{{ $specializationArea->number }}"
-                            @if($specializationAreaUserList[$specializationArea->number]['isAssociated'])
-                                checked
-                            @endif>
-                        <label class="form-check-label" 
-                            for="specializationArea_{{ $specializationArea->number }}">
-                            {{ $specializationArea->name }}
-                        </label>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-
-<div class="row">
         <div class="col-md-4"></div>
         <div class="col-md-4"></div>
         <div class="col-md-4">
-            <a href="/users" class="mt-2 mb-5 btn btn-primary">Voltar</a>
-            <button type="submit" class="mt-2 mb-5 btn btn-primary">Guardar</button>
+            <form class="form-inline my-2 my-lg-0 justify-content-end">
+                <input id="search-input" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
             </form>
         </div>
+    </div>
 </div>
+
+
+<h3>List de Formadores</h3>
+@if (session('status'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('status') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+@endif
+<table class="table table-bordered" id="sortable-table">
+    <thead>
+        <tr>
+            <th data-column-index="0" scope="col">Nome do formador</th>
+            <th data-column-index="1" scope="col">Área de formação</th>
+            <th data-column-index="2" scope="col">Grupo pedagógico</th>
+            <th data-column-index="3" scope="col">Último Login</th>
+            <th data-column-index="4" scope="col">Última Gravação</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($users as $user)
+        <tr class="clickable-row" data-user-id="{{ $user->id }}">
+            <td>{{ $user->name }}</td>
+            <td>
+                <ul>
+                    @foreach ($user->specializationAreas as $specializationArea)
+                        <li>{{ $specializationArea->name }}</li>
+                    @endforeach
+                </ul>
+            </td>
+            <td>
+                <ul>
+                    @foreach ($user->pedagogicalGroups as $pedagogicalGroup)
+                        <li>{{ $pedagogicalGroup->name }}</li>
+                    @endforeach
+                </ul>
+            </td>
+            <td>{{ $user->lastLogin }}</td>
+            <td>{{ $user->lastUpdated }}</td>
+            <td>
+            </td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>

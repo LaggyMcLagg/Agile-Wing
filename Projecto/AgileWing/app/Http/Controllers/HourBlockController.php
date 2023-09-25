@@ -15,8 +15,11 @@ class HourBlockController extends Controller
     public function index()
     {
         $hourBlocks = HourBlock::all();
+        //default é para a action do update ter um valor para o ID do hourBlock por default senao nao consigo entrar na pagina sequer
+        $defaultHourBlock = $hourBlocks->first();
         return view('pages.hour_blocks.index', [
-            'hourBlocks' => $hourBlocks]);
+            'hourBlocks'    => $hourBlocks,
+            'defaultHourBlock'     => $defaultHourBlock]);
     }
 
     /**
@@ -77,9 +80,9 @@ class HourBlockController extends Controller
      * @param  \App\HourBlock  $hourBlock
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, HourBlock $hourBlock)
+    public function update(Request $request, $id)
     {
-        $hourBlock = HourBlock::find($hourBlock->id);
+        $hourBlock = HourBlock::find($id);
         $hourBlock->hour_beginning = $request->hour_beginning;
         $hourBlock->hour_end = $request->hour_end;
         $hourBlock->save();

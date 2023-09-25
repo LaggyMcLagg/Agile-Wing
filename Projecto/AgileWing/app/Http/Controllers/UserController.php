@@ -153,42 +153,35 @@ class UserController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit() // este metodo devolve a listagem de users mas sem o JS de doubleClick
     {
 
-        $pedagogicalGroups = PedagogicalGroup::all();
-        $pedagogicalGroupUserList = [];
-        
-        foreach ($pedagogicalGroups as $pedagogicalGroup)
-        {
-            // Verificar se o usuário está associado a este grupo pedagógico
-            $userAssociatedPedagogicalGroup = $user->pedagogicalGroups->contains($pedagogicalGroup->id);
-            
-            // Adicionar um elemento ao array
-            $pedagogicalGroupUserList[$pedagogicalGroup->id] = [
-                'isAssociated' => $userAssociatedPedagogicalGroup
-            ];
+        //lógica para ir buscar os users que são apenas formadores
+        $users = User::whereHas('userType', function ($query) {
+            $query->where('name', 'professor');
+        })->with('specializationAreas', 'pedagogicalGroups')->get();
+    
+        foreach ($users as $user) {
+            $lastAvailability = $user->teacherAvailabilities()
+                ->where('is_locked', 1) // verifica apenas disponibilidades bloqueadas
+                ->latest('updated_at')
+                ->first();
+    
+            if ($lastAvailability) {
+                $lastUpdated = $lastAvailability->updated_at->format('Y-m-d H:i:s');
+                $lastLogin = $user->last_login;
+            } else {
+                $lastUpdated = 'N/A';
+                $lastLogin = 'N/A';
+            }
+            $user->lastUpdated = $lastUpdated; // adiciona lastUpdated ao objeto do user
+            $user->lastLogin = $lastLogin; // adiciona lastLogin ao objeto do user
         }
-        
-        $specializationAreas = SpecializationArea::all();
-        $specializationAreaUserList = [];
-        
-        foreach ($specializationAreas as $specializationArea)
-        {
-            $userAssociatedSpecializationArea = $user->specializationAreas->contains($specializationArea->number);
-            
-            // Adicionar um elemento ao array
-            $specializationAreaUserList[$specializationArea->number] = [
-                'isAssociated' => $userAssociatedSpecializationArea
-            ];
-        }
-        
+    
         return view('pages.users.edit', [
-            'user' => $user,
-            'pedagogicalGroupUserList' => $pedagogicalGroupUserList,
-            'specializationAreaUserList' => $specializationAreaUserList,
-            'pedagogicalGroups' => $pedagogicalGroups,
-            'specializationAreas' => $specializationAreas
+            'users' => $users,
+            'lastUpdated' => $lastUpdated,
+            'lastLogin' => $lastLogin,
         ]);
     }
 

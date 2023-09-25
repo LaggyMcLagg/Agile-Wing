@@ -32,8 +32,9 @@ Route::prefix('users')->group(function(){
     Route::post('', 'UserController@store')->name('users.store');
     Route::get('/change-password', 'UserController@changePasswordView')->name('users.changePasswordView');;
     Route::get('show/{id}', 'UserController@show');
-    Route::get('{user}/edit', 'UserController@edit')->name('users.edit');
+    Route::get('/edit', 'UserController@edit')->name('users.edit');
     Route::put('{user}', 'UserController@update')->name('users.update');
+    Route::put('/hour-blocks/{id}', 'HourBlockController@update')->name('hour-blocks.update');
     Route::delete('{user}', 'UserController@destroy')->name('users.destroy');
    });
 
@@ -43,7 +44,7 @@ Route::prefix('hour-blocks')->group(function(){
     Route::post('', 'HourBlockController@store')->name('hour-blocks.store');
     Route::get('{hourBlock}', 'HourBlockController@show')->name('hour-blocks.show');
     Route::get('{hourBlock}/edit', 'HourBlockController@edit')->name('hour-blocks.edit');
-    Route::put('{hourBlock}', 'HourBlockController@update')->name('hour-blocks.update');
+    Route::put('/hour-blocks/{id}', 'HourBlockController@update')->name('hour-blocks.update');
     Route::delete('{hourBlock}', 'HourBlockController@destroy')->name('hour-blocks.destroy');
    });
 

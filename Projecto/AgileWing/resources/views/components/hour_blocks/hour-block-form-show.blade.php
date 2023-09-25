@@ -1,3 +1,9 @@
+<!-- NAO SERA PARA USAR
+NAO SERA PARA USAR
+NAO SERA PARA USAR
+NAO SERA PARA USAR
+NAO SERA PARA USAR -->
+
 <h3>Detalhes do Bloco</h3>
 <form method="POST" action="{{ url('hourBlock') }}">
 @csrf

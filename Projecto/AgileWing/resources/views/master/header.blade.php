@@ -33,7 +33,7 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
                     <a class="dropdown-item" href="{{ route ('users.create') }}">Inserir Formador</a>
-                    <a class="dropdown-item" href="{{route('users.index')}}">Editar Formador</a>
+                    <a class="dropdown-item" href="{{route('users.edit')}}">Editar Formador</a>
                     <a class="dropdown-item" href="{{route('users.index')}}">Listar Formador</a> 
                     <!-- ADD THE ROUTES HERE -->
                 </div>

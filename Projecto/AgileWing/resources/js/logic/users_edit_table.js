@@ -13,6 +13,13 @@ document.addEventListener("DOMContentLoaded", function() {
     searchInput.addEventListener("keyup", function() {
         filterRowsBySearchInput(searchInput, rows);
     });
+    // Clickable rows
+    var editCells = document.querySelectorAll(".clickable-row");
+    editCells.forEach(function(cell) {
+        cell.addEventListener("dblclick", function() {
+            redirectToEditPage(cell);
+        });
+    });
 });
 function sortTableByColumn(table, headers, rows, clickedHeader) {
     var columnIndex = parseInt(clickedHeader.getAttribute("data-column-index"));
@@ -47,4 +54,9 @@ function filterRowsBySearchInput(searchInput, rows) {
     });
 }
 
+function redirectToEditPage(cell) 
+{
+    var userId = cell.getAttribute("data-user-id");
+    window.location.href = "/users/edit/" + userId;
+}
 

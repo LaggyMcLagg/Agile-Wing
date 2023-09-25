@@ -1,10 +1,10 @@
 <div class="container">
     <h3>Detalhes do Utilizador - é este que está a ser usado(user-form-show)</h3>
-    <div class="row">
-        <div class="col-md-4">
-            <form method="POST" action="{{ route('users.update', $user) }}">
+    <form method="POST" action="{{ route('users.update', $user) }}">
                 @csrf
                 @method('PUT')
+    <div class="row">
+        <div class="col-md-4">
                 <div class="form-group">
                     <label for="id">ID</label>
                     <label
@@ -129,24 +129,25 @@
             </div>
         </div>
 
-<div class="row">
-    <div class="col-md-4"></div>
-    <div class="col-md-4"></div>
-    <div class="col-md-4">
-        <a href="/users" class="mt-2 mb-5 btn btn-primary">Voltar</a>
-        <a id="editBtn" type="button" class="btn btn-primary">Editar</a>
-        <button id="saveBtn" type="submit" class="mt-2 mb-5 btn btn-primary" style="display: none;">Gravar</button>
-        </form>
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <button id="editBtn" type="button" class="btn btn-primary">Editar</button>
+            <button id="saveBtn" type="submit" class="btn btn-primary">Guardar</button>
+            <button id="cancelBtn" class="mt-2 mb-5 btn btn-secondary">Cancelar</button>
     </div>
+    </form>
 </div>
 
 <script>
+    
     document.addEventListener("DOMContentLoaded", function(){
         const editBtn = document.getElementById("editBtn");
         const saveBtn = document.getElementById("saveBtn");
+        const cancelBtn = document.getElementById("cancelBtn");
 
         editBtn.addEventListener("click", function(event){
-            event.preventDefault(); // Para evitar a navegação para a página de edição
 
             // Habilitar campos editáveis
             document.querySelectorAll("input[readonly]").forEach(function(input){
@@ -159,7 +160,9 @@
             // Mostrar botão "Guardar" e esconder o botão "Editar"
             editBtn.style.display = "none";
             saveBtn.style.display = "inline-block";
+            cancelBtn.style.display = "inline-block";
         });
+    document
     });
 </script>
 

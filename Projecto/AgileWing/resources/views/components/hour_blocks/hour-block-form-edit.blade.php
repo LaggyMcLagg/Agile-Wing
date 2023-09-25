@@ -1,4 +1,10 @@
-<h2>Edição de Tipos de Utilizador</h2>
+<!-- NAO SERA PARA USAR
+NAO SERA PARA USAR
+NAO SERA PARA USAR
+NAO SERA PARA USAR
+NAO SERA PARA USAR -->
+
+<h2>NAO SERA PARA USAR Edição de Tipos de Utilizador</h2>
 <form method="POST" action="{{ url('hour-blocks/' . $hourBlock->id) }}">
 @csrf
 @method('PUT')

@@ -65,7 +65,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="password_confirmation">Confirmação de Senha</label>
+                    <label for="password_confirmation">Confirmação de Password</label>
                     <input
                         type="password"
                         id="password_confirmation"

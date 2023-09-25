@@ -81,14 +81,14 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./resources/js/logic/users_list_table.js":
+/***/ "./resources/js/logic/users_edit_table.js":
 /*!************************************************!*\
-  !*** ./resources/js/logic/users_list_table.js ***!
+  !*** ./resources/js/logic/users_edit_table.js ***!
   \************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
@@ -107,6 +107,13 @@ document.addEventListener("DOMContentLoaded", function () {
   var searchInput = document.getElementById("search-input");
   searchInput.addEventListener("keyup", function () {
     filterRowsBySearchInput(searchInput, rows);
+  });
+  // Clickable rows
+  var editCells = document.querySelectorAll(".clickable-row");
+  editCells.forEach(function (cell) {
+    cell.addEventListener("dblclick", function () {
+      redirectToEditPage(cell);
+    });
   });
 });
 function sortTableByColumn(table, headers, rows, clickedHeader) {
@@ -141,17 +148,21 @@ function filterRowsBySearchInput(searchInput, rows) {
     }
   });
 }
+function redirectToEditPage(cell) {
+  var userId = cell.getAttribute("data-user-id");
+  window.location.href = "/users/edit/" + userId;
+}
 
 /***/ }),
 
-/***/ 2:
+/***/ 3:
 /*!******************************************************!*\
-  !*** multi ./resources/js/logic/users_list_table.js ***!
+  !*** multi ./resources/js/logic/users_edit_table.js ***!
   \******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! F:\PROJETO_FINAL\Agile-Wing\Projecto\AgileWing\resources\js\logic\users_list_table.js */"./resources/js/logic/users_list_table.js");
+module.exports = __webpack_require__(/*! F:\PROJETO_FINAL\Agile-Wing\Projecto\AgileWing\resources\js\logic\users_edit_table.js */"./resources/js/logic/users_edit_table.js");
 
 
 /***/ })

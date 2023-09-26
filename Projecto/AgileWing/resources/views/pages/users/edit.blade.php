@@ -2,7 +2,7 @@
 
 @section('content')
 
-@component('components.users.user-list', [
+@component('components.users.user-list-edit', [
     'users'             => $users,
     'lastUpdated'       => $lastUpdated,
     'lastLogin'         => $lastLogin

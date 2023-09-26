@@ -1,5 +1,7 @@
 @section('scripts')
-<script src="{{ asset('/js/users_edit_table.js') }}"></script>
+<script src="{{ asset('/js/search-table-function.js') }}"></script>
+<script src="{{ asset('/js/sort-table-function.js') }}"></script>
+<script src="{{ asset('/js/double-click-table-function.js') }}"></script>
 @endsection
 
 <div class="container">
@@ -16,7 +18,7 @@
 </div>
 
 
-<h3>List de Formadores</h3>
+<h3>Listagem de Formadores para Edição</h3>
 @if (session('status'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         {{ session('status') }}

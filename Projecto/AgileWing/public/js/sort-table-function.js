@@ -81,21 +81,17 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./resources/js/logic/content_table.js":
-/*!*********************************************!*\
-  !*** ./resources/js/logic/content_table.js ***!
-  \*********************************************/
+/***/ "./resources/js/logic/sort-table-function.js":
+/*!***************************************************!*\
+  !*** ./resources/js/logic/sort-table-function.js ***!
+  \***************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
-
-//NAO DEVE ESTAR A SER USADO -> APAGAR
-//NAO DEVE ESTAR A SER USADO -> APAGAR
-//NAO DEVE ESTAR A SER USADO -> APAGAR
 
 document.addEventListener("DOMContentLoaded", function () {
   // Client-side sorting
@@ -105,18 +101,6 @@ document.addEventListener("DOMContentLoaded", function () {
   headers.forEach(function (header) {
     header.addEventListener("click", function () {
       sortTableByColumn(table, headers, rows, header);
-    });
-  });
-  // Live search
-  var searchInput = document.getElementById("search-input");
-  searchInput.addEventListener("keyup", function () {
-    filterRowsBySearchInput(searchInput, rows);
-  });
-  // Clickable rows
-  var editCells = document.querySelectorAll(".clickable-row");
-  editCells.forEach(function (cell) {
-    cell.addEventListener("dblclick", function () {
-      redirectToEditPage(cell);
     });
   });
 });
@@ -141,32 +125,17 @@ function sortTableByColumn(table, headers, rows, clickedHeader) {
   });
   clickedHeader.classList.add(sortDirection === "asc" ? "sorted-asc" : "sorted-desc");
 }
-function filterRowsBySearchInput(searchInput, rows) {
-  var searchText = searchInput.value.toLowerCase();
-  rows.forEach(function (row) {
-    var rowText = row.textContent.toLowerCase();
-    if (rowText.includes(searchText)) {
-      row.style.display = "";
-    } else {
-      row.style.display = "none";
-    }
-  });
-}
-function redirectToEditPage(cell) {
-  var userId = cell.getAttribute("data-user-id");
-  window.location.href = "/users/" + userId + "/edit";
-}
 
 /***/ }),
 
-/***/ 1:
-/*!***************************************************!*\
-  !*** multi ./resources/js/logic/content_table.js ***!
-  \***************************************************/
+/***/ 2:
+/*!*********************************************************!*\
+  !*** multi ./resources/js/logic/sort-table-function.js ***!
+  \*********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\ruiru\Desktop\Agile-Wing\Projecto\AgileWing\resources\js\logic\content_table.js */"./resources/js/logic/content_table.js");
+module.exports = __webpack_require__(/*! C:\Users\ruiru\Desktop\Agile-Wing\Projecto\AgileWing\resources\js\logic\sort-table-function.js */"./resources/js/logic/sort-table-function.js");
 
 
 /***/ })

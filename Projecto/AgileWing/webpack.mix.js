@@ -13,7 +13,7 @@ const mix = require('laravel-mix');
 
 mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
-    .js('resources/js/logic/content_table.js', 'public/js')
-    .js('resources/js/logic/users_list_table.js', 'public/js')
-    .js('resources/js/logic/users_edit_table.js', 'public/js')
+    .js('resources/js/logic/search-table-function.js', 'public/js')//aplicado à tabel de Users
+    .js('resources/js/logic/sort-table-function.js', 'public/js')//aplicado à tabel de Users
+    .js('resources/js/logic/double-click-table-function.js', 'public/js')//aplicado à tabel de Users
 

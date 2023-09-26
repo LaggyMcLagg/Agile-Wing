@@ -34,7 +34,6 @@ Route::prefix('users')->group(function(){
     Route::get('show/{id}', 'UserController@show');
     Route::get('/edit', 'UserController@edit')->name('users.edit');
     Route::put('{user}', 'UserController@update')->name('users.update');
-    Route::put('/hour-blocks/{id}', 'HourBlockController@update')->name('hour-blocks.update');
     Route::delete('{user}', 'UserController@destroy')->name('users.destroy');
    });
 

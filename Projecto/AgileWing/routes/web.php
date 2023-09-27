@@ -43,7 +43,7 @@ Route::prefix('hour-blocks')->group(function(){
     Route::post('', 'HourBlockController@store')->name('hour-blocks.store');
     Route::get('{hourBlock}', 'HourBlockController@show')->name('hour-blocks.show');
     Route::get('{hourBlock}/edit', 'HourBlockController@edit')->name('hour-blocks.edit');
-    Route::put('/hour-blocks/{id}', 'HourBlockController@update')->name('hour-blocks.update');
+    Route::put('{id}', 'HourBlockController@update')->name('hour-blocks.update');
     Route::delete('{hourBlock}', 'HourBlockController@destroy')->name('hour-blocks.destroy');
    });
 

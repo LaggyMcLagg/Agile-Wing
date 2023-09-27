@@ -16,4 +16,6 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/logic/search-table-function.js', 'public/js')//aplicado à tabel de Users
     .js('resources/js/logic/sort-table-function.js', 'public/js')//aplicado à tabel de Users
     .js('resources/js/logic/double-click-table-function.js', 'public/js')//aplicado à tabel de Users
-
+    //aplicado a:
+    //- hour-blocks
+    .js('resources/js/logic/control-form-dynamic-crud.js', 'public/js')

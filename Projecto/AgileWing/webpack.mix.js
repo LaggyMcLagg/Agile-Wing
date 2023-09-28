@@ -20,3 +20,4 @@ mix.js('resources/js/app.js', 'public/js')
     //aplicado a:
     //- hour-blocks
     .js('resources/js/logic/control-form-dynamic-crud.js', 'public/js')
+

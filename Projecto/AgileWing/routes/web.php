@@ -159,3 +159,5 @@ Route::prefix('specialization-areas')->group(function(){
     Route::delete('{specializationArea}', 'SpecializationAreaController@destroy')->name('specialization-areas.destroy');
 });
 
+Route::get('/get-first-course-class', 'CourseClassController@getFirstCourseClass');
+

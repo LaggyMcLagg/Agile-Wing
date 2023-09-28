@@ -103,9 +103,9 @@ class CourseClassController extends Controller
             'name.required' => 'The name field is required.',
             'name.regex' => 'The name may only contain letters, accentuation, and Ç or ç.',
         ]);
-    
+
         $courseClass->update($request->all());
-    
+
         return redirect()->route('course-classes.index')->with('success', 'Course Class updated successfully');
     }
 
@@ -131,7 +131,6 @@ class CourseClassController extends Controller
     public function indexForScheduleAtribution()
     {
         $courseClasses = CourseClass::with('course.specializationArea')->get();
-        return view('pages.course_classes.indexForScheduleAtribution', compact ('courseClasses'));
+        return view('pages.course_classes.indexForScheduleAtribution', compact('courseClasses'));
     }
-    
 }

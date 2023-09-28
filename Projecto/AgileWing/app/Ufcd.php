@@ -13,7 +13,7 @@ use App\ScheduleAtribution;
 class Ufcd extends Model
 {
     use SoftDeletes;
-    
+
     public function pedagogicalGroup()
     {
         return $this->belongsTo(PedagogicalGroup::class, 'pedagogical_group_id');

@@ -19,17 +19,17 @@ class ScheduleAtributionController extends Controller
     public function index(CourseClass $courseClass)
     {
         $scheduleAtributions = ScheduleAtribution::where('course_class_id', $courseClass->id)->get();
-            
+
         return view('pages.schedule_atribution.index', compact('scheduleAtributions'));
     }
-    
-    
+
+
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(User $user)
+    public function create(CourseClass $courseClass)
     {
         $availabilityTypes = AvailabilityType::all();
         $courseClasses = CourseClass::all();
@@ -49,7 +49,7 @@ class ScheduleAtributionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, User $user)
+    public function store(Request $request, CourseClass $courseClass)
     {
         // Validar dados
         $request->validate([
@@ -75,7 +75,7 @@ class ScheduleAtributionController extends Controller
      * @param  \App\ScheduleAtribution  $scheduleAtribution
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user, ScheduleAtribution $scheduleAtribution)
+    public function show(CourseClass $courseClass, ScheduleAtribution $scheduleAtribution)
     {
         // Eager load the necessary relationships
         $scheduleAtribution->load('user', 'ufcd', 'courseClass', 'availabilityType');
@@ -90,7 +90,7 @@ class ScheduleAtributionController extends Controller
      * @param  \App\ScheduleAtribution  $scheduleAtribution
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user, ScheduleAtribution $scheduleAtribution)
+    public function edit(CourseClass $courseClass, ScheduleAtribution $scheduleAtribution)
     {
         $availabilityTypes = AvailabilityType::all();
         $courseClasses = CourseClass::all();
@@ -107,7 +107,7 @@ class ScheduleAtributionController extends Controller
      * @param  \App\ScheduleAtribution  $scheduleAtribution
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user, ScheduleAtribution $scheduleAtribution)
+    public function update(Request $request, CourseClass $courseClass, ScheduleAtribution $scheduleAtribution)
     {
         $request->validate([
             'date' => 'required|date|after:today',
@@ -130,11 +130,11 @@ class ScheduleAtributionController extends Controller
      * @param  \App\ScheduleAtribution  $scheduleAtribution
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user, ScheduleAtribution $scheduleAtribution)
+    public function destroy(CourseClass $courseClass, ScheduleAtribution $scheduleAtribution)
     {
         $scheduleAtribution->delete();
 
-        return redirect()->route('schedule_atribution.index', $user);
+        return redirect()->route('schedule_atribution.index', $courseClass);
     }
 }
 

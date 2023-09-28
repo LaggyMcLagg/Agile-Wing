@@ -12,10 +12,12 @@ class CourseClassController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    /*public function index()
     {
-        //
-    }
+        $courseClasses = CourseClass::all();
+
+        return view('pages.course_classes.indexForScheduleAtribution', compact('courseClasses'));
+    }*/
 
     /**
      * Show the form for creating a new resource.
@@ -46,7 +48,11 @@ class CourseClassController extends Controller
      */
     public function show(CourseClass $courseClass)
     {
-        //
+        // Eager load the necessary relationships
+        $courseClass->load('course', 'scheduleAtributions', 'hourBlockCourseClasses');
+
+        // Pass the data to the view
+        return view('pages.course_classes.showForScheduleAtribution', compact('courseClass'));
     }
 
     /**
@@ -80,7 +86,7 @@ class CourseClassController extends Controller
      */
     public function destroy(CourseClass $courseClass)
     {
-        //
+
     }
 
     /**
@@ -93,5 +99,16 @@ class CourseClassController extends Controller
         $courseClasses = CourseClass::with('course.specializationArea')->get();
         return view('pages.course_classes.indexForScheduleAtribution', compact ('courseClasses'));
     }
-    
+    //fazer as rotas assim como estão aqui
+
+    /**
+     * Display schedule information.
+     */
+    public function showForScheduleAtribution(CourseClass $courseClass)
+    {
+        $courseClass->load('course', 'scheduleAtributions', 'hourBlockCourseClasses');
+        $scheduleAtributions = $courseClass->scheduleAtributions()->get();
+        return view('pages.course_classes.showForScheduleAtribution', compact ('courseClass', 'scheduleAtributions'));
+    }
+
 }

@@ -92,15 +92,32 @@ Route::prefix('courses')->group(function(){
 // Route to get the list of classes to then manage the schedule atributions of that classes
 Route::prefix('schedule-atribution-course-class')->group(function(){
     Route::get('', 'CourseClassController@indexForScheduleAtribution')->name('course-class.schedule-attribution.index');
+    Route::get('create', 'CourseClassController@createForScheduleAtribution')->name('course-class.schedule-attribution.create');
+    Route::post('', 'CourseClassController@storeForScheduleAtribution')->name('course-class.schedule-attribution.store');
+    Route::get('{courseClass}/edit', 'CourseClassController@storeForScheduleAtribution')->name('course-class.schedule-attribution.edit');
+    Route::put('{courseClass}', 'CourseClassController@storeForScheduleAtribution')->name('course-class.schedule-attribution.update');
+    Route::get('{courseClass}', 'CourseClassController@showForScheduleAtribution')->name('course-class.schedule-attribution.show');
+    Route::delete('{courseClass}', 'CourseClassController@storeForScheduleAtribution')->name('ccourse-class.schedule-attribution.destroy');
 });
 
 // ROUTES for Schedule Atribution
-Route::prefix('schedule-atribution')->group(function(){
-    Route::post('{courseClass}', 'ScheduleAtributionController@index')->name('schedule-atribution.index');
+/*Route::prefix('schedule-atribution')->group(function(){
+    Route::get('', 'ScheduleAtributionController@index')->name('schedule-atribution.index');
     Route::get('create', 'ScheduleAtributionController@create')->name('schedule-atribution.create');
     Route::post('', 'ScheduleAtributionController@store')->name('schedule-atribution.store');
     Route::get('{scheduleAtribution}/edit', 'ScheduleAtributionController@edit')->name('schedule-atribution.edit');
     Route::put('{scheduleAtribution}', 'ScheduleAtributionController@update')->name('schedule-atribution.update');
     Route::get('{scheduleAtribution}', 'ScheduleAtributionController@show')->name('schedule-atribution.show');
     Route::delete('{scheduleAtribution}', 'ScheduleAtributionController@destroy')->name('schedule-atribution.destroy');
-});
+});*/
+
+//ROUTES for Schedule Atribution
+ /*Route::prefix('course-classes')->group(function(){
+   Route::get('', 'CourseClassController@index')->name('course-classes.index');
+    Route::get('create', 'CourseClassController@create')->name('course-classes.create');
+    Route::post('', 'CourseClassController@store')->name('course-classes.store');
+    Route::get('{courseClass}/edit', 'CourseClassController@edit')->name('course-classes.edit');
+    Route::put('{courseClass}', 'CourseClassController@update')->name('course-classes.update');
+    Route::get('{courseClass}', 'CourseClassController@show')->name('course-classes.show');
+    Route::delete('{courseClass}', 'CourseClassController@destroy')->name('course-classes.destroy');
+}); //este código pode ser apagado????*/

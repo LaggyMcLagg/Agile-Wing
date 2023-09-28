@@ -5,4 +5,7 @@
     "/js/double-click-table-function.js": "/js/double-click-table-function.js",
     "/js/search-table-function.js": "/js/search-table-function.js",
     "/js/sort-table-function.js": "/js/sort-table-function.js"
+    "/js/content_table.js": "/js/content_table.js",
+    "/js/course_class_table.js": "/js/course_class_table.js",
+    "/js/users_list_table.js": "/js/users_list_table.js"
 }

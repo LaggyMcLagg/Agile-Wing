@@ -22,7 +22,6 @@
         @enderror
     </div>
 
-     <!-- Country ComboBox -->
      <div class="form-group">
         <label for="course_id">Course</label>
         <select name="course_id" id="course_id" class="form-control @error('course_id') is-invalid @enderror">

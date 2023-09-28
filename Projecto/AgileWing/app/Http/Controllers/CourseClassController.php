@@ -16,7 +16,8 @@ class CourseClassController extends Controller
     public function index()
     {
         $courseClasses = CourseClass::orderBy('id', 'desc')->get();
-        return view('pages.course-classes.index', ['courseClasses' => $courseClasses]);
+        $courses = Course::orderBy('id', 'desc')->get();
+        return view('pages.course-classes.index', ['courseClasses' => $courseClasses, 'courses' => $courses]);
     }
 
     /**
@@ -71,7 +72,7 @@ class CourseClassController extends Controller
     public function edit(CourseClass $courseClass)
     {
         $courses = Course::all();
-        
+
         return view('pages.course-classes.edit', compact('courseClass', 'courses'));
     }
 
@@ -83,13 +84,13 @@ class CourseClassController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, CourseClass $courseClass)
-    {    
+    {
         $request->validate([
             'course_id' => 'required|exists:courses,id',
         ]);
-    
+
         $courseClass->update($request->all());
-    
+
         return redirect()->route('course-classes.index')->with('success', 'Course Class updated successfully');
     }
 
@@ -115,7 +116,6 @@ class CourseClassController extends Controller
     public function indexForScheduleAtribution()
     {
         $courseClasses = CourseClass::with('course.specializationArea')->get();
-        return view('pages.course_classes.indexForScheduleAtribution', compact ('courseClasses'));
+        return view('pages.course_classes.indexForScheduleAtribution', compact('courseClasses'));
     }
-    
 }

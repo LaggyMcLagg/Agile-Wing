@@ -149,3 +149,6 @@ Route::prefix('ufcds')->group(function(){
     Route::delete('{ufcd}', 'UfcdController@destroy')->name('ufcds.destroy');
 });
 
+
+Route::get('/get-first-course-class', 'CourseClassController@getFirstCourseClass');
+

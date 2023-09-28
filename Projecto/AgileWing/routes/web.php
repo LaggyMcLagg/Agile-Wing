@@ -150,5 +150,4 @@ Route::prefix('ufcds')->group(function(){
 });
 
 
-Route::get('/get-first-course-class', 'CourseClassController@getFirstCourseClass');
 

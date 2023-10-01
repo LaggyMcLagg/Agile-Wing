@@ -39,6 +39,7 @@ class PedagogicalGroupController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
+            'number' => 'required',
             'name' => 'required'
             ]);
 

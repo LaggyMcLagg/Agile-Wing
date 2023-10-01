@@ -27,7 +27,7 @@ class SpecializationAreaController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.specialization-areas.create');
     }
 
     /**
@@ -70,7 +70,8 @@ class SpecializationAreaController extends Controller
      */
     public function show(SpecializationArea $specializationArea)
     {
-        //
+        return view('pages.specialization-areas.show', ['specializationArea' => $specializationArea]);
+
     }
 
     /**
@@ -81,7 +82,8 @@ class SpecializationAreaController extends Controller
      */
     public function edit(SpecializationArea $specializationArea)
     {
-        //
+        return view('pages.specialization-areas.edit', ['specializationArea' => $specializationArea]);
+
     }
 
     /**

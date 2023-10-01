@@ -41,7 +41,7 @@ class UserSeeder extends Seeder
                 'email'             => 'prof.beterraba@edu.atec.pt',
                 'email_verified_at' => now(), 
                 'password'          =>  bcrypt('password'), 
-                'user_type_id'      => 1,
+                'user_type_id'      => 2,
                 'token_password'    => bcrypt(Str::random(10)),
                 'token_used'        => true,
                 'token_created_at'  => now(),
@@ -49,6 +49,7 @@ class UserSeeder extends Seeder
                 'created_at'        => now(),
                 'updated_at'        => now(),
             ],
+            
         ]);
 
         for ($i = 1; $i <= 50; $i++) {

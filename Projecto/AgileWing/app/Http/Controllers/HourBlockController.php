@@ -15,7 +15,11 @@ class HourBlockController extends Controller
     public function index()
     {
         $hourBlocks = HourBlock::all();
-        return view('pages.hour-blocks.index', ['hourBlocks' => $hourBlocks]);
+        //default é para a action do update ter um valor para o ID do hourBlock por default senao nao consigo entrar na pagina sequer
+        $defaultHourBlock = $hourBlocks->first();
+        return view('pages.hour_blocks.index', [
+            'hourBlocks'    => $hourBlocks,
+            'defaultHourBlock'     => $defaultHourBlock]);
     }
 
     /**
@@ -25,7 +29,7 @@ class HourBlockController extends Controller
      */
     public function create()
     {
-        return view('pages.hour-blocks.create');
+        return view('pages.hour_blocks.create');
     }
 
     /**
@@ -43,7 +47,7 @@ class HourBlockController extends Controller
 
         HourBlock::create($request->all());
 
-        return redirect('hour_blocks')->with('status', 'Registo criado com sucesso!');
+        return redirect('hour-blocks')->with('status', 'Registo criado com sucesso!');
     }
 
     /**
@@ -54,7 +58,8 @@ class HourBlockController extends Controller
      */
     public function show(HourBlock $hourBlock)
     {
-        return view('pages.hour-blocks.show', ['hourBlock' => $hourBlock]);
+        return view('pages.hour_blocks.show', [
+            'hourBlock' => $hourBlock]);
     }
 
     /**
@@ -65,7 +70,7 @@ class HourBlockController extends Controller
      */
     public function edit(HourBlock $hourBlock)
     {
-        return view('pages.hour-blocks.edit', ['hourBlock' => $hourBlock]);
+        return view('pages.hour_blocks.edit', ['hourBlock' => $hourBlock]);
     }
 
     /**
@@ -75,14 +80,14 @@ class HourBlockController extends Controller
      * @param  \App\HourBlock  $hourBlock
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, HourBlock $hourBlock)
+    public function update(Request $request, $id)
     {
-        $hourBlock = HourBlock::find($hourBlock->id);
+        $hourBlock = HourBlock::find($id);
         $hourBlock->hour_beginning = $request->hour_beginning;
         $hourBlock->hour_end = $request->hour_end;
         $hourBlock->save();
 
-        return redirect('hour_blocks')->with('status', 'Registo editado com sucesso!');
+        return redirect('hour-blocks')->with('status', 'Registo editado com sucesso!');
     }
 
     /**
@@ -93,7 +98,8 @@ class HourBlockController extends Controller
      */
     public function destroy(HourBlock $hourBlock)
     {
+        //THIS IS NOT WORKING doesen't delete the first line of the table
         $hourBlock->delete();
-        return redirect('hour_blocks')->with('status', 'Registo apagado com sucesso');
+        return redirect('hour-blocks')->with('status', 'Registo apagado com sucesso');
     }
 }

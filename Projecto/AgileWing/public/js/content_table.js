@@ -93,6 +93,10 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
+//NAO DEVE ESTAR A SER USADO -> APAGAR
+//NAO DEVE ESTAR A SER USADO -> APAGAR
+//NAO DEVE ESTAR A SER USADO -> APAGAR
+
 document.addEventListener("DOMContentLoaded", function () {
   // Client-side sorting
   var table = document.getElementById("sortable-table");
@@ -162,7 +166,7 @@ function redirectToEditPage(cell) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! F:\PROJETO_FINAL\Agile-Wing\Projecto\AgileWing\resources\js\logic\content_table.js */"./resources/js/logic/content_table.js");
+module.exports = __webpack_require__(/*! C:\Users\ruiru\Desktop\Agile-Wing\Projecto\AgileWing\resources\js\logic\content_table.js */"./resources/js/logic/content_table.js");
 
 
 /***/ })

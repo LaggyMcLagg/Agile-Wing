@@ -15,7 +15,7 @@ class UserTypeController extends Controller
     public function index()
     {
         $userTypes=UserType::all();
-        return view('pages.user-types.index', ['userTypes' => UserType::all()]);
+        return view('pages.user_types.index', ['userTypes' => UserType::all()]);
     }
 
     /**
@@ -25,7 +25,7 @@ class UserTypeController extends Controller
      */
     public function create()
     {
-        return view ('pages.user-types.create');
+        return view ('pages.user_types.create');
     }
 
     /**
@@ -51,7 +51,7 @@ class UserTypeController extends Controller
      */
     public function show(UserType $userType)
     {
-        return view('pages.user-types.show', ['userType' => $userType]);
+        return view('pages.user_types.show', ['userType' => $userType]);
     }
 
     /**
@@ -62,7 +62,7 @@ class UserTypeController extends Controller
      */
     public function edit(UserType $userType)
     {
-        return view('pages.user-types.edit', ['userType' => $userType]);
+        return view('pages.user_types.edit', ['userType' => $userType]);
     }
 
     /**

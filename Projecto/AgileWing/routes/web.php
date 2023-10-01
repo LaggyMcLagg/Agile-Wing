@@ -27,43 +27,53 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/home', 'HomeController@index')->name('home');
 });
 
-Route::prefix('users')->group(function(){
-    Route::get('', 'UserController@index');
-    Route::get('create', 'UserController@create');
-    Route::post('', 'UserController@store');
-    Route::get('{user}', 'UserController@show');
-    Route::get('{user}/edit', 'UserController@edit');
-    Route::put('{user}', 'UserController@update');
-    Route::delete('{user}', 'UserController@destroy');
-   });
-
-Route::prefix('hour_blocks')->group(function(){
-    Route::get('', 'HourBlockController@index');
-    Route::get('create', 'HourBlockController@create');
-    Route::post('', 'HourBlockController@store');
-    Route::get('{hourBlock}', 'HourBlockController@show');
-    Route::get('{hourBlock}/edit', 'HourBlockController@edit');
-    Route::put('{hourBlock}', 'HourBlockController@update');
-    Route::delete('{hourBlock}', 'HourBlockController@destroy');
-   });
-
-Route::prefix('availability_types')->group(function(){
-    Route::get('', 'AvailabilityTypeController@index');
-    Route::get('create', 'AvailabilityTypeController@create');
-    Route::post('', 'AvailabilityTypeController@store');
-    Route::get('{availabilityType}', 'AvailabilityTypeController@show');
-    Route::get('{availabilityType}/edit', 'AvailabilityTypeController@edit');
-    Route::put('{availabilityType}', 'AvailabilityTypeController@update');
-    Route::delete('{availabilityType}', 'AvailabilityTypeController@destroy');
+// ROUTES for Courses
+Route::prefix('courses')->group(function(){
+    Route::get('', 'CourseController@index')->name('courses.index');
+    Route::post('', 'CourseController@store')->name('courses.store');
+    Route::put('{id}', 'CourseController@update')->name('courses.update');
+    Route::delete('{course}', 'CourseController@destroy')->name('courses.destroy');
 });
-Route::prefix('user_types')->group(function(){
-    Route::get('', 'UserTypeController@index');
-    Route::get('create', 'UserTypeController@create');
-    Route::post('', 'UserTypeController@store');
-    Route::get('{userType}', 'UserTypeController@show');
-    Route::get('{userType}/edit', 'UserTypeController@edit');
-    Route::put('{userType}', 'UserTypeController@update');
-    Route::delete('{userType}', 'UserTypeController@destroy');
+
+Route::prefix('users')->group(function(){
+    Route::get('', 'UserController@index')->name('users.index');
+    Route::get('create', 'UserController@create')->name('users.create');
+    Route::post('', 'UserController@store')->name('users.store');
+    Route::get('/change-password', 'UserController@changePasswordView')->name('users.changePasswordView');;
+    Route::get('show/{id}', 'UserController@show');
+    Route::get('/edit', 'UserController@edit')->name('users.edit');
+    Route::put('{user}', 'UserController@update')->name('users.update');
+    Route::delete('{user}', 'UserController@destroy')->name('users.destroy');
+   });
+
+Route::prefix('hour-blocks')->group(function(){
+    Route::get('', 'HourBlockController@index')->name('hour-blocks.index');
+    Route::get('create', 'HourBlockController@create')->name('hour-blocks.create');
+    Route::post('', 'HourBlockController@store')->name('hour-blocks.store');
+    Route::get('{hourBlock}', 'HourBlockController@show')->name('hour-blocks.show');
+    Route::get('{hourBlock}/edit', 'HourBlockController@edit')->name('hour-blocks.edit');
+    Route::put('{id}', 'HourBlockController@update')->name('hour-blocks.update');
+    Route::delete('{hourBlock}', 'HourBlockController@destroy')->name('hour-blocks.destroy');
+   });
+
+   
+Route::prefix('availability-types')->group(function(){
+    Route::get('', 'AvailabilityTypeController@index')->name('availability-types.index');
+    Route::get('create', 'AvailabilityTypeController@create')->name('availability-types.create');
+    Route::post('', 'AvailabilityTypeController@store')->name('availability-types.store');
+    Route::get('{availabilityType}', 'AvailabilityTypeController@show')->name('availability-types.show');
+    Route::get('{availabilityType}/edit', 'AvailabilityTypeController@edit')->name('availability-types.destroy');
+    Route::put('{availabilityType}', 'AvailabilityTypeController@update')->name('availability-types.update');
+    Route::delete('{availabilityType}', 'AvailabilityTypeController@destroy')->name('availability-types.destroy');
+});
+Route::prefix('user-types')->group(function(){
+    Route::get('', 'UserTypeController@index')->name('user-types.index');
+    Route::get('create', 'UserTypeController@create')->name('user-types.create');
+    Route::post('', 'UserTypeController@store')->name('user-types.store');
+    Route::get('{userType}', 'UserTypeController@show')->name('user-types.show');
+    Route::get('{userType}/edit', 'UserTypeController@edit')->name('user-types.edit');
+    Route::put('{userType}', 'UserTypeController@update')->name('user-types.update');
+    Route::delete('{userType}', 'UserTypeController@destroy')->name('user-types.destroy');
 });
 
 // ROUTES for Teacher Availabilities
@@ -77,22 +87,11 @@ Route::prefix('teacher-availabilities')->group(function(){
     Route::delete('{teacherAvailability}', 'TeacherAvailabilityController@destroy')->name('teacher-availabilities.destroy');
 });
 
-// ROUTES for Courses
-Route::prefix('courses')->group(function(){
-    Route::get('', 'CourseController@index')->name('courses.index');
-    Route::get('create', 'CourseController@create')->name('courses.create');
-    Route::post('', 'CourseController@store')->name('courses.store');
-    Route::get('{course}/edit', 'CourseController@edit')->name('courses.edit');
-    Route::put('{course}', 'CourseController@update')->name('courses.update');
-    Route::get('{course}', 'CourseController@show')->name('courses.show');
-    Route::delete('{course}', 'CourseController@destroy')->name('courses.destroy');
-});
-
 // ROUTES FOR SCHEDULE ATRIBUTIONS USE CASE
 
 // Route to get the list of classes to then manage the schedule atributions of that classes
 Route::prefix('schedule-atribution-course-class')->group(function(){
-    Route::get('', 'CourseClassController@indexForScheduleAtribution')->name('course-class.schedule-attribution.index');
+    Route::get('', 'CourseClassController@indexForScheduleAtribution')->name('course-class-schedule-attribution.index');
 });
 
 // ROUTES for Schedule Atribution

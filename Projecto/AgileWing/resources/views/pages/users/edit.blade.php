@@ -2,12 +2,11 @@
 
 @section('content')
 
-@component('components.users.user-form-edit', [
-    'user' => $user,
-    'pedagogicalGroupUserList' => $pedagogicalGroupUserList,
-    'specializationAreaUserList' => $specializationAreaUserList,
-    'pedagogicalGroups' => $pedagogicalGroups,
-    'specializationAreas' => $specializationAreas])
+@component('components.users.user-list-edit', [
+    'users'             => $users,
+    'lastUpdated'       => $lastUpdated,
+    'lastLogin'         => $lastLogin
+    ])
 @endcomponent
 
-@endsection
+@endsection 

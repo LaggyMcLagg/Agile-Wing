@@ -1,3 +1,7 @@
+//NAO DEVE ESTAR A SER USADO -> APAGAR
+//NAO DEVE ESTAR A SER USADO -> APAGAR
+//NAO DEVE ESTAR A SER USADO -> APAGAR
+
 document.addEventListener("DOMContentLoaded", function() {
     // Client-side sorting
     var table = document.getElementById("sortable-table");

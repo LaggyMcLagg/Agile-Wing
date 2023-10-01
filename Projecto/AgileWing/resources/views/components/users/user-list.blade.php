@@ -1,5 +1,6 @@
 @section('scripts')
-<script src="{{ asset('/js/users_list_table.js') }}"></script>
+<script src="{{ asset('/js/search-table-function.js') }}"></script>
+<script src="{{ asset('/js/sort-table-function.js') }}"></script>
 @endsection
 
 <div class="container">
@@ -16,7 +17,7 @@
 </div>
 
 
-<h3>List de Formadores</h3>
+<h3>Listagem de Formadores para Visualização</h3>
 @if (session('status'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         {{ session('status') }}
@@ -33,7 +34,7 @@
             <th data-column-index="2" scope="col">Grupo pedagógico</th>
             <th data-column-index="3" scope="col">Último Login</th>
             <th data-column-index="4" scope="col">Última Gravação</th>
-            <th scope="col"><a href="{{ url('users/create') }}" class="btn btn-primary">Create new</a></th>
+
         </tr>
     </thead>
     <tbody>
@@ -62,5 +63,3 @@
         @endforeach
     </tbody>
 </table>
-
-

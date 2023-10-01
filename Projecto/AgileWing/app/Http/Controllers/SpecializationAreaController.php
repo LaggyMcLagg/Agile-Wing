@@ -14,7 +14,10 @@ class SpecializationAreaController extends Controller
      */
     public function index()
     {
-        //
+        $specializationAreas = SpecializationArea::orderBy('name')->get();
+
+        // Pass the data to the view
+        return view('pages.specialization-areas.index', ['specializationAreas' => $specializationAreas]);
     }
 
     /**
@@ -24,7 +27,7 @@ class SpecializationAreaController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.specialization-areas.create');
     }
 
     /**
@@ -35,7 +38,13 @@ class SpecializationAreaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'number' => 'required',
+            'name' => 'required'
+            ]);
+
+            SpecializationArea::create($request->all());
+            return redirect()->route('specialization-areas.index')->with('success', 'Specialization Area created successfully');
     }
 
     /**
@@ -46,7 +55,8 @@ class SpecializationAreaController extends Controller
      */
     public function show(SpecializationArea $specializationArea)
     {
-        //
+        return view('pages.specialization-areas.show', ['specializationArea' => $specializationArea]);
+
     }
 
     /**
@@ -57,7 +67,8 @@ class SpecializationAreaController extends Controller
      */
     public function edit(SpecializationArea $specializationArea)
     {
-        //
+        return view('pages.specialization-areas.edit', ['specializationArea' => $specializationArea]);
+
     }
 
     /**
@@ -69,7 +80,12 @@ class SpecializationAreaController extends Controller
      */
     public function update(Request $request, SpecializationArea $specializationArea)
     {
-        //
+
+        $specializationArea->number = $request->number;
+        $specializationArea->name = $request->name;
+        $specializationArea->save();
+        
+        return redirect('specialization-areas')->with('status','Item edited successfully!');
     }
 
     /**
@@ -80,6 +96,7 @@ class SpecializationAreaController extends Controller
      */
     public function destroy(SpecializationArea $specializationArea)
     {
-        //
+        $specializationArea->delete();
+        return redirect('specialization-areas')->with('status','Item deleted successfully!');
     }
 }

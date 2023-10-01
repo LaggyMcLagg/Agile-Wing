@@ -149,5 +149,13 @@ Route::prefix('ufcds')->group(function(){
     Route::delete('{ufcd}', 'UfcdController@destroy')->name('ufcds.destroy');
 });
 
-
+Route::prefix('specialization-areas')->group(function(){
+    Route::get('', 'SpecializationAreaController@index')->name('specialization-areas.index');
+    Route::get('create', 'SpecializationAreaController@create')->name('specialization-areas.create');
+    Route::post('', 'SpecializationAreaController@store')->name('specialization-areas.store');
+    Route::get('{specializationArea}/edit', 'SpecializationAreaController@edit')->name('specialization-areas.edit');
+    Route::put('{specializationArea}', 'SpecializationAreaController@update')->name('specialization-areas.update');
+    Route::get('{specializationArea}', 'SpecializationAreaController@show')->name('specialization-areas.show');
+    Route::delete('{specializationArea}', 'SpecializationAreaController@destroy')->name('specialization-areas.destroy');
+});
 

@@ -4,6 +4,14 @@
 
 <h3>Lista de Course Classes</h3>
 
+@if (session('status'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('status') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+@endif
 
 <!-- Start of the Main Container -->
 <div class="container" id="listForm">
@@ -74,7 +82,7 @@
                     <label for="course_id">Course ID</label>
                     <input
                         data-name="course_id"
-                        type="course_id"
+                        type="number"
                         id="course_id"
                         name="course_id"
                         autocomplete="course_id"
@@ -100,7 +108,7 @@
 
 
         <div class="col-md-6">
-            <table class="table table-light">
+            <table class="table table-hover table-light">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -119,10 +127,10 @@
                     @foreach($courseClasses as $courseClass)
 
                     <tr scope="row">
-                        <td id="courseClassId" scope="col">{{ $courseClass->id }}</td>
-                        <td id="courseClassName" scope="col">{{ $courseClass->name }}</td>
-                        <td id="courseClassNumber" scope="col">{{ $courseClass->number }}</td>
-                        <td id="courseClassCourseId" scope="col">{{ $courseClass->course_id}}</td>
+                        <td data-name="id" scope="col">{{ $courseClass->id }}</td>
+                        <td data-name="name" scope="col">{{ $courseClass->name }}</td>
+                        <td data-name="number" scope="col">{{ $courseClass->number }}</td>
+                        <td data-name="course_id" scope="col">{{ $courseClass->course_id}}</td>
 
                         <td>
                             <!-- Form for DELETE operation -->

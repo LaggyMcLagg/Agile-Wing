@@ -23,4 +23,9 @@ class SpecializationArea extends Model
     {
         return $this->hasMany(Course::class);
     }
+
+    protected $fillable = [
+        'number', 
+        'name' 
+    ];
 }

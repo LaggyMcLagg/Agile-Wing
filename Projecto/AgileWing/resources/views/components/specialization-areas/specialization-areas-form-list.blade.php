@@ -33,6 +33,16 @@
                 <label data-name="id" id="id_label">
                 </label>
 
+                <div class="form-group">
+                    <label for="number">Number</label>
+                    <input data-name="id" type="number" id="id" name="id" autocomplete="number" class="form-control @error('number') is-invalid @enderror" required aria-describedby="numberHelp" readonly>
+                    @error('number')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
+                </div>
+
                 <!-- Input for 'name' -->
                 <div class="form-group">
                     <label for="name">Name</label>
@@ -55,7 +65,6 @@
             <table class="table table-light">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
                         <th scope="col">Name</th>
                         <th scope="col">
                             <a id="createBtn" class="btn btn-primary">Criar</a>
@@ -66,13 +75,13 @@
                 </thead>
 
                 <tbody>
-                    @foreach($pedagogicalGroups as $pedagogicalGroup)
+                    @foreach($specializationAreas as $specializationArea)
                     <tr scope="row">
-                        <th data-name="id">{{ $pedagogicalGroup->id }}</th>
-                        <td data-name="name">{{ $pedagogicalGroup->name }}</td>
+                        <th data-name="id">{{ $specializationArea->number }}</th>
+                        <td data-name="name">{{ $specializationArea->name }}</td>
                         <td>
                             <!-- Form for DELETE operation -->
-                            <form action="{{ url('pedagogical-groups/' . $pedagogicalGroup->id) }}" method="POST" onsubmit="return confirm('Tem a certeza que quer apagar este registo?');">
+                            <form action="{{ url('specialization-areas/' . $specializationArea->number) }}" method="POST" onsubmit="return confirm('Tem a certeza que quer apagar este registo?');">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger">Apagar bloco</button>

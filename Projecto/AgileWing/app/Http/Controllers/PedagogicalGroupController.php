@@ -40,6 +40,7 @@ class PedagogicalGroupController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
+            'number' => 'required',
             'name' => 'required'
             ]);
 
@@ -93,6 +94,6 @@ class PedagogicalGroupController extends Controller
     public function destroy(PedagogicalGroup $pedagogicalGroup)
     {
         $pedagogicalGroup->delete();
-        return redirect('pedagogical-groups')->with('status','Item deleted successfully!');;
+        return redirect('pedagogical-groups')->with('status','Item deleted successfully!');
     }
 }

@@ -6,6 +6,11 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+//encryption
+use Illuminate\Support\Facades\Hash;
+//string
+use Illuminate\Support\Str;
+
 use App\PedagogicalGroup;
 use App\Ufcd;
 use App\UserType;
@@ -14,12 +19,28 @@ use App\SpecializationArea;
 use App\ScheduleAtribution;
 use App\HourBlockCourse;
 
+
 class User extends Authenticatable implements MustVerifyEmail
 
 {
     use SoftDeletes;
     
     use Notifiable;
+
+    /**
+     * The booted method for the model.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        static::creating(function ($user) {
+            if (empty($user->password)) {
+                // bcrypt hash of a random 10-character string
+                $user->password = Hash::make(Str::random(10));
+            }
+        });
+    }
 
     public function pedagogicalGroups()
     {

@@ -93,6 +93,20 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+/**
+* Handles the behavior of the course control form.
+* 
+* This script manages:
+* - The toggling between editing and view modes.
+* - The persistence of form states across page reloads using session storage.
+* - Transferring data from table rows to the form for potential editing.
+* - Storing certain form states and selections in session storage.
+*
+* @author   [Vasco Vitória]
+*/
 // Wait until the DOM is fully loaded
 document.addEventListener("DOMContentLoaded", function () {
   // Getting elements from the DOM
@@ -109,18 +123,42 @@ document.addEventListener("DOMContentLoaded", function () {
   // Flag to check if the form is in editing mode
   var isEditing = false;
 
+  // Load the form state from session storage
+  var formState = sessionStorage.getItem("formState");
+  if (formState === "edit") {
+    enableEdit(); // Enable the edit mode
+
+    var storedCourseId = sessionStorage.getItem("selectedCourseId");
+    if (storedCourseId) {
+      idLabel.textContent = storedCourseId;
+    }
+
+    // Set the method and action for the form when a row is selected
+    document.getElementById("hiddenMethod").value = "PUT";
+    controlForm.action = baseAction + '/' + storedCourseId;
+  } else if (formState === "create") {
+    enableEdit(); // Enable the create mode
+  } else {
+    disableEdit(); // By default, keep the form disabled
+  }
+
   // Function to reset the form
   function clearForm() {
     // Clear all inputs in the form
     document.querySelectorAll('#controlForm [data-name]').forEach(function (input) {
       input.value = '';
     });
+    sessionStorage.removeItem("selectedCourseId"); // Clear the stored course ID
   }
 
   // Function to enable the form editing mode
   function enableEdit() {
-    document.querySelectorAll('input').forEach(function (input) {
-      return input.removeAttribute('readonly');
+    document.querySelectorAll('#controlForm input, #controlForm select').forEach(function (input) {
+      input.removeAttribute('readonly');
+      input.removeAttribute('disabled');
+    });
+    document.querySelectorAll('#ufcdsCheckboxList input[type="checkbox"]').forEach(function (checkbox) {
+      checkbox.removeAttribute('disabled');
     });
     saveBtn.style.display = 'block';
     cancelBtn.style.display = 'block';
@@ -129,8 +167,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Function to disable the form editing mode
   function disableEdit() {
-    document.querySelectorAll('input').forEach(function (input) {
-      return input.setAttribute('readonly', true);
+    document.querySelectorAll('#controlForm input, #controlForm select').forEach(function (input) {
+      input.setAttribute('readonly', true);
+      input.setAttribute('disabled', true);
+    });
+    document.querySelectorAll('#ufcdsCheckboxList input[type="checkbox"]').forEach(function (checkbox) {
+      checkbox.setAttribute('disabled', true);
     });
     saveBtn.style.display = 'none';
     cancelBtn.style.display = 'none';
@@ -139,6 +181,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // On "Edit" button click, enable editing if not already editing
   editBtn.addEventListener("click", function () {
+    sessionStorage.setItem("formState", "edit"); // Store the EDIT state to session storage
     if (!isEditing) {
       enableEdit();
     }
@@ -149,8 +192,8 @@ document.addEventListener("DOMContentLoaded", function () {
     clearForm();
     enableEdit();
     document.getElementById("hiddenMethod").value = "POST";
-    controlForm.method = "POST";
     controlForm.action = baseAction;
+    sessionStorage.setItem("formState", "create"); // Store the CREATE state to session storage
   });
 
   // On "Cancel" button click, reset the form and disable editing
@@ -158,27 +201,66 @@ document.addEventListener("DOMContentLoaded", function () {
     event.preventDefault(); // Prevent any default form submission
     clearForm();
     disableEdit();
+    sessionStorage.removeItem("formState"); // Clear the state from session storage
   });
 
-  // When clicking on a table row, populate the form with row data
   tableRows.forEach(function (row) {
     row.addEventListener("click", function () {
       if (!isEditing) {
+        // Get the ID from the clicked row
+        var id = row.querySelector('[data-name="id"]').textContent;
+        idLabel.textContent = id;
+        sessionStorage.setItem("selectedCourseId", id);
         row.querySelectorAll('[data-name]').forEach(function (cell) {
           var fieldName = cell.getAttribute('data-name');
           var formInput = document.querySelector("#controlForm [data-name=\"".concat(fieldName, "\"]"));
           if (formInput) {
-            formInput.value = cell.textContent;
+            switch (formInput.getAttribute('data-type')) {
+              case 'comboBox':
+                if (formInput.tagName === 'SELECT') {
+                  var value = cell.textContent.trim();
+                  var _iterator = _createForOfIteratorHelper(formInput.options),
+                    _step;
+                  try {
+                    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+                      var option = _step.value;
+                      if (option.text === value) {
+                        formInput.value = option.value;
+                        break;
+                      }
+                    }
+                  } catch (err) {
+                    _iterator.e(err);
+                  } finally {
+                    _iterator.f();
+                  }
+                }
+                break;
+              case 'checkBoxList':
+                var ufcdListDiv = document.getElementById("ufcdsList_".concat(id));
+
+                // Fetch the values of the <li> elements instead of the text
+                var ufcdIds = Array.from(ufcdListDiv.querySelectorAll('li')).map(function (li) {
+                  return li.getAttribute('value');
+                });
+                var ufcdCheckboxes = document.querySelectorAll('#ufcdsCheckboxList input[type="checkbox"]');
+                ufcdCheckboxes.forEach(function (checkbox) {
+                  if (ufcdIds.includes(checkbox.value)) {
+                    checkbox.checked = true;
+                  } else {
+                    checkbox.checked = false;
+                  }
+                });
+                break;
+              default:
+                formInput.value = cell.textContent;
+                break;
+            }
           }
         });
 
-        // Set the ID label
-        var id = row.querySelector('[data-name="id"]').textContent;
-        idLabel.textContent = id;
-
         // Set the method and action for the form when a row is selected
         document.getElementById("hiddenMethod").value = "PUT";
-        controlForm.method = "POST";
         controlForm.action = baseAction + '/' + id;
       }
     });

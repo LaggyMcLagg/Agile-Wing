@@ -25,7 +25,7 @@
                 @csrf
                 
                 <!-- Hidden input for HTTP method override. Needed because HTML forms only support GET/POST natively and we're not using 
-                @method('PUT') -->
+                @method('PUT') to be able to switch between methods-->
                 <input type="hidden" name="_method" value="POST" id="hiddenMethod">
 
                 <!-- Display Block ID label -->
@@ -34,7 +34,7 @@
                 <label 
                 data-name="id"
                 id="id_label">
-            </label>
+                </label>
             
             <!-- Input for 'hour_beginning' -->
                 <div class="form-group">

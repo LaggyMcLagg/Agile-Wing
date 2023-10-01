@@ -26,6 +26,14 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/home', 'HomeController@index')->name('home');
 });
 
+// ROUTES for Courses
+Route::prefix('courses')->group(function(){
+    Route::get('', 'CourseController@index')->name('courses.index');
+    Route::post('', 'CourseController@store')->name('courses.store');
+    Route::put('{id}', 'CourseController@update')->name('courses.update');
+    Route::delete('{course}', 'CourseController@destroy')->name('courses.destroy');
+});
+
 Route::prefix('users')->group(function(){
     Route::get('', 'UserController@index')->name('users.index');
     Route::get('create', 'UserController@create')->name('users.create');
@@ -76,17 +84,6 @@ Route::prefix('teacher-availabilities')->group(function(){
     Route::put('{teacherAvailability}', 'TeacherAvailabilityController@update')->name('teacher-availabilities.update');
     Route::get('{teacherAvailability}', 'TeacherAvailabilityController@show')->name('teacher-availabilities.show');
     Route::delete('{teacherAvailability}', 'TeacherAvailabilityController@destroy')->name('teacher-availabilities.destroy');
-});
-
-// ROUTES for Courses
-Route::prefix('courses')->group(function(){
-    Route::get('', 'CourseController@index')->name('courses.index');
-    Route::get('create', 'CourseController@create')->name('courses.create');
-    Route::post('', 'CourseController@store')->name('courses.store');
-    Route::get('{course}/edit', 'CourseController@edit')->name('courses.edit');
-    Route::put('{course}', 'CourseController@update')->name('courses.update');
-    Route::get('{course}', 'CourseController@show')->name('courses.show');
-    Route::delete('{course}', 'CourseController@destroy')->name('courses.destroy');
 });
 
 // ROUTES FOR SCHEDULE ATRIBUTIONS USE CASE

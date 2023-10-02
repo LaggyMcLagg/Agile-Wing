@@ -14,7 +14,10 @@ class PedagogicalGroupController extends Controller
      */
     public function index()
     {
-        //
+        $pedagogicalGroups = PedagogicalGroup::orderBy('id', 'desc')->get();
+
+        // Pass the data to the view
+        return view('pages.pedagogical-groups.index', ['pedagogicalGroups' => $pedagogicalGroups]);
     }
 
     /**
@@ -24,7 +27,8 @@ class PedagogicalGroupController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.pedagogical-groups.create');
+
     }
 
     /**
@@ -35,7 +39,12 @@ class PedagogicalGroupController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required'
+            ]);
+
+            PedagogicalGroup::create($request->all());
+            return redirect()->route('pedagogical-groups.index')->with('success', 'Pedagogical Groups created successfully');
     }
 
     /**
@@ -46,7 +55,8 @@ class PedagogicalGroupController extends Controller
      */
     public function show(PedagogicalGroup $pedagogicalGroup)
     {
-        //
+        return view('pages.pedagogical-groups.show', ['pedagogicalGroup' => $pedagogicalGroup]);
+
     }
 
     /**
@@ -57,7 +67,8 @@ class PedagogicalGroupController extends Controller
      */
     public function edit(PedagogicalGroup $pedagogicalGroup)
     {
-        //
+        return view('pages.pedagogical-groups.edit', ['pedagogicalGroup' => $pedagogicalGroup]);
+
     }
 
     /**
@@ -69,7 +80,8 @@ class PedagogicalGroupController extends Controller
      */
     public function update(Request $request, PedagogicalGroup $pedagogicalGroup)
     {
-        //
+        $pedagogicalGroup->update($request->all());
+        return redirect('pedagogical-groups')->with('status','Item edited successfully!');
     }
 
     /**
@@ -80,6 +92,7 @@ class PedagogicalGroupController extends Controller
      */
     public function destroy(PedagogicalGroup $pedagogicalGroup)
     {
-        //
+        $pedagogicalGroup->delete();
+        return redirect('pedagogical-groups')->with('status','Item deleted successfully!');;
     }
 }

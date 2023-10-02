@@ -80,6 +80,11 @@ Para ambiente de DEV, abrir um novo terminal no IDE e correr o comando **npm run
 
     o	Modelo: Utilizador , Post_Utilizador (sempre capitalizado, no singular e snake_case)
 
+**Casos omissos**
+    o	Ficheiro: teacher-availabilities (lower case, kebab-case, last word plural);
+
+    o	Pastas:  utilizadores ou blog_posts (sempre no plural, snake_case);
+    
 ## Convenção documentação de código DocBlocks
 
 **Referência aulas** - *5417-Aula03-PHP.pdf slide 53-60*

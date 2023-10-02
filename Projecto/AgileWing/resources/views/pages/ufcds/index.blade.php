@@ -1,8 +1,8 @@
 @extends('master.main')
 @section('content')
 @component(
-    'components.courses.courses-form-show',
-    compact('course')
+    'components.ufcds.ufcds-form-list',
+    compact('ufcds')
     )
 @endcomponent
 @endsection

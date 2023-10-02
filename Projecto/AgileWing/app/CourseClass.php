@@ -26,4 +26,12 @@ class CourseClass extends Model
     {
         return $this->hasMany(HourBlockCourseClass::class);
     }
+
+    //CRUD
+
+    protected $fillable = [
+        'name',
+        'number',
+        'course_id',
+        ];
 }

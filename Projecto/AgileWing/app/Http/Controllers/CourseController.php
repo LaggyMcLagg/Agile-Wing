@@ -18,7 +18,10 @@ class CourseController extends Controller
     {
         $courses = Course::with('specializationArea', 'courseClasses', 'ufcds')->get();
 
-        return view('pages.courses.index', compact('courses'));
+        $ufcds = Ufcd::all();
+        $specializationAreas = SpecializationArea::all();
+
+        return view('pages.courses.crud', compact('courses', 'ufcds', 'specializationAreas'));
     }
 
     /**
@@ -28,10 +31,7 @@ class CourseController extends Controller
      */
     public function create()
     {
-        $ufcds = Ufcd::all();
-        $specializationAreas = SpecializationArea::all();
-        
-        return view('pages.courses.create', compact('ufcds', 'specializationAreas'));
+        //
     }
 
     /**
@@ -42,23 +42,44 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'initials' => 'required|string|max:255',
-            'specialization_area_number' => 'required|integer|exists:specialization_areas,number',
-            'ufcds' => 'required|array',
-            'ufcds.*' => 'exists:ufcds,id',
-        ]);
+        $request->validate(
+            [
+                'name' => 'required|string|max:255|regex:/^[\pL\sÇç]+$/u',
+                'initials' => 'required|string|max:255|regex:/^[A-ZÇ]+$/u',
+                'specialization_area_number' => 'required|integer|exists:specialization_areas,number',
+                'ufcds' => 'required|array',
+                'ufcds.*' => 'exists:ufcds,id',
+            ],
+            [
+                'name.required' => 'The name field is required.',
+                'name.regex' => 'The name may only contain letters, accentuation, and Ç or ç.',
+                'initials.required' => 'The initials field is required.',
+                'initials.regex' => 'The initials may only contain uppercase letters and Ç.',
+                'specialization_area_number.required' => 'The specialization area number field is required.',
+                'specialization_area_number.exists' => 'The provided specialization area number does not exist.',
+                'ufcds.required' => 'You must select at least one UFCD.',
+                'ufcds.*.exists' => 'One or more selected UFCDs do not exist.',
+            ]
+        );        
+
+        try {        
+            $course = Course::create([
+                'name' => $request->name,
+                'initials' => $request->initials,
+                'specialization_area_number' => $request->specialization_area_number,
+            ]);
+        
+            $course->ufcds()->attach($request->ufcds);
     
-        $course = Course::create([
-            'name' => $request->name,
-            'initials' => $request->initials,
-            'specialization_area_number' => $request->specialization_area_number,
-        ]);
-    
-        $course->ufcds()->attach($request->ufcds);
-    
-        return redirect()->route('courses.index')->with('success', 'Course created successfully');
+            session()->flash('success', 'Course created successfully');
+            return redirect()->route('courses.index');
+
+        } catch (\Exception $e) {
+            \Log::error('Error creating course: ' . $e->getMessage());
+            
+            session()->flash('error', 'There was an error creating the course: ' . $e->getMessage());
+            return back()->withInput();
+        }
     }
 
     /**
@@ -69,9 +90,7 @@ class CourseController extends Controller
      */
     public function show(Course $course)
     {
-        $course->load('ufcds', 'courseClasses', 'specializationArea');
-
-        return view('pages.courses.show', compact('course'));
+        //
     }
 
     /**
@@ -82,13 +101,8 @@ class CourseController extends Controller
      */
     public function edit(Course $course)
     {
-        $ufcds = Ufcd::all();
-        $specializationAreas = SpecializationArea::all();
-        $course->load('ufcds', 'specializationArea');
-    
-        return view('pages.courses.edit', compact('course', 'ufcds', 'specializationAreas'));
+        //
     }
-    
 
     /**
      * Update the specified resource in storage.
@@ -97,27 +111,48 @@ class CourseController extends Controller
      * @param  \App\Course  $course
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Course $course)
+    public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'initials' => 'required|string|max:255',
-            'specialization_area_number' => 'required|integer|exists:specialization_areas,number',
-            'ufcds' => 'required|array',
-            'ufcds.*' => 'exists:ufcds,id',
-        ]);
+        $request->validate(
+            [
+                'name' => 'required|string|max:255|regex:/^[\pL\sÇç]+$/u',
+                'initials' => 'required|string|max:255|regex:/^[A-ZÇ]+$/u',
+                'specialization_area_number' => 'required|integer|exists:specialization_areas,number',
+                'ufcds' => 'required|array',
+                'ufcds.*' => 'exists:ufcds,id',
+            ],
+            [
+                'name.required' => 'The name field is required.',
+                'name.regex' => 'The name may only contain letters, accentuation, and Ç or ç.',
+                'initials.required' => 'The initials field is required.',
+                'initials.regex' => 'The initials may only contain uppercase letters and Ç.',
+                'specialization_area_number.required' => 'The specialization area number field is required.',
+                'specialization_area_number.exists' => 'The provided specialization area number does not exist.',
+                'ufcds.required' => 'You must select at least one UFCD.',
+                'ufcds.*.exists' => 'One or more selected UFCDs do not exist.',
+            ]
+        );        
+
+        try {
+            $course = Course::find($id);
+        
+            $course->update([
+                'name' => $request->name,
+                'initials' => $request->initials,
+                'specialization_area_number' => $request->specialization_area_number,
+            ]);
     
-        $course->update([
-            'name' => $request->name,
-            'initials' => $request->initials,
-            'specialization_area_number' => $request->specialization_area_number,
-        ]);
-    
-        $course->ufcds()->sync($request->ufcds);
-    
-        return redirect()->route('courses.index')->with('success', 'Course updated successfully');
-    }
-    
+            $course->ufcds()->sync($request->ufcds);
+        
+            session()->flash('success', 'Course updated successfully');
+            return redirect()->route('courses.index');
+        } catch (\Exception $e) {
+            \Log::error('Error updating course: ' . $e->getMessage());
+
+            session()->flash('error', 'There was an error updating the course: ' . $e->getMessage());
+            return back()->withInput();
+        }
+    }    
 
     /**
      * Remove the specified resource from storage.
@@ -127,16 +162,20 @@ class CourseController extends Controller
      */
     public function destroy(Course $course)
     {
-        // Soft delete the entries in the pivot table
-        \DB::table('course_ufcds')
-        ->where('course_id', $course->id)
-        ->update(['deleted_at' => now()]);
-
-        // Soft delete the course
-        $course->delete();
-
-        return redirect()->route('courses.index')
-                         ->with('success', 'Course deleted successfully');
- 
+        try {
+            // Soft delete the entries in the pivot table
+            \DB::table('course_ufcds')
+                ->where('course_id', $course->id)
+                ->update(['deleted_at' => now()]);
+    
+            // Soft delete the course
+            $course->delete();
+    
+            return redirect()->route('courses.index')->with('success', 'Course deleted successfully');
+        } catch (\Exception $e) {            
+            \Log::error('Error deleting course: ' . $e->getMessage());
+    
+            return redirect()->route('courses.index')->with('error', 'There was an error deleting the course.' . $e->getMessage());
+        }
     }
 }

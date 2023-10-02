@@ -1,9 +1,10 @@
 @extends('master.main')
 @section('content')
 @component(
-    'components.courses.courses-form-list',
+    'components.course-classes.course-class-form-edit',
     compact(
-        'courses'
+        'courseClass',
+        'courses',
     ))
 @endcomponent
 @endsection

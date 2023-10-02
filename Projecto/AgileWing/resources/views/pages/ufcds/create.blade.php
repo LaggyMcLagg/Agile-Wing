@@ -1,10 +1,9 @@
 @extends('master.main')
 @section('content')
 @component(
-    'components.courses.courses-form-create',
+    'components.ufcds.ufcds-form-create',
     compact(
-        'ufcds',
-        'specializationAreas'
+        'pedagogicalGroups',
     ))
 @endcomponent
 @endsection

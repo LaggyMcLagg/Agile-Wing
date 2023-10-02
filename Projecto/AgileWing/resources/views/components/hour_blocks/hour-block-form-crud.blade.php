@@ -5,10 +5,23 @@
 <!-- Start of Hour Blocks List Section -->
 <h3>Lista de Blocos de Horário - LIST</h3>
 
-<!-- If there's a status session message, display it within a styled alert box -->
-@if (session('status'))
+<!-- If there's a success session message, display it within a styled alert box -->
+@if (session('success'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ session('status') }}
+        {{ session('success') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <script>
+        sessionStorage.removeItem("formState");  // Clear the state from local storage
+        sessionStorage.removeItem("selectedCourseId");  // Clear the stored course ID
+    </script>
+@endif
+
+@if (session('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ session('error') }}
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -21,7 +34,7 @@
         <!-- Left Column: Form section for block timings -->
         <div class="col-md-6"> 
             <!-- Unified Form for CRUD operations -->
-            <form id="controlForm" method="PUT">
+            <form  action="{{ route('hour-blocks.store') }}" id="controlForm" method="POST">
                 @csrf
                 
                 <!-- Hidden input for HTTP method override. Needed because HTML forms only support GET/POST natively and we're not using 
@@ -44,10 +57,9 @@
                         type="text"
                         id="hour_beginning"
                         name="hour_beginning"
-                        autocomplete="hour_beginning"
                         class="form-control @error('hour_beginning') is-invalid @enderror"
                         required
-                        aria-describedby="hour_beginningHelp"
+                        value="{{ old('hour_beginning') }}"
                         readonly
                     >
                     <!-- Error message for 'hour_beginning' -->
@@ -66,10 +78,9 @@
                         type="text"
                         id="hour_end"
                         name="hour_end"
-                        autocomplete="hour_end"
                         class="form-control @error('hour_end') is-invalid @enderror"
                         required
-                        aria-describedby="hour_endHelp"
+                        value="{{ old('hour_end') }}"
                         readonly
                     >
                     <!-- Error message for 'hour_end' -->

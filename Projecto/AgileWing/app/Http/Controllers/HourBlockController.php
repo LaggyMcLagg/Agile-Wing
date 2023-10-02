@@ -17,9 +17,7 @@ class HourBlockController extends Controller
         $hourBlocks = HourBlock::all();
         //default é para a action do update ter um valor para o ID do hourBlock por default senao nao consigo entrar na pagina sequer
         $defaultHourBlock = $hourBlocks->first();
-        return view('pages.hour_blocks.index', [
-            'hourBlocks'    => $hourBlocks,
-            'defaultHourBlock'     => $defaultHourBlock]);
+        return view('pages.hour_blocks.crud', compact ('hourBlocks', 'defaultHourBlock'));
     }
 
     /**
@@ -29,7 +27,7 @@ class HourBlockController extends Controller
      */
     public function create()
     {
-
+        //
     }
 
     /**
@@ -47,7 +45,7 @@ class HourBlockController extends Controller
 
         HourBlock::create($request->all());
 
-        return redirect('hour-blocks')->with('status', 'Registo criado com sucesso!');
+        return redirect()->route('hour-blocks.index')->with('success', 'Registo criado com sucesso!');
     }
 
     /**
@@ -58,7 +56,7 @@ class HourBlockController extends Controller
      */
     public function show(HourBlock $hourBlock)
     {
-
+        //
     }
 
     /**
@@ -69,7 +67,7 @@ class HourBlockController extends Controller
      */
     public function edit(HourBlock $hourBlock)
     {
-        
+        //
     }
 
     /**
@@ -86,7 +84,7 @@ class HourBlockController extends Controller
         $hourBlock->hour_end = $request->hour_end;
         $hourBlock->save();
 
-        return redirect('hour-blocks')->with('status', 'Registo editado com sucesso!');
+        return redirect()->route('hour-blocks.index')->with('success', 'Registo editado com sucesso!');
     }
 
     /**
@@ -97,8 +95,7 @@ class HourBlockController extends Controller
      */
     public function destroy(HourBlock $hourBlock)
     {
-        //THIS IS NOT WORKING doesen't delete the first line of the table
         $hourBlock->delete();
-        return redirect('hour-blocks')->with('status', 'Registo apagado com sucesso');
+        return redirect()->route('hour-blocks.index')->with('success', 'Registo apagado com sucesso');
     }
 }

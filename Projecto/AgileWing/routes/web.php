@@ -35,6 +35,13 @@ Route::prefix('courses')->group(function(){
     Route::delete('{course}', 'CourseController@destroy')->name('courses.destroy');
 });
 
+// ROUTES for Hour Blocks
+Route::prefix('hour-blocks')->group(function(){
+    Route::get('', 'HourBlockController@index')->name('hour-blocks.index');
+    Route::post('', 'HourBlockController@store')->name('hour-blocks.store');
+    Route::put('{id}', 'HourBlockController@update')->name('hour-blocks.update');
+    Route::delete('{hourBlock}', 'HourBlockController@destroy')->name('hour-blocks.destroy');
+   });
 
 Route::prefix('users')->group(function(){
     Route::get('', 'UserController@index')->name('users.index');
@@ -48,15 +55,6 @@ Route::prefix('users')->group(function(){
     Route::delete('{user}', 'UserController@destroy')->name('users.destroy');
    });
 
-Route::prefix('hour-blocks')->group(function(){
-    Route::get('', 'HourBlockController@index')->name('hour-blocks.index');
-    Route::get('create', 'HourBlockController@create')->name('hour-blocks.create');
-    Route::post('', 'HourBlockController@store')->name('hour-blocks.store');
-    Route::get('{hourBlock}', 'HourBlockController@show')->name('hour-blocks.show');
-    Route::get('{hourBlock}/edit', 'HourBlockController@edit')->name('hour-blocks.edit');
-    Route::put('{id}', 'HourBlockController@update')->name('hour-blocks.update');
-    Route::delete('{hourBlock}', 'HourBlockController@destroy')->name('hour-blocks.destroy');
-   });
 
    
 Route::prefix('availability-types')->group(function(){

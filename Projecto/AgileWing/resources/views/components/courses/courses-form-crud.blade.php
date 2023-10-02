@@ -24,6 +24,7 @@
     </div>
 @endif
 
+<!-- Start of the Main Container -->
 <div class="container" id="listForm">
     <div class="row"> 
         <!-- LEFT COLUMN: CREATE/EDIT FORM -->
@@ -33,10 +34,14 @@
             <!-- FORM -->
             <form action="{{ route('courses.store') }}" id="controlForm" method="POST">
                 @csrf
+
+                <!-- Hidden input for HTTP method override. Needed because HTML forms only support GET/POST natively and we're not using 
+                @method('PUT') to be able to switch between methods-->
                 <input type="hidden" name="_method" value="POST" id="hiddenMethod">
 
                 <!-- Course ID -->
                 <label for="id">Course ID: </label>
+                <!-- The prop data-name tells js where to target to place the info collected from the table -->
                 <label data-name="id" id="id_label"></label>
 
                 <!-- Course Name -->
@@ -48,6 +53,7 @@
                         id="name" 
                         name="name" 
                         class="form-control @error('name') is-invalid @enderror"
+                        required
                         value="{{ old('name') }}"
                         readonly>
                     @error('name')
@@ -132,6 +138,7 @@
                     </div>
                 </div>
 
+                <!-- Save and Cancel buttons, initially hidden -->
                 <button id="saveBtn" type="submit" class="mt-2 mb-5 btn btn-primary" style="display: none;">Guardar</button>
                 <button id="cancelBtn" class="mt-2 mb-5 btn btn-secondary" style="display: none;">Cancelar</button>
             </form>

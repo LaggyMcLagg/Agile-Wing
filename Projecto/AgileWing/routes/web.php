@@ -35,13 +35,15 @@ Route::prefix('courses')->group(function(){
     Route::delete('{course}', 'CourseController@destroy')->name('courses.destroy');
 });
 
+
 Route::prefix('users')->group(function(){
     Route::get('', 'UserController@index')->name('users.index');
     Route::get('create', 'UserController@create')->name('users.create');
     Route::post('', 'UserController@store')->name('users.store');
-    Route::get('/change-password', 'UserController@changePasswordView')->name('users.changePasswordView');;
     Route::get('show/{id}', 'UserController@show');
-    Route::get('/edit', 'UserController@edit')->name('users.edit');
+    Route::get('password-form', 'UserController@changePasswordView')->name('users.passwordForm');
+    Route::put('password-update', 'UserController@changePasswordLogic')->name('users.passwordUpdate');
+    Route::get('edit', 'UserController@edit')->name('users.edit');
     Route::put('{user}', 'UserController@update')->name('users.update');
     Route::delete('{user}', 'UserController@destroy')->name('users.destroy');
    });

@@ -6,6 +6,9 @@ use App\User;
 use App\PedagogicalGroup;
 use App\SpecializationArea;
 use App\UserType;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -15,7 +18,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() 
+    public function index() //está a ser usado 01/10/2023
     {
         //lógica para ir buscar os users que são apenas formadores
         $users = User::whereHas('userType', function ($query) {
@@ -153,9 +156,10 @@ class UserController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit() // este metodo devolve a listagem de users mas sem o JS de doubleClick
-    {
 
+//este metodo faz o mesmo que o index() mas para ficheiros diferentes com diferens JS's associados
+    public function edit() 
+    {
         //lógica para ir buscar os users que são apenas formadores
         $users = User::whereHas('userType', function ($query) {
             $query->where('name', 'professor');
@@ -204,23 +208,14 @@ class UserController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
 
-        // Atualize outros campos conforme necessário
-        
-        // Salvar as alterações nos campos básicos do usuário
         $user->save();
     
-        // Agora, lide com as associações de grupos pedagógicos e áreas de formação
-    
-        // Obtenha os IDs dos grupos pedagógicos selecionados no formulário
+        // Obtenha os IDs dos GP e AF selecionados no formulário
         $selectedPedagogicalGroups = $request->input('pedagogicalGroups', []);
-    
-        // Obtenha os IDs das áreas de formação selecionadas no formulário
         $selectedSpecializationAreas = $request->input('specializationAreas', []);
     
-        // Atualize as associações do usuário com grupos pedagógicos
+        // Atualize as associações do usuário com grupos pedagógicos e áreas de formação
         $user->pedagogicalGroups()->sync($selectedPedagogicalGroups);
-    
-        // Atualize as associações do usuário com áreas de formação
         $user->specializationAreas()->sync($selectedSpecializationAreas);
     
         return redirect('users')->with('status', 'Registo editado com sucesso!');
@@ -236,7 +231,7 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        return redirect('users')->with('status', 'Registo apagado com sucesso');
+        return redirect('users/edit')->with('status', 'Registo apagado com sucesso');
     }
 
     public function changePasswordView()
@@ -246,37 +241,35 @@ class UserController extends Controller
 
     public function changePasswordLogic(Request $request)
     {
-
-        //'password'          =>  bcrypt('password'),
-        //'password'          =>  bcrypt('password'),
-        //'password'          =>  bcrypt('password'),
-        //'password'          =>  bcrypt('password'),
-        //'password'          =>  bcrypt('password'),
-        //$passEnc = bcrypt($request->password);
-        //$user->password = bcrypt($request->password);
+        //identiifcar o ID para chegar ao utilizador em que dou update a password
+        //ver a BL do update do COurseController
 
 
-        // Validação dos campos do formulário
         $request->validate([
-            'current_password' => 'required',
-            'new_password' => 'required|string|min:8|confirmed',
+            'current_password'  => 'required',
+            'new_password'      => 'required|string|min:4|confirmed',
+        ], [
+            'current_password.required' => 'A password atual é obrigatória.',
+            'new_password.required'     => 'A nova password é obrigatória.',
         ]);
-    
+        
+
         // Obtenha o usuário autenticado
         $user = Auth::user();
-    
+
         // Verifique se a senha atual fornecida corresponde à senha atual do usuário
         if (Hash::check($request->current_password, $user->password)) {
             // Atualize a senha do usuário
             $user->password = Hash::make($request->new_password);
             $user->save();
-    
+
+            return redirect('home')->with('status', 'Password alterada com sucesso.');
             // Redirecione de volta com uma mensagem de sucesso
-            return redirect()->route('profile')->with('success', 'Password alterada com sucesso.');
-        } else {
+        } 
+        else 
+        {
             // Senha atual incorreta, retorne com uma mensagem de erro
-            return back()->withErrors(['current_password' => 'ERRO: Tente atualizar a password novamente'])->withInput();
+            return back()->withErrors(['current_password' => 'A password atual não coincide.'])->withInput();
         }
     }
-    
 }

@@ -29,7 +29,7 @@ class HourBlockController extends Controller
      */
     public function create()
     {
-        return view('pages.hour_blocks.create');
+
     }
 
     /**
@@ -58,8 +58,7 @@ class HourBlockController extends Controller
      */
     public function show(HourBlock $hourBlock)
     {
-        return view('pages.hour_blocks.show', [
-            'hourBlock' => $hourBlock]);
+
     }
 
     /**
@@ -70,7 +69,7 @@ class HourBlockController extends Controller
      */
     public function edit(HourBlock $hourBlock)
     {
-        return view('pages.hour_blocks.edit', ['hourBlock' => $hourBlock]);
+        
     }
 
     /**

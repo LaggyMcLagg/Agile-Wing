@@ -4,7 +4,7 @@ NAO SERA PARA USAR
 NAO SERA PARA USAR
 NAO SERA PARA USAR -->
 
-<h3>Detalhes do Bloco</h3>
+<!-- <h3>Detalhes do Bloco</h3>
 <form method="POST" action="{{ url('hourBlock') }}">
 @csrf
 <div class="form-group">
@@ -44,4 +44,4 @@ NAO SERA PARA USAR -->
 
 
 <a href="/hour-blocks" class="mt-2 mb-5 btn btn-primary">Voltar à Listagem</a>
-</form>
+</form> -->

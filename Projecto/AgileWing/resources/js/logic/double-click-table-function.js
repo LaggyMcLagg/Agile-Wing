@@ -10,5 +10,5 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function redirectToEditPage(cell) {
     var userId = cell.getAttribute("data-user-id");
-    window.location.href = "/users/edit/" + userId;
+    window.location.href = "/users/show/" + userId;
 }

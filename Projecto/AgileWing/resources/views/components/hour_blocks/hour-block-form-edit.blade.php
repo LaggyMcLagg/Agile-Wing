@@ -4,7 +4,7 @@ NAO SERA PARA USAR
 NAO SERA PARA USAR
 NAO SERA PARA USAR -->
 
-<h2>NAO SERA PARA USAR Edição de Tipos de Utilizador</h2>
+<!-- <h2>NAO SERA PARA USAR Edição de Tipos de Utilizador</h2>
 <form method="POST" action="{{ url('hour-blocks/' . $hourBlock->id) }}">
 @csrf
 @method('PUT')
@@ -72,4 +72,4 @@ NAO SERA PARA USAR -->
 
 <button type="submit" class="mt-2 mb-5 btn btn-primary">Guardar</button>
 <a href="/hour-blocks" class="mt-2 mb-5 btn btn-primary">Voltar à listagem</a>
-</form>
+</form> -->

@@ -51,12 +51,10 @@ Route::prefix('users')->group(function(){
     Route::get('password-form', 'UserController@changePasswordView')->name('users.passwordForm');
     Route::put('password-update', 'UserController@changePasswordLogic')->name('users.passwordUpdate');
     Route::get('edit', 'UserController@edit')->name('users.edit');
-    Route::put('{user}', 'UserController@update')->name('users.update');
+    Route::put('{id}', 'UserController@update')->name('users.update');
     Route::delete('{user}', 'UserController@destroy')->name('users.destroy');
    });
 
-
-   
 Route::prefix('availability-types')->group(function(){
     Route::get('', 'AvailabilityTypeController@index')->name('availability-types.index');
     Route::get('create', 'AvailabilityTypeController@create')->name('availability-types.create');

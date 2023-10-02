@@ -196,36 +196,44 @@ class UserController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, $id)
     {
+        $user = User::find($id);
 
-        dd($user);
+        dd($request);
 
-        $this->validate($request, [
-            'name'      => 'required',
-            'email'     => 'required|email|unique:users,email,' . $user->id, 
-            'color_1'   => 'required',
-            'color_2'   => 'required',
-        ]);        
-        // Atualizar os campos do usuário com base nos dados do formulário
-        $user->update([
-            'name'      => $request->name,
-            'email'     => $request->email,
-            'color_1'   => $request->color_1,
-            'color_2'   => $request->color_2,
-        ]);
-    
-        // obtem os IDs dos GP e AF selecionados no formulário
-        $selectedPedagogicalGroups = $request->input('pedagogicalGroups', []);
-        $selectedSpecializationAreas = $request->input('specializationAreas', []);
-    
-        // atualiza as associações do user com grupos pedagógicos e áreas de formação
-        $user->pedagogicalGroups()->sync($selectedPedagogicalGroups);
-        $user->specializationAreas()->sync($selectedSpecializationAreas);
-    
-        return redirect()->route('users.edit')->with('success', 'Registo editado com sucesso.');    
+        //The 'unique:users,email,' . $user->id rule ensures that the provided email 
+        //address is unique among all users but doesn't flag it as a duplicate if 
+        //it's the email of the user you're currently updating.
+        //So that when we update we don't ahve to always change the EMail
+        $validatedData = $request->validate(
+            [
+                'name' => 'required|string|max:255|regex:/^[\pL\sÇç]+$/u',
+                'email' => 'required|email|unique:users,email,' . $user->id,
+                'color1' => 'required',
+                'color2' => 'required',
+            ],
+            [
+                'name.required' => 'The name field is required.',
+                'email.required' => 'The email field is required.',
+                'email.email' => 'Please provide a valid email address.',
+                'email.unique' => 'This email is already in use.',
+                'color1.required' => 'Color 1 is required.',
+                'color2.required' => 'Color 2 is required.',
+            ]
+        );
+        
+
+        // Bulk update the user's fields using validated data
+        $user->update($validatedData);
+        
+        // Update user's associations with pedagogical groups and specialization areas
+        $user->pedagogicalGroups()->sync($request->input('pedagogicalGroups', []));
+        $user->specializationAreas()->sync($request->input('specializationAreas', []));
+
+        
+        return redirect()->route('users.edit')->with('status', 'Registo editado com sucesso!');
     }
-    
 
     /**
      * Remove the specified resource from storage.

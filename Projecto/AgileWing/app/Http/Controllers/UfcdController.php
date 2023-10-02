@@ -17,9 +17,11 @@ class UfcdController extends Controller
     {
         // Fetch all teacher availabilities along with the related information
         $ufcds = Ufcd::with('pedagogicalGroup')->get();
+        $pedagogicalGroups = PedagogicalGroup::all();
 
         // Pass the data to the view
-        return view('pages.ufcds.index', compact('ufcds'));
+        return view('pages.ufcds.index', compact('ufcds', 'pedagogicalGroups'));
+
     }
 
     /**

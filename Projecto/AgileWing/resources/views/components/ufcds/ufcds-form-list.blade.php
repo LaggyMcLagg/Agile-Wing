@@ -19,7 +19,7 @@
         <!-- Left Column: Form section for block timings -->
         <div class="col-md-6">
             <!-- Unified Form for CRUD operations -->
-            <form id="controlForm" method="PUT">
+            <form action="{{ route('ufcds.store') }}" id="controlForm" method="PUT">
                 @csrf
 
                 <!-- Hidden input for HTTP method override. Needed because HTML forms only support GET/POST natively and we're not using 
@@ -45,14 +45,21 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="pedagogical_group">Pedagogical Group</label>
-                    <input data-name="pedagogical_group" type="number" id="pedagogical_group" name="pedagogical_group" autocomplete="pedagogical_group" class="form-control @error('pedagogical_group') is-invalid @enderror" required aria-describedby="pedagogical_groupHelp" readonly>
-                    @error('pedagogical_group')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
-                </div>
+                <label for="pedagogicalGroup">Pedagogical Group</label>
+                <select 
+                    data-name="pedagogicalGroup"
+                    data-type="comboBox" 
+                    id="pedagogicalGroup" 
+                    name="pedagogical_group_id" 
+                    class="form-control"
+                    disabled>
+                    @foreach($pedagogicalGroups as $pGroup)
+                        <option value="{{ $pGroup->id }}" @if(old('pedagogical_group_id') == $pGroup->id) selected @endif>
+                            {{ $pGroup->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
 
                 <!-- Input for 'number' -->
                 <div class="form-group">
@@ -104,7 +111,7 @@
                     <tr scope="row">
                         <td data-name="id" scope="col">{{ $ufcd->id }}</td>
                         <td data-name="ufcdName" scope="col">{{ $ufcd->name }}</td>
-                        <td data-name="pedagogical_group" scope="col">{{ $ufcd->pedagogicalGroup->id }}</td>
+                        <td data-name="pedagogicalGroup" scope="col">{{ $ufcd->pedagogicalGroup->name }}</td>
                         <td data-name="ufcdNumber" scope="col">{{ $ufcd->number }}</td>
                         <td data-name="hours" scope="col">{{ $ufcd->hours }}</td>
 

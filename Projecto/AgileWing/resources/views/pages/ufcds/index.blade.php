@@ -2,7 +2,7 @@
 @section('content')
 @component(
     'components.ufcds.ufcds-form-list',
-    compact('ufcds')
+    compact('ufcds', 'pedagogicalGroups')
     )
 @endcomponent
 @endsection

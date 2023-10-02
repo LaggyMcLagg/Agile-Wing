@@ -18,10 +18,9 @@
                         id="name"
                         name="name"
                         autocomplete="name"
-                        placeholder="{{ $user->name }}"
                         class="form-control @error('name') is-invalid @enderror"
-                        value="{{ old('name') }}"
-                        required aria-describedby="nameHelp"
+                        value="{{ old('name', $user->name) }}"
+                        aria-describedby="nameHelp"
                         readonly>
                     @error('name')
                     <span class="invalid-feedback" role="alert">
@@ -36,10 +35,9 @@
                         id="email"
                         name="email"
                         autocomplete="email"
-                        placeholder="{{ $user->email }}"
                         class="form-control @error('email') is-invalid @enderror"
-                        value="{{ old('email') }}"
-                        required aria-describedby="emailHelp"
+                        value="{{ old('email', $user->email) }}"
+                        aria-describedby="emailHelp"
                         readonly>
                     @error('email')
                     <span class="invalid-feedback" role="alert">
@@ -134,13 +132,13 @@
         <div class="col-md-4"></div>
         <div class="col-md-4">
             <button id="editBtn" type="button" class="btn btn-primary">Editar</button>
-            <button id="saveBtn" type="submit" class="btn btn-primary">Guardar</button>
+            <button id="saveBtn" type="submit" class="btn btn-primary" style="display: none;">Guardar</button>
+            <button id="cancelBtn" class="mt-2 mb-5 btn btn-secondary" style="display: none;">Cancelar</button>
             <form id="deleteForm" action="{{ route('users.destroy', $user) }}" method="POST" style="display: none;">
                 @csrf
                 @method('DELETE')
-                <button type="submit" class="btn btn-danger">Apagar bloco</button>
+                <button type="submit" class="btn btn-danger">Apagar Formador</button>
             </form>
-            <button id="cancelBtn" class="mt-2 mb-5 btn btn-secondary">Cancelar</button>
     </div>
 </div>
 
@@ -165,10 +163,26 @@
             // Mostrar botão "Guardar" e esconder o botão "Editar"
             editBtn.style.display = "none";
             saveBtn.style.display = "inline-block";
-            deleteBtn.style.display = "inline-block";
+            deleteForm.style.display = "inline-block";
             cancelBtn.style.display = "inline-block";
         });
-    document
+
+        cancelBtn.addEventListener("click", function (event) {
+            event.preventDefault();
+        // Desabilitar campos editáveis
+            document.querySelectorAll("input").forEach(function (input) {
+                input.setAttribute("readonly", true);
+            });
+            document.querySelectorAll("input[type=checkbox]").forEach(function (checkbox) {
+                checkbox.setAttribute("disabled", true);
+            });
+        
+            // Esconder botão "Guardar" e "Apagar" e mostrar o botão "Editar"
+            editBtn.style.display = "inline-block";
+            saveBtn.style.display = "none";
+            deleteForm.style.display = "none";
+            cancelBtn.style.display = "none";
+        });
     });
 </script>
 

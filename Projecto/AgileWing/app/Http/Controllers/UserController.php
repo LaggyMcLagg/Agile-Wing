@@ -198,27 +198,32 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+
+        dd($user);
+
         $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email,' . $user->id, 
-            'color_1' => 'required',
-            'color_2' => 'required',
+            'name'      => 'required',
+            'email'     => 'required|email|unique:users,email,' . $user->id, 
+            'color_1'   => 'required',
+            'color_2'   => 'required',
         ]);        
         // Atualizar os campos do usuário com base nos dados do formulário
-        $user->name = $request->name;
-        $user->email = $request->email;
-
-        $user->save();
+        $user->update([
+            'name'      => $request->name,
+            'email'     => $request->email,
+            'color_1'   => $request->color_1,
+            'color_2'   => $request->color_2,
+        ]);
     
-        // Obtenha os IDs dos GP e AF selecionados no formulário
+        // obtem os IDs dos GP e AF selecionados no formulário
         $selectedPedagogicalGroups = $request->input('pedagogicalGroups', []);
         $selectedSpecializationAreas = $request->input('specializationAreas', []);
     
-        // Atualize as associações do usuário com grupos pedagógicos e áreas de formação
+        // atualiza as associações do user com grupos pedagógicos e áreas de formação
         $user->pedagogicalGroups()->sync($selectedPedagogicalGroups);
         $user->specializationAreas()->sync($selectedSpecializationAreas);
     
-        return redirect('users')->with('status', 'Registo editado com sucesso!');
+        return redirect()->route('users.edit')->with('success', 'Registo editado com sucesso.');    
     }
     
 

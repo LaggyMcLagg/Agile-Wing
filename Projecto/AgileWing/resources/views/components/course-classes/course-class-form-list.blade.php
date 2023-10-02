@@ -99,6 +99,8 @@
                     @enderror
                 </div>
 
+                
+
                 <!-- Save and Cancel buttons, initially hidden -->
                 <button id="saveBtn" type="submit" class="mt-2 mb-5 btn btn-primary" style="display: none;">Guardar</button>
                 <button id="cancelBtn" class="mt-2 mb-5 btn btn-secondary" style="display: none;">Cancelar</button>

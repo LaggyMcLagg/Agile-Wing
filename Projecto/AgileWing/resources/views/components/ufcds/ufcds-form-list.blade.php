@@ -111,7 +111,7 @@
                     <tr scope="row">
                         <td data-name="id" scope="col">{{ $ufcd->id }}</td>
                         <td data-name="ufcdName" scope="col">{{ $ufcd->name }}</td>
-                        <td data-name="pedagogicalGroup" scope="col">{{ $ufcd->pedagogicalGroup->name }}</td>
+                        <td data-name="pedagogicalGroup" scope="col">{{ $ufcd->pedagogicalGroup->id }}</td>
                         <td data-name="ufcdNumber" scope="col">{{ $ufcd->number }}</td>
                         <td data-name="hours" scope="col">{{ $ufcd->hours }}</td>
 

@@ -64,7 +64,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'notes', 
         'color_1', 
         'color_2',
-    ];
+    ];    
     
 
     /**

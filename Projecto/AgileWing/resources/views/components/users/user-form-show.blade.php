@@ -128,24 +128,29 @@
                 @endforeach
             </div>
         </div>
-
+    </form>
     <div class="row">
         <div class="col-md-4"></div>
         <div class="col-md-4"></div>
         <div class="col-md-4">
             <button id="editBtn" type="button" class="btn btn-primary">Editar</button>
             <button id="saveBtn" type="submit" class="btn btn-primary">Guardar</button>
+            <form id="deleteForm" action="{{ route('users.destroy', $user) }}" method="POST" style="display: none;">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-danger">Apagar bloco</button>
+            </form>
             <button id="cancelBtn" class="mt-2 mb-5 btn btn-secondary">Cancelar</button>
     </div>
-    </form>
 </div>
 
-<script>
-    
+<script>  
     document.addEventListener("DOMContentLoaded", function(){
         const editBtn = document.getElementById("editBtn");
         const saveBtn = document.getElementById("saveBtn");
+        const deleteForm = document.getElementById("deleteForm");
         const cancelBtn = document.getElementById("cancelBtn");
+
 
         editBtn.addEventListener("click", function(event){
 
@@ -160,6 +165,7 @@
             // Mostrar botão "Guardar" e esconder o botão "Editar"
             editBtn.style.display = "none";
             saveBtn.style.display = "inline-block";
+            deleteBtn.style.display = "inline-block";
             cancelBtn.style.display = "inline-block";
         });
     document

@@ -7,7 +7,7 @@
     'pedagogicalGroupUserList'      => $pedagogicalGroupUserList,
     'specializationAreaUserList'    => $specializationAreaUserList,
     'pedagogicalGroups'             => $pedagogicalGroups,
-    'specializationAreas'           =>$specializationAreas])
+    'specializationAreas'           => $specializationAreas])
 @endcomponent
 
 @endsection

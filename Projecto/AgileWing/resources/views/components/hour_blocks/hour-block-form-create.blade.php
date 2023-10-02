@@ -1,4 +1,4 @@
-<h3>Criação de bloco</h3>
+<!-- <h3>Criação de bloco</h3>
 <form method="POST" action="{{ url('hour-blocks') }}">
 @csrf
 <div class="form-group">
@@ -42,4 +42,4 @@
 </div>
     
 <button type="submit" class="mt-2 mb-5 btn btn-primary">Gravar</button>
-</form>
+</form> -->

@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 function redirectToEditPage(cell) {
   var userId = cell.getAttribute("data-user-id");
-  window.location.href = "/users/edit/" + userId;
+  window.location.href = "/users/show/" + userId;
 }
 
 /***/ }),
@@ -115,7 +115,7 @@ function redirectToEditPage(cell) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\LOCAL REPOS\Agile-Wing\Projecto\AgileWing\resources\js\logic\double-click-table-function.js */"./resources/js/logic/double-click-table-function.js");
+module.exports = __webpack_require__(/*! C:\Users\ruiru\Desktop\Agile-Wing\Projecto\AgileWing\resources\js\logic\double-click-table-function.js */"./resources/js/logic/double-click-table-function.js");
 
 
 /***/ })

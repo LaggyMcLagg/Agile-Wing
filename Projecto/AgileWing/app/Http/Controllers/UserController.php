@@ -200,26 +200,24 @@ class UserController extends Controller
     {
         $user = User::find($id);
 
-        dd($request);
-
         //The 'unique:users,email,' . $user->id rule ensures that the provided email 
         //address is unique among all users but doesn't flag it as a duplicate if 
         //it's the email of the user you're currently updating.
         //So that when we update we don't ahve to always change the EMail
         $validatedData = $request->validate(
             [
-                'name' => 'required|string|max:255|regex:/^[\pL\sÇç]+$/u',
-                'email' => 'required|email|unique:users,email,' . $user->id,
-                'color1' => 'required',
-                'color2' => 'required',
+                'name'      => 'required|string|max:255|regex:/^[\pL\sÇç]+$/u',
+                'email'     => 'required|email|unique:users,email,' . $user->id,
+                'color_1'   => 'required',
+                'color_2'   => 'required',
             ],
             [
-                'name.required' => 'The name field is required.',
-                'email.required' => 'The email field is required.',
-                'email.email' => 'Please provide a valid email address.',
-                'email.unique' => 'This email is already in use.',
-                'color1.required' => 'Color 1 is required.',
-                'color2.required' => 'Color 2 is required.',
+                'name.required'     => 'The name field is required.',
+                'email.required'    => 'The email field is required.',
+                'email.email'       => 'Please provide a valid email address.',
+                'email.unique'      => 'This email is already in use.',
+                'color_1.required'  => 'Color 1 is required.',
+                'color_2.required'  => 'Color 2 is required.',
             ]
         );
         

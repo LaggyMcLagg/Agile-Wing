@@ -43,6 +43,13 @@ Route::prefix('hour-blocks')->group(function(){
     Route::delete('{hourBlock}', 'HourBlockController@destroy')->name('hour-blocks.destroy');
    });
 
+Route::prefix('availability-types')->group(function(){
+    Route::get('', 'AvailabilityTypeController@index')->name('availability-types.index');
+    Route::post('', 'AvailabilityTypeController@store')->name('availability-types.store');
+    Route::put('{id}', 'AvailabilityTypeController@update')->name('availability-types.update');
+    Route::delete('{availabilityType}', 'AvailabilityTypeController@destroy')->name('availability-types.destroy');
+});
+
 Route::prefix('users')->group(function(){
     Route::get('', 'UserController@index')->name('users.index');
     Route::get('create', 'UserController@create')->name('users.create');
@@ -55,15 +62,16 @@ Route::prefix('users')->group(function(){
     Route::delete('{user}', 'UserController@destroy')->name('users.destroy');
    });
 
-Route::prefix('availability-types')->group(function(){
-    Route::get('', 'AvailabilityTypeController@index')->name('availability-types.index');
-    Route::get('create', 'AvailabilityTypeController@create')->name('availability-types.create');
-    Route::post('', 'AvailabilityTypeController@store')->name('availability-types.store');
-    Route::get('{availabilityType}', 'AvailabilityTypeController@show')->name('availability-types.show');
-    Route::get('{availabilityType}/edit', 'AvailabilityTypeController@edit')->name('availability-types.destroy');
-    Route::put('{availabilityType}', 'AvailabilityTypeController@update')->name('availability-types.update');
-    Route::delete('{availabilityType}', 'AvailabilityTypeController@destroy')->name('availability-types.destroy');
-});
+// Route::prefix('availability-types')->group(function(){
+//     Route::get('', 'AvailabilityTypeController@index')->name('availability-types.index');
+//     Route::get('create', 'AvailabilityTypeController@create')->name('availability-types.create');
+//     Route::post('', 'AvailabilityTypeController@store')->name('availability-types.store');
+//     Route::get('{availabilityType}', 'AvailabilityTypeController@show')->name('availability-types.show');
+//     Route::get('{availabilityType}/edit', 'AvailabilityTypeController@edit')->name('availability-types.destroy');
+//     Route::put('{availabilityType}', 'AvailabilityTypeController@update')->name('availability-types.update');
+//     Route::delete('{availabilityType}', 'AvailabilityTypeController@destroy')->name('availability-types.destroy');
+// });
+
 Route::prefix('user-types')->group(function(){
     Route::get('', 'UserTypeController@index')->name('user-types.index');
     Route::get('create', 'UserTypeController@create')->name('user-types.create');

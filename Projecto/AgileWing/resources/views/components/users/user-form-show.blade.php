@@ -47,38 +47,37 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="color1">Cor 1</label>
-                    <input
-                        type="color"
-                        id="color1"
-                        name="color1"
-                        class="form-control color-field @error('color1') is-invalid @enderror"
-                        value="{{ $user->color_1 }}"
-                        aria-describedby="color1Help">
-                    @error('color1')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
+                    <label for="color_1">Cor 1</label>
+                    <input type="color"
+                        id="color_1"
+                        name="color_1"
+                        class="form-control @error('color_1') is-invalid @enderror"
+                        value="{{ old('color_1', $user->color_1) }}"
+                        readonly>
+                        @error('color_1')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
                 </div>
-                
-                <div class="form-group">
-                    <label for="color2">Cor 2</label>
-                    <input
-                        type="color"
-                        id="color2"
-                        name="color2"
-                        class="form-control color-field @error('color2') is-invalid @enderror"
-                        value="{{ $user->color_2 }}"
-                        aria-describedby="color2Help">
-                    @error('color2')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
-                </div>
-            </div>
 
+                <div class="form-group">
+                    <label for="color_2">Cor 2</label>
+                    <input type="color"
+                        id="color_2"
+                        name="color_2"
+                        class="form-control @error('color_2') is-invalid @enderror"
+                        value="{{ old('color_2', $user->color_2) }}"
+                        readonly>
+                        @error('color_2')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                </div>
+
+
+            </div>
             <div class="col-md-4">
                 <div class="form-group">
                     <label>Grupos Pedagógicos</label>

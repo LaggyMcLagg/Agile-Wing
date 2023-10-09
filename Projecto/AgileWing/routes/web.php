@@ -27,6 +27,10 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/home', 'HomeController@index')->name('home');
 });
 
+//Export DB
+Route::get('export', 'ImportExportController@exportDatabase')->name('export.exportDB');
+
+
 // ROUTES for Courses
 Route::prefix('courses')->group(function(){
     Route::get('', 'CourseController@index')->name('courses.index');
@@ -38,6 +42,7 @@ Route::prefix('courses')->group(function(){
 Route::prefix('users')->group(function(){
     Route::get('', 'UserController@index')->name('users.index');
     Route::get('create', 'UserController@create')->name('users.create');
+    Route::post('export', 'ImportExportController@exportUsersPDF')->name('users.export');
     Route::post('', 'UserController@store')->name('users.store');
     Route::get('/change-password', 'UserController@changePasswordView')->name('users.changePasswordView');;
     Route::get('show/{id}', 'UserController@show');

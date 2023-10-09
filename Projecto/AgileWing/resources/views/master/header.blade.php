@@ -92,6 +92,15 @@
                     <!-- ADD THE ROUTES HERE -->
                 </div>
             </li>
+            <li class="nav-item dropdown ">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Exportar
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                    <a class="dropdown-item" href="{{ route('export.exportDB') }}">Base de Dados</a>
+                    <!-- ADD THE ROUTES HERE -->
+                </div>
+            </li>
         </ul>
     </div>
 </nav>

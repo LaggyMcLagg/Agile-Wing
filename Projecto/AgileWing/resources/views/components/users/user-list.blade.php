@@ -26,6 +26,14 @@
         </button>
     </div>
 @endif
+
+    <form action="{{ route ('users.export') }}" method="POST">
+        @csrf
+        <div>
+            <button type="submit" class="btn btn-primary">Exportar PDF</button>
+        </div>
+    </form>
+
 <table class="table table-bordered" id="sortable-table">
     <thead>
         <tr>

@@ -27,6 +27,7 @@
         </button>
     </div>
 @endif
+<button class="btn btn-primary">Exportar PDF</button>
 <table class="table table-bordered" id="sortable-table">
     <thead>
         <tr>
@@ -35,7 +36,6 @@
             <th data-column-index="2" scope="col">Grupo pedagógico</th>
             <th data-column-index="3" scope="col">Último Login</th>
             <th data-column-index="4" scope="col">Última Gravação</th>
-
         </tr>
     </thead>
     <tbody>

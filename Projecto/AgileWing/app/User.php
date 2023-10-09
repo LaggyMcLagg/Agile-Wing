@@ -14,18 +14,19 @@ use App\SpecializationArea;
 use App\ScheduleAtribution;
 use App\HourBlockCourse;
 
+
 class User extends Authenticatable implements MustVerifyEmail
 
 {
     use SoftDeletes;
-    
+
     use Notifiable;
 
     public function pedagogicalGroups()
     {
         return $this->belongsToMany(PedagogicalGroup::class, 'pedagogical_group_users');
     }
-    
+
     public function ufcds()
     {
         return $this->belongsToMany(Ufcd::class, 'user_ufcds');
@@ -57,15 +58,15 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 
-        'email', 
-        'password', 
+        'name',
+        'email',
+        'password',
         'user_type_id',
-        'notes', 
-        'color_1', 
+        'notes',
+        'color_1',
         'color_2',
     ];
-    
+
 
     /**
      * The attributes that should be hidden for arrays.
@@ -84,4 +85,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+
 }

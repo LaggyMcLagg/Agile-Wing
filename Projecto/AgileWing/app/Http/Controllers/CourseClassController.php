@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\CourseClass;
+use App\HourBlockCourseClass;
 use Illuminate\Http\Request;
 
 class CourseClassController extends Controller
@@ -26,8 +27,9 @@ class CourseClassController extends Controller
      */
     public function create()
     {
-        //
+        return view('course-classes.create');
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -37,7 +39,21 @@ class CourseClassController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         $validatedData = $request->validate([
+        'name' => 'required|max:255',
+
+    ]);
+
+
+    $courseClass = new CourseClass;
+    $courseClass->name = $request->input('name');
+
+
+
+    $courseClass->save();
+
+    // Redirecione para a página de detalhes da turma recém-criada
+    return redirect()->route('course-class.show', ['courseClass' => $courseClass]);
     }
 
     /**
@@ -86,7 +102,8 @@ class CourseClassController extends Controller
      */
     public function destroy(CourseClass $courseClass)
     {
-
+        $courseClass->delete();
+        return redirect()->route('course-class.indexForScheduleAtribution')->with('success', 'Horário excluído com sucesso!');
     }
 
     /**
@@ -108,7 +125,13 @@ class CourseClassController extends Controller
     {
         $courseClass->load('course', 'scheduleAtributions', 'hourBlockCourseClasses');
         $scheduleAtributions = $courseClass->scheduleAtributions()->get();
-        return view('pages.course_classes.showForScheduleAtribution', compact ('courseClass', 'scheduleAtributions'));
+        $hourBlocks = HourBlockCourseClass::where('course_class_id', 2)->get();
+        return view('pages.course_classes.showForScheduleAtribution', compact ('courseClass', 'scheduleAtributions', 'hourBlocks'));
     }
 
+    public function createForScheduleAtribution()
+    {
+        $courseClasses = CourseClass::with('course.specializationArea')->get();
+        return view('pages.course_classes.createForScheduleAtribution', compact ('courseClasses'));
+    }
 }

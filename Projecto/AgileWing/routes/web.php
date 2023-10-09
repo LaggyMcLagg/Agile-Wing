@@ -93,11 +93,11 @@ Route::prefix('courses')->group(function(){
 Route::prefix('schedule-atribution-course-class')->group(function(){
     Route::get('', 'CourseClassController@indexForScheduleAtribution')->name('course-class.schedule-attribution.index');
     Route::get('create', 'CourseClassController@createForScheduleAtribution')->name('course-class.schedule-attribution.create');
-    Route::post('', 'CourseClassController@storeForScheduleAtribution')->name('course-class.schedule-attribution.store');
+    Route::post('/course-classes', 'CourseClassController@storeForScheduleAtribution')->name('course-class.schedule-attribution.store');
     Route::get('{courseClass}/edit', 'CourseClassController@storeForScheduleAtribution')->name('course-class.schedule-attribution.edit');
     Route::put('{courseClass}', 'CourseClassController@storeForScheduleAtribution')->name('course-class.schedule-attribution.update');
     Route::get('{courseClass}', 'CourseClassController@showForScheduleAtribution')->name('course-class.schedule-attribution.show');
-    Route::delete('{courseClass}', 'CourseClassController@storeForScheduleAtribution')->name('ccourse-class.schedule-attribution.destroy');
+    Route::delete('{courseClass}/destroy', 'CourseClassController@destroyForScheduleAtribution')->name('course-class.schedule-attribution.destroy');
 });
 
 // ROUTES for Schedule Atribution

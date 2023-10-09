@@ -21,12 +21,13 @@ class ScheduleAtribution extends Model
 
     public function ufcd()
     {
-        return $this->belongsTo(Ufcd::class, 'ufcd_id');
+        return $this->belongsTo(Ufcd::class, 'ufcd_id, ufcd');
+
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id, user');
     }
 
     //to use it as a formatable date

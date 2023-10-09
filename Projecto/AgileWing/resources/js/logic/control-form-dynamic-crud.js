@@ -9,6 +9,7 @@
  *
  * @author   [Vasco Vitória]
  */
+
  // Wait until the DOM is fully loaded
  document.addEventListener("DOMContentLoaded", function() {
 
@@ -54,7 +55,15 @@
         document.querySelectorAll('#controlForm [data-name]').forEach(input => {
             input.value = '';
         });
-        sessionStorage.removeItem("selectedCourseId");  // Clear the stored course ID
+
+        // Uncheck all checkboxes in the checkbox list
+        document.querySelectorAll('#ufcdsCheckboxList input[type="checkbox"]').forEach(checkbox => {
+            checkbox.checked = false;
+        });
+
+        // Clear the stored course ID
+        idLabel.textContent = "";
+        sessionStorage.removeItem("selectedCourseId");  
     }
 
     // Function to enable the form editing mode
@@ -71,8 +80,28 @@
         isEditing = true;
     }
 
+    // This function processes the checkbox-lists and matches values.
+    function processCheckboxList(formInput, cellContent) {
+        const listId = cellContent.getAttribute('data-list-id');
+        const listDiv = document.getElementById(listId);
+        
+        if (!listDiv) return;
+
+        const itemValues = Array.from(listDiv.querySelectorAll('li')).map(li => li.getAttribute('value'));
+        
+        const checkboxes = formInput.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            if (itemValues.includes(checkbox.value)) {
+                checkbox.checked = true;
+            } else {
+                checkbox.checked = false;
+            }
+        });
+    }
+
     // Function to disable the form editing mode
     function disableEdit() {
+        clearForm();
         document.querySelectorAll('#controlForm input, #controlForm select').forEach(input => {
             input.setAttribute('readonly', true);
             input.setAttribute('disabled', true);
@@ -87,6 +116,11 @@
 
     // On "Edit" button click, enable editing if not already editing
     editBtn.addEventListener("click", function() {
+        // Check if idLabel is empty (including just whitespace)
+        if (!idLabel.textContent.trim()) {
+            disableEdit();
+            return;
+        }
         sessionStorage.setItem("formState", "edit");  // Store the EDIT state to session storage
         if (!isEditing) {
             enableEdit();
@@ -128,6 +162,7 @@
 
                     if (formInput) {
                         switch (formInput.getAttribute('data-type')) {
+
                             case 'comboBox':
                                 if (formInput.tagName === 'SELECT') {
                                     let value = cell.textContent.trim();
@@ -139,22 +174,9 @@
                                     }
                                 }
                                 break;
-
+                            
                             case 'checkBoxList':
-                                const ufcdListDiv = document.getElementById(`ufcdsList_${id}`);
-                                
-                                // Fetch the values of the <li> elements instead of the text
-                                const ufcdIds = Array.from(ufcdListDiv.querySelectorAll('li')).map(li => li.getAttribute('value'));
-                                
-                                const ufcdCheckboxes = document.querySelectorAll('#ufcdsCheckboxList input[type="checkbox"]');
-                                ufcdCheckboxes.forEach(checkbox => {
-                                    if (ufcdIds.includes(checkbox.value)) {
-                                        checkbox.checked = true;
-                                    } else {
-                                        checkbox.checked = false;
-                                    }
-                                });
-
+                                processCheckboxList(formInput, cell);
                                 break;
 
                             default:

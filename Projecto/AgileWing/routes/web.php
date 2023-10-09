@@ -64,6 +64,7 @@ Route::prefix('availability-types')->group(function(){
     Route::put('{availabilityType}', 'AvailabilityTypeController@update')->name('availability-types.update');
     Route::delete('{availabilityType}', 'AvailabilityTypeController@destroy')->name('availability-types.destroy');
 });
+
 Route::prefix('user-types')->group(function(){
     Route::get('', 'UserTypeController@index')->name('user-types.index');
     Route::get('create', 'UserTypeController@create')->name('user-types.create');
@@ -102,7 +103,9 @@ Route::prefix('schedule-atribution')->group(function(){
     Route::get('{scheduleAtribution}', 'ScheduleAtributionController@show')->name('schedule-atribution.show');
     Route::delete('{scheduleAtribution}', 'ScheduleAtributionController@destroy')->name('schedule-atribution.destroy');
 });
+
 //CRUD ROUTES
+
 //Course Class
 Route::prefix('course-classes')->group(function(){
     Route::get('', 'CourseClassController@index')->name('course-classes.index');

@@ -2,27 +2,7 @@
 <script src="{{ asset('/js/control-form-dynamic-crud.js') }}"></script>
 @endsection
 
-@if (session('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ session('success') }}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <script>
-        sessionStorage.removeItem("formState");  // Clear the state from local storage
-        sessionStorage.removeItem("selectedCourseId");  // Clear the stored course ID
-    </script>
-@endif
-
-@if (session('error'))
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        {{ session('error') }}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-@endif
+(...)
 
 <!-- Start of the Main Container -->
 <div class="container" id="listForm">
@@ -45,41 +25,10 @@
                 <label data-name="id" id="id_label"></label>
 
                 <!-- Course Name -->
-                <div class="form-group">
-                    <label for="name">Course Name</label>
-                    <input 
-                        data-name="name" 
-                        type="text" 
-                        id="name" 
-                        name="name" 
-                        class="form-control @error('name') is-invalid @enderror"
-                        required
-                        value="{{ old('name') }}"
-                        readonly>
-                    @error('name')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
-                </div>
+                (...)
 
                 <!-- Course Initials -->
-                <div class="form-group">
-                    <label for="initials">Course Initials</label>
-                    <input 
-                        data-name="initials"
-                        type="text"
-                        id="initials" 
-                        name="initials"
-                        class="form-control @error('initials') is-invalid @enderror"
-                        value="{{ old('initials') }}"
-                        readonly>
-                    @error('initials')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
-                </div>
+                (...)
 
                 <!-- Specialization Area -->
                 <div class="form-group">
@@ -148,45 +97,15 @@
         <div class="col-md-8">
             <table class="table table-bordered">
                 <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Nome Curso</th>
-                        <th scope="col">Sigla</th>
-                        <th scope="col">Área de formação</th>
-                        <th scope="col">Lista turmas</th>
-                        <th scope="col">Lista UFCDs</th>
-                        <th scope="col">
-                            <a id="createBtn" class="btn btn-primary">Criar</a>
-                            <a id="editBtn" type="button" class="btn btn-primary">Editar</a>
-                        </th>
-                    </tr>
+                    (...)
                 </thead>
                 <tbody>
                     @foreach ($courses as $course)
                     <tr>
-                        <td data-name="id">{{ $course->id }}</td>
-                        <td data-name="name">{{ $course->name }}</td>
-                        <td data-name="initials">{{ $course->initials }}</td>
+                        (...)
                         <td data-name="specializationArea">{{ $course->specializationArea->name }}</td>
-                        <td>
-                            <button 
-                                class="btn btn-light" 
-                                type="button" 
-                                data-toggle="collapse" 
-                                data-target="#courseClassesList_{{ $course->id }}">
-                                Turmas
-                            </button>
-                            <div id="courseClassesList_{{ $course->id }}" class="collapse">
-                                <ul>
-                                    @forelse($course->courseClasses as $courseClass)
-                                        <li>{{ $courseClass->name }} {{ $courseClass->number }}</li>
-                                    @empty
-                                        <li>No classes associated yet.</li>
-                                    @endforelse
-                                </ul>
-                            </div>
-                        </td>
-                        <td data-name="ufcds" data-list-id="ufcdsList_{{ $course->id }}">
+                        (...)
+                        <td data-name="ufcds">
                             <button 
                                 class="btn btn-light" 
                                 type="button" 

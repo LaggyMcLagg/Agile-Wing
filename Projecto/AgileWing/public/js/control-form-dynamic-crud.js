@@ -148,6 +148,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll('#controlForm [data-name]').forEach(function (input) {
       input.value = '';
     });
+    idLabel.textContent = "";
     sessionStorage.removeItem("selectedCourseId"); // Clear the stored course ID
   }
 
@@ -165,8 +166,27 @@ document.addEventListener("DOMContentLoaded", function () {
     isEditing = true;
   }
 
+  // This function processes the checkbox-lists and matches values.
+  function processCheckboxList(formInput, cellContent) {
+    var listId = cellContent.getAttribute('data-list-id');
+    var listDiv = document.getElementById(listId);
+    if (!listDiv) return;
+    var itemValues = Array.from(listDiv.querySelectorAll('li')).map(function (li) {
+      return li.getAttribute('value');
+    });
+    var checkboxes = formInput.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(function (checkbox) {
+      if (itemValues.includes(checkbox.value)) {
+        checkbox.checked = true;
+      } else {
+        checkbox.checked = false;
+      }
+    });
+  }
+
   // Function to disable the form editing mode
   function disableEdit() {
+    clearForm();
     document.querySelectorAll('#controlForm input, #controlForm select').forEach(function (input) {
       input.setAttribute('readonly', true);
       input.setAttribute('disabled', true);
@@ -181,6 +201,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // On "Edit" button click, enable editing if not already editing
   editBtn.addEventListener("click", function () {
+    // Check if idLabel is empty (including just whitespace)
+    if (!idLabel.textContent.trim()) {
+      disableEdit();
+      return;
+    }
     sessionStorage.setItem("formState", "edit"); // Store the EDIT state to session storage
     if (!isEditing) {
       enableEdit();
@@ -236,21 +261,10 @@ document.addEventListener("DOMContentLoaded", function () {
                   }
                 }
                 break;
-              case 'checkBoxList':
-                var ufcdListDiv = document.getElementById("ufcdsList_".concat(id));
 
-                // Fetch the values of the <li> elements instead of the text
-                var ufcdIds = Array.from(ufcdListDiv.querySelectorAll('li')).map(function (li) {
-                  return li.getAttribute('value');
-                });
-                var ufcdCheckboxes = document.querySelectorAll('#ufcdsCheckboxList input[type="checkbox"]');
-                ufcdCheckboxes.forEach(function (checkbox) {
-                  if (ufcdIds.includes(checkbox.value)) {
-                    checkbox.checked = true;
-                  } else {
-                    checkbox.checked = false;
-                  }
-                });
+              //REVER ESTA PARTE NÃO ESTÁ UNIVERSAL
+              case 'checkBoxList':
+                processCheckboxList(formInput, cell);
                 break;
               default:
                 formInput.value = cell.textContent;

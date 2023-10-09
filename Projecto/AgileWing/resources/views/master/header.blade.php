@@ -1,3 +1,5 @@
+@auth
+
 <div class="container">
     <div class="row">
         <div class="justify-content-end d-flex">
@@ -18,7 +20,7 @@
         </div>
     </div>
 </div>
-
+@if(auth()->user()->user_type_id == 1)
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#">Agile Wing</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -90,3 +92,43 @@
         </ul>
     </div>
 </nav>
+
+@elseif(auth()->user()->user_type_id == 2)
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Agile Wing</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown ">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Preencher Disponibilidade
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                    <a class="dropdown-item" href="{{ route ('teacher-availabilities.index') }}">Disponibilidade do Formador</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown ">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Consultar Horários Horários
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                    <a class="dropdown-item" href="{{ route('hour-block-course-classes.index')}}">Turma</a>
+                    <!-- ADD THE ROUTES HERE -->
+                </div>
+            </li>
+        
+            <li class="">
+                <a class="nav-link" href="{{route('users.passwordForm')}}" id="navbarDropdown1" role="button" aria-haspopup="true" aria-expanded="false">
+                    Alterar Palavra-passe
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+@endif
+@endauth

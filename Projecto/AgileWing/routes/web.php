@@ -16,16 +16,22 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('master-login.main');
 });
 
 Auth::routes([
     'verify' => true
 ]);
 
-Route::middleware(['auth', 'verified'])->group(function(){
-    Route::get('/home', 'HomeController@index')->name('home');
+Route::middleware(['auth', 'auth.teacher'])->group(function () {
+    Route::get('/home', 'HomeController@teacher')->name('home');
 });
+
+Route::middleware(['auth', 'auth.admin'])->group(function () {
+    Route::get('/home', 'HomeController@admin')->name('home');
+});
+
+
 
 // ROUTES for Courses
 Route::prefix('courses')->group(function(){
@@ -43,6 +49,13 @@ Route::prefix('hour-blocks')->group(function(){
     Route::delete('{hourBlock}', 'HourBlockController@destroy')->name('hour-blocks.destroy');
    });
 
+Route::prefix('availability-types')->group(function(){
+    Route::get('', 'AvailabilityTypeController@index')->name('availability-types.index');
+    Route::post('', 'AvailabilityTypeController@store')->name('availability-types.store');
+    Route::put('{id}', 'AvailabilityTypeController@update')->name('availability-types.update');
+    Route::delete('{availabilityType}', 'AvailabilityTypeController@destroy')->name('availability-types.destroy');
+});
+
 Route::prefix('users')->group(function(){
     Route::get('', 'UserController@index')->name('users.index');
     Route::get('create', 'UserController@create')->name('users.create');
@@ -51,21 +64,20 @@ Route::prefix('users')->group(function(){
     Route::get('password-form', 'UserController@changePasswordView')->name('users.passwordForm');
     Route::put('password-update', 'UserController@changePasswordLogic')->name('users.passwordUpdate');
     Route::get('edit', 'UserController@edit')->name('users.edit');
-    Route::put('{user}', 'UserController@update')->name('users.update');
+    Route::put('{id}', 'UserController@update')->name('users.update');
     Route::delete('{user}', 'UserController@destroy')->name('users.destroy');
    });
 
+// Route::prefix('availability-types')->group(function(){
+//     Route::get('', 'AvailabilityTypeController@index')->name('availability-types.index');
+//     Route::get('create', 'AvailabilityTypeController@create')->name('availability-types.create');
+//     Route::post('', 'AvailabilityTypeController@store')->name('availability-types.store');
+//     Route::get('{availabilityType}', 'AvailabilityTypeController@show')->name('availability-types.show');
+//     Route::get('{availabilityType}/edit', 'AvailabilityTypeController@edit')->name('availability-types.destroy');
+//     Route::put('{availabilityType}', 'AvailabilityTypeController@update')->name('availability-types.update');
+//     Route::delete('{availabilityType}', 'AvailabilityTypeController@destroy')->name('availability-types.destroy');
+// });
 
-   
-Route::prefix('availability-types')->group(function(){
-    Route::get('', 'AvailabilityTypeController@index')->name('availability-types.index');
-    Route::get('create', 'AvailabilityTypeController@create')->name('availability-types.create');
-    Route::post('', 'AvailabilityTypeController@store')->name('availability-types.store');
-    Route::get('{availabilityType}', 'AvailabilityTypeController@show')->name('availability-types.show');
-    Route::get('{availabilityType}/edit', 'AvailabilityTypeController@edit')->name('availability-types.destroy');
-    Route::put('{availabilityType}', 'AvailabilityTypeController@update')->name('availability-types.update');
-    Route::delete('{availabilityType}', 'AvailabilityTypeController@destroy')->name('availability-types.destroy');
-});
 Route::prefix('user-types')->group(function(){
     Route::get('', 'UserTypeController@index')->name('user-types.index');
     Route::get('create', 'UserTypeController@create')->name('user-types.create');

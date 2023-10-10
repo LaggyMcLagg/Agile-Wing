@@ -62,15 +62,15 @@ Route::prefix('users')->group(function(){
     Route::delete('{user}', 'UserController@destroy')->name('users.destroy');
    });
 
-// Route::prefix('availability-types')->group(function(){
-//     Route::get('', 'AvailabilityTypeController@index')->name('availability-types.index');
-//     Route::get('create', 'AvailabilityTypeController@create')->name('availability-types.create');
-//     Route::post('', 'AvailabilityTypeController@store')->name('availability-types.store');
-//     Route::get('{availabilityType}', 'AvailabilityTypeController@show')->name('availability-types.show');
-//     Route::get('{availabilityType}/edit', 'AvailabilityTypeController@edit')->name('availability-types.destroy');
-//     Route::put('{availabilityType}', 'AvailabilityTypeController@update')->name('availability-types.update');
-//     Route::delete('{availabilityType}', 'AvailabilityTypeController@destroy')->name('availability-types.destroy');
-// });
+Route::prefix('availability-types')->group(function(){
+    Route::get('', 'AvailabilityTypeController@index')->name('availability-types.index');
+    Route::get('create', 'AvailabilityTypeController@create')->name('availability-types.create');
+    Route::post('', 'AvailabilityTypeController@store')->name('availability-types.store');
+    Route::get('{availabilityType}', 'AvailabilityTypeController@show')->name('availability-types.show');
+    Route::get('{availabilityType}/edit', 'AvailabilityTypeController@edit')->name('availability-types.destroy');
+    Route::put('{availabilityType}', 'AvailabilityTypeController@update')->name('availability-types.update');
+    Route::delete('{availabilityType}', 'AvailabilityTypeController@destroy')->name('availability-types.destroy');
+});
 
 Route::prefix('user-types')->group(function(){
     Route::get('', 'UserTypeController@index')->name('user-types.index');
@@ -110,7 +110,9 @@ Route::prefix('schedule-atribution')->group(function(){
     Route::get('{scheduleAtribution}', 'ScheduleAtributionController@show')->name('schedule-atribution.show');
     Route::delete('{scheduleAtribution}', 'ScheduleAtributionController@destroy')->name('schedule-atribution.destroy');
 });
+
 //CRUD ROUTES
+
 //Course Class
 Route::prefix('course-classes')->group(function(){
     Route::get('', 'CourseClassController@index')->name('course-classes.index');

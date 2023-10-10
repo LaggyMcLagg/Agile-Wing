@@ -1,26 +1,20 @@
 <div class="container">
     <div class="row">
         <div class="justify-content-end d-flex">
-            <!-- tudo o que estivesse dentro deste auth apenas seria mostrado
-            se o user tivesse um login valido, nao sendo necessário pois
-            esta blade apenas é acedida pelo middleware auth garantindo a
-            autenticação-->
-            <!-- @auth -->
             <div class="d-flex align-items-center">
-                    <span class="mr-2">Welcome, {{ auth()->user()->name }}!</span>
-                    <span class="mr-2">ID: {{ auth()->user()->id }}</span>
-                    <form action="{{ route('logout') }}" method="post">
-                        @csrf
-                        <button class="btn btn-link nav-link" type="submit">Logout</button>
-                    </form>
-                </div>
-            <!-- @endauth -->
+                <span class="mr-2">Welcome, {{ auth()->user()->name }}!</span>
+                <span class="mr-2">ID: {{ auth()->user()->id }}</span>
+                <form action="{{ route('logout') }}" method="post">
+                    @csrf
+                    <button class="btn btn-link nav-link" type="submit">Logout</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Agile Wing</a>
+    <a class="navbar-brand" href="{{ route ('home') }}">Agile Wing</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -58,32 +52,21 @@
                     <a class="dropdown-item" href="{{ url('/availability_types') }}">Tipo de disponibilidades</a>
                     <a class="dropdown-item" href="{{ route('course-classes.index')}}">Turma</a>
                     <a class="dropdown-item" href="{{ route('hour-block-course-classes.index')}}">Turma blocos horário</a>
-
                     <!-- ADD THE ROUTES HERE -->
                 </div>
             </li>
             <li class="nav-item dropdown ">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link" href="{{route('teacher-availabilities.index')}}" role="button">
                     Preencher Disponibilidade
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
-                    <a class="dropdown-item" href="{{ route('teacher-availabilities.index') }}">Gerir Disponibilidade</a>
-                    <a class="dropdown-item" href="{{url('/ROTA1/ROUTE2')}}">ROUTE2</a>
-                    <!-- ADD THE ROUTES HERE -->
-                </div>
             </li>
             <li class="nav-item dropdown ">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link" href="#" role="button">
                     Consultar Horários
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
-                    <a class="dropdown-item" href="{{url('/ROTA1/ROUTE1')}}">ROUTE1</a>
-                    <a class="dropdown-item" href="{{url('/ROTA1/ROUTE2')}}">ROUTE2</a>
-                    <!-- ADD THE ROUTES HERE -->
-                </div>
             </li>
-            <li class="">
-                <a class="nav-link" href="{{route('users.passwordForm')}}" id="navbarDropdown1" role="button" aria-haspopup="true" aria-expanded="false">
+            <li class="nav-item">
+                <a class="nav-link" href="{{route('users.passwordForm')}}" role="button">
                     Alterar Palavra-passe
                 </a>
             </li>

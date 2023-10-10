@@ -71,12 +71,10 @@ class CourseController extends Controller
         
             $course->ufcds()->attach($request->ufcds);
     
-            session()->flash('success', 'Course created successfully');
-            return redirect()->route('courses.index');
+            return redirect()->route('courses.index')->with('success', 'Course created successfully');
 
         } catch (\Exception $e) {
-            \Log::error('Error creating course: ' . $e->getMessage());
-            
+            //In this way you return the error message in the event an error occours after validation with the old form data
             session()->flash('error', 'There was an error creating the course: ' . $e->getMessage());
             return back()->withInput();
         }
@@ -144,11 +142,9 @@ class CourseController extends Controller
     
             $course->ufcds()->sync($request->ufcds);
         
-            session()->flash('success', 'Course updated successfully');
-            return redirect()->route('courses.index');
+            return redirect()->route('courses.index')->with('success', 'Course deleted successfully');
         } catch (\Exception $e) {
-            \Log::error('Error updating course: ' . $e->getMessage());
-
+            //In this way you return the error message in the event an error occours after validation with the old form data
             session()->flash('error', 'There was an error updating the course: ' . $e->getMessage());
             return back()->withInput();
         }
@@ -173,7 +169,6 @@ class CourseController extends Controller
     
             return redirect()->route('courses.index')->with('success', 'Course deleted successfully');
         } catch (\Exception $e) {            
-            \Log::error('Error deleting course: ' . $e->getMessage());
     
             return redirect()->route('courses.index')->with('error', 'There was an error deleting the course.' . $e->getMessage());
         }

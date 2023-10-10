@@ -4,8 +4,7 @@
 
 @component('components.availability_types.availability-type-form-crud',
     compact (
-        'availabilityTypes', 
-        'defaultAvailabilityType'
+        'availabilityTypes'
         ))
 @endcomponent
 

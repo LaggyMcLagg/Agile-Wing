@@ -15,9 +15,8 @@ class AvailabilityTypeController extends Controller
     public function index()
     {
         $availabilityTypes = AvailabilityType::all();
-        $defaultAvailabilityType = $availabilityTypes->first();
 
-        return view('pages.availability_types.crud', compact ('availabilityTypes', 'defaultAvailabilityType'));
+        return view('pages.availability_types.crud', compact ('availabilityTypes'));
     }
 
     /**
@@ -84,7 +83,7 @@ class AvailabilityTypeController extends Controller
 
         return redirect()->route('availability-types.index')->with('success', 'Registo editado com sucesso!');
     }
-    
+
 
     /**
      * Remove the specified resource from storage.

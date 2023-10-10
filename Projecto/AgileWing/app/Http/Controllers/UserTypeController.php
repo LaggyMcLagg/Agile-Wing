@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\UserType;
 use Illuminate\Http\Request;
+use Exception;
 
 class UserTypeController extends Controller
 {
@@ -14,8 +15,7 @@ class UserTypeController extends Controller
      */
     public function index()
     {
-        $userTypes=UserType::all();
-        return view('pages.user_types.index', ['userTypes' => UserType::all()]);
+        return view('pages.user_types.crud', ['userTypes' => UserType::all()]);
     }
 
     /**
@@ -25,7 +25,7 @@ class UserTypeController extends Controller
      */
     public function create()
     {
-        return view ('pages.user_types.create');
+        //
     }
 
     /**
@@ -36,11 +36,27 @@ class UserTypeController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            ]);
+        $request->validate(
+            [
+                'name' => 'required|string|max:255|regex:/^[\pL\sÇç]+$/u|unique:user_types,name',
+            ],
+            [
+                'name.required' => 'The name field is required.',
+                'name.regex' => 'The name may only contain letters, accentuation, and Ç or ç.',
+                'name.unique' => 'The name has already been taken.',
+            ]
+        );
+
+        try {        
             UserType::create($request->all());
-            return redirect('user_types')->with('status', 'Registo criado com sucesso!');
+        
+            session()->flash('success', 'Registo criado com sucesso!');
+            return redirect()->route('user-types.index');
+        } catch (Exception $e) {
+            
+            session()->flash('error', 'Ocorreu um erro a tentar criar o resgisto: ' . $e->getMessage());
+            return back()->withInput();
+        }
     }
 
     /**
@@ -51,7 +67,7 @@ class UserTypeController extends Controller
      */
     public function show(UserType $userType)
     {
-        return view('pages.user_types.show', ['userType' => $userType]);
+        //
     }
 
     /**
@@ -62,7 +78,7 @@ class UserTypeController extends Controller
      */
     public function edit(UserType $userType)
     {
-        return view('pages.user_types.edit', ['userType' => $userType]);
+        //
     }
 
     /**
@@ -72,13 +88,31 @@ class UserTypeController extends Controller
      * @param  \App\UserType  $userType
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, UserType $userType)
+    public function update(Request $request, $id)
     {
-        $userType = UserType::find($userType->id);
-        $userType->name = $request->name;
-        $userType->save();
+        $request->validate(
+            [
+                'name' => 'required|string|max:255|regex:/^[\pL\sÇç]+$/u',
+            ],
+            [
+                'name.required' => 'The name field is required.',
+                'name.regex' => 'The name may only contain letters, accentuation, and Ç or ç.',
+            ]
+        );
+
+        try {        
+            $userType = UserType::find($id);
+            $userType->name = $request->name;
+            $userType->save();
         
-        return redirect('user_types')->with('status', 'Registo editado com sucesso!');
+            session()->flash('success', 'Registo editado com sucesso!');
+            return redirect()->route('user-types.index');
+        } catch (Exception $e) {
+            
+            session()->flash('error', 'Ocorreu um erro a tentar editar o resgisto: ' . $e->getMessage());
+            return back()->withInput();
+        }
+        
     }
 
     /**
@@ -89,7 +123,13 @@ class UserTypeController extends Controller
      */
     public function destroy(UserType $userType)
     {
-        $userType->delete();
-        return redirect('user_types')->with('status', 'Registo apagado com sucesso!');
+        try {
+            $userType->delete();
+    
+            return redirect()->route('user-types.index')->with('success', 'Tipo de utilizador apagado com successo.');
+        } catch (Exception $e) {            
+    
+            return redirect()->route('user-types.index')->with('error', 'Houve um erro a apagar o tipo de utilizador.' . $e->getMessage());
+        }
     }
 }

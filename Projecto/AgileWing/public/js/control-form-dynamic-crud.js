@@ -107,6 +107,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 *
 * @author   [Vasco Vitória]
 */
+
 // Wait until the DOM is fully loaded
 document.addEventListener("DOMContentLoaded", function () {
   // Getting elements from the DOM
@@ -128,7 +129,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (formState === "edit") {
     enableEdit(); // Enable the edit mode
 
-    var storedCourseId = sessionStorage.getItem("selectedCourseId");
+    var storedCourseId = sessionStorage.getItem("selectedId");
     if (storedCourseId) {
       idLabel.textContent = storedCourseId;
     }
@@ -148,8 +149,15 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll('#controlForm [data-name]').forEach(function (input) {
       input.value = '';
     });
+
+    // Uncheck all checkboxes in the checkbox list
+    document.querySelectorAll('#ufcdsCheckboxList input[type="checkbox"]').forEach(function (checkbox) {
+      checkbox.checked = false;
+    });
+
+    // Clear the stored course ID
     idLabel.textContent = "";
-    sessionStorage.removeItem("selectedCourseId"); // Clear the stored course ID
+    sessionStorage.removeItem("selectedId");
   }
 
   // Function to enable the form editing mode
@@ -235,7 +243,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Get the ID from the clicked row
         var id = row.querySelector('[data-name="id"]').textContent;
         idLabel.textContent = id;
-        sessionStorage.setItem("selectedCourseId", id);
+        sessionStorage.setItem("selectedId", id);
         row.querySelectorAll('[data-name]').forEach(function (cell) {
           var fieldName = cell.getAttribute('data-name');
           var formInput = document.querySelector("#controlForm [data-name=\"".concat(fieldName, "\"]"));
@@ -261,10 +269,11 @@ document.addEventListener("DOMContentLoaded", function () {
                   }
                 }
                 break;
-
-              //REVER ESTA PARTE NÃO ESTÁ UNIVERSAL
               case 'checkBoxList':
                 processCheckboxList(formInput, cell);
+                break;
+              case 'colorPicker':
+                formInput.value = cell.getAttribute('data-value');
                 break;
               default:
                 formInput.value = cell.textContent;

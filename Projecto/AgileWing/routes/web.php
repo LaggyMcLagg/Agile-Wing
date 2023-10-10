@@ -43,11 +43,20 @@ Route::prefix('hour-blocks')->group(function(){
     Route::delete('{hourBlock}', 'HourBlockController@destroy')->name('hour-blocks.destroy');
    });
 
+// ROUTES for availability-types
 Route::prefix('availability-types')->group(function(){
     Route::get('', 'AvailabilityTypeController@index')->name('availability-types.index');
     Route::post('', 'AvailabilityTypeController@store')->name('availability-types.store');
     Route::put('{id}', 'AvailabilityTypeController@update')->name('availability-types.update');
     Route::delete('{availabilityType}', 'AvailabilityTypeController@destroy')->name('availability-types.destroy');
+});
+
+// ROUTES for user-types
+Route::prefix('user-types')->group(function(){
+    Route::get('', 'UserTypeController@index')->name('user-types.index');
+    Route::post('', 'UserTypeController@store')->name('user-types.store');
+    Route::put('{id}', 'UserTypeController@update')->name('user-types.update');
+    Route::delete('{userType}', 'UserTypeController@destroy')->name('user-types.destroy');
 });
 
 Route::prefix('users')->group(function(){
@@ -62,25 +71,8 @@ Route::prefix('users')->group(function(){
     Route::delete('{user}', 'UserController@destroy')->name('users.destroy');
    });
 
-Route::prefix('availability-types')->group(function(){
-    Route::get('', 'AvailabilityTypeController@index')->name('availability-types.index');
-    Route::get('create', 'AvailabilityTypeController@create')->name('availability-types.create');
-    Route::post('', 'AvailabilityTypeController@store')->name('availability-types.store');
-    Route::get('{availabilityType}', 'AvailabilityTypeController@show')->name('availability-types.show');
-    Route::get('{availabilityType}/edit', 'AvailabilityTypeController@edit')->name('availability-types.destroy');
-    Route::put('{availabilityType}', 'AvailabilityTypeController@update')->name('availability-types.update');
-    Route::delete('{availabilityType}', 'AvailabilityTypeController@destroy')->name('availability-types.destroy');
-});
 
-Route::prefix('user-types')->group(function(){
-    Route::get('', 'UserTypeController@index')->name('user-types.index');
-    Route::get('create', 'UserTypeController@create')->name('user-types.create');
-    Route::post('', 'UserTypeController@store')->name('user-types.store');
-    Route::get('{userType}', 'UserTypeController@show')->name('user-types.show');
-    Route::get('{userType}/edit', 'UserTypeController@edit')->name('user-types.edit');
-    Route::put('{userType}', 'UserTypeController@update')->name('user-types.update');
-    Route::delete('{userType}', 'UserTypeController@destroy')->name('user-types.destroy');
-});
+
 
 // ROUTES for Teacher Availabilities
 Route::prefix('teacher-availabilities')->group(function(){

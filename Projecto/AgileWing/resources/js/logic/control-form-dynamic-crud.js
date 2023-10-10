@@ -33,7 +33,7 @@
     if (formState === "edit") {
         enableEdit();  // Enable the edit mode
 
-        const storedCourseId = sessionStorage.getItem("selectedCourseId");
+        const storedCourseId = sessionStorage.getItem("selectedId");
 
         if (storedCourseId) {
             idLabel.textContent = storedCourseId;
@@ -63,7 +63,7 @@
 
         // Clear the stored course ID
         idLabel.textContent = "";
-        sessionStorage.removeItem("selectedCourseId");  
+        sessionStorage.removeItem("selectedId");  
     }
 
     // Function to enable the form editing mode
@@ -153,7 +153,7 @@
                 // Get the ID from the clicked row
                 const id = row.querySelector('[data-name="id"]').textContent;
                 idLabel.textContent = id;
-                sessionStorage.setItem("selectedCourseId", id);
+                sessionStorage.setItem("selectedId", id);
 
                 row.querySelectorAll('[data-name]').forEach(cell => {
                     const fieldName = cell.getAttribute('data-name');
@@ -177,6 +177,10 @@
                             
                             case 'checkBoxList':
                                 processCheckboxList(formInput, cell);
+                                break;
+
+                            case 'colorPicker':
+                                formInput.value = cell.getAttribute('data-value');
                                 break;
 
                             default:

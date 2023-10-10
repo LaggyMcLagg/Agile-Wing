@@ -23,6 +23,19 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $userType = auth()->user()->user_type_id;
+    
+        if ($userType == 1) 
+        {
+            return view('home-admin');
+        } 
+        elseif ($userType == 2) 
+        {
+            return view('home-teacher');
+        }
+    
+        abort(403, 'Unauthorized');
     }
+    
+
 }

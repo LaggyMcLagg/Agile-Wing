@@ -23,13 +23,10 @@ Auth::routes([
     'verify' => true
 ]);
 
-Route::middleware(['auth', 'auth.teacher'])->group(function () {
-    Route::get('/home', 'HomeController@teacher')->name('home');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', 'HomeController@index')->name('home');
 });
 
-Route::middleware(['auth', 'auth.admin'])->group(function () {
-    Route::get('/home', 'HomeController@admin')->name('home');
-});
 
 
 

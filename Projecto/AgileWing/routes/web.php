@@ -59,6 +59,15 @@ Route::prefix('user-types')->group(function(){
     Route::delete('{userType}', 'UserTypeController@destroy')->name('user-types.destroy');
 });
 
+// ROUTES for ufcds
+Route::prefix('ufcds')->group(function(){
+    Route::get('', 'UfcdController@index')->name('ufcds.index');
+    Route::post('', 'UfcdController@store')->name('ufcds.store');
+    Route::put('{id}', 'UfcdController@update')->name('ufcds.update');
+    Route::delete('{ufcd}', 'UfcdController@destroy')->name('ufcds.destroy');
+});
+
+//ROUTES for users
 Route::prefix('users')->group(function(){
     Route::get('', 'UserController@index')->name('users.index');
     Route::get('create', 'UserController@create')->name('users.create');
@@ -70,9 +79,6 @@ Route::prefix('users')->group(function(){
     Route::put('{id}', 'UserController@update')->name('users.update');
     Route::delete('{user}', 'UserController@destroy')->name('users.destroy');
    });
-
-
-
 
 // ROUTES for Teacher Availabilities
 Route::prefix('teacher-availabilities')->group(function(){
@@ -138,14 +144,3 @@ Route::prefix('pedagogical-groups')->group(function(){
     Route::get('{pedagogicalGroup}', 'PedagogicalGroupController@show')->name('pedagogical-groups.show');
     Route::delete('{pedagogicalGroup}', 'PedagogicalGroupController@destroy')->name('pedagogical-groups.destroy');
 });
-
-Route::prefix('ufcds')->group(function(){
-    Route::get('', 'UfcdController@index')->name('ufcds.index');
-    Route::get('create', 'UfcdController@create')->name('ufcds.create');
-    Route::post('', 'UfcdController@store')->name('ufcds.store');
-    Route::get('{ufcd}/edit', 'UfcdController@edit')->name('ufcds.edit');
-    Route::put('{ufcd}', 'UfcdController@update')->name('ufcds.update');
-    Route::get('{ufcd}', 'UfcdController@show')->name('ufcds.show');
-    Route::delete('{ufcd}', 'UfcdController@destroy')->name('ufcds.destroy');
-});
-

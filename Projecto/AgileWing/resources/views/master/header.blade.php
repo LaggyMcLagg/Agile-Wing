@@ -44,12 +44,13 @@
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Geral
+                Gestão Geral
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown3">
-                    <a class="dropdown-item" href="{{ route('courses.index') }}">Gerir Crusos</a>
-                    <a class="dropdown-item" href="{{ route('user-types.index') }}">Gerir Tipos de Utilizador</a>
-                    <a class="dropdown-item" href="{{ route('hour-blocks.index') }}">Gerir Blocos Horário</a>
+                    <a class="dropdown-item" href="{{ route('courses.index') }}">Crusos</a>
+                    <a class="dropdown-item" href="{{ route('ufcds.index') }}">UFCDs</a>
+                    <a class="dropdown-item" href="{{ route('user-types.index') }}">Tipos de Utilizador</a>
+                    <a class="dropdown-item" href="{{ route('hour-blocks.index') }}">Blocos Horário</a>
                     <a class="dropdown-item" href="{{ route('availability-types.index') }}">Tipo de disponibilidades</a>
                     <a class="dropdown-item" href="{{ route('course-classes.index')}}">Turma</a>
                     <a class="dropdown-item" href="{{ route('hour-block-course-classes.index')}}">Turma blocos horário</a>

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\CourseClass;
 use App\HourBlockCourseClass;
+use App\Ufcd;
+use App\User;
 use Illuminate\Http\Request;
 
 class CourseClassController extends Controller
@@ -125,8 +127,10 @@ class CourseClassController extends Controller
     {
         $courseClass->load('course', 'scheduleAtributions', 'hourBlockCourseClasses');
         $scheduleAtributions = $courseClass->scheduleAtributions()->get();
-        $hourBlocks = HourBlockCourseClass::where('course_class_id', 2)->get();
-        return view('pages.course_classes.showForScheduleAtribution', compact ('courseClass', 'scheduleAtributions', 'hourBlocks'));
+        $users = User::all();
+        $ufcds = Ufcd::all();
+        $hourBlocks = HourBlockCourseClass::where('course_class_id', $courseClass->id)->get();
+        return view('pages.course_classes.showForScheduleAtribution', compact ('courseClass', 'scheduleAtributions', 'hourBlocks', 'ufcds', 'users'));
     }
 
     public function createForScheduleAtribution()

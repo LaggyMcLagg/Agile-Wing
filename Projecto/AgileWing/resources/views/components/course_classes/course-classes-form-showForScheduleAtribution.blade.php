@@ -119,13 +119,13 @@
   }
 
   function getStartAndEndDateOfWeek(year, weekNumber) {
-    let januaryFourth = new Date(year, 0, 4);
-    let daysToNextSunday = (7 - januaryFourth.getDay()) % 7;
-    let firstSunday = new Date(year, 0, 4 + daysToNextSunday);
+    let januaryFourth = new Date(Date.UTC(year, 0, 4));
+    let daysToNextSunday = (7 - januaryFourth.getUTCDay()) % 7;
+    let firstSunday = new Date(Date.UTC(year, 0, 4 + daysToNextSunday));
     let startDate = new Date(firstSunday);
-    startDate.setDate((firstSunday.getDate() + (weekNumber - 1) * 7) - 7);
+    startDate.setUTCDate((firstSunday.getUTCDate() + (weekNumber - 1) * 7) - 9);
     let endDate = new Date(startDate);
-    endDate.setDate(startDate.getDate() + 6);
+    endDate.setUTCDate(startDate.getUTCDate() + 8);
 
     return {
         startDate: startDate,
@@ -155,7 +155,6 @@
             eventDate.getUTCFullYear() === currentDate.getUTCFullYear() &&
             eventDate.getUTCMonth() === currentDate.getUTCMonth() &&
             eventDate.getUTCDate() === currentDate.getUTCDate()
-
         );
     });
   }
@@ -170,60 +169,127 @@
     return parseInt(timeDiff / 60);
   }
 
+  function getUfcdById(id) {
+    return ufcds.find(ufcd => ufcd.id === id);
+  }
+
+  function getUserById(id) {
+    return users.find(user => user.id === id);
+  }
+
   function generateSchedule(events) {
-    let body = scheduleTable.getElementsByTagName('tbody')[0];
-    let rowList = [];
+  let body = scheduleTable.getElementsByTagName('tbody')[0];
+  let rowList = [];
 
-    let hourArray = [];
+  let hourArray = [];
 
-    for(let i = 0; i < hourBlocks.length; i++) {
-        let newRow = body.insertRow(body.rows.length);
-        rowList.push(newRow);
-        hourArray.push(hourBlocks[i].hour_beginning);
-        let cell = newRow.insertCell(0);
-        cell.innerHTML = hourBlocks[i].hour_beginning + " - " + hourBlocks[i].hour_end;
+  for (let i = 0; i < hourBlocks.length; i++) {
+    let newRow = body.insertRow(body.rows.length);
+    rowList.push(newRow);
+    hourArray.push(hourBlocks[i].hour_beginning);
+    let cell = newRow.insertCell(0);
+    cell.innerHTML = hourBlocks[i].hour_beginning + " - " + hourBlocks[i].hour_end;
+  }
+
+  for (let i = 0; i < events.length; i++) {
+    for (let j = 0; j < hourArray.length; j++) {
+      let startTime = new Date(events[i].hour_start);
+      let endTime = new Date(events[i].hour_end);
+      let startHours = startTime.getUTCHours().toString();
+      let endHours = endTime.getUTCHours().toString();
+      let parsedStartTime = "";
+      let parsedEndTime = "";
+      if (startHours.length === 1) {
+        parsedStartTime = "0" + startTime.getUTCHours() + ":" + startTime.getMinutes() + ":00";
+      } else {
+        parsedStartTime = startTime.getUTCHours() + ":" + startTime.getMinutes() + ":00";
+      }
+
+      if (parsedStartTime === hourArray[j]) {
+        events[i].startSlot = j;
+      }
     }
-
-    for(let i = 0; i < events.length; i++) {
-        for(let j = 0; j < hourArray.length; j++) {
-            let startTime = new Date(events[i].hour_start);
-            let endTime = new Date(events[i].hour_end);
-            let startHours = startTime.getUTCHours().toString();
-            let endHours = endTime.getUTCHours().toString();
-            let parsedStartTime = "";
-            let parsedEndTime = "";
-            if(startHours.length === 1) {
-                parsedStartTime = "0" + startTime.getUTCHours() + ":" + startTime.getMinutes() + ":00";
-            } else {
-                parsedStartTime = startTime.getUTCHours() + ":" + startTime.getMinutes() + ":00";
-            }
-
-            if(parsedStartTime === hourArray[j]) {
-                events[i].startSlot = j;
-            }
-        }
-        events[i].rowSpan = calculateSlots(events[i].hour_start, events[i].hour_end)
-        events[i].endSlot = events[i].startSlot + (events[i].rowSpan - 1);
+    events[i].rowSpan = calculateSlots(events[i].hour_start, events[i].hour_end)
+    events[i].endSlot = events[i].startSlot + (events[i].rowSpan - 1);
     }
 
     let currentDay = weekDates.startDate;
-    let isoDate = currentDay.toISOString();
-    let datePart = isoDate.split('T')[0];
+  let isoDate = currentDay.toUTCString();
+  let datePart = isoDate.split('T')[0];
 
-    let nextDay = currentDay.setDate(currentDay.getDate() + 2);
+  let nextDay = currentDay.setUTCDate(currentDay.getUTCDate() + 2);
 
-    for(let currentColumn = 0; currentColumn < 7; currentColumn++) {
-        let currentEvents = getEventsFromDate(events, currentDay);
-        for(let i = 0; i < currentEvents.length; i++) {
-            let event = currentEvents[i];
-            let startSlot = event.startSlot;
-            let endSlot = event.endSlot;
+  for (let currentColumn = 0; currentColumn < 7; currentColumn++) {
+    let currentEvents = getEventsFromDate(events, currentDay);
+    console.log(currentEvents)
+    if (currentEvents.length === 0) {
+      for (let i = 0; i <= 6; i++) {
+        let td = document.createElement("td");
+        rowList[i].appendChild(td);
+        console.log(td)
+      }
+    } else {
+        let slotCount = 0;
+      for (let j = 0; j < currentEvents.length; j++) {
+        let event = currentEvents[j];
+        let startSlot = event.startSlot;
+        let endSlot = event.endSlot;
+        let rowSpan = event.rowSpan;
+        let ufcd = getUfcdById(event.ufcd_id);
+        let user = getUserById(event.user_id);
+
+        if (startSlot !== 0 && j === 0) {
+            for (let x = 0; x < startSlot; x++) {
+                let td = document.createElement("td");
+                rowList[x].appendChild(td);
+                console.log(td)
+            }
+            let td = document.createElement("td");
+            td.rowSpan = rowSpan;
+            /*let editLink = document.createElement("a");
+            editLink.href = `/editScheduleAtribution/${event.id}`; // tem de colcoar o url correto
+            editLink.textContent = ufcd.number + " - " +  user.name;*/
+
+            td.textContent = ufcd.number + " - " +  user.name;
+
+            console.log(td)
+            console.log(startSlot)
+            console.log(endSlot)
+            console.log(ufcd.number);
+            console.log(user.name)
+            console.log(currentColumn)
+            rowList[startSlot].appendChild(td);
+            slotCount += endSlot;
+        } else {
             let rowSpan = event.rowSpan;
-            let td = document.createElemnt("td");
-            rowList[startSlot]
-            console.log(rowList)
+            let ufcd = getUfcdById(event.ufcd_id);
+            let user = getUserById(event.user_id);
+            let td = document.createElement("td");
+            td.rowSpan = rowSpan;
+            td.textContent = ufcd.number + " - " +  user.name;
+            console.log("Appended: " + startSlot)
+            rowList[startSlot].appendChild(td);
+            console.log(td)
+            console.log(startSlot)
+            console.log(endSlot);
+            console.log(ufcd.number);
+            console.log(user.name)
+            console.log(currentColumn)
+            slotCount += endSlot;
         }
-        currentDay.setDate(currentDay.getDate() + 1);
+        }
+        if(slotCount < 6) {
+            for (let x = slotCount; x < 7; x++) {
+                let td = document.createElement("td");
+                rowList[x].appendChild(td);
+                console.log(td)
+            }
+
+        }
+
+    }
+    currentDay.setDate(currentDay.getUTCDate() + 1);
+
     }
 
 /*
@@ -237,28 +303,23 @@
 
   let scheduleAtributions = JSON.parse(@json($scheduleAtributions));
   let hourBlocks = JSON.parse(@json($hourBlocks));
+  let users = JSON.parse(@json($users));
+  let ufcds = JSON.parse(@json($ufcds));
 
   let currentDate = new Date();
   let currentYear = currentDate.getFullYear();
   let currentMonth = currentDate.getMonth();
   let currentWeek = currentDate.getWeek();
 
-  let weekDates = getStartAndEndDateOfWeek(2023, currentWeek);
+  let weekDates = getStartAndEndDateOfWeek(currentYear, currentWeek);
 
   let filteredEvents = filterByDateRange(scheduleAtributions, weekDates.startDate, weekDates.endDate);
 
   filteredEvents.sort(function(a, b) {
-    const dateComparison = new Date(a.date) - new Date(b.date);
-
-    if(dateComparison === 0) {
-        const timeA = new Date(a.hour_start).toLocaleTimeString();
-        const timeB = new Date(b.hour_start).toLocaleTimeString();
-
-        return timeA.localeCompare(timeB);
-    }
-
-    return dateComparison;
-  });
+        const timeA = new Date(a.hour_start).getTime();
+        const timeB = new Date(b.hour_start).getTime();
+        return timeA - timeB;
+    });
 
   generateSchedule(filteredEvents);
 

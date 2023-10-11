@@ -17,6 +17,7 @@ class CreateSpecializationAreasTable extends Migration
             $table->integer('number')->primary();
             $table->string('name');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

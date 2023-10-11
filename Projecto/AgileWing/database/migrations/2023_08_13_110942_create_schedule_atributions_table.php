@@ -18,11 +18,13 @@ class CreateScheduleAtributionsTable extends Migration
             $table->date('date');
             $table->time('hour_start');
             $table->time('hour_end');
+            $table->boolean('published')->default(false);
             $table->foreignid('availability_type_id')->constrained();
-            $table->foreignid('course_class_id')->constrained();
-            $table->foreignid('ufcd_id')->constrained();
-            $table->foreignid('user_id')->constrained();
+            $table->foreignid('course_class_id')->constrained()->onDelete('cascade');
+            $table->foreignid('ufcd_id')->constrained()->onDelete('cascade');
+            $table->foreignid('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -14,10 +14,11 @@ class CreatePedagogicalGroupUsersTable extends Migration
     public function up()
     {
         Schema::create('pedagogical_group_users', function (Blueprint $table) {
-            $table->foreignid('pedagogical_group_id')->constrained();
-            $table->foreignid('user_id')->constrained();
+            $table->id();
+            $table->foreignid('pedagogical_group_id')->constrained()->onDelete('cascade');
+            $table->foreignid('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
-            $table->primary(['pedagogical_group_id', 'user_id']);
+            $table->softDeletes();
         });
     }
 

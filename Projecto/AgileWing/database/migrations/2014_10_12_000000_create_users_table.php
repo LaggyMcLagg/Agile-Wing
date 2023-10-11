@@ -18,14 +18,19 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->foreignid('user_type_id')->constrained();
-            $table->string('token_password');
-            $table->boolean('token_used');
-            $table->date('token_created_at');
-            $table->string('color_1')->nullable();
             $table->string('color_2')->nullable();
+            $table->string('color_1')->nullable();
+            $table->foreignid('user_type_id')->constrained();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('token_password')->nullable();
+            $table->boolean('token_used')->default(false);
+            $table->date('token_created_at')->nullable();
+            $table->boolean('password_reset_resquested')->default(false);
+            $table->text('notes')->nullable();
+            $table->date('last_login')->nullable();
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

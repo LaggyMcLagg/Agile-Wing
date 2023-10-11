@@ -5,15 +5,20 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\PedagogicalGroup;
 use App\Ufcd;
 use App\UserType;
 use App\TeacherAvailability;
 use App\SpecializationArea;
 use App\ScheduleAtribution;
+use App\HourBlockCourse;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
+
 {
+    use SoftDeletes;
+    
     use Notifiable;
 
     public function pedagogicalGroups()
@@ -38,7 +43,7 @@ class User extends Authenticatable
 
     public function specializationAreas()
     {
-        return $this->belongsToMany(SpecializationArea::class, 'specialization_area_users', 'user_id', 'specialization_area_id');
+        return $this->belongsToMany(SpecializationArea::class, 'specialization_area_users', 'user_id', 'specialization_area_number');
     }
 
     public function scheduleAtributions()
@@ -52,8 +57,15 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
-    ];
+        'name', 
+        'email', 
+        'password', 
+        'user_type_id',
+        'notes', 
+        'color_1', 
+        'color_2',
+    ];    
+    
 
     /**
      * The attributes that should be hidden for arrays.

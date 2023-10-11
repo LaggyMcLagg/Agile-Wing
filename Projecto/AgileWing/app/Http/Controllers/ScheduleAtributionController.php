@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\AvailabilityType;
+use App\CourseClass;
 use App\ScheduleAtribution;
+use App\Ufcd;
+use App\User;
 use Illuminate\Http\Request;
 
 class ScheduleAtributionController extends Controller
@@ -12,19 +16,31 @@ class ScheduleAtributionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(CourseClass $courseClass)
     {
-        //
+        $scheduleAtributions = ScheduleAtribution::where('course_class_id', $courseClass->id)->get();
+            
+        return view('pages.schedule_atribution.index', compact('scheduleAtributions'));
     }
-
+    
+    
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(User $user)
     {
-        //
+        $availabilityTypes = AvailabilityType::all();
+        $courseClasses = CourseClass::all();
+        $ufcds = Ufcd::all();
+        $users = User::all();
+
+        //if($user->user_type_id == 1) { //TODO descomentar
+            return view('pages.schedule_atribution.create', compact('availabilityTypes', 'courseClasses', 'ufcds', 'users'));
+        //} else {
+            //return view('pages.error');
+        //}
     }
 
     /**
@@ -33,9 +49,24 @@ class ScheduleAtributionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, User $user)
     {
-        //
+        // Validar dados
+        $request->validate([
+            'date' => 'required|date|after:today',
+            'hour_start' => 'required|date_format:H:i',
+            'hour_end' => 'required|date_format:H:i',
+            'availability_type_id' => 'required|exists:availability_types,id',
+            'course_class_id' => 'required|exists:course_classes,id',
+            'ufcd_id' => 'required|exists:ufcds,id',
+            'user_id' => 'required|exists:users,id',
+        ]);
+
+        $scheduleUser = User::find($request->user_id);
+
+        $scheduleUser->scheduleAtributions()->create($request->all());
+
+        return redirect()->route('schedule_atribution.index')->with('status', 'Schedule atribution created successfully');
     }
 
     /**
@@ -44,9 +75,13 @@ class ScheduleAtributionController extends Controller
      * @param  \App\ScheduleAtribution  $scheduleAtribution
      * @return \Illuminate\Http\Response
      */
-    public function show(ScheduleAtribution $scheduleAtribution)
+    public function show(User $user, ScheduleAtribution $scheduleAtribution)
     {
-        //
+        // Eager load the necessary relationships
+        $scheduleAtribution->load('user', 'ufcd', 'courseClass', 'availabilityType');
+
+        // Pass the data to the view
+        return view('pages.schedule_atribution.show', compact('scheduleAtribution'));
     }
 
     /**
@@ -55,9 +90,14 @@ class ScheduleAtributionController extends Controller
      * @param  \App\ScheduleAtribution  $scheduleAtribution
      * @return \Illuminate\Http\Response
      */
-    public function edit(ScheduleAtribution $scheduleAtribution)
+    public function edit(User $user, ScheduleAtribution $scheduleAtribution)
     {
-        //
+        $availabilityTypes = AvailabilityType::all();
+        $courseClasses = CourseClass::all();
+        $ufcds = Ufcd::all();
+        $users = User::all();
+
+        return view('pages.schedule_atribution.edit', compact('scheduleAtribution', 'availabilityTypes', 'courseClasses', 'ufcds', 'users'));
     }
 
     /**
@@ -67,9 +107,21 @@ class ScheduleAtributionController extends Controller
      * @param  \App\ScheduleAtribution  $scheduleAtribution
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ScheduleAtribution $scheduleAtribution)
+    public function update(Request $request, User $user, ScheduleAtribution $scheduleAtribution)
     {
-        //
+        $request->validate([
+            'date' => 'required|date|after:today',
+            'hour_start' => 'required|date_format:H:i',
+            'hour_end' => 'required|date_format:H:i',
+            'availability_type_id' => 'required|exists:availability_types,id',
+            'course_class_id' => 'required|exists:course_classes,id',
+            'ufcd_id' => 'required|exists:ufcds,id',
+            'user_id' => 'required|exists:users,id',
+        ]);
+
+        $scheduleAtribution->update($request->all());
+
+        return redirect()->route('schedule_atribution.index')->with('status', 'Schedule atribution updated successfully');
     }
 
     /**
@@ -78,8 +130,11 @@ class ScheduleAtributionController extends Controller
      * @param  \App\ScheduleAtribution  $scheduleAtribution
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ScheduleAtribution $scheduleAtribution)
+    public function destroy(User $user, ScheduleAtribution $scheduleAtribution)
     {
-        //
+        $scheduleAtribution->delete();
+
+        return redirect()->route('schedule_atribution.index', $user);
     }
 }
+

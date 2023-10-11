@@ -1,4 +1,9 @@
 {
     "/js/app.js": "/js/app.js",
-    "/css/app.css": "/css/app.css"
+    "/css/app.css": "/css/app.css",
+    "/js/control-form-dynamic-crud.js": "/js/control-form-dynamic-crud.js",
+    "/js/course_class_table.js": "/js/course_class_table.js",
+    "/js/double-click-table-function.js": "/js/double-click-table-function.js",
+    "/js/search-table-function.js": "/js/search-table-function.js",
+    "/js/sort-table-function.js": "/js/sort-table-function.js"
 }

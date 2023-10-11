@@ -1,0 +1,11 @@
+@extends('master.main')
+@section('content')
+@component(
+    'components.courses.courses-form-crud',
+    compact(
+        'courses',
+        'ufcds',
+        'specializationAreas'
+    ))
+@endcomponent
+@endsection

@@ -50,12 +50,12 @@ class UfcdSeeder extends Seeder
             $pedagogical_group_id = PedagogicalGroup::all()->random()->id;
 
             DB::table('ufcds')->insert([
-                'name' => $ufcd['name'],
-                'pedagogical_group_id' => $pedagogical_group_id,
-                'number' => $ufcd['number'],
-                'hours' => $ufcd['hours'],
-                'created_at' => now(),
-                'updated_at' => now(),
+                'name'                  => $ufcd['name'],
+                'pedagogical_group_id'  => $pedagogical_group_id,
+                'number'                => $ufcd['number'],
+                'hours'                 => $ufcd['hours'],
+                'created_at'            => now(),
+                'updated_at'            => now(),
             ]);
         }
     }

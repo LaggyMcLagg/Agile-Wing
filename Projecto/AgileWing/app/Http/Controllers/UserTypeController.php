@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\UserType;
 use Illuminate\Http\Request;
+use Exception;
 
 class UserTypeController extends Controller
 {
@@ -14,7 +15,7 @@ class UserTypeController extends Controller
      */
     public function index()
     {
-        //
+        return view('pages.user_types.crud', ['userTypes' => UserType::all()]);
     }
 
     /**
@@ -35,7 +36,27 @@ class UserTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate(
+            [
+                'name' => 'required|string|max:255|regex:/^[\pL\sÇç]+$/u|unique:user_types,name',
+            ],
+            [
+                'name.required' => 'The name field is required.',
+                'name.regex' => 'The name may only contain letters, accentuation, and Ç or ç.',
+                'name.unique' => 'The name has already been taken.',
+            ]
+        );
+
+        try {        
+            UserType::create($request->all());
+        
+            session()->flash('success', 'Registo criado com sucesso!');
+            return redirect()->route('user-types.index');
+        } catch (Exception $e) {
+            
+            session()->flash('error', 'Ocorreu um erro a tentar criar o resgisto: ' . $e->getMessage());
+            return back()->withInput();
+        }
     }
 
     /**
@@ -67,9 +88,31 @@ class UserTypeController extends Controller
      * @param  \App\UserType  $userType
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, UserType $userType)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate(
+            [
+                'name' => 'required|string|max:255|regex:/^[\pL\sÇç]+$/u',
+            ],
+            [
+                'name.required' => 'The name field is required.',
+                'name.regex' => 'The name may only contain letters, accentuation, and Ç or ç.',
+            ]
+        );
+
+        try {        
+            $userType = UserType::find($id);
+            $userType->name = $request->name;
+            $userType->save();
+        
+            session()->flash('success', 'Registo editado com sucesso!');
+            return redirect()->route('user-types.index');
+        } catch (Exception $e) {
+            
+            session()->flash('error', 'Ocorreu um erro a tentar editar o resgisto: ' . $e->getMessage());
+            return back()->withInput();
+        }
+        
     }
 
     /**
@@ -80,6 +123,13 @@ class UserTypeController extends Controller
      */
     public function destroy(UserType $userType)
     {
-        //
+        try {
+            $userType->delete();
+    
+            return redirect()->route('user-types.index')->with('success', 'Tipo de utilizador apagado com successo.');
+        } catch (Exception $e) {            
+    
+            return redirect()->route('user-types.index')->with('error', 'Houve um erro a apagar o tipo de utilizador.' . $e->getMessage());
+        }
     }
 }

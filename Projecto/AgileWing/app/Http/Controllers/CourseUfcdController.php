@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\CourseUfcd;
+use App\Course;
+use App\Ufcd;
 use Illuminate\Http\Request;
 
 class CourseUfcdController extends Controller
@@ -25,6 +27,7 @@ class CourseUfcdController extends Controller
     public function create()
     {
         //
+
     }
 
     /**

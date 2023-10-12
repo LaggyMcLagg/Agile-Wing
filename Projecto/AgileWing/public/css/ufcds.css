@@ -1,0 +1,41 @@
+.col-md-4{
+    background: linear-gradient(to bottom, #6d92e3, #aeb6e6);
+    width: 400px;
+    height: 400px;
+    border-radius: 5px;
+    margin-top: 100px;
+}
+.col-md-8{
+
+    margin-top: 100px;
+
+}
+h3{
+    color: #6d92e3;
+    margin-right: 10px;
+
+}
+
+
+.table-title {
+  display: flex;
+  align-items: center;
+}
+
+
+.btn {
+  margin-left: 30px;
+  background-color: #6d92e3;
+  color: #fff;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+
+}
+
+tr:nth-child(even) {
+    background-color:red;
+  }
+  .table th:nth-child(1), .table td:nth-child(1) {
+    display: none; /*to hide the id column*/
+}

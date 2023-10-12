@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="{{ asset('css/courses.css') }}">
 @section('scripts')
 <script src="{{ asset('/js/control-form-dynamic-crud.js') }}"></script>
 @endsection
@@ -26,16 +27,16 @@
 
 <!-- Start of the Main Container -->
 <div class="container" id="listForm">
-    <div class="row"> 
+    <div class="row">
         <!-- LEFT COLUMN: CREATE/EDIT FORM -->
-        <div class="col-md-4"> 
+        <div class="col-md-4">
 
-            <h3>Gestão de Cursos</h3>
+
             <!-- FORM -->
             <form action="{{ route('courses.store') }}" id="controlForm" method="POST">
                 @csrf
 
-                <!-- Hidden input for HTTP method override. Needed because HTML forms only support GET/POST natively and we're not using 
+                <!-- Hidden input for HTTP method override. Needed because HTML forms only support GET/POST natively and we're not using
                 @method('PUT') to be able to switch between methods-->
                 <input type="hidden" name="_method" value="POST" id="hiddenMethod">
 
@@ -47,11 +48,11 @@
                 <!-- Course Name -->
                 <div class="form-group">
                     <label for="name">Course Name</label>
-                    <input 
-                        data-name="name" 
-                        type="text" 
-                        id="name" 
-                        name="name" 
+                    <input
+                        data-name="name"
+                        type="text"
+                        id="name"
+                        name="name"
                         class="form-control @error('name') is-invalid @enderror"
                         required
                         value="{{ old('name') }}"
@@ -66,10 +67,10 @@
                 <!-- Course Initials -->
                 <div class="form-group">
                     <label for="initials">Course Initials</label>
-                    <input 
+                    <input
                         data-name="initials"
                         type="text"
-                        id="initials" 
+                        id="initials"
                         name="initials"
                         class="form-control @error('initials') is-invalid @enderror"
                         value="{{ old('initials') }}"
@@ -84,15 +85,15 @@
                 <!-- Specialization Area -->
                 <div class="form-group">
                 <label for="specializationArea">Specialization Area</label>
-                <select 
+                <select
                     data-name="specializationArea"
-                    data-type="comboBox" 
-                    id="specializationArea" 
-                    name="specialization_area_number" 
+                    data-type="comboBox"
+                    id="specializationArea"
+                    name="specialization_area_number"
                     class="form-control"
                     disabled>
                     @foreach($specializationAreas as $area)
-                        <option value="{{ $area->number }}" 
+                        <option value="{{ $area->number }}"
                             @if(old('specialization_area_number') == $area->number) selected @endif
                         >
                             {{ $area->name }}
@@ -103,49 +104,34 @@
 
                 <!-- UFCDs checkbox list -->
                 <div class="form-group">
-                    <label>UFCDs 
-                        <button 
-                            class="btn btn-light btn-sm d-flex align-items-center" 
-                            type="button" 
-                            data-toggle="collapse" 
-                            data-target="#ufcdsCheckboxList">
-                            <i class="fas fa-chevron-right mr-2"></i> Show/Hide
-                        </button>
-                    </label>
-                    <div 
-                        id="ufcdsCheckboxList" 
-                        data-name="ufcds" 
-                        data-type="checkBoxList" 
-                        class="collapse mt-2">
-                        @foreach($ufcds as $ufcd)
+                 <label for="ufcdDropdown">UFCDs</label>
+                    <div class="custom-dropdown">
+                        <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            @foreach($ufcds as $ufcd)
                             <div class="custom-control custom-checkbox">
-                                <input 
-                                    type="checkbox" 
-                                    name="ufcds[]" 
-                                    value="{{ $ufcd->id }}" 
-                                    id="ufcd_{{ $ufcd->id }}"
-                                    class="custom-control-input @error('ufcds') is-invalid @enderror"
-                                    @if(is_array(old('ufcds')) && in_array($ufcd->id, old('ufcds'))) checked @endif
-                                    disabled>
-                                <label for="ufcd_{{ $ufcd->id }}" class="custom-control-label">{{ $ufcd->number }} - {{ $ufcd->name }}</label>
+                                <input type="checkbox" class="custom-control-input" id="ufcd_{{ $ufcd->id }}">
+                                <label class="custom-control-label" for="ufcd_{{ $ufcd->id }}">{{ $ufcd->name }}</label>
                             </div>
-                        @endforeach
-                        @error('ufcds')
-                        <div class="invalid-feedback d-block">
-                            {{ $message }}
-                        </div>
-                        @enderror
+                            @endforeach
+                            </div>
                     </div>
                 </div>
 
                 <!-- Save and Cancel buttons, initially hidden -->
+                <div class="d-flex justify-content-end mt-2 mb-5"> <!-- div to put the buttons in line -->
                 <button id="saveBtn" type="submit" class="mt-2 mb-5 btn btn-primary" style="display: none;">Guardar</button>
                 <button id="cancelBtn" class="mt-2 mb-5 btn btn-secondary" style="display: none;">Cancelar</button>
+                </div>
             </form>
         </div>
 
         <!-- TABELA LIST/SHOW -->
         <div class="col-md-8">
+            <h3 class="d-inline">Gestão de Cursos</h3>
+                <a id="createBtn" class="btn btn-primary">Criar</a>
+                <a id="editBtn" type="button" class="btn btn-primary">Editar</a>
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -156,8 +142,6 @@
                         <th scope="col">Lista turmas</th>
                         <th scope="col">Lista UFCDs</th>
                         <th scope="col">
-                            <a id="createBtn" class="btn btn-primary">Criar</a>
-                            <a id="editBtn" type="button" class="btn btn-primary">Editar</a>
                         </th>
                     </tr>
                 </thead>
@@ -169,10 +153,10 @@
                         <td data-name="initials">{{ $course->initials }}</td>
                         <td data-name="specializationArea">{{ $course->specializationArea->name }}</td>
                         <td>
-                            <button 
-                                class="btn btn-light" 
-                                type="button" 
-                                data-toggle="collapse" 
+                            <button
+                                class="btn btn-light"
+                                type="button"
+                                data-toggle="collapse"
                                 data-target="#courseClassesList_{{ $course->id }}">
                                 Turmas
                             </button>
@@ -187,10 +171,10 @@
                             </div>
                         </td>
                         <td data-name="ufcds" data-list-id="ufcdsList_{{ $course->id }}">
-                            <button 
-                                class="btn btn-light" 
-                                type="button" 
-                                data-toggle="collapse" 
+                            <button
+                                class="btn btn-light"
+                                type="button"
+                                data-toggle="collapse"
                                 data-target="#ufcdsList_{{ $course->id }}">
                                 UFCDs
                             </button>

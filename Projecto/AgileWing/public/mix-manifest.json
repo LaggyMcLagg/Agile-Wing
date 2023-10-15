@@ -4,5 +4,6 @@
     "/js/control-form-dynamic-crud.js": "/js/control-form-dynamic-crud.js",
     "/js/double-click-table-function.js": "/js/double-click-table-function.js",
     "/js/search-table-function.js": "/js/search-table-function.js",
-    "/js/sort-table-function.js": "/js/sort-table-function.js"
+    "/js/sort-table-function.js": "/js/sort-table-function.js",
+    "/js/users-edit-table.js": "/js/users-edit-table.js"
 }

@@ -48,12 +48,14 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown3">
                     <a class="dropdown-item" href="{{ route('courses.index') }}">Crusos</a>
-                    <a class="dropdown-item" href="{{ route('ufcds.index') }}">UFCDs</a>
-                    <a class="dropdown-item" href="{{ route('user-types.index') }}">Tipos de Utilizador</a>
-                    <a class="dropdown-item" href="{{ route('hour-blocks.index') }}">Blocos Horário</a>
-                    <a class="dropdown-item" href="{{ route('availability-types.index') }}">Tipo de disponibilidades</a>
                     <a class="dropdown-item" href="{{ route('course-classes.index')}}">Turma</a>
-                    <a class="dropdown-item" href="{{ route('hour-block-course-classes.index')}}">Turma blocos horário</a>
+                    <a class="dropdown-item" href="{{ route('ufcds.index') }}">UFCDs</a>
+                    <a class="dropdown-item" href="{{ route('specialization-areas.index') }}">Areas de formação</a>
+                    <a class="dropdown-item" href="{{ route('pedagogical-groups.index') }}">Grupos Pedagógicos</a>
+                    <a class="dropdown-item" href="{{ route('availability-types.index') }}">Tipo de disponibilidades</a>
+                    <a class="dropdown-item" href="{{ route('hour-block-course-classes.index')}}">Blocos Horário (Turmas)</a>
+                    <a class="dropdown-item" href="{{ route('hour-blocks.index') }}">Blocos Horário</a>
+                    <a class="dropdown-item" href="{{ route('user-types.index') }}">Tipos de Utilizador</a>
                     <!-- ADD THE ROUTES HERE -->
                 </div>
             </li>

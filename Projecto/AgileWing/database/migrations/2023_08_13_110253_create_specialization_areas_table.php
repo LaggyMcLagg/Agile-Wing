@@ -14,7 +14,8 @@ class CreateSpecializationAreasTable extends Migration
     public function up()
     {
         Schema::create('specialization_areas', function (Blueprint $table) {
-            $table->integer('number')->primary();
+            $table->id();
+            $table->integer('number')->unique();
             $table->string('name');
             $table->timestamps();
             $table->softDeletes();

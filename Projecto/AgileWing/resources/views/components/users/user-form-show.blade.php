@@ -1,3 +1,7 @@
+@section('scripts')
+<script src="{{ asset('/js/users-edit-table.js') }}"></script>
+@endsection
+
 <div class="container">
     <h3>Detalhes do Utilizador - é este que está a ser usado(user-form-show)</h3>
     <form method="POST" action="{{ route('users.update', $user->id) }}">
@@ -109,14 +113,14 @@
                             <input class="form-check-input" 
                                 type="checkbox" 
                                 name="specializationAreas[]" 
-                                value="{{ $specializationArea->number }}" 
-                                id="specializationArea_{{ $specializationArea->number }}"
-                                @if($specializationAreaUserList[$specializationArea->number]['isAssociated'])
+                                value="{{ $specializationArea->id }}" 
+                                id="specializationArea_{{ $specializationArea->id }}"
+                                @if($specializationAreaUserList[$specializationArea->id]['isAssociated'])
                                     checked
                                 @endif
                                 disabled>
                             <label class="form-check-label" 
-                                for="specializationArea_{{ $specializationArea->number }}">
+                                for="specializationArea_{{ $specializationArea->id }}">
                                 {{ $specializationArea->name }}
                             </label>
                         </div>
@@ -139,49 +143,3 @@
             </form>
     </div>
 </div>
-
-<script>  
-    document.addEventListener("DOMContentLoaded", function(){
-        const editBtn = document.getElementById("editBtn");
-        const saveBtn = document.getElementById("saveBtn");
-        const deleteForm = document.getElementById("deleteForm");
-        const cancelBtn = document.getElementById("cancelBtn");
-
-
-        editBtn.addEventListener("click", function(event){
-
-            // Habilitar campos editáveis
-            document.querySelectorAll("input[readonly]").forEach(function(input){
-                input.removeAttribute("readonly");
-            });
-            document.querySelectorAll("input[type=checkbox]").forEach(function(checkbox){
-                checkbox.removeAttribute("disabled");
-            });
-
-            // Mostrar botão "Guardar" e esconder o botão "Editar"
-            editBtn.style.display = "none";
-            saveBtn.style.display = "inline-block";
-            deleteForm.style.display = "inline-block";
-            cancelBtn.style.display = "inline-block";
-        });
-
-        cancelBtn.addEventListener("click", function (event) {
-            event.preventDefault();
-            // Desabilitar campos editáveis
-            document.querySelectorAll("input").forEach(function (input) {
-                input.setAttribute("readonly", true);
-            });
-            document.querySelectorAll("input[type=checkbox]").forEach(function (checkbox) {
-                checkbox.setAttribute("disabled", true);
-            });
-        
-            // Esconder botão "Guardar" e "Apagar" e mostrar o botão "Editar"
-            editBtn.style.display = "inline-block";
-            saveBtn.style.display = "none";
-            deleteForm.style.display = "none";
-            cancelBtn.style.display = "none";
-        });
-    });
-</script>
-
-

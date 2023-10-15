@@ -14,7 +14,7 @@ class Course extends Model
     
     public function specializationArea()
     {
-        return $this->belongsTo(SpecializationArea::class, 'specialization_area_number');
+        return $this->belongsTo(SpecializationArea::class, 'specialization_area_id');
     }
 
     public function courseClasses()
@@ -30,6 +30,6 @@ class Course extends Model
         'name',
         'initials', 
         'user_id', 
-        'specialization_area_number'
+        'specialization_area_id'
     ];
 }

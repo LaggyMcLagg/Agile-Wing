@@ -11,7 +11,7 @@
     </div>
     <script>
         sessionStorage.removeItem("formState");  // Clear the state from local storage
-        sessionStorage.removeItem("selectedId");  // Clear the stored course ID
+        sessionStorage.removeItem("selectedId");  // Clear the stored ID
     </script>
 @endif
 

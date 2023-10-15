@@ -43,7 +43,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function specializationAreas()
     {
-        return $this->belongsToMany(SpecializationArea::class, 'specialization_area_users', 'user_id', 'specialization_area_number');
+        return $this->belongsToMany(SpecializationArea::class, 'specialization_area_users', 'user_id', 'specialization_area_id');
     }
 
     public function scheduleAtributions()
@@ -83,5 +83,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'last_login' => 'datetime',
     ];
 }

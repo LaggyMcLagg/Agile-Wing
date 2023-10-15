@@ -18,7 +18,6 @@ class CreatePedagogicalGroupUsersTable extends Migration
             $table->foreignid('pedagogical_group_id')->constrained()->onDelete('cascade');
             $table->foreignid('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\HourBlock;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator; //usado na verificacao do create e update 
 
 class HourBlockController extends Controller
 {
@@ -39,31 +38,20 @@ class HourBlockController extends Controller
      */
     public function store(Request $request)
     {
-        // Validação personalizada para verificar se hour_beginning é menor que hour_end
-        $validator = Validator::make($request->all(), [
-            'hour_beginning' => 'required',
-            'hour_end' => 'required',
-        ]);
-    
-        $hourBeginning = $request->input('hour_beginning');
-        $hourEnd = $request->input('hour_end');
-    
-        // Verifique se hour_beginning é menor que hour_end
-        if ($hourBeginning >= $hourEnd) 
-        {
-            $validator->after(function ($validator) {
-                $validator->errors()->add('hour_beginning', 'A hora de início deve ser menor que a hora de fim.');
-            });
-        }
-    
-        // Verifique se a validação falhou
-        if ($validator->fails()) 
-        {
-            return redirect()
-                ->back()
-                ->withErrors($validator)
-                ->withInput();//faz refresh à página com mensagem de erro e os antigos inputs já inseridos
-        }
+        $request->validate(
+            [
+                'hour_beginning' => 'required|date_format:H:i:s|before:hour_end',
+                'hour_end' => 'required|date_format:H:i:s|after:hour_beginning',
+            ],
+            [
+                'hour_beginning.required' => 'The hour beginning field is required.',
+                'hour_beginning.date_format' => 'The hour beginning must be in the format hh:mm:ss.',
+                'hour_beginning.before' => 'The hour beginning must be before the hour end.',
+                'hour_end.required' => 'The hour end field is required.',
+                'hour_end.date_format' => 'The hour end must be in the format hh:mm:ss.',
+                'hour_end.after' => 'The hour end must be after the hour beginning.',
+            ]
+        ); 
     
         // Se a validação passar, crie o registro
         HourBlock::create($request->all());
@@ -106,29 +94,20 @@ public function update(Request $request, $id)
     // Encontre o HourBlock existente pelo ID
     $hourBlock = HourBlock::find($id);
 
-    // Validação personalizada para verificar se hour_beginning é menor que hour_end
-    $validator = Validator::make($request->all(), [
-        'hour_beginning' => 'required',
-        'hour_end' => 'required',
-    ]);
-
-    $hourBeginning = $request->input('hour_beginning');
-    $hourEnd = $request->input('hour_end');
-
-    // Verifique se hour_beginning é menor que hour_end
-    if ($hourBeginning >= $hourEnd) {
-        $validator->after(function ($validator) {
-            $validator->errors()->add('hour_beginning', 'A hora de início deve ser menor que a hora de fim.');
-        });
-    }
-
-    // Verifique se a validação falhou
-    if ($validator->fails()) {
-        return redirect()
-            ->back()
-            ->withErrors($validator)
-            ->withInput();
-    }
+    $request->validate(
+        [
+            'hour_beginning' => 'required|date_format:H:i:s|before:hour_end',
+            'hour_end' => 'required|date_format:H:i:s|after:hour_beginning',
+        ],
+        [
+            'hour_beginning.required' => 'The hour beginning field is required.',
+            'hour_beginning.date_format' => 'The hour beginning must be in the format hh:mm:ss.',
+            'hour_beginning.before' => 'The hour beginning must be before the hour end.',
+            'hour_end.required' => 'The hour end field is required.',
+            'hour_end.date_format' => 'The hour end must be in the format hh:mm:ss.',
+            'hour_end.after' => 'The hour end must be after the hour beginning.',
+        ]
+    ); 
 
     // Se a validação passar, atualize o registro existente
     $hourBlock->hour_beginning = $hourBeginning;

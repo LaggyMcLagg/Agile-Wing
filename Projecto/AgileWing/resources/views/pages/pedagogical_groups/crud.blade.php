@@ -1,10 +1,10 @@
 @extends('master.main')
 @section('content')
 @component(
-    'components.pedagogical-group-users.pedagogical-group-users-form-edit',
+    'components.pedagogical_groups.pedagogical-groups-form-crud',
     compact(
-        'users',
         'pedagogicalGroups'
-    ))
+        )
+    )
 @endcomponent
 @endsection

@@ -18,8 +18,10 @@ class HourBlockCourseClassController extends Controller
         // Fetch all teacher availabilities along with the related information
         $hourBlockCourseClasses = HourBlockCourseClass::with('courseClass')->get();
 
+        $courseClasses = CourseClass::all();
+
         // Pass the data to the view
-        return view('pages.hour-block-course-classes.index', compact('hourBlockCourseClasses'));
+        return view('pages.hour_block_course_classes.crud', compact('hourBlockCourseClasses', 'courseClasses'));
     }
 
     /**
@@ -29,11 +31,7 @@ class HourBlockCourseClassController extends Controller
      */
     public function create()
     {
-        $courseClasses = CourseClass::all();
-        
-        return view('pages.hour-block-course-classes.create', [
-            'courseClasses' => $courseClasses
-        ]);
+        //
     }
 
     /**
@@ -44,16 +42,26 @@ class HourBlockCourseClassController extends Controller
      */
     public function store(Request $request)
     {
-
-        $request->validate($request, [
-            'course_class_id' => 'required|exists:courseClasses,id',
-            'hour_beginning' => 'required|regex:/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/',
-            'hour_end' => 'required|regex:/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/'
-        ]);
+        $request->validate(
+            [
+                'course_class_id' => 'required|exists:course_classes,id',
+                'hour_beginning' => 'required|date_format:H:i:s|before:hour_end',
+                'hour_end' => 'required|date_format:H:i:s|after:hour_beginning',
+            ],
+            [
+                'course_class_id.required' => 'The course class field is required.',
+                'course_class_id.exists' => 'The selected course class is invalid.',
+                'hour_beginning.required' => 'The hour beginning field is required.',
+                'hour_beginning.date_format' => 'The hour beginning must be in the format hh:mm:ss.',
+                'hour_beginning.before' => 'The hour beginning must be before the hour end.',
+                'hour_end.required' => 'The hour end field is required.',
+                'hour_end.date_format' => 'The hour end must be in the format hh:mm:ss.',
+                'hour_end.after' => 'The hour end must be after the hour beginning.',
+            ]
+        );        
     
         HourBlockCourseClass::create($request->all());
         return redirect()->route('hour-block-course-classes.index')->with('success', 'Hour Block Course Class created successfully');
-        
     }
 
     /**
@@ -64,10 +72,7 @@ class HourBlockCourseClassController extends Controller
      */
     public function show(HourBlockCourseClass $hourBlockCourseClass)
     {
-        $hourBlockCourseClass->load('courseClass');
-        
-        // Pass the data to the view
-        return view('pages.hour-block-course-classes.show', compact('hourBlockCourseClass'));
+        //
     }
 
     /**
@@ -78,9 +83,7 @@ class HourBlockCourseClassController extends Controller
      */
     public function edit(HourBlockCourseClass $hourBlockCourseClass)
     {
-        $courseClasses = CourseClass::all();
-        
-        return view('pages.hour-block-course-classes.edit', compact('hourBlockCourseClass', 'courseClasses'));
+        //
     }
 
     /**
@@ -90,19 +93,31 @@ class HourBlockCourseClassController extends Controller
      * @param  \App\HourBlockCourseClass  $hourBlockCourseClass
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, HourBlockCourseClass $hourBlockCourseClass)
+    public function update(Request $request, $id)
     {
-        $request->merge(['is_locked' => $request->has('is_locked')]);
-    
-        $request->validate([
-            'course_class_id' => 'required|exists:users,id',
-            'hour-beginning' => 'required|regex:/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/',
-            'hour_end' => 'required|regex:/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/'
-        ]);
+        $hourBlockCourseClass = HourBlockCourseClass::find($id);
+
+        $request->validate(
+            [
+                'course_class_id' => 'required|exists:course_classes,id',
+                'hour_beginning' => 'required|date_format:H:i:s|before:hour_end',
+                'hour_end' => 'required|date_format:H:i:s|after:hour_beginning',
+            ],
+            [
+                'course_class_id.required' => 'The course class field is required.',
+                'course_class_id.exists' => 'The selected course class is invalid.',
+                'hour_beginning.required' => 'The hour beginning field is required.',
+                'hour_beginning.date_format' => 'The hour beginning must be in the format hh:mm:ss.',
+                'hour_beginning.before' => 'The hour beginning must be before the hour end.',
+                'hour_end.required' => 'The hour end field is required.',
+                'hour_end.date_format' => 'The hour end must be in the format hh:mm:ss.',
+                'hour_end.after' => 'The hour end must be after the hour beginning.',
+            ]
+        );        
     
         $hourBlockCourseClass->update($request->all());
     
-        return redirect()->route('hour-block-course-classes.store.index')->with('success', 'Hour Block Course Classes updated successfully');
+        return redirect()->route('hour-block-course-classes.index')->with('success', 'Hour Block Course Classes updated successfully');
     }
 
     /**

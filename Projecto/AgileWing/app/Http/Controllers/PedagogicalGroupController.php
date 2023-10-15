@@ -14,10 +14,10 @@ class PedagogicalGroupController extends Controller
      */
     public function index()
     {
-        $pedagogicalGroups = PedagogicalGroup::orderBy('id', 'desc')->get();
+        $pedagogicalGroups = PedagogicalGroup::with('users', 'ufcds')->get();
 
         // Pass the data to the view
-        return view('pages.pedagogical-groups.index', ['pedagogicalGroups' => $pedagogicalGroups]);
+        return view('pages.pedagogical_groups.crud', compact('pedagogicalGroups'));
     }
 
     /**
@@ -27,8 +27,7 @@ class PedagogicalGroupController extends Controller
      */
     public function create()
     {
-        return view('pages.pedagogical-groups.create');
-
+        //
     }
 
     /**
@@ -43,8 +42,8 @@ class PedagogicalGroupController extends Controller
             'name' => 'required'
             ]);
 
-            PedagogicalGroup::create($request->all());
-            return redirect()->route('pedagogical-groups.index')->with('success', 'Pedagogical Groups created successfully');
+        PedagogicalGroup::create($request->all());
+        return redirect()->route('pedagogical-groups.index')->with('success', 'Pedagogical Groups created successfully');
     }
 
     /**
@@ -55,8 +54,7 @@ class PedagogicalGroupController extends Controller
      */
     public function show(PedagogicalGroup $pedagogicalGroup)
     {
-        return view('pages.pedagogical-groups.show', ['pedagogicalGroup' => $pedagogicalGroup]);
-
+        //
     }
 
     /**
@@ -67,8 +65,7 @@ class PedagogicalGroupController extends Controller
      */
     public function edit(PedagogicalGroup $pedagogicalGroup)
     {
-        return view('pages.pedagogical-groups.edit', ['pedagogicalGroup' => $pedagogicalGroup]);
-
+        //
     }
 
     /**
@@ -78,10 +75,12 @@ class PedagogicalGroupController extends Controller
      * @param  \App\PedagogicalGroup  $pedagogicalGroup
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, PedagogicalGroup $pedagogicalGroup)
+    public function update(Request $request, $id)
     {
+        $pedagogicalGroup = PedagogicalGroup::find($id);
+
         $pedagogicalGroup->update($request->all());
-        return redirect('pedagogical-groups')->with('status','Item edited successfully!');
+        return redirect('pedagogical-groups')->with('success','Item edited successfully!');
     }
 
     /**
@@ -93,6 +92,6 @@ class PedagogicalGroupController extends Controller
     public function destroy(PedagogicalGroup $pedagogicalGroup)
     {
         $pedagogicalGroup->delete();
-        return redirect('pedagogical-groups')->with('status','Item deleted successfully!');;
+        return redirect('pedagogical-groups')->with('success','Item deleted successfully!');;
     }
 }

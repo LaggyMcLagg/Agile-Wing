@@ -21,13 +21,13 @@ class SpecializationAreaUserSeeder extends Seeder
 
         // Iterate over each user
         foreach ($users as $user) {
-            // Get 2 random specialization areas without duplicates
+            // Get 2 random specialization areas
             $randomSpecializationAreas = $specializationAreas->random(2);
 
             // Attach the random specialization areas to the user
             foreach ($randomSpecializationAreas as $specializationArea) {
                 DB::table('specialization_area_users')->insert([
-                    'specialization_area_number' => $specializationArea->number,
+                    'specialization_area_id' => $specializationArea->id,
                     'user_id'       => $user->id,
                     'created_at'    => now(),
                     'updated_at'    => now(),

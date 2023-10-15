@@ -166,11 +166,11 @@
                                 class="form-check-input" 
                                 type="checkbox" 
                                 name="specializationAreas[]" 
-                                value="{{ $specializationArea->number }}" 
-                                id="{{ $specializationArea->number }}">
+                                value="{{ $specializationArea->id }}" 
+                                id="{{ $specializationArea->id }}">
                             <label 
                                 class="form-check-label" 
-                                for="{{ $specializationArea->number }}">
+                                for="{{ $specializationArea->id }}">
                                 {{ $specializationArea->name }}
                             </label>
                         </div>

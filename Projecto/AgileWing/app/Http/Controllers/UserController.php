@@ -133,10 +133,10 @@ class UserController extends Controller
         
         foreach ($specializationAreas as $specializationArea)
         {
-            $userAssociatedSpecializationArea = $user->specializationAreas->contains($specializationArea->number);
+            $userAssociatedSpecializationArea = $user->specializationAreas->contains($specializationArea->id);
             
             // Adicionar um elemento ao array
-            $specializationAreaUserList[$specializationArea->number] = [
+            $specializationAreaUserList[$specializationArea->id] = [
                 'isAssociated' => $userAssociatedSpecializationArea
             ];
         }

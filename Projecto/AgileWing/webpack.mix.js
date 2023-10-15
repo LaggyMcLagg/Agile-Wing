@@ -16,6 +16,14 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/logic/search-table-function.js', 'public/js')//aplicado à tabel de Users
     .js('resources/js/logic/sort-table-function.js', 'public/js')//aplicado à tabel de Users
     .js('resources/js/logic/double-click-table-function.js', 'public/js')//aplicado à tabel de Users
-    //aplicado a:
-    //- hour-blocks
-    .js('resources/js/logic/control-form-dynamic-crud.js', 'public/js')
+    .js('resources/js/logic/users-edit-table.js', 'public/js')//aplicado user-form-show.blade
+    .js('resources/js/logic/control-form-dynamic-crud.js', 'public/js')//aplicado a:
+    //hour-blocks
+    //course
+    //user type
+    //availability type
+    //ufcd
+    //specialization area
+    //course class
+    //pedagogical group
+    //hour block course class

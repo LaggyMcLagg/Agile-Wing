@@ -27,7 +27,7 @@ class CreateUsersTable extends Migration
             $table->date('token_created_at')->nullable();
             $table->boolean('password_reset_resquested')->default(false);
             $table->text('notes')->nullable();
-            $table->date('last_login')->nullable();
+            $table->datetime('last_login')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

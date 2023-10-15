@@ -17,14 +17,13 @@ class CreateCoursesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('initials');
-            $table->timestamps();
-            $table->softDeletes();
-
-            $table->integer('specialization_area_number')->onDelete('cascade');
-            $table->foreign('specialization_area_number')
-                  ->references('number')
+            $table->unsignedBigInteger('specialization_area_id');
+            $table->foreign('specialization_area_id')
+                  ->references('id')
                   ->on('specialization_areas')
                   ->onDelete('cascade');
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

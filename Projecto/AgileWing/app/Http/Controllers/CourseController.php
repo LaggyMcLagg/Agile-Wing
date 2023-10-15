@@ -46,7 +46,7 @@ class CourseController extends Controller
             [
                 'name' => 'required|string|max:255|regex:/^[\pL\sÇç]+$/u',
                 'initials' => 'required|string|max:255|regex:/^[A-ZÇ]+$/u',
-                'specialization_area_number' => 'required|integer|exists:specialization_areas,number',
+                'specialization_area_number' => 'required|integer',
                 'ufcds' => 'required|array',
                 'ufcds.*' => 'exists:ufcds,id',
             ],
@@ -56,17 +56,23 @@ class CourseController extends Controller
                 'initials.required' => 'The initials field is required.',
                 'initials.regex' => 'The initials may only contain uppercase letters and Ç.',
                 'specialization_area_number.required' => 'The specialization area number field is required.',
-                'specialization_area_number.exists' => 'The provided specialization area number does not exist.',
                 'ufcds.required' => 'You must select at least one UFCD.',
                 'ufcds.*.exists' => 'One or more selected UFCDs do not exist.',
             ]
         );        
+        
+        try {
+            // Get the specialization_area_id using the unique number
+            $specializationArea = SpecializationArea::where('number', $request->specialization_area_number)->first();
 
-        try {        
+            if (!$specializationArea) {
+                throw new \Exception("Specialization area not found for number: " . $request->specialization_area_number);
+            }
+
             $course = Course::create([
                 'name' => $request->name,
                 'initials' => $request->initials,
-                'specialization_area_number' => $request->specialization_area_number,
+                'specialization_area_id' => $specializationArea->id,
             ]);
         
             $course->ufcds()->attach($request->ufcds);
@@ -74,7 +80,7 @@ class CourseController extends Controller
             return redirect()->route('courses.index')->with('success', 'Course created successfully');
 
         } catch (\Exception $e) {
-            //In this way you return the error message in the event an error occours after validation with the old form data
+            //This way we resolve gracefully any errors, return the error message the old form data
             session()->flash('error', 'There was an error creating the course: ' . $e->getMessage());
             return back()->withInput();
         }
@@ -132,19 +138,26 @@ class CourseController extends Controller
         );        
 
         try {
+            // Get the specialization_area_id using the unique number
+            $specializationArea = SpecializationArea::where('number', $request->specialization_area_number)->first();
+
+            if (!$specializationArea) {
+                throw new \Exception("Specialization area not found for number: " . $request->specialization_area_number);
+            }
+            
             $course = Course::find($id);
-        
+            
             $course->update([
                 'name' => $request->name,
                 'initials' => $request->initials,
-                'specialization_area_number' => $request->specialization_area_number,
+                'specialization_area_id' => $specializationArea->id,
             ]);
-    
+            
             $course->ufcds()->sync($request->ufcds);
         
             return redirect()->route('courses.index')->with('success', 'Course deleted successfully');
         } catch (\Exception $e) {
-            //In this way you return the error message in the event an error occours after validation with the old form data
+            //This way we resolve gracefully any errors, return the error message the old form data
             session()->flash('error', 'There was an error updating the course: ' . $e->getMessage());
             return back()->withInput();
         }

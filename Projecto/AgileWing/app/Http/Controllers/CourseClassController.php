@@ -15,8 +15,11 @@ class CourseClassController extends Controller
      */
     public function index()
     {
-        $courseClasses = CourseClass::orderBy('id', 'desc')->get();
-        return view('pages.course-classes.index', ['courseClasses' => $courseClasses]);
+        $courseClasses = CourseClass::with('course', 'hourBlockCourseClasses')->get();
+
+        $courses = Course::all();
+
+        return view('pages.course_classes.crud',  compact('courseClasses', 'courses'));
     }
 
     /**
@@ -26,8 +29,7 @@ class CourseClassController extends Controller
      */
     public function create()
     {
-        $courses = Course::all();
-        return view('pages.course-classes.create', compact('courses'));
+        //
     }
 
     /**
@@ -38,15 +40,22 @@ class CourseClassController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'number' => 'required',
-            'course_id' => 'required',
+        $request->validate([
+            'name' => 'required|string|max:255|regex:/^[\pL\sÇç]+$/u',
+            'number' => 'required|string|regex:/^\d{2}\.\d{2}$/',
+            'course_id' => 'required|exists:courses,id',
+        ],
+        [
+            'number.required' => 'The number field is required.',
+            'number.regex' => 'The number should be in the format XX.XX (e.g., 12.34).',
+            'number.unique' => 'The provided number already exists.',
+            'name.required' => 'The name field is required.',
+            'name.regex' => 'The name may only contain letters, accentuation, and Ç or ç.',
         ]);
 
         CourseClass::create($request->all());
 
-        return redirect()->route('course-classes.index')->with('status', 'Item created successfully!');
+        return redirect()->route('course-classes.index')->with('success', 'Item created successfully!');
     }
 
     /**
@@ -57,9 +66,7 @@ class CourseClassController extends Controller
      */
     public function show(CourseClass $courseClass)
     {
-
-        $courseClass->load('course');
-        return view('pages.course-classes.show', compact('courseClass'));
+        //
     }
 
     /**
@@ -70,9 +77,7 @@ class CourseClassController extends Controller
      */
     public function edit(CourseClass $courseClass)
     {
-        $courses = Course::all();
-        
-        return view('pages.course-classes.edit', compact('courseClass', 'courses'));
+        //
     }
 
     /**
@@ -82,10 +87,21 @@ class CourseClassController extends Controller
      * @param  \App\CourseClass  $courseClass
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CourseClass $courseClass)
+    public function update(Request $request, $id)
     {    
+        $courseClass = CourseClass::find($id);
+
         $request->validate([
+            'name' => 'required|string|max:255|regex:/^[\pL\sÇç]+$/u',
+            'number' => 'required|string|regex:/^\d{2}\.\d{2}$/u',
             'course_id' => 'required|exists:courses,id',
+        ],
+        [
+            'number.required' => 'The number field is required.',
+            'number.regex' => 'The number should be in the format XX.XX (e.g., 12.34).',
+            'number.unique' => 'The provided number already exists.',
+            'name.required' => 'The name field is required.',
+            'name.regex' => 'The name may only contain letters, accentuation, and Ç or ç.',
         ]);
     
         $courseClass->update($request->all());

@@ -17,14 +17,48 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+});    
 
 Auth::routes([
     'verify' => true
-]);
+]);    
 
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/home', 'HomeController@index')->name('home');
+});    
+
+//CRUD ROUTES
+
+//Hour block course class
+Route::prefix('hour-block-course-classes')->group(function(){
+    Route::get('', 'HourBlockCourseClassController@index')->name('hour-block-course-classes.index');
+    Route::post('', 'HourBlockCourseClassController@store')->name('hour-block-course-classes.store');
+    Route::put('{id}', 'HourBlockCourseClassController@update')->name('hour-block-course-classes.update');
+    Route::delete('{hourBlockCourseClass}', 'HourBlockCourseClassController@destroy')->name('hour-block-course-classes.destroy');
+});
+
+// ROUTES for Pedagogical Groups
+Route::prefix('pedagogical-groups')->group(function(){
+    Route::get('', 'PedagogicalGroupController@index')->name('pedagogical-groups.index');
+    Route::post('', 'PedagogicalGroupController@store')->name('pedagogical-groups.store');
+    Route::put('{id}', 'PedagogicalGroupController@update')->name('pedagogical-groups.update');
+    Route::delete('{pedagogicalGroup}', 'PedagogicalGroupController@destroy')->name('pedagogical-groups.destroy');
+});
+
+// ROUTES for Course Class
+Route::prefix('course-classes')->group(function(){
+    Route::get('', 'CourseClassController@index')->name('course-classes.index');
+    Route::post('', 'CourseClassController@store')->name('course-classes.store');
+    Route::put('{id}', 'CourseClassController@update')->name('course-classes.update');
+    Route::delete('{courseClass}', 'CourseClassController@destroy')->name('course-classes.destroy');
+});
+
+// ROUTES for specialization-areas
+Route::prefix('specialization-areas')->group(function(){
+    Route::get('', 'SpecializationAreaController@index')->name('specialization-areas.index');
+    Route::post('', 'SpecializationAreaController@store')->name('specialization-areas.store');
+    Route::put('{id}', 'SpecializationAreaController@update')->name('specialization-areas.update');
+    Route::delete('{specializationArea}', 'SpecializationAreaController@destroy')->name('specialization-areas.destroy');
 });
 
 // ROUTES for Courses
@@ -33,7 +67,7 @@ Route::prefix('courses')->group(function(){
     Route::post('', 'CourseController@store')->name('courses.store');
     Route::put('{id}', 'CourseController@update')->name('courses.update');
     Route::delete('{course}', 'CourseController@destroy')->name('courses.destroy');
-});
+});    
 
 // ROUTES for Hour Blocks
 Route::prefix('hour-blocks')->group(function(){
@@ -41,15 +75,15 @@ Route::prefix('hour-blocks')->group(function(){
     Route::post('', 'HourBlockController@store')->name('hour-blocks.store');
     Route::put('{id}', 'HourBlockController@update')->name('hour-blocks.update');
     Route::delete('{hourBlock}', 'HourBlockController@destroy')->name('hour-blocks.destroy');
-   });
+   }); 
 
-// ROUTES for availability-types
+// ROUTES for availability-types   
 Route::prefix('availability-types')->group(function(){
     Route::get('', 'AvailabilityTypeController@index')->name('availability-types.index');
     Route::post('', 'AvailabilityTypeController@store')->name('availability-types.store');
     Route::put('{id}', 'AvailabilityTypeController@update')->name('availability-types.update');
     Route::delete('{availabilityType}', 'AvailabilityTypeController@destroy')->name('availability-types.destroy');
-});
+});    
 
 // ROUTES for user-types
 Route::prefix('user-types')->group(function(){
@@ -57,7 +91,7 @@ Route::prefix('user-types')->group(function(){
     Route::post('', 'UserTypeController@store')->name('user-types.store');
     Route::put('{id}', 'UserTypeController@update')->name('user-types.update');
     Route::delete('{userType}', 'UserTypeController@destroy')->name('user-types.destroy');
-});
+});    
 
 // ROUTES for ufcds
 Route::prefix('ufcds')->group(function(){
@@ -107,40 +141,4 @@ Route::prefix('schedule-atribution')->group(function(){
     Route::put('{scheduleAtribution}', 'ScheduleAtributionController@update')->name('schedule-atribution.update');
     Route::get('{scheduleAtribution}', 'ScheduleAtributionController@show')->name('schedule-atribution.show');
     Route::delete('{scheduleAtribution}', 'ScheduleAtributionController@destroy')->name('schedule-atribution.destroy');
-});
-
-//CRUD ROUTES
-
-//Course Class
-Route::prefix('course-classes')->group(function(){
-    Route::get('', 'CourseClassController@index')->name('course-classes.index');
-    Route::get('create', 'CourseClassController@create')->name('course-classes.create');
-    Route::post('', 'CourseClassController@store')->name('course-classes.store');
-    Route::get('{courseClass}/edit', 'CourseClassController@edit')->name('course-classes.edit');
-    Route::put('{courseClass}', 'CourseClassController@update')->name('course-classes.update');
-    Route::get('{courseClass}', 'CourseClassController@show')->name('course-classes.show');
-    Route::delete('{courseClass}', 'CourseClassController@destroy')->name('course-classes.destroy');
-});
-
-
-//Hour block course class
-Route::prefix('hour-block-course-classes')->group(function(){
-    Route::get('', 'HourBlockCourseClassController@index')->name('hour-block-course-classes.index');
-    Route::get('create', 'HourBlockCourseClassController@create')->name('hour-block-course-classes.create');
-    Route::post('', 'HourBlockCourseClassController@store')->name('hour-block-course-classes.store');
-    Route::get('{hourBlockCourseClass}/edit', 'HourBlockCourseClassController@edit')->name('hour-block-course-classes.edit');
-    Route::put('{hourBlockCourseClass}', 'HourBlockCourseClassController@update')->name('hour-block-course-classes.update');
-    Route::get('{hourBlockCourseClass}', 'HourBlockCourseClassController@show')->name('hour-block-course-classes.show');
-    Route::delete('{hourBlockCourseClass}', 'HourBlockCourseClassController@destroy')->name('hour-block-course-classes.destroy');
-});
-
-// ROUTES for Pedagogical Groups
-Route::prefix('pedagogical-groups')->group(function(){
-    Route::get('', 'PedagogicalGroupController@index')->name('pedagogical-groups.index');
-    Route::get('create', 'PedagogicalGroupController@create')->name('pedagogical-groups.create');
-    Route::post('', 'PedagogicalGroupController@store')->name('pedagogical-groups.store');
-    Route::get('{pedagogicalGroup}/edit', 'PedagogicalGroupController@edit')->name('pedagogical-groups.edit');
-    Route::put('{pedagogicalGroup}', 'PedagogicalGroupController@update')->name('pedagogical-groups.update');
-    Route::get('{pedagogicalGroup}', 'PedagogicalGroupController@show')->name('pedagogical-groups.show');
-    Route::delete('{pedagogicalGroup}', 'PedagogicalGroupController@destroy')->name('pedagogical-groups.destroy');
 });

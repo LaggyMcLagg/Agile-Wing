@@ -1,3 +1,10 @@
+body {
+    font-family: 'Lexend Deca', sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
 :root {
     --gradient-top: #6d92e3;
     --gradient-bottom: #a7d3e8;
@@ -46,6 +53,7 @@
 .title,
 .title-m {
     color: var(--blue);
+    font-weight: 500;
 }
 
 .line-break {
@@ -421,10 +429,15 @@ input[type="password"][disabled] {
 
     .title {
         padding-top: 5%;
-        padding-left: 5%;
+        /* padding-left: 5%; */
+        padding-bottom: 5px;
         display: flex;
         flex-direction: column;
         gap: 5px;
+    }
+
+    .title-m {
+        padding-left: 6%;
     }
 
     /* Table */

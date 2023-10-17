@@ -19,9 +19,14 @@ Route::get('/', function () {
     return view('welcome');
 });    
 
-Auth::routes([
-    'verify' => true
-]);    
+// Auth::routes([
+//     'verify' => true
+// ]);
+
+//register e reset são o registo do user e redefinição de senha. 
+//desta forma mantenho só login, logout e confirmação de email por link
+Auth::routes(['register' => false, 'reset' => false, 'verify' => true]);
+
 
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/home', 'HomeController@index')->name('home');

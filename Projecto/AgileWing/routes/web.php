@@ -147,3 +147,12 @@ Route::prefix('schedule-atribution')->group(function(){
     Route::get('{scheduleAtribution}', 'ScheduleAtributionController@show')->name('schedule-atribution.show');
     Route::delete('{scheduleAtribution}', 'ScheduleAtributionController@destroy')->name('schedule-atribution.destroy');
 });
+//ROTAS DISPONIVEIS PARA USER TYPE 1 -> TESTES
+Route::middleware(['auth', 'checkUserType1:1'])->group(function(){
+
+});
+
+//ROTAS DISPONIVEIS PARA USER TYPE 2 -> TESTES
+Route::middleware(['auth', 'checkUserType2:2'])->group(function(){
+
+});

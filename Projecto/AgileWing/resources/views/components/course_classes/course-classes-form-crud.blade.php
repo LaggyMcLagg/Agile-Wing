@@ -3,36 +3,36 @@
 @endsection
 
 @if (session('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ session('success') }}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <script>
-        sessionStorage.removeItem("formState");  // Clear the state from local storage
-        sessionStorage.removeItem("selectedId");  // Clear the stored ID
-    </script>
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ session('success') }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<script>
+    sessionStorage.removeItem("formState"); // Clear the state from local storage
+    sessionStorage.removeItem("selectedId"); // Clear the stored ID
+</script>
 @endif
 
 @if (session('error'))
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        {{ session('error') }}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{ session('error') }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
 @endif
 
 <!-- Start of the Main Container -->
-<div class="container" id="listForm">
-    <div class="row"> 
+<div class="container spacing" id="listForm">
+    <div class="row">
         <!-- LEFT COLUMN: CREATE/EDIT FORM -->
-        <div class="col-md-4"> 
+        <div class="col-md-4">
 
-            <h3>Gestão de Turmas</h3>
+
             <!-- FORM -->
-            <form action="{{ route('course-classes.store') }}" id="controlForm" method="POST">
+            <form class="atec-form" action="{{ route('course-classes.store') }}" id="controlForm" method="POST">
                 @csrf
 
                 <!-- Hidden input for HTTP method override. Needed because HTML forms only support GET/POST natively and we're not using 
@@ -47,69 +47,53 @@
                 <!-- Course Name -->
                 <div class="form-group">
                     <label for="name">Designação</label>
-                    <input 
-                        data-name="name" 
-                        type="text" 
-                        id="name" 
-                        name="name" 
-                        class="form-control @error('name') is-invalid @enderror"
-                        required
-                        value="{{ old('name') }}"
-                        readonly>
+                    <input data-name="name" type="text" id="name" name="name" class="form-control @error('name') is-invalid @enderror" required value="{{ old('name') }}" readonly>
                     @error('name')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
                     @enderror
                 </div>
 
                 <!-- Number -->
                 <div class="form-group">
                     <label for="number">Número</label>
-                    <input 
-                        data-name="number"
-                        type="text"
-                        id="number" 
-                        name="number"
-                        class="form-control @error('number') is-invalid @enderror"
-                        value="{{ old('number') }}"
-                        readonly>
+                    <input data-name="number" type="text" id="number" name="number" class="form-control @error('number') is-invalid @enderror" value="{{ old('number') }}" readonly>
                     @error('number')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
                     @enderror
                 </div>
 
                 <!-- Course -->
                 <div class="form-group">
-                    <label for="course">Cruso</label>
-                    <select 
-                        data-name="course"
-                        data-type="comboBox" 
-                        id="course" 
-                        name="course_id" 
-                        class="form-control"
-                        disabled>
+                    <label for="course">Curso</label>
+                    <select data-name="course" data-type="comboBox" id="course" name="course_id" class="form-control" disabled>
                         @foreach($courses as $course)
-                            <option value="{{ $course->id }}" 
-                                @if(old('course_id') == $course->id) selected @endif
+                        <option value="{{ $course->id }}" @if(old('course_id')==$course->id) selected @endif
                             >
                             {{ $course->initials }} - {{ $course->name }}
-                            </option>
+                        </option>
                         @endforeach
                     </select>
                 </div>
 
                 <!-- Save and Cancel buttons, initially hidden -->
-                <button id="saveBtn" type="submit" class="mt-2 mb-5 btn btn-primary" style="display: none;">Guardar</button>
-                <button id="cancelBtn" class="mt-2 mb-5 btn btn-secondary" style="display: none;">Cancelar</button>
+                <div class="button-container">
+                    <button id="saveBtn" type="submit" class="btn save-btn" style="display: none;">Guardar</button>
+                    <button id="cancelBtn" class="btn cancel-btn" style="display: none;">Cancelar</button>
+                </div>
             </form>
         </div>
 
         <!-- TABELA LIST/SHOW -->
         <div class="col-md-8">
-            <table class="table table-bordered">
+            <h3 class="title">Gestão de Turmas
+                <a id="createBtn" class="btn btn-blue">Criar</a>
+                <a id="editBtn" type="button" class="btn btn-blue">Editar</a>
+            </h3>
+            <table class="table table-borderless">
                 <thead>
                     <tr>
                         <th scope="col">ID</th>
@@ -117,10 +101,6 @@
                         <th scope="col">Numero mecanográfico</th>
                         <th scope="col">Curso</th>
                         <th scope="col">Blocos horário</th>
-                        <th scope="col">
-                            <a id="createBtn" class="btn btn-primary">Criar</a>
-                            <a id="editBtn" type="button" class="btn btn-primary">Editar</a>
-                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -131,19 +111,15 @@
                         <td data-name="number">{{ $courseClass->number }}</td>
                         <td data-name="course">{{ $courseClass->course->initials }} - {{ $courseClass->course->name }}</td>
                         <td>
-                            <button 
-                                class="btn btn-light" 
-                                type="button" 
-                                data-toggle="collapse" 
-                                data-target="#hourBlocksList_{{ $courseClass->id }}">
+                            <button class="btn btn-light" type="button" data-toggle="collapse" data-target="#hourBlocksList_{{ $courseClass->id }}">
                                 Blocos Horário
                             </button>
                             <div id="hourBlocksList_{{ $courseClass->id }}" class="collapse">
                                 <ul>
                                     @forelse($courseClass->hourBlockCourseClasses as $hourBlockCourseClasse)
-                                        <li>{{ $hourBlockCourseClasse->hour_beginning }} - {{ $hourBlockCourseClasse->hour_end }}</li>
+                                    <li>{{ $hourBlockCourseClasse->hour_beginning }} - {{ $hourBlockCourseClasse->hour_end }}</li>
                                     @empty
-                                        <li>Sem blocos atribuidos.</li>
+                                    <li>Sem blocos atribuidos.</li>
                                     @endforelse
                                 </ul>
                             </div>
@@ -153,7 +129,7 @@
                                 <form action="{{ route('course-classes.destroy', ['courseClass' => $courseClass]) }}" method="POST" onsubmit="return confirm('Tem a certeza que quer apagar este registo?');">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">Apagar</button>
+                                    <button type="submit" class="btn btn-trash"><i class="fa fa-trash"></i></button>
                                 </form>
                             </div>
                         </td>

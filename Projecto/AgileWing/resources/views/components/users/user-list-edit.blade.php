@@ -59,7 +59,7 @@
             <td>{{ $user->lastLogin }}</td>
             <td>{{ $user->lastUpdated }}</td>
             <td>
-                <form action="{{ url('users/' . $user->id) }}" method="POST" onsubmit="return confirm('Tem a certeza que quer apagar este registo?');">
+                <form action="{{ route('users.destroy', ['user' => $user->id]) }}" method="POST" onsubmit="return confirm('Tem a certeza que quer apagar este registo?');">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">Apagar</button>

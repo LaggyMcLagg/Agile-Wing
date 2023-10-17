@@ -101,7 +101,7 @@ class UserController extends Controller
         $user->specializationAreas()->sync($request->input('specializationAreas'));
     }
 
-    return redirect('users')->with('status', 'Registo criado com sucesso!');
+    return redirect('users')->with('success', 'Registo criado com sucesso!');
 }
 
 
@@ -230,7 +230,7 @@ class UserController extends Controller
         $user->specializationAreas()->sync($request->input('specializationAreas', []));
 
         
-        return redirect()->route('users.edit')->with('status', 'Registo editado com sucesso!');
+        return redirect()->route('users.edit')->with('success', 'Registo editado com sucesso!');
     }
 
     /**
@@ -242,7 +242,7 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        return redirect('users/edit')->with('status', 'Registo apagado com sucesso');
+        return redirect()->route('users.edit')->with('status', 'Registo apagado com sucesso');
     }
 
     public function changePasswordView()

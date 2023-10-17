@@ -18,9 +18,9 @@
 
 
 <h3>Listagem de Formadores para Visualização</h3>
-@if (session('status'))
+@if (session('success'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ session('status') }}
+        {{ session('success') }}
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>

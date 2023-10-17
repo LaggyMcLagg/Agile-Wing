@@ -1,0 +1,114 @@
+:root {
+    --gradient-top: #6d92e3;
+    --gradient-bottom: #aeb6e6;
+    --white: #ffffff;
+    --black: #4d4e4f;
+    --blue: #6d92e3;
+    --blue-dark: #617add;
+    --table: #f0f6fc;
+    --table-hover: #b9cdf0;
+}
+
+/* Misc */
+
+.spacing {
+    margin-top: 5vh;
+}
+
+.title {
+    color: var(--blue);
+}
+
+/* Buttons */
+
+.btn-blue {
+    background-color: var(--blue);
+    color: var(--white);
+}
+
+.btn-blue:hover {
+    background-color: var(--blue-dark);
+    color: var(--white);
+}
+
+.btn-trash {
+    background-color: var(--blue);
+    color: var(--white);
+    padding: 5px 20px 5px 20px;
+    cursor: pointer;
+}
+
+.save-btn, .cancel-btn {
+    margin-right: 10px;
+}
+
+.save-btn {
+    background-color: var(--white);
+    color: var(--black);
+}
+
+.cancel-btn {
+    background-color: var(--black);
+    color: var(--white);
+}
+
+/* Table */
+.atec-table {
+    overflow: scroll;
+}
+
+tbody tr:hover {
+    background-color: var(--table-hover);
+    cursor: pointer;
+}
+
+tbody tr:nth-child(even) {
+    background-color: var(--table);
+}
+
+tbody tr:nth-child(even):hover {
+    background-color: var(--table-hover);
+    cursor: pointer;
+}
+
+thead {
+    border-bottom: solid #6d92e3 2px;
+}
+
+/* Form */
+
+.atec-form {
+    background-image: linear-gradient(to top, #aeb6e6, #a0ade5, #91a3e5, #809be4, #6d92e3);
+    padding: 5%;
+    border-radius: 10px;
+    color: var(--white);
+}
+
+input[type=text] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 2px solid;
+    border-color: var(--white);
+    color: var(--white);
+    background: transparent;
+}
+
+input[type=text]:focus {
+    outline: none;
+    background: transparent;
+    border-bottom: 2px solid;
+    color: var(--white);
+    box-shadow: none;
+}
+
+input[type="text"][disabled] {
+    background-color: transparent;
+}
+
+.button-container {
+    display: flex;
+}
+

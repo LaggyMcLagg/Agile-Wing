@@ -8,6 +8,8 @@ use App\SpecializationArea;
 use App\UserType;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str; //para poder gerar pw aleatoria ao criar um user
+
 
 use Illuminate\Http\Request;
 
@@ -43,9 +45,9 @@ class UserController extends Controller
         }
     
         return view('pages.users.index', [
-            'users' => $users,
-            'lastUpdated' => $lastUpdated,
-            'lastLogin' => $lastLogin,
+            'users'         => $users,
+            'lastUpdated'   => $lastUpdated,
+            'lastLogin'     => $lastLogin,
         ]);
     }
 
@@ -72,37 +74,38 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-{
-    $this->validate($request, [
-        'name'                  => 'required',
-        'email'                 => 'required|email',
-        'password'              => 'required|min:4|confirmed',
-        'user_type_id'          => 'required',
-        'color_1'               => 'required',
-        'color_2'               => 'required',
-    ]);
+    {
+        $this->validate($request, [
+            'name'          => 'required',
+            'email'         => 'required|email',
+            'user_type_id'  => 'required',
+            'color_1'       => 'required',
+            'color_2'       => 'required',
+        ]);
 
-    $user = User::create([
-        'name' => $request->input('name'),
-        'email' => $request->input('email'),
-        'password' => bcrypt($request->input('password')),
-        'user_type_id' => $request->input('user_type_id'),
-        'color_1' => $request->input('color_1'),
-        'color_2' => $request->input('color_2'),
-    ]);
+        $temporaryPassword = Hash::make(Str::random(8));
 
-    // Associar grupos pedagógicos, se estiverem presentes no pedido
-    if ($request->has('pedagogicalGroups')) {
-        $user->pedagogicalGroups()->sync($request->input('pedagogicalGroups'));
+        $user = User::create([
+            'name'          => $request->input('name'),
+            'email'         => $request->input('email'),
+            'password'      => $temporaryPassword,
+            'user_type_id'  => $request->input('user_type_id'),
+            'color_1'       => $request->input('color_1'),
+            'color_2'       => $request->input('color_2'),
+        ]);
+
+        // Associar grupos pedagógicos, se estiverem presentes no pedido
+        if ($request->has('pedagogicalGroups')) {
+            $user->pedagogicalGroups()->sync($request->input('pedagogicalGroups'));
+        }
+
+        // Associar áreas de especialização, se estiverem presentes no pedido
+        if ($request->has('specializationAreas')) {
+            $user->specializationAreas()->sync($request->input('specializationAreas'));
+        }
+
+        return redirect('users')->with('success', 'Registo criado com sucesso!');
     }
-
-    // Associar áreas de especialização, se estiverem presentes no pedido
-    if ($request->has('specializationAreas')) {
-        $user->specializationAreas()->sync($request->input('specializationAreas'));
-    }
-
-    return redirect('users')->with('success', 'Registo criado com sucesso!');
-}
 
 
     /**
@@ -143,10 +146,10 @@ class UserController extends Controller
         
         return view('pages.users.show', [
             'user' => $user,
-            'pedagogicalGroupUserList' => $pedagogicalGroupUserList,
-            'specializationAreaUserList' => $specializationAreaUserList,
-            'pedagogicalGroups' => $pedagogicalGroups,
-            'specializationAreas' => $specializationAreas
+            'pedagogicalGroupUserList'      => $pedagogicalGroupUserList,
+            'specializationAreaUserList'    => $specializationAreaUserList,
+            'pedagogicalGroups'             => $pedagogicalGroups,
+            'specializationAreas'           => $specializationAreas
         ]);
     }
     
@@ -183,9 +186,9 @@ class UserController extends Controller
         }
     
         return view('pages.users.edit', [
-            'users' => $users,
-            'lastUpdated' => $lastUpdated,
-            'lastLogin' => $lastLogin,
+            'users'         => $users,
+            'lastUpdated'   => $lastUpdated,
+            'lastLogin'     => $lastLogin,
         ]);
     }
 

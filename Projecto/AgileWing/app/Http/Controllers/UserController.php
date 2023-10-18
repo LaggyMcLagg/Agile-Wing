@@ -13,12 +13,16 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    //###############################
+    //CRUD METHODS
+    //###############################
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() //está a ser usado 01/10/2023
+    public function index()
     {
         //lógica para ir buscar os users que são apenas formadores
         $users = User::whereHas('userType', function ($query) {
@@ -157,9 +161,9 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-//este metodo faz o mesmo que o index() mas para ficheiros diferentes com diferens JS's associados
     public function edit() 
     {
+        //este metodo faz o mesmo que o index() mas para ficheiros diferentes com diferens JS's associados
         //lógica para ir buscar os users que são apenas formadores
         $users = User::whereHas('userType', function ($query) {
             $query->where('name', 'professor');
@@ -243,6 +247,34 @@ class UserController extends Controller
     {
         $user->delete();
         return redirect('users/edit')->with('status', 'Registo apagado com sucesso');
+    }
+
+    //###############################
+    //OTHER METHODS
+    //###############################
+    
+    public function updateNotes(Request $request)
+    {
+               
+        $request->validate(
+            [
+                'notes' => 'string|max:255|regex:/^[\pL\sÇç]+$/u',
+            ],
+            [
+                'name.regex' => 'The notes may only contain letters, accentuation, and Ç or ç.',
+            ]
+        );        
+
+        try {
+
+            $user = Auth::user();
+            $user->notes = $request->notes;
+            $user->save();
+        
+            return redirect()->route('teacher-availabilities.scheduler')->with('success', 'User notes updated successfully');
+        } catch (\Exception $e) {
+            //This way we resolve gracefully any errors, return the error message and the old form data
+            return back()->withInput()->with('error', 'There was an error updating the user: ' . $e->getMessage());        }
     }
 
     public function changePasswordView()

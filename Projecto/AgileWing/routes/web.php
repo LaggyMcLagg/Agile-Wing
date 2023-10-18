@@ -116,13 +116,13 @@ Route::prefix('users')->group(function(){
 
 // ROUTES for Teacher Availabilities
 Route::prefix('teacher-availabilities')->group(function(){
-    Route::get('', 'TeacherAvailabilityController@index')->name('teacher-availabilities.index');
-    Route::get('create', 'TeacherAvailabilityController@create')->name('teacher-availabilities.create');
+    //crud
     Route::post('', 'TeacherAvailabilityController@store')->name('teacher-availabilities.store');
-    Route::get('{teacherAvailability}/edit', 'TeacherAvailabilityController@edit')->name('teacher-availabilities.edit');
     Route::put('{teacherAvailability}', 'TeacherAvailabilityController@update')->name('teacher-availabilities.update');
-    Route::get('{teacherAvailability}', 'TeacherAvailabilityController@show')->name('teacher-availabilities.show');
     Route::delete('{teacherAvailability}', 'TeacherAvailabilityController@destroy')->name('teacher-availabilities.destroy');
+    //other
+    Route::get('/scheduler', 'TeacherAvailabilityController@scheduler')->name('teacher-availabilities.scheduler');
+    Route::post('/users/update-notes', 'UserController@updateNotes')->name('users.update-notes');
 });
 
 // ROUTES FOR SCHEDULE ATRIBUTIONS USE CASE

@@ -60,7 +60,7 @@
                 </div>
             </li>
             <li class="nav-item dropdown ">
-                <a class="nav-link" href="{{route('teacher-availabilities.index')}}" role="button">
+                <a class="nav-link" href="{{route('teacher-availabilities.scheduler')}}" role="button">
                     Preencher Disponibilidade
                 </a>
             </li>

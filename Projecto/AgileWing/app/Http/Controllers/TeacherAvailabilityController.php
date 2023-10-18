@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\TeacherAvailability;
 use Illuminate\Http\Request;
+use App\TeacherAvailability;
 use App\User;
 use App\HourBlock;
 use App\AvailabilityType;
+use Illuminate\Support\Facades\Auth; //to get the logged in user
 
 class TeacherAvailabilityController extends Controller
 {
+    //###############################
+    //CRUD METHODS
+    //###############################
     /**
      * Display a listing of the resource.
      *
@@ -17,11 +21,7 @@ class TeacherAvailabilityController extends Controller
      */
     public function index()
     {
-        // Fetch all teacher availabilities along with the related information
-        $teacherAvailabilities = TeacherAvailability::with('user', 'hourBlock', 'availabilityType')->get();
-
-        // Pass the data to the view
-        return view('pages.teacher_availabilities.index', compact('teacherAvailabilities'));
+        //
     }
 
     /**
@@ -31,15 +31,7 @@ class TeacherAvailabilityController extends Controller
      */
     public function create()
     {
-        $users = User::all();
-        $hourBlocks = HourBlock::all();
-        $availabilityTypes = AvailabilityType::all();
-        
-        return view('pages.teacher_availabilities.create', compact(
-            'users',
-            'hourBlocks',
-            'availabilityTypes'
-        ));
+        //
     }
 
     /**
@@ -75,11 +67,7 @@ class TeacherAvailabilityController extends Controller
      */
     public function show(TeacherAvailability $teacherAvailability)
     {
-        // Eager load the necessary relationships
-        $teacherAvailability->load('user', 'hourBlock', 'availabilityType');
-        
-        // Pass the data to the view
-        return view('pages.teacher_availabilities.show', compact('teacherAvailability'));
+        //
     }
 
     /**
@@ -90,11 +78,7 @@ class TeacherAvailabilityController extends Controller
      */
     public function edit(TeacherAvailability $teacherAvailability)
     {
-        $users = User::all();
-        $hourBlocks = HourBlock::all();
-        $availabilityTypes = AvailabilityType::all();
-        
-        return view('pages.teacher_availabilities.edit', compact('teacherAvailability', 'users', 'hourBlocks', 'availabilityTypes'));
+        //
     }
     
 
@@ -136,5 +120,26 @@ class TeacherAvailabilityController extends Controller
         return redirect()->route('teacher-availabilities.index')
                          ->with('success', 'Teacher availability deleted successfully');
     }
-    
+
+    //###############################
+    //OTHER METHODS
+    //###############################
+
+    public function scheduler()
+    {
+        $user = Auth::user();
+        $userNotes = $user->notes;
+        $hourBlocks = HourBlock::all();
+        $availabilityTypes = AvailabilityType::all();
+        $teacherAvailabilities = TeacherAvailability::where('user_id', $user->id)->get();
+
+        $data = [
+            'hourBlocks' => $hourBlocks,
+            'teacherAvailabilities' => $teacherAvailabilities
+        ];
+        
+        $jsonData = json_encode($data);
+
+        return view('pages.teacher_availabilities.scheduler', compact('availabilityTypes', 'teacherAvailabilities', 'userNotes', 'hourBlocks', 'jsonData'));
+    }
 }

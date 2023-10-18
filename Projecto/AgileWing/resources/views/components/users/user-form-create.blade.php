@@ -22,6 +22,23 @@
                 </div>
 
                 <div class="form-group">
+                    <input type="password" id="password" name="password" autocomplete="new-password" placeholder="Password do utilizador" class="form-control @error('password') is-invalid @enderror" value="{{ old('password') }}" required aria-describedby="passwordHelp">
+                    @error('password')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
+                    <small id="passwordHelp" class="form-text text-error">
+                        Insira uma password com pelo menos 4 caracteres.
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <input type="password" id="password_confirmation" name="password_confirmation" autocomplete="new-password" placeholder="Confirme a password" class="form-control" required>
+                </div>
+
+
+                <div class="form-group">
                     <label for="user_type_id">Tipo de Utilizador</label>
                     <select id="user_type_id" name="user_type_id" class="form-control @error('user_type_id') is-invalid @enderror">
                         @foreach($userTypes as $userType)

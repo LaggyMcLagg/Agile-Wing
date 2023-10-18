@@ -252,35 +252,15 @@ class UserController extends Controller
 
     public function changePasswordLogic(Request $request)
     {
-        //identiifcar o ID para chegar ao utilizador em que dou update a password
-        //ver a BL do update do COurseController
-
-
         $request->validate([
-            'current_password'  => 'required',
             'new_password'      => 'required|string|min:4|confirmed',
         ], [
-            'current_password.required' => 'A password atual é obrigatória.',
             'new_password.required'     => 'A nova password é obrigatória.',
         ]);
         
-
-        // Obtenha o usuário autenticado
         $user = Auth::user();
-
-        // Verifique se a senha atual fornecida corresponde à senha atual do usuário
-        if (Hash::check($request->current_password, $user->password)) {
-            // Atualize a senha do usuário
-            $user->password = Hash::make($request->new_password);
-            $user->save();
-
-            return redirect('home')->with('status', 'Password alterada com sucesso.');
-            // Redirecione de volta com uma mensagem de sucesso
-        } 
-        else 
-        {
-            // Senha atual incorreta, retorne com uma mensagem de erro
-            return back()->withErrors(['current_password' => 'A password atual não coincide.'])->withInput();
-        }
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+        return redirect('home')->with('status', 'Password alterada com sucesso.');
     }
 }

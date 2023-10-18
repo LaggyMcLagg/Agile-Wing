@@ -1,26 +1,6 @@
 <form method="POST" action="{{ route('users.passwordUpdate') }}">
     @csrf
     @method('PUT')
-    <div class="form-group">
-        <label for="current_password">Password atual</label>
-        <input
-            type="password"
-            id="current_password" 
-            name="current_password"
-            autocomplete="current-password"
-            class="form-control @error('current_password') is-invalid @enderror"
-            value="{{ old('current_password') }}"
-            required
-            aria-describedby="passwordHelp">
-        @error('current_password')
-        <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
-        </span>
-        @enderror
-        <small id="passwordHelp" class="form-text text-muted">
-            Insira sua password atual.
-        </small>
-    </div>
 
     <div class="form-group">
         <label for="new_password">Nova password</label>

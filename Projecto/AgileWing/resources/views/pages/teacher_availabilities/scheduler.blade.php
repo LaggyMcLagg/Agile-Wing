@@ -8,8 +8,8 @@
         'availabilityTypes', 
         'teacherAvailabilities', 
         'userNotes', 
-        'hourBlocks',
-        'jsonData'
+        'hourBlocks', 
+        'jsonTeacherAvailabilities'
         )
     )
 @endcomponent

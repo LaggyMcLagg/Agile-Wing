@@ -56,7 +56,7 @@ class TeacherAvailabilityController extends Controller
     
         TeacherAvailability::create($request->all());
     
-        return redirect()->route('teacher-availabilities.index')->with('success', 'Teacher availability created successfully');
+        return redirect()->route('teacher-availabilities.crud')->with('success', 'Teacher availability created successfully');
     }
 
     /**
@@ -103,7 +103,7 @@ class TeacherAvailabilityController extends Controller
     
         $teacherAvailability->update($request->all());
     
-        return redirect()->route('teacher-availabilities.index')->with('success', 'Teacher availability updated successfully');
+        return redirect()->route('teacher-availabilities.crud')->with('success', 'Teacher availability updated successfully');
     }
     
 
@@ -117,8 +117,7 @@ class TeacherAvailabilityController extends Controller
     {
         $teacherAvailability->delete();
     
-        return redirect()->route('teacher-availabilities.index')
-                         ->with('success', 'Teacher availability deleted successfully');
+        return redirect()->route('teacher-availabilities.crud')->with('success', 'Teacher availability deleted successfully');
     }
 
     //###############################
@@ -129,17 +128,17 @@ class TeacherAvailabilityController extends Controller
     {
         $user = Auth::user();
         $userNotes = $user->notes;
-        $hourBlocks = HourBlock::all();
+        $hourBlocks = HourBlock::orderBy('hour_beginning', 'asc')->get();
         $availabilityTypes = AvailabilityType::all();
         $teacherAvailabilities = TeacherAvailability::where('user_id', $user->id)->get();
-
-        $data = [
-            'hourBlocks' => $hourBlocks,
-            'teacherAvailabilities' => $teacherAvailabilities
-        ];
         
-        $jsonData = json_encode($data);
+        $jsonTeacherAvailabilities = json_encode($teacherAvailabilities);
 
-        return view('pages.teacher_availabilities.scheduler', compact('availabilityTypes', 'teacherAvailabilities', 'userNotes', 'hourBlocks', 'jsonData'));
+        return view('pages.teacher_availabilities.scheduler', compact('availabilityTypes', 'teacherAvailabilities', 'userNotes', 'hourBlocks', 'jsonTeacherAvailabilities'));
+    }
+
+    public function Crud()
+    {
+        //
     }
 }

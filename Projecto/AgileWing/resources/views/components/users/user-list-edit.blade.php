@@ -4,21 +4,14 @@
 <script src="{{ asset('/js/double-click-table-function.js') }}"></script>
 @endsection
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-4"></div>
-        <div class="col-md-4"></div>
-        <div class="col-md-4">
-            <form class="form-inline my-2 my-lg-0 justify-content-end">
-                <input id="search-input" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
-            </form>
-        </div>
-    </div>
+<h3 class="title spacing">Listagem de Formadores para Edição</h3>
+<div class="search-container">
+    <form class="users-search">
+        <input id="search-input" class="form-control mr-sm-2" type="search" placeholder="Pesquisar Formador..." aria-label="Search">
+        <button class="btn btn-blue my-2 my-sm-0" type="submit">Procurar</button>
+    </form>
 </div>
 
-
-<h3>Listagem de Formadores para Edição</h3>
 @if (session('success'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         {{ session('success') }}
@@ -27,7 +20,7 @@
         </button>
     </div>
 @endif
-<table class="table table-bordered" id="sortable-table">
+<table class="table table-borderless spacing" id="sortable-table">
     <thead>
         <tr>
             <th data-column-index="0" scope="col">Nome do formador</th>
@@ -62,7 +55,7 @@
                 <form action="{{ route('users.destroy', ['user' => $user->id]) }}" method="POST" onsubmit="return confirm('Tem a certeza que quer apagar este registo?');">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-danger">Apagar</button>
+                    <button type="submit" class="btn btn-trash"><i class="fa fa-trash"></i></button>
                 </form>
             </td>
         </tr>

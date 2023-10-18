@@ -17,8 +17,7 @@ use App\HourBlockCourse;
 class User extends Authenticatable implements MustVerifyEmail
 
 {
-    use SoftDeletes;
-    
+    use SoftDeletes; 
     use Notifiable;
 
     public function pedagogicalGroups()

@@ -8,7 +8,9 @@ use App\SpecializationArea;
 use App\UserType;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str; //para poder gerar pw aleatoria ao criar um user
+use Illuminate\Support\Facades\URL;
 
 
 use Illuminate\Http\Request;
@@ -108,6 +110,25 @@ class UserController extends Controller
             $user->specializationAreas()->sync($request->input('specializationAreas'));
         }
 
+        $verificationUrl = URL::temporarySignedRoute(
+            'email-verification',
+            now()->addMinutes(60),
+            ['id' => $user->getKey()]
+        );
+
+        // SOLUÇÃO 1 - se nao for para usar esta é só apagar isto mais a pasta component e o page
+        // Mail::send('pages.emails.new-user',$user->toArray(), function($message) use($user){
+        //     $message->to($user->email)->subject('Verificação de utilizador');
+        // });
+
+        Mail::send('pages.emails.new-user', [
+            'verificationUrl' => $verificationUrl, 
+            'user' => $user->toArray()], 
+            function($message) use($user)
+            {
+                $message->to($user->email)->subject('Verificação de utilizador');
+            });
+
         return redirect('users')->with('success', 'Registo criado com sucesso!');
     }
 
@@ -126,7 +147,7 @@ class UserController extends Controller
         
         foreach ($pedagogicalGroups as $pedagogicalGroup)
         {
-            // Verificar se o usuário está associado a este grupo pedagógico
+            // Verificar se o user está associado a este grupo pedagógico
             $userAssociatedPedagogicalGroup = $user->pedagogicalGroups->contains($pedagogicalGroup->id);
             
             // Adicionar um elemento ao array
@@ -168,7 +189,8 @@ class UserController extends Controller
     {
         //este metodo faz o mesmo que o index() mas para ficheiros diferentes com diferens JS's associados
         //lógica para ir buscar os users que são apenas formadores
-        $users = User::whereHas('userType', function ($query) {
+        $users = User::whereHas('userType', function ($query) 
+        {
             $query->where('name', 'professor');
         })->with('specializationAreas', 'pedagogicalGroups')->get();
     
@@ -178,10 +200,12 @@ class UserController extends Controller
                 ->latest('updated_at')
                 ->first();
     
-            if ($lastAvailability) {
+            if ($lastAvailability) 
+            {
                 $lastUpdated = $lastAvailability->updated_at->format('Y-m-d H:i:s');
                 $lastLogin = $user->last_login;
-            } else {
+            } else 
+            {
                 $lastUpdated = 'N/A';
                 $lastLogin = 'N/A';
             }

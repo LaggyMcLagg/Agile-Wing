@@ -12,10 +12,10 @@ class TeacherAvailabilitySeeder extends Seeder
      */
     public function run()
     {
-        $this->insertTeacherAvailability(1, 1, 1);
+        $this->insertTeacherAvailability(1, 1);
     }
 
-    private function insertTeacherAvailability($user, $day, $hourBlock)
+    private function insertTeacherAvailability($user, $day)
     {
         // Base case for user
         if ($user > 50) {
@@ -24,28 +24,25 @@ class TeacherAvailabilitySeeder extends Seeder
 
         // Base case for day
         if ($day > 30) {
-            $this->insertTeacherAvailability($user + 1, 1, 1);
+            $this->insertTeacherAvailability($user + 1, 1);
             return;
         }
 
-        // Base case for hourBlock
-        if ($hourBlock > 4) {
-            $this->insertTeacherAvailability($user, $day + 1, 1);
-            return;
+        $i= random_int(1, 5);
+        for ($j=1; $j <= 4; $j++) { 
+            DB::table('teacher_availabilities')->insert([
+                'availability_date'     => Carbon::now()->addDay($day),                
+                'is_locked'             => true,
+                'user_id'               => $user+2,
+                'hour_block_id'         => $i,
+                'availability_type_id'  => random_int(1, 4),
+                'created_at'            => now(),
+                'updated_at'            => now(),
+            ]);
+            $i++;
         }
 
-        $y = $hourBlock + random_int(1, 5) - 1;  // Modified calculation for y
-        DB::table('teacher_availabilities')->insert([
-            'availability_date'     => Carbon::now()->addDay($day),
-            'is_locked'             => true,
-            'user_id'               => $user + 2,
-            'hour_block_id'         => $y,
-            'availability_type_id'  => random_int(1, 4),
-            'created_at'            => now(),
-            'updated_at'            => now(),
-        ]);
-
-        // Recursive call for the next hour block
-        $this->insertTeacherAvailability($user, $day, $hourBlock + 1);
+        // Recursive call for the next day
+        $this->insertTeacherAvailability($user, $day +1);
     }
 }

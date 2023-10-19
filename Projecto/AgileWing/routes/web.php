@@ -34,7 +34,7 @@ Route::get('reset-password-form/{id}', 'UserController@resetPassword')->name('re
 
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/home', 'HomeController@index')->name('home');
-});    
+});
 
 
 //ROTAS DISPONIVEIS PARA USER TYPE 1 -> TESTES
@@ -171,3 +171,5 @@ Route::middleware(['auth'])->group(function(){
     });
 
 });
+
+

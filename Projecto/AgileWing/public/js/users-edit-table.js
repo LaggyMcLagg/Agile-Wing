@@ -81,61 +81,66 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./resources/js/logic/sort-table-function.js":
-/*!***************************************************!*\
-  !*** ./resources/js/logic/sort-table-function.js ***!
-  \***************************************************/
+/***/ "./resources/js/logic/users-edit-table.js":
+/*!************************************************!*\
+  !*** ./resources/js/logic/users-edit-table.js ***!
+  \************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
 document.addEventListener("DOMContentLoaded", function () {
-  // Client-side sorting
-  var table = document.getElementById("sortable-table");
-  var headers = table.querySelectorAll("th[data-column-index]");
-  var rows = table.querySelectorAll("tbody tr");
-  headers.forEach(function (header) {
-    header.addEventListener("click", function () {
-      sortTableByColumn(table, headers, rows, header);
+  var editBtn = document.getElementById("editBtn");
+  var saveBtn = document.getElementById("saveBtn");
+  var deleteForm = document.getElementById("deleteForm");
+  var cancelBtn = document.getElementById("cancelBtn");
+  editBtn.addEventListener("click", function (event) {
+    // Habilitar campos editáveis
+    document.querySelectorAll("input[readonly]").forEach(function (input) {
+      input.removeAttribute("readonly");
     });
+    document.querySelectorAll("input[type=checkbox]").forEach(function (checkbox) {
+      checkbox.removeAttribute("disabled");
+    });
+
+    // Mostrar botão "Guardar" e esconder o botão "Editar"
+    editBtn.style.display = "none";
+    saveBtn.style.display = "inline-block";
+    deleteForm.style.display = "inline-block";
+    cancelBtn.style.display = "inline-block";
+  });
+  cancelBtn.addEventListener("click", function (event) {
+    event.preventDefault();
+    // Desabilitar campos editáveis
+    document.querySelectorAll("input").forEach(function (input) {
+      input.setAttribute("readonly", true);
+    });
+    document.querySelectorAll("input[type=checkbox]").forEach(function (checkbox) {
+      checkbox.setAttribute("disabled", true);
+    });
+
+    // Esconder botão "Guardar" e "Apagar" e mostrar o botão "Editar"
+    editBtn.style.display = "inline-block";
+    saveBtn.style.display = "none";
+    deleteForm.style.display = "none";
+    cancelBtn.style.display = "none";
   });
 });
-function sortTableByColumn(table, headers, rows, clickedHeader) {
-  var columnIndex = parseInt(clickedHeader.getAttribute("data-column-index"));
-  var sortDirection = clickedHeader.classList.contains("sorted-asc") ? "desc" : "asc";
-  rows = Array.from(rows);
-  rows.sort(function (a, b) {
-    var aValue = a.children[columnIndex].textContent;
-    var bValue = b.children[columnIndex].textContent;
-    if (sortDirection === "asc") {
-      return aValue.localeCompare(bValue);
-    } else {
-      return bValue.localeCompare(aValue);
-    }
-  });
-  rows.forEach(function (row) {
-    table.querySelector("tbody").appendChild(row);
-  });
-  headers.forEach(function (header) {
-    header.classList.remove("sorted-asc", "sorted-desc");
-  });
-  clickedHeader.classList.add(sortDirection === "asc" ? "sorted-asc" : "sorted-desc");
-}
 
 /***/ }),
 
-/***/ 2:
-/*!*********************************************************!*\
-  !*** multi ./resources/js/logic/sort-table-function.js ***!
-  \*********************************************************/
+/***/ 4:
+/*!******************************************************!*\
+  !*** multi ./resources/js/logic/users-edit-table.js ***!
+  \******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\Administrador\Documents\GitHub\Agile-Wing\Projecto\AgileWing\resources\js\logic\sort-table-function.js */"./resources/js/logic/sort-table-function.js");
+module.exports = __webpack_require__(/*! C:\Users\Administrador\Documents\GitHub\Agile-Wing\Projecto\AgileWing\resources\js\logic\users-edit-table.js */"./resources/js/logic/users-edit-table.js");
 
 
 /***/ })

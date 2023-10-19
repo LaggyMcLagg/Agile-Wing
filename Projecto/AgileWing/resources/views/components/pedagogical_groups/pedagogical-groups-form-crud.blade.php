@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="{{ asset('css/specialization.css') }}">
 @section('scripts')
 <script src="{{ asset('/js/control-form-dynamic-crud.js') }}"></script>
 @endsection
@@ -26,16 +27,16 @@
 
 <!-- Start of the Main Container -->
 <div class="container" id="listForm">
-    <div class="row"> 
+    <div class="row">
         <!-- LEFT COLUMN: CREATE/EDIT FORM -->
-        <div class="col-md-4"> 
+        <div class="col-md-4">
 
-            <h3>Gestão de Grupos Pedagógicos</h3>
+
             <!-- FORM -->
             <form action="{{ route('pedagogical-groups.store') }}" id="controlForm" method="POST">
                 @csrf
 
-                <!-- Hidden input for HTTP method override. Needed because HTML forms only support GET/POST natively and we're not using 
+                <!-- Hidden input for HTTP method override. Needed because HTML forms only support GET/POST natively and we're not using
                 @method('PUT') to be able to switch between methods-->
                 <input type="hidden" name="_method" value="POST" id="hiddenMethod">
 
@@ -47,11 +48,11 @@
                 <!-- Course Name -->
                 <div class="form-group">
                     <label for="name">Designação</label>
-                    <input 
-                        data-name="name" 
-                        type="text" 
-                        id="name" 
-                        name="name" 
+                    <input
+                        data-name="name"
+                        type="text"
+                        id="name"
+                        name="name"
                         class="form-control @error('name') is-invalid @enderror"
                         required
                         value="{{ old('name') }}"
@@ -71,6 +72,9 @@
 
         <!-- TABELA LIST/SHOW -->
         <div class="col-md-8">
+        <h3>Gestão de Grupos Pedagógicos</h3>
+            <a id="createBtn" class="btn btn-primary">Criar</a>
+            <a id="editBtn" type="button" class="btn btn-primary">Editar</a>
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -79,8 +83,7 @@
                         <th scope="col">Lista de professores</th>
                         <th scope="col">Lista UFCDs</th>
                         <th scope="col">
-                            <a id="createBtn" class="btn btn-primary">Criar</a>
-                            <a id="editBtn" type="button" class="btn btn-primary">Editar</a>
+
                         </th>
                     </tr>
                 </thead>
@@ -90,10 +93,10 @@
                         <td data-name="id">{{ $pedagogicalGroup->id }}</td>
                         <td data-name="name">{{ $pedagogicalGroup->name }}</td>
                         <td>
-                            <button 
-                                class="btn btn-light" 
-                                type="button" 
-                                data-toggle="collapse" 
+                            <button
+                                class="btn btn-light"
+                                type="button"
+                                data-toggle="collapse"
                                 data-target="#usersList_{{ $pedagogicalGroup->id }}">
                                 Professores
                             </button>
@@ -107,10 +110,10 @@
                                 </ul>
                             </div>
                         </td><td>
-                            <button 
-                                class="btn btn-light" 
-                                type="button" 
-                                data-toggle="collapse" 
+                            <button
+                                class="btn btn-light"
+                                type="button"
+                                data-toggle="collapse"
                                 data-target="#ufcdList_{{ $pedagogicalGroup->id }}">
                                 UFCDs
                             </button>

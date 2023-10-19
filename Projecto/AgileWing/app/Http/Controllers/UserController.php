@@ -36,7 +36,7 @@ class UserController extends Controller
                 ->where('is_locked', 1) // verifica apenas disponibilidades bloqueadas
                 ->latest('updated_at')
                 ->first();
-    
+
             if ($lastAvailability) {
                 $lastUpdated = $lastAvailability->updated_at->format('Y-m-d H:i:s');
                 $lastLogin = $user->last_login;
@@ -47,7 +47,7 @@ class UserController extends Controller
             $user->lastUpdated = $lastUpdated; // adiciona lastUpdated ao objeto do user
             $user->lastLogin = $lastLogin; // adiciona lastLogin ao objeto do user
         }
-    
+
         return view('pages.users.index', [
             'users'         => $users,
             'lastUpdated'   => $lastUpdated,
@@ -136,31 +136,31 @@ class UserController extends Controller
         $user = User::find($id);
         $pedagogicalGroups = PedagogicalGroup::all();
         $pedagogicalGroupUserList = [];
-        
+
         foreach ($pedagogicalGroups as $pedagogicalGroup)
         {
             // Verificar se o user está associado a este grupo pedagógico
             $userAssociatedPedagogicalGroup = $user->pedagogicalGroups->contains($pedagogicalGroup->id);
-            
+
             // Adicionar um elemento ao array
             $pedagogicalGroupUserList[$pedagogicalGroup->id] = [
                 'isAssociated' => $userAssociatedPedagogicalGroup
             ];
         }
-        
+
         $specializationAreas = SpecializationArea::all();
         $specializationAreaUserList = [];
-        
+
         foreach ($specializationAreas as $specializationArea)
         {
             $userAssociatedSpecializationArea = $user->specializationAreas->contains($specializationArea->id);
-            
+
             // Adicionar um elemento ao array
             $specializationAreaUserList[$specializationArea->id] = [
                 'isAssociated' => $userAssociatedSpecializationArea
             ];
         }
-        
+
         return view('pages.users.show', [
             'user' => $user,
             'pedagogicalGroupUserList'      => $pedagogicalGroupUserList,
@@ -169,7 +169,7 @@ class UserController extends Controller
             'specializationAreas'           => $specializationAreas
         ]);
     }
-    
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -201,7 +201,7 @@ class UserController extends Controller
             $user->lastUpdated = $lastUpdated; // adiciona lastUpdated ao objeto do user
             $user->lastLogin = $lastLogin; // adiciona lastLogin ao objeto do user
         }
-    
+
         return view('pages.users.edit', [
             'users'         => $users,
             'lastUpdated'   => $lastUpdated,
@@ -220,8 +220,8 @@ class UserController extends Controller
     {
         $user = User::find($id);
 
-        //The 'unique:users,email,' . $user->id rule ensures that the provided email 
-        //address is unique among all users but doesn't flag it as a duplicate if 
+        //The 'unique:users,email,' . $user->id rule ensures that the provided email
+        //address is unique among all users but doesn't flag it as a duplicate if
         //it's the email of the user you're currently updating.
         //So that when we update we don't ahve to always change the EMail
         $validatedData = $request->validate(
@@ -240,11 +240,11 @@ class UserController extends Controller
                 'color_2.required'  => 'Color 2 is required.',
             ]
         );
-        
+
 
         // Bulk update the user's fields using validated data
         $user->update($validatedData);
-        
+
         // Update user's associations with pedagogical groups and specialization areas
         $user->pedagogicalGroups()->sync($request->input('pedagogicalGroups', []));
         $user->specializationAreas()->sync($request->input('specializationAreas', []));

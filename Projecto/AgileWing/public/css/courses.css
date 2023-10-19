@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 @import url('https://fonts.googleapis.com/css2?family=Lexend&display=swap');
 body{
     font-family: 'Lexend', sans-serif;
@@ -100,3 +101,159 @@ form-group select::after {
       }
     }
   }
+=======
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca&display=swap');
+
+:root {
+    --gradient-top: #6d92e3;
+    --gradient-bottom: #aeb6e6;
+    --white: #ffffff;
+    --black: #4d4e4f;
+    --blue: #6d92e3;
+    --blue-dark: #617add;
+    --table: #f0f6fc;
+    --table-hover: #b9cdf0;
+}
+
+/* Estilize os botões */
+.btn-primary {
+    background-color: var(--blue);
+    color: var(--white);
+}
+
+.btn-primary:hover {
+    background-color: var(--blue-dark);
+    color: var(--white);
+}
+
+.btn-danger {
+    background-color: var(--blue);
+    color: var(--white);
+    padding: 5px 20px 5px 20px;
+    cursor: pointer;
+}
+
+.save-btn,
+.cancel-btn {
+    margin-right: 10px;
+}
+
+.save-btn {
+    background-color: var(--white);
+    color: var(--black);
+}
+
+.cancel-btn {
+    background-color: var(--black);
+    color: var(--white);
+}
+
+/* Estilize a tabela */
+.table {
+
+    overflow: scroll;
+    border-bottom: solid #6d92e3 2px;
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+}
+
+.table th,
+.table td {
+    background-color: var(--table);
+    color: var(--black);
+    padding: 8px;
+    text-align: left;
+}
+
+.thead {
+    border-bottom: solid #6d92e3 2px;
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: var(--white);
+}
+
+.table tbody tr:nth-child(odd) {
+    background-color: var(--blue);
+    color: var(--white);
+}
+
+.table tbody tr:hover {
+    background-color: var(--table-hover);
+    cursor: pointer;
+}
+
+/* Estilize os elementos colapsíveis */
+.collapse {
+    display: none;
+}
+
+.collapse.show {
+    display: block;
+}
+
+.collapse.show + button {
+    background-color: var(--blue-dark);
+    color: var(--white);
+}
+
+/* Form */
+
+.col-md-2 {
+    margin-top: 50px;
+    background-image: linear-gradient(to top, #aeb6e6, #a0ade5, #91a3e5, #809be4, #6d92e3);
+    padding: 5%;
+    border-radius: 10px;
+    color: var(--white);
+}
+
+#saveBtn,
+#cancelBtn {
+    background-color: var(--white);
+    display: flex;
+}
+
+input[type="checkbox"] {
+    outline: none;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid;
+    color: var(--white);
+    box-shadow: none;
+}
+
+/* Alinhe os botões "Criar" e "Editar" com o título "Gestão de Cursos" */
+h3 {
+    margin-bottom: 10px;
+    margin-top: 50px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px; /* Ajuste o valor conforme necessário para o espaçamento desejado */
+    color: var(--blue);
+}
+
+#createBtn, #editBtn {
+    margin-bottom: 10px;
+    margin-top: 50px;
+    vertical-align: middle;
+    margin-right: 10px; /* Ajuste o valor conforme necessário para o espaçamento desejado */
+}
+
+/* Estilize o botão "Apagar" como um ícone de caixote do lixo */
+.btn-danger {
+    background: none;
+    border: none;
+    color: var(--blue);
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.btn-danger:hover {
+    color: var(--blue-dark);
+}
+table.table th:nth-child(1),
+table.table td:nth-child(1) {
+    display: none;
+}
+>>>>>>> Stashed changes

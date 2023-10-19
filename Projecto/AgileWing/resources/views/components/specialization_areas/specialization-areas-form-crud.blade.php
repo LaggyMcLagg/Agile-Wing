@@ -1,3 +1,6 @@
+<link rel="stylesheet" href="{{ asset('css/specialization.css') }}">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend+Deca&display=swap">
+
 @section('scripts')
 <script src="{{ asset('/js/control-form-dynamic-crud.js') }}"></script>
 @endsection
@@ -26,16 +29,16 @@
 
 <!-- Start of the Main Container -->
 <div class="container" id="listForm">
-    <div class="row"> 
+    <div class="row">
         <!-- LEFT COLUMN: CREATE/EDIT FORM -->
-        <div class="col-md-4"> 
+        <div class="col-md-4">
 
-            <h3>Gestão de Áreas de formação</h3>
+
             <!-- FORM -->
             <form action="{{ route('specialization-areas.store') }}" id="controlForm" method="POST">
                 @csrf
 
-                <!-- Hidden input for HTTP method override. Needed because HTML forms only support GET/POST natively and we're not using 
+                <!-- Hidden input for HTTP method override. Needed because HTML forms only support GET/POST natively and we're not using
                 @method('PUT') to be able to switch between methods-->
                 <input type="hidden" name="_method" value="POST" id="hiddenMethod">
 
@@ -47,10 +50,10 @@
                 <!-- Number -->
                 <div class="form-group">
                     <label for="number">Número</label>
-                    <input 
+                    <input
                         data-name="number"
                         type="text"
-                        id="number" 
+                        id="number"
                         name="number"
                         class="form-control @error('number') is-invalid @enderror"
                         value="{{ old('number') }}"
@@ -65,11 +68,11 @@
                 <!-- Name -->
                 <div class="form-group">
                     <label for="name">Designação</label>
-                    <input 
-                        data-name="name" 
-                        type="text" 
-                        id="name" 
-                        name="name" 
+                    <input
+                        data-name="name"
+                        type="text"
+                        id="name"
+                        name="name"
                         class="form-control @error('name') is-invalid @enderror"
                         required
                         value="{{ old('name') }}"
@@ -79,7 +82,7 @@
                             {{ $message }}
                         </div>
                     @enderror
-                </div>            
+                </div>
 
                 <!-- Save and Cancel buttons, initially hidden -->
                 <button id="saveBtn" type="submit" class="mt-2 mb-5 btn btn-primary" style="display: none;">Guardar</button>
@@ -89,6 +92,9 @@
 
         <!-- TABELA LIST/SHOW -->
         <div class="col-md-8">
+        <h3>Gestão de Áreas de formação</h3>
+            <a id="createBtn" class="btn btn-primary">Criar</a>
+            <a id="editBtn" type="button" class="btn btn-primary">Editar</a>
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -98,8 +104,7 @@
                         <th scope="col">Lista Professores</th>
                         <th scope="col">Lista Crusos</th>
                         <th scope="col">
-                            <a id="createBtn" class="btn btn-primary">Criar</a>
-                            <a id="editBtn" type="button" class="btn btn-primary">Editar</a>
+
                         </th>
                     </tr>
                 </thead>
@@ -110,10 +115,10 @@
                         <td data-name="number">{{ $specializationArea->number }}</td>
                         <td data-name="name">{{ $specializationArea->name }}</td>
                         <td>
-                            <button 
-                                class="btn btn-light" 
-                                type="button" 
-                                data-toggle="collapse" 
+                            <button
+                                class="btn btn-light"
+                                type="button"
+                                data-toggle="collapse"
                                 data-target="#coursesList_{{ $specializationArea->id }}">
                                 Cursos
                             </button>
@@ -127,10 +132,10 @@
                                 </ul>
                             </div>
                         </td>                        <td>
-                            <button 
-                                class="btn btn-light" 
-                                type="button" 
-                                data-toggle="collapse" 
+                            <button
+                                class="btn btn-light"
+                                type="button"
+                                data-toggle="collapse"
                                 data-target="#usersList_{{ $specializationArea->id }}">
                                 Professores
                             </button>

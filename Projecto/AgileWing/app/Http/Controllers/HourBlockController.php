@@ -44,12 +44,12 @@ class HourBlockController extends Controller
                 'hour_end' => 'required|date_format:H:i:s|after:hour_beginning',
             ],
             [
-                'hour_beginning.required' => 'The hour beginning field is required.',
-                'hour_beginning.date_format' => 'The hour beginning must be in the format hh:mm:ss.',
-                'hour_beginning.before' => 'The hour beginning must be before the hour end.',
-                'hour_end.required' => 'The hour end field is required.',
-                'hour_end.date_format' => 'The hour end must be in the format hh:mm:ss.',
-                'hour_end.after' => 'The hour end must be after the hour beginning.',
+                'hour_beginning.required' => 'O campo de início da hora é obrigatório.',
+                'hour_beginning.date_format' =>  'O início da hora deve estar no formato hh:mm:ss.',
+                'hour_beginning.before' => 'O início da hora deve ser antes do final da hora.',
+                'hour_end.required' => 'O campo de final de hora é obrigatório.',
+                'hour_end.date_format' => 'O final da hora deve estar no formato hh:mm:ss.',
+                'hour_end.after' => 'O final da hora deve ser posterior ao início da hora.',
             ]
         ); 
     
@@ -100,12 +100,12 @@ public function update(Request $request, $id)
             'hour_end' => 'required|date_format:H:i:s|after:hour_beginning',
         ],
         [
-            'hour_beginning.required' => 'The hour beginning field is required.',
-            'hour_beginning.date_format' => 'The hour beginning must be in the format hh:mm:ss.',
-            'hour_beginning.before' => 'The hour beginning must be before the hour end.',
-            'hour_end.required' => 'The hour end field is required.',
-            'hour_end.date_format' => 'The hour end must be in the format hh:mm:ss.',
-            'hour_end.after' => 'The hour end must be after the hour beginning.',
+            'hour_beginning.required' => 'O campo de início da hora é obrigatório.',
+            'hour_beginning.date_format' => 'O início da hora deve estar no formato hh:mm:ss.',
+            'hour_beginning.before' => 'O início da hora deve ser antes do final da hora.',
+            'hour_end.required' => 'O campo de final de hora é obrigatório.',
+            'hour_end.date_format' => 'O final da hora deve estar no formato hh:mm:ss.',
+            'hour_end.after' => 'O final da hora deve ser posterior ao início da hora.',
         ]
     ); 
 

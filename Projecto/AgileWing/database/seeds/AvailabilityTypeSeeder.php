@@ -12,11 +12,11 @@ class AvailabilityTypeSeeder extends Seeder
     public function run()
     {
         $availabilityTypes = [
-            ['name' => 'Indisponível (Outra Entidade/Outros)',
+            ['name' => 'Indisponível',
             'color' => '#F53729'],
-            ['name' => 'Disponível (ATEC - ONLINE)',
+            ['name' => 'Online',
             'color' => '#F8E700'],
-            ['name' => 'Disponível (ATEC - PRESENCIAL)',
+            ['name' => 'Presencial',
             'color' => '#FFA500'],
             ['name' => 'Disponível',
             'color' => '#6AA84F'],

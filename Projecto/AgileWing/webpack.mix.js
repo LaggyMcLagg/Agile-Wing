@@ -27,3 +27,6 @@ mix.js('resources/js/app.js', 'public/js')
     //course class
     //pedagogical group
     //hour block course class
+    .js('resources/js/logic/update-scheduler-availabilities.js', 'public/js')//aplicado teacher-availabilities
+    .js('resources/js/components/build-scheduler.js', 'public/js')//aplicado a:
+    //teacher-availabilities

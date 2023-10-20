@@ -129,15 +129,19 @@ Route::middleware(['auth', 'checkUserType1:1'])->group(function(){
 //ROTAS DISPONIVEIS PARA USER TYPE 2 -> TESTES
 Route::middleware(['auth', 'checkUserType2:2'])->group(function(){
 
+    // ROUTES for Teacher Availabilities
     Route::prefix('teacher-availabilities')->group(function(){
-        Route::get('', 'TeacherAvailabilityController@index')->name('teacher-availabilities.index');
-        Route::get('create', 'TeacherAvailabilityController@create')->name('teacher-availabilities.create');
+        //crud
         Route::post('', 'TeacherAvailabilityController@store')->name('teacher-availabilities.store');
-        Route::get('{teacherAvailability}/edit', 'TeacherAvailabilityController@edit')->name('teacher-availabilities.edit');
-        Route::put('{teacherAvailability}', 'TeacherAvailabilityController@update')->name('teacher-availabilities.update');
-        Route::get('{teacherAvailability}', 'TeacherAvailabilityController@show')->name('teacher-availabilities.show');
+        Route::put('{id}', 'TeacherAvailabilityController@update')->name('teacher-availabilities.update');
         Route::delete('{teacherAvailability}', 'TeacherAvailabilityController@destroy')->name('teacher-availabilities.destroy');
+        //other
+        Route::get('/scheduler', 'TeacherAvailabilityController@scheduler')->name('teacher-availabilities.scheduler');
+        Route::get('/{id}', 'TeacherAvailabilityController@edit')->name('teacher-availabilities.edit');
+        Route::get('', 'TeacherAvailabilityController@create')->name('teacher-availabilities.create');
+        Route::post('/users/update-notes', 'UserController@updateNotes')->name('users.update-notes');
     });
+
 });
 
 //ROTAS COMUNS

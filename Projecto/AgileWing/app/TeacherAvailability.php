@@ -30,10 +30,6 @@ class TeacherAvailability extends Model
     protected $casts = [
         'availability_date' => 'datetime',
     ];
-    //OR
-    // protected $dates = [
-    //     'availability_date',
-    // ];
 
     protected $fillable = [
         'availability_date',

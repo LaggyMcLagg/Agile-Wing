@@ -63,6 +63,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'notes', 
         'color_1', 
         'color_2',
+        'token_password',
     ];    
     
 
@@ -84,5 +85,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
         'updated_at' => 'datetime',
         'last_login' => 'datetime',
+        'token_created_at' => 'datetime',
     ];
 }

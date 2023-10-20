@@ -141,5 +141,6 @@
                 @method('DELETE')
                 <button type="submit" class="btn btn-danger">Apagar Formador</button>
             </form>
+            <a id="resetPwBtn" href="{{ route('link-to-reset-password' }}" class="btn btn-danger" style="display: none;">Repor palavra passe</a>
     </div>
 </div>

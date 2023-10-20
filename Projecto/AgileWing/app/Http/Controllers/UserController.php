@@ -7,10 +7,11 @@ use App\PedagogicalGroup;
 use App\SpecializationArea;
 use App\UserType;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str; //para poder gerar pw aleatoria ao criar um user
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Log; // apagar, so serviu para testes
+use Carbon\Carbon; //para usarmos o gt() e verificação do tempo útil do link de verf de email
 
 
 use Illuminate\Http\Request;
@@ -89,15 +90,18 @@ class UserController extends Controller
             'color_2'       => 'required',
         ]);
 
-        $temporaryPassword = Hash::make(Str::random(8));
+        $temporaryPassword = bcrypt(Str::random(20));
+        $token = Str::random(20); //aqui nao podemos usar bcrypt porque da erro na url
 
         $user = User::create([
-            'name'          => $request->input('name'),
-            'email'         => $request->input('email'),
-            'password'      => $temporaryPassword,
-            'user_type_id'  => $request->input('user_type_id'),
-            'color_1'       => $request->input('color_1'),
-            'color_2'       => $request->input('color_2'),
+            'name'              => $request->input('name'),
+            'email'             => $request->input('email'),
+            'password'          => $temporaryPassword,
+            'user_type_id'      => $request->input('user_type_id'),
+            'color_1'           => $request->input('color_1'),
+            'color_2'           => $request->input('color_2'),
+            'token_password'    => $token,
+            'token_created_at'  => now()
         ]);
 
         // Associar grupos pedagógicos, se estiverem presentes no pedido
@@ -110,28 +114,15 @@ class UserController extends Controller
             $user->specializationAreas()->sync($request->input('specializationAreas'));
         }
 
-        $verificationUrl = URL::temporarySignedRoute(
-            'email-verification',
-            now()->addMinutes(60),
-            ['id' => $user->getKey()]
-        );
+        $verificationUrl = route('verify.email', ['token' => $token]);
 
-        // SOLUÇÃO 1 - se nao for para usar esta é só apagar isto mais a pasta component e o page
-        // Mail::send('pages.emails.new-user',$user->toArray(), function($message) use($user){
-        //     $message->to($user->email)->subject('Verificação de utilizador');
-        // });
-
-        Mail::send('pages.emails.new-user', [
-            'verificationUrl' => $verificationUrl, 
-            'user' => $user->toArray()], 
-            function($message) use($user)
-            {
-                $message->to($user->email)->subject('Verificação de utilizador');
-            });
+        Mail::send('pages.emails.verify-email-new-user', ['user' => $user, 'verificationUrl' => $verificationUrl], function ($message) use ($user) 
+        {
+            $message->to($user->email)->subject('Verificação de utilizador');
+        });
 
         return redirect('users')->with('success', 'Registo criado com sucesso!');
     }
-
 
     /**
      * Display the specified resource.
@@ -313,13 +304,62 @@ class UserController extends Controller
     {
         $request->validate([
             'new_password'      => 'required|string|min:4|confirmed',
-        ], [
+        ], 
+        [
             'new_password.required'     => 'A nova password é obrigatória.',
         ]);
         
         $user = Auth::user();
-        $user->password = Hash::make($request->new_password);
+        $user->password = bcrypt(($request->new_password));
+        $user->token_password = null; //significa que a pw foi alterada
         $user->save();
         return redirect('home')->with('status', 'Password alterada com sucesso.');
     }
+
+    public function verifyEmail($token)
+    {
+        //procura o user com base no token passado na URL
+        $user = User::where('token_password', $token)->first();
+
+        if(!$user)
+        {
+            abort(403, 'Este link de verificação já foi utilizado.');
+        }
+
+        $tokenCreatedAt  = Carbon::parse($user->token_created_at); //necessário para podermos usar o gt()
+        if (!$tokenCreatedAt->gt(now()->subDay()))
+        {
+            abort(403, 'Este link de verificação econtra-se expirado. Por favor, peça novo link.');
+        }
+
+        if ($user->email_verified_at == null)
+        {
+            $user->email_verified_at = now();
+            $user->save();
+        }
+
+        //user fica com login feito para ser redirecionado para a página de alteração de pw
+        auth()->login($user); 
+
+        return redirect()->route('users.passwordForm')->with('success', 'Email verificado com sucesso.');
+    }
+
+    public function sendLinkResetPassword(Request $request, User $user)
+    {
+        $token = Str::random(20);
+
+        $user->update([
+            'token_password' => $token,
+            'token_created_at' => now(),
+        ]);
+
+        $resetPasswordUrl = route('users.resetPasswordForm', ['user' => $user->id, 'token' => $token]);
+    
+        Mail::send('pages.emails.reset-password', ['user' => $user, 'resetPasswordUrl' => $resetPasswordUrl], function ($message) use ($user) 
+        {
+            $message->to($user->email)->subject('Alteração de palavra passe');
+        });
+    
+        return redirect('users')->with('success', 'Solicitação de alteração de palavra passe enviada com sucesso.');
+    } 
 }

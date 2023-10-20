@@ -3,6 +3,8 @@
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\MailVerificationController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +30,16 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
+//rota para verificar email
+Route::get('/verify-email/{token}', 'UserController@verifyEmail')->name('verify.email');
+
+//rota para enviar email para alteracao de pw
+Route::get('send-reset-password-link/{user}', 'UserController@sendLinkResetPassword')->name('send.reset.password.link');
+
+//rota para ser encaminhado para a alteracao de pw apos pedir reposicao de pw
+Route::get('reset-password-form/{id}', 'UserController@resetPassword')->name('resetPassword');
+
+
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/home', 'HomeController@index')->name('home');
 });    
@@ -35,8 +47,6 @@ Route::middleware(['auth', 'verified'])->group(function(){
 
 //ROTAS DISPONIVEIS PARA USER TYPE 1 -> TESTES
 Route::middleware(['auth', 'checkUserType1:1'])->group(function(){
-
-    Route::get('/email-verification', 'Auth\VerificationController@verifyEmail')->name('email-verification');
 
     Route::prefix('availability-types')->group(function(){
         Route::get('', 'AvailabilityTypeController@index')->name('availability-types.index');

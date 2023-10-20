@@ -3,7 +3,9 @@ document.addEventListener("DOMContentLoaded", function(){
     const saveBtn = document.getElementById("saveBtn");
     const deleteForm = document.getElementById("deleteForm");
     const cancelBtn = document.getElementById("cancelBtn");
-
+    const resetPwBtn = document.getElementById("resetPwBtn");
+  
+    console.log('RUI');
 
     editBtn.addEventListener("click", function(event){
 
@@ -20,6 +22,7 @@ document.addEventListener("DOMContentLoaded", function(){
         saveBtn.style.display = "inline-block";
         deleteForm.style.display = "inline-block";
         cancelBtn.style.display = "inline-block";
+        resetPwBtn.style.display = "inline-block";
     });
 
     cancelBtn.addEventListener("click", function (event) {
@@ -37,5 +40,7 @@ document.addEventListener("DOMContentLoaded", function(){
         saveBtn.style.display = "none";
         deleteForm.style.display = "none";
         cancelBtn.style.display = "none";
+        resetPwBtn.style.display = "none";
+
     });
 });

@@ -118,10 +118,12 @@ Route::prefix('users')->group(function(){
 Route::prefix('teacher-availabilities')->group(function(){
     //crud
     Route::post('', 'TeacherAvailabilityController@store')->name('teacher-availabilities.store');
-    Route::put('{teacherAvailability}', 'TeacherAvailabilityController@update')->name('teacher-availabilities.update');
+    Route::put('{id}', 'TeacherAvailabilityController@update')->name('teacher-availabilities.update');
     Route::delete('{teacherAvailability}', 'TeacherAvailabilityController@destroy')->name('teacher-availabilities.destroy');
     //other
     Route::get('/scheduler', 'TeacherAvailabilityController@scheduler')->name('teacher-availabilities.scheduler');
+    Route::get('/{id}', 'TeacherAvailabilityController@edit')->name('teacher-availabilities.edit');
+    Route::get('', 'TeacherAvailabilityController@create')->name('teacher-availabilities.create');
     Route::post('/users/update-notes', 'UserController@updateNotes')->name('users.update-notes');
 });
 

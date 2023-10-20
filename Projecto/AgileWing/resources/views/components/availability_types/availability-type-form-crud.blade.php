@@ -2,7 +2,6 @@
 <script src="{{ asset('/js/control-form-dynamic-crud.js') }}"></script>
 @endsection
 
-
 @if (session('success'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         {{ session('success') }}
@@ -13,7 +12,7 @@
     <script>
         sessionStorage.removeItem("formState");  // Clear the state from local storage
         sessionStorage.removeItem("selectedId");  // Clear the stored course ID
-        </script>
+    </script>
 @endif
 
 @if (session('error'))

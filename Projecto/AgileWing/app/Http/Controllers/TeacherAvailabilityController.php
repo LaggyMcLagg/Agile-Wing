@@ -126,15 +126,33 @@ class TeacherAvailabilityController extends Controller
 
     public function scheduler()
     {
+        //vars for content
         $user = Auth::user();
         $userNotes = $user->notes;
-        $hourBlocks = HourBlock::orderBy('hour_beginning', 'asc')->get();
         $availabilityTypes = AvailabilityType::all();
+        $hourBlocks = HourBlock::orderBy('hour_beginning', 'asc')->get();
         $teacherAvailabilities = TeacherAvailability::where('user_id', $user->id)->get();
         
+        //var for component setup
+        $showNotes = true;
+        $showLegend = true;
+        $showBtnStore = true;
+        $objectName = $user->name;
         $jsonTeacherAvailabilities = json_encode($teacherAvailabilities);
 
-        return view('pages.teacher_availabilities.scheduler', compact('availabilityTypes', 'teacherAvailabilities', 'userNotes', 'hourBlocks', 'jsonTeacherAvailabilities'));
+        return view('pages.teacher_availabilities.scheduler', 
+        compact(
+            'userNotes', 
+            'availabilityTypes',
+            'hourBlocks', 
+            'teacherAvailabilities', 
+
+            'showNotes',
+            'showLegend',
+            'showBtnStore',
+            'objectName', 
+            'jsonTeacherAvailabilities'
+        ));
     }
 
     public function Crud()

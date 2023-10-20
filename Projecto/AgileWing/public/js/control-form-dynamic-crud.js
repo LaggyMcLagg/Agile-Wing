@@ -105,7 +105,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 * - Transferring data from table rows to the form for potential editing.
 * - Storing certain form states and selections in session storage.
 *
-*
+* @author   [Vasco Vitória]
 */
 
 // Wait until the DOM is fully loaded
@@ -299,7 +299,7 @@ document.addEventListener("DOMContentLoaded", function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\ruiru\Desktop\Agile-Wing\Projecto\AgileWing\resources\js\logic\control-form-dynamic-crud.js */"./resources/js/logic/control-form-dynamic-crud.js");
+module.exports = __webpack_require__(/*! D:\ATEC\repos\Agile-Wing\Projecto\AgileWing\resources\js\logic\control-form-dynamic-crud.js */"./resources/js/logic/control-form-dynamic-crud.js");
 
 
 /***/ })

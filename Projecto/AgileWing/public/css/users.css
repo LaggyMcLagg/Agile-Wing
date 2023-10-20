@@ -78,6 +78,10 @@ input[type="checkbox"]:checked {
     padding-left: 6%;
 }
 
+#editBtn {
+    margin-left: 6%;
+}
+
 /* Table */
 .atec-table {
     overflow: scroll;
@@ -188,4 +192,52 @@ input[type="password"][disabled] {
     flex-direction: row;
     padding-left: 2px;
     width: 98vw;
+}
+
+/* Login */
+
+.bg-atec {
+    position: fixed;
+    height: 120vh;
+    overflow-y: hidden;
+    right: 25%;
+}
+
+.login-container {
+    height: 100vh;
+    width: 95vw;
+    overflow: hidden;
+}
+
+.login-form {
+    padding-top: 30vh;
+    padding-left: 12%;
+}
+
+.login-form h3 {
+    text-decoration: underline;
+}
+
+.login-container input {
+    padding: 0%;
+    width: 200px;
+    border: none;
+    border-radius: 0%;
+    border-bottom: 2px solid;
+    border-color: var(--blue-dark);
+    color: var(--black);
+}
+
+.login-container input:focus {
+    border: none;
+    border-radius: 0%;
+    border-bottom: 2px solid;
+    border-color: var(--blue-dark);
+    color: var(--black);
+    box-shadow: none;
+}
+
+.login-container input::placeholder {
+    color: var(--black);
+    padding: 0%;
 }

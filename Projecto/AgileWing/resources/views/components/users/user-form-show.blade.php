@@ -141,6 +141,7 @@
                 @method('DELETE')
                 <button type="submit" class="btn btn-danger">Apagar Formador</button>
             </form>
-            <a id="resetPwBtn" href="{{ route('link-to-reset-password' }}" class="btn btn-danger" style="display: none;">Repor palavra passe</a>
+            <!-- with this route we re-use the logic behind verify email which already sends the user to a alter password form -->
+            <a id="resetPwBtn" href="{{ route('resetPassword', $user->id) }}" class="btn btn-danger" style="display: none;">Repor palavra passe</a>
     </div>
 </div>

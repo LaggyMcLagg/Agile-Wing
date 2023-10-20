@@ -36,7 +36,7 @@ Route::get('/verify-email/{token}', 'UserController@verifyEmail')->name('verify.
 //rota para enviar email para alteracao de pw
 Route::get('send-reset-password-link/{user}', 'UserController@sendLinkResetPassword')->name('send.reset.password.link');
 
-//rota para ser encaminhado para a alteracao de pw apos pedir reposicao de pw
+//Route to be used with the reset pass button in the show user form
 Route::get('reset-password-form/{id}', 'UserController@resetPassword')->name('resetPassword');
 
 

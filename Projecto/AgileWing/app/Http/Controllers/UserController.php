@@ -344,22 +344,28 @@ class UserController extends Controller
         return redirect()->route('users.passwordForm')->with('success', 'Email verificado com sucesso.');
     }
 
-    public function sendLinkResetPassword(Request $request, User $user)
+    public function resetPassword($id)
     {
+        //To re-use the logic that we implemented for the verify email method that already
+        //forsees the use case of password reset
+        $user = User::find($id);
+
+        $temporaryPassword = bcrypt(Str::random(20));
         $token = Str::random(20);
 
         $user->update([
-            'token_password' => $token,
-            'token_created_at' => now(),
+            'password'          => $temporaryPassword,
+            'token_password'    => $token,
+            'token_created_at'  => now()
         ]);
 
-        $resetPasswordUrl = route('users.resetPasswordForm', ['user' => $user->id, 'token' => $token]);
-    
-        Mail::send('pages.emails.reset-password', ['user' => $user, 'resetPasswordUrl' => $resetPasswordUrl], function ($message) use ($user) 
+        $verificationUrl = route('verify.email', ['token' => $token]);
+
+        Mail::send('pages.emails.verify-email-new-user', ['user' => $user, 'verificationUrl' => $verificationUrl], function ($message) use ($user)
         {
-            $message->to($user->email)->subject('Alteração de palavra passe');
+            $message->to($user->email)->subject('Reset palavra-passe');
         });
-    
-        return redirect('users')->with('success', 'Solicitação de alteração de palavra passe enviada com sucesso.');
+
+        return redirect('users')->with('success', 'Reset palavra-passe com sucesso!');
     } 
 }

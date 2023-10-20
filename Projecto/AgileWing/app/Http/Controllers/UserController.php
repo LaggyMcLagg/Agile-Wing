@@ -68,10 +68,14 @@ class UserController extends Controller
         $userTypes = UserType::all();
         $pedagogicalGroups = PedagogicalGroup::all();
         $specializationAreas = SpecializationArea::all();
+        $defaultUserType = UserType::find(2);
+
         return view('pages.users.create', [
-            'userTypes' => $userTypes, 
-            'pedagogicalGroups' => $pedagogicalGroups,
-            'specializationAreas' => $specializationAreas]);
+            'userTypes'             => $userTypes, 
+            'pedagogicalGroups'     => $pedagogicalGroups,
+            'specializationAreas'   => $specializationAreas,
+            'defaultUserType'       => $defaultUserType
+        ]);
     }
 
     /**
@@ -91,7 +95,7 @@ class UserController extends Controller
         ]);
 
         $temporaryPassword = bcrypt(Str::random(20));
-        $token = Str::random(20); //aqui nao podemos usar bcrypt porque da erro na url
+        $token = Str::random(32); //aqui nao podemos usar bcrypt porque da erro na url
 
         $user = User::create([
             'name'              => $request->input('name'),
@@ -351,7 +355,7 @@ class UserController extends Controller
         $user = User::find($id);
 
         $temporaryPassword = bcrypt(Str::random(20));
-        $token = Str::random(20);
+        $token = Str::random(32);
 
         $user->update([
             'password'          => $temporaryPassword,

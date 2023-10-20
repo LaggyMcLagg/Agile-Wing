@@ -17,11 +17,6 @@ use App\Http\Controllers\Auth\MailVerificationController;
 |
 */
    
-//ROTA ORIGINAL PARA TODAS
-// Auth::routes([
-//     'verify' => true
-// ]);
-
 //register e reset são o registo do user e redefinição de senha. 
 //desta forma mantenho só login, logout e confirmação de email por link
 Auth::routes(['register' => false, 'reset' => false, 'verify' => true]);
@@ -32,9 +27,6 @@ Route::get('/', function () {
 
 //rota para verificar email
 Route::get('/verify-email/{token}', 'UserController@verifyEmail')->name('verify.email');
-
-//rota para enviar email para alteracao de pw
-Route::get('send-reset-password-link/{user}', 'UserController@sendLinkResetPassword')->name('send.reset.password.link');
 
 //Route to be used with the reset pass button in the show user form
 Route::get('reset-password-form/{id}', 'UserController@resetPassword')->name('resetPassword');

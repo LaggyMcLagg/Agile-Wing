@@ -98,8 +98,6 @@ document.addEventListener("DOMContentLoaded", function () {
   var saveBtn = document.getElementById("saveBtn");
   var deleteForm = document.getElementById("deleteForm");
   var cancelBtn = document.getElementById("cancelBtn");
-  var resetPwBtn = document.getElementById("resetPwBtn");
-  console.log('RUI');
   editBtn.addEventListener("click", function (event) {
     // Habilitar campos editáveis
     document.querySelectorAll("input[readonly]").forEach(function (input) {
@@ -114,7 +112,6 @@ document.addEventListener("DOMContentLoaded", function () {
     saveBtn.style.display = "inline-block";
     deleteForm.style.display = "inline-block";
     cancelBtn.style.display = "inline-block";
-    resetPwBtn.style.display = "inline-block";
   });
   cancelBtn.addEventListener("click", function (event) {
     event.preventDefault();
@@ -131,7 +128,6 @@ document.addEventListener("DOMContentLoaded", function () {
     saveBtn.style.display = "none";
     deleteForm.style.display = "none";
     cancelBtn.style.display = "none";
-    resetPwBtn.style.display = "none";
   });
 });
 

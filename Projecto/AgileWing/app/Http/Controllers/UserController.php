@@ -232,12 +232,12 @@ class UserController extends Controller
                 'color_2'   => 'required',
             ],
             [
-                'name.required'     => 'The name field is required.',
-                'email.required'    => 'The email field is required.',
-                'email.email'       => 'Please provide a valid email address.',
-                'email.unique'      => 'This email is already in use.',
-                'color_1.required'  => 'Color 1 is required.',
-                'color_2.required'  => 'Color 2 is required.',
+                'name.required'     => 'O campo nome é obrigatório.',
+                'email.required'    => 'O campo e-mail é obrigatório.',
+                'email.email'       => 'Por favor, forneça um endereço de e-mail válido.',
+                'email.unique'      => 'Este e-mail já está em use.',
+                'color_1.required'  => 'Cor 1 é obrigatória.',
+                'color_2.required'  => 'Cor 2 é obrigatória.',
             ]
         );
         

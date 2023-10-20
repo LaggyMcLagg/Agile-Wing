@@ -41,9 +41,9 @@ class UserTypeController extends Controller
                 'name' => 'required|string|max:255|regex:/^[\pL\sÇç]+$/u|unique:user_types,name',
             ],
             [
-                'name.required' => 'The name field is required.',
-                'name.regex' => 'The name may only contain letters, accentuation, and Ç or ç.',
-                'name.unique' => 'The name has already been taken.',
+                'name.required' => 'O campo nome é obrigatório.',
+                'name.regex' => 'O nome só pode conter letras, acentuação e Ç ou ç.',
+                'name.unique' => 'O nome já foi escolhido.',
             ]
         );
 
@@ -95,8 +95,8 @@ class UserTypeController extends Controller
                 'name' => 'required|string|max:255|regex:/^[\pL\sÇç]+$/u',
             ],
             [
-                'name.required' => 'The name field is required.',
-                'name.regex' => 'The name may only contain letters, accentuation, and Ç or ç.',
+                'name.required' => 'O campo nome é obrigatório.',
+                'name.regex' => 'O nome só pode conter letras, acentuação e Ç ou ç.',
             ]
         );
 

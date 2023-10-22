@@ -9,6 +9,14 @@ use App\HourBlock;
 use App\AvailabilityType;
 use Illuminate\Support\Facades\Auth; //to get the logged in user
 
+//cronogramaPDF
+use App\HourBlockCourseClass;
+use App\ScheduleAtribution;
+use App\CourseClass;
+use App\Ufcd;
+use Carbon\Carbon;
+
+
 class TeacherAvailabilityController extends Controller
 {
     //###############################
@@ -155,6 +163,92 @@ class TeacherAvailabilityController extends Controller
         ));
     }
 
+    public function timelineToPdf()
+    {
+        $ufcds = Ufcd::all();
+        $hourBlocks = HourBlock::all();
+        $users = User::whereHas('userType', function ($query) 
+        {
+            $query->where('name', 'professor');
+        })->get();
+    
+        $beginningDate = Carbon::parse('2023-01-01');
+        $endDate = Carbon::parse('2024-12-31');
+    
+        $year = $beginningDate->year;
+    
+        $months = $this->getMonthsInRange($beginningDate, $endDate);
+        $daysOfWeek = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
+    
+        $dates = [];
+        $currentDate = $beginningDate->copy();
+        $currentDayOfWeek = $currentDate->format('N');
+    
+        while ($currentDayOfWeek != 1) 
+        {
+            $dates[] = '';
+            $currentDayOfWeek = $currentDayOfWeek % 7 + 1;
+        }
+    
+        while ($currentDate <= $endDate) 
+        {
+            $dates[] = $currentDate->format('d/m');
+            $currentDate->addDay();
+        }
+    
+        return view('pages.schedule_atribution.export-pdf', [
+            'ufcds'         => $ufcds,
+            'hourBlocks'    => $hourBlocks,
+            'users'         => $users,
+            'months'        => $months,
+            'year'          => $year,
+            'dates'         => $dates,
+            'daysOfWeek'    => $daysOfWeek,
+        ]);
+    }
+    
+    
+    
+    
+    private function getMonthsInRange(Carbon $start, Carbon $end)
+    {
+        $months = [
+            'Janeiro',
+            'Fevereiro',
+            'Março',
+            'Abril',
+            'Maio',
+            'Junho',
+            'Julho',
+            'Agosto',
+            'Setembro',
+            'Outubro',
+            'Novembro',
+            'Dezembro',
+        ];
+    
+        $monthsInRange = [];
+    
+        $currentMonth = $start->copy();
+        while ($currentMonth <= $end) 
+        {
+            $monthsInRange[] = $months[$currentMonth->format('n') - 1] . ' ' . $currentMonth->year;
+            $currentMonth->addMonth();
+        }
+    
+        // Verifique se o último mês está dentro do intervalo
+        if (end($monthsInRange) !== $months[$end->format('n') - 1] . ' ' . $end->year) 
+        {
+            $monthsInRange[] = $months[$end->format('n') - 1] . ' ' . $end->year;
+        }
+    
+        return $monthsInRange;
+    }
+    
+    
+    
+    
+    
     public function Crud()
     {
         //

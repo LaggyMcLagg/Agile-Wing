@@ -12,7 +12,7 @@ use Illuminate\Support\Str; //para poder gerar pw aleatoria ao criar um user
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Log; // apagar, so serviu para testes
 use Carbon\Carbon; //para usarmos o gt() e verificação do tempo útil do link de verf de email
-
+use PDF;
 
 use Illuminate\Http\Request;
 
@@ -372,4 +372,37 @@ class UserController extends Controller
 
         return redirect('users')->with('success', 'Reset palavra-passe com sucesso!');
     } 
+
+    public function exportUsersViewPdf()
+    {
+        //lógica para ir buscar os users que são apenas formadores
+        $users = User::whereHas('userType', function ($query) {
+            $query->where('name', 'professor');
+        })->with('specializationAreas', 'pedagogicalGroups')->get();
+    
+        foreach ($users as $user) {
+            $lastAvailability = $user->teacherAvailabilities()
+                ->where('is_locked', 1) // verifica apenas disponibilidades bloqueadas
+                ->latest('updated_at')
+                ->first();
+    
+            if ($lastAvailability) {
+                $lastUpdated = $lastAvailability->updated_at->format('Y-m-d H:i:s');
+                $lastLogin = $user->last_login;
+            } else {
+                $lastUpdated = 'N/A';
+                $lastLogin = 'N/A';
+            }
+            $user->lastUpdated = $lastUpdated; // adiciona lastUpdated ao objeto do user
+            $user->lastLogin = $lastLogin; // adiciona lastLogin ao objeto do user
+        }
+
+        $pdf = PDF::loadView('components.users.user-list',[
+            'users'         => $users,
+            'lastUpdated'   => $lastUpdated,
+            'lastLogin'     => $lastLogin,
+        ]);
+        
+        return $pdf->download('users-list.pdf');
+    }
 }

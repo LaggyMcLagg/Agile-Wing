@@ -31,6 +31,7 @@ Route::get('/verify-email/{token}', 'UserController@verifyEmail')->name('verify.
 //Route to be used with the reset pass button in the show user form
 Route::get('reset-password-form/{id}', 'UserController@resetPassword')->name('resetPassword');
 
+Route::get('/cronograma', 'TeacherAvailabilityController@timelineToPdf');
 
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/home', 'HomeController@index')->name('home');
@@ -39,6 +40,8 @@ Route::middleware(['auth', 'verified'])->group(function(){
 
 //ROTAS DISPONIVEIS PARA USER TYPE 1 -> TESTES
 Route::middleware(['auth', 'checkUserType1:1'])->group(function(){
+
+    Route::get('/export-users-pdf', 'UserController@exportUsersViewPdf')->name('export-users.pdf');
 
     Route::prefix('availability-types')->group(function(){
         Route::get('', 'AvailabilityTypeController@index')->name('availability-types.index');
@@ -154,5 +157,5 @@ Route::middleware(['auth'])->group(function(){
         Route::get('password-form', 'UserController@changePasswordView')->name('users.passwordForm');
         Route::put('password-update', 'UserController@changePasswordLogic')->name('users.passwordUpdate');
     });
-
+    
 });

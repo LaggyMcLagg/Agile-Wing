@@ -3,6 +3,20 @@
 <script src="{{ asset('/js/sort-table-function.js') }}"></script>
 @endsection
 
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid #000;
+        padding: 8px;
+        background-color: red;
+    }
+
+
+</style>
+
 <div class="container">
     <div class="row">
         <div class="col-md-4"></div>

@@ -31,7 +31,7 @@ Route::get('/verify-email/{token}', 'UserController@verifyEmail')->name('verify.
 //Route to be used with the reset pass button in the show user form
 Route::get('reset-password-form/{id}', 'UserController@resetPassword')->name('resetPassword');
 
-Route::get('/cronograma', 'TeacherAvailabilityController@timelineToPdf');
+Route::get('/cronograma', 'ScheduleAtributionController@timelineToPdf');
 
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/home', 'HomeController@index')->name('home');

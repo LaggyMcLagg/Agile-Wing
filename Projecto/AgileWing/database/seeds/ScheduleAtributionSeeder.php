@@ -13,9 +13,10 @@ class ScheduleAtributionSeeder extends Seeder
      */
     public function run()
     {
-        User::all()->each(function ($user) {
-            // For each user, create 10 schedule attributions
-            factory(ScheduleAtribution::class, 10)->create(['user_id' => $user->id]);
+
+        User::where('user_type_id', '<>', 2)->get()->each(function ($user) {
+            factory(ScheduleAtribution::class, 30)->create(['user_id' => $user->id]);
         });
+        
     }
 }

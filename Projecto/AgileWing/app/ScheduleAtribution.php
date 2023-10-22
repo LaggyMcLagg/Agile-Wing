@@ -9,6 +9,11 @@ class ScheduleAtribution extends Model
 {
     use SoftDeletes;
 
+    public function hourBlockCourseClass()
+    {
+        return $this->belongsTo(HourBlockCourseClass::class, 'hour_block_course_class_id');
+    }
+
     public function availabilityType()
     {
         return $this->belongsTo(AvailabilityType::class, 'availability_type_id');

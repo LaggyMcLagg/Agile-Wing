@@ -1,8 +1,5 @@
 <link rel="stylesheet" href="{{ asset('css/courses.css') }}">
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
 @section('scripts')
 <script src="{{ asset('/js/control-form-dynamic-crud.js') }}"></script>
 @endsection
@@ -33,12 +30,8 @@
 <div class="container" id="listForm">
     <div class="row">
         <!-- LEFT COLUMN: CREATE/EDIT FORM -->
-<<<<<<< Updated upstream
         <div class="col-md-4">
 
-=======
-        <div class="col-md-2">
->>>>>>> Stashed changes
 
             <!-- FORM -->
             <form action="{{ route('courses.store') }}" id="controlForm" method="POST">
@@ -55,11 +48,7 @@
 
                 <!-- Course Name -->
                 <div class="form-group">
-<<<<<<< Updated upstream
-                    <label for="name">Course Name</label>
-=======
                     <label for="name">Nome Curso</label>
->>>>>>> Stashed changes
                     <input
                         data-name="name"
                         type="text"
@@ -78,11 +67,7 @@
 
                 <!-- Course Initials -->
                 <div class="form-group">
-<<<<<<< Updated upstream
-                    <label for="initials">Course Initials</label>
-=======
                     <label for="initials">Sigla</label>
->>>>>>> Stashed changes
                     <input
                         data-name="initials"
                         type="text"
@@ -100,11 +85,7 @@
 
                 <!-- Specialization Area -->
                 <div class="form-group">
-<<<<<<< Updated upstream
-                <label for="specializationArea">Specialization Area</label>
-=======
                 <label for="specializationArea">Área de Formação</label>
->>>>>>> Stashed changes
                 <select
                     data-name="specializationArea"
                     data-type="comboBox"
@@ -124,27 +105,13 @@
 
                 <!-- UFCDs checkbox list -->
                 <div class="form-group">
-<<<<<<< Updated upstream
-                 <label for="ufcdDropdown">UFCDs</label>
-                    <div class="custom-dropdown">
-                        <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            @foreach($ufcds as $ufcd)
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="ufcd_{{ $ufcd->id }}">
-                                <label class="custom-control-label" for="ufcd_{{ $ufcd->id }}">{{ $ufcd->name }}</label>
-                            </div>
-                            @endforeach
-=======
                     <label>UFCDs
                         <button
                             class="btn btn-light btn-sm d-flex align-items-center"
                             type="button"
                             data-toggle="collapse"
                             data-target="#ufcdsCheckboxList">
-                            <i class="fas fa-chevron-right mr-2"></i> Show/Hide
-                        </button>
+                            <i class="fas fa-chevron-right mr-2"></i></button>
                     </label>
                     <div
                         id="ufcdsCheckboxList"
@@ -162,33 +129,27 @@
                                     @if(is_array(old('ufcds')) && in_array($ufcd->id, old('ufcds'))) checked @endif
                                     disabled>
                                 <label for="ufcd_{{ $ufcd->id }}" class="custom-control-label">{{ $ufcd->number }} - {{ $ufcd->name }}</label>
->>>>>>> Stashed changes
                             </div>
+                            @endforeach
                     </div>
                 </div>
 
                 <!-- Save and Cancel buttons, initially hidden -->
-                <div class="d-flex justify-content-end mt-2 mb-5"> <!-- div to put the buttons in line -->
-                <button id="saveBtn" type="submit" class="mt-2 mb-5 btn btn-primary" style="display: none;">Guardar</button>
-                <button id="cancelBtn" class="mt-2 mb-5 btn btn-secondary" style="display: none;">Cancelar</button>
+                <div class="d-flex justify-content-end mt-2 mb-5">
+                  <button id="saveBtn" type="submit" class="mt-2 mb-5 btn btn-primary" style="display: none;">Guardar</button>
+                  <button id="cancelBtn" class="mt-2 mb-5 btn btn-secondary" style="display: none;">Cancelar</button>
                 </div>
             </form>
         </div>
 
         <!-- TABELA LIST/SHOW -->
-<<<<<<< Updated upstream
         <div class="col-md-8">
-            <h3 class="d-inline">Gestão de Cursos</h3>
-                <a id="createBtn" class="btn btn-primary">Criar</a>
-                <a id="editBtn" type="button" class="btn btn-primary">Editar</a>
-=======
-        <div class="col-md-10">
         <h3>Gestão de Cursos</h3>
         <th scope="col">
-                                <a id="createBtn" class="btn btn-primary">Criar</a>
-                                <a id="editBtn" type="button" class="btn btn-primary">Editar</a>
+                <a id="createBtn" class="btn btn-primary">Criar</a>
+                <a id="editBtn" type="button" class="btn btn-primary">Editar</a>
                         </th>
->>>>>>> Stashed changes
+         <div class="table-container" style="overflow: auto; max-height: 500px; border: no border">
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -198,12 +159,7 @@
                         <th scope="col">Área de formação</th>
                         <th scope="col">Lista turmas</th>
                         <th scope="col">Lista UFCDs</th>
-<<<<<<< Updated upstream
-                        <th scope="col">
-                        </th>
-=======
                         <th scope="col"></th>
->>>>>>> Stashed changes
                     </tr>
                 </thead>
                 <tbody>
@@ -254,7 +210,7 @@
                                 <form action="{{ route('courses.destroy', ['course' => $course]) }}" method="POST" onsubmit="return confirm('Tem a certeza que quer apagar este registo?');">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">Apagar</button>
+                                    <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                                 </form>
                             </div>
                         </td>

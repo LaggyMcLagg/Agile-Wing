@@ -1,5 +1,6 @@
+<link rel="stylesheet" href="{{ asset('css/footer.css') }}">
 <footer>
-    <div class="container">
+    <div class="containerfooter">
         <div class="row">
             <h6 class="w-100 text-center">ESTA É UMA ÁREA RESERVADA APENAS A PESSOAL AUTORIZADO, QUALQUER INTRUSÃO SERÁ PUNIDA POR LEI</h6>
         </div>

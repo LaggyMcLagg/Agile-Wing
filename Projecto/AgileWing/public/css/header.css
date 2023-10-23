@@ -1,0 +1,47 @@
+/* Estilos para a área de boas-vindas e logout */
+.containernav .row .justify-content-end {
+    background: linear-gradient(to top, #aeb6e6, #a0ade5, #91a3e5, #809be4, #6d92e3);
+    padding: 10px;
+    width: 100%;
+}
+.containernav .row .d-flex.align-items-center {
+    color: var(--white);
+    padding: 10px;
+    background-color: #4d4e4f;
+    border-radius: 20px;
+    height: 40px;
+    content: "\f107"; /* Unicode para o ícone de seta para baixo */
+    font-family: 'Font Awesome 7 Pro Regular'; /* Substitua pela fonte real se necessário */
+
+}
+.containernav .row .justify-content-end .d-flex.align-items-center span:nth-child(2) {
+    display: none;
+}
+.containernav .row .justify-content-end .d-flex .align-items-center form button i {
+    font-family: 'Font Awesome 7 Pro Regular'; /* Substitua pela fonte real se necessário */
+}
+/* Estilos para a navegação com gradiente invertido */
+.navbar {
+    background: linear-gradient(to bottom, #aeb6e6, #a0ade5, #91a3e5, #809be4, #6d92e3);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px ;
+    width: 100%;
+
+}
+
+
+.navbar .navbar-brand {
+    color: var(--white);
+}
+
+
+.navbar .navbar-nav .nav-item .nav-link {
+    color: var(--white);
+}
+.navbar .navbar-nav .nav-item.dropdown:hover .nav-link {
+    color: var(--blue-dark);
+    transition: color 0.3s;
+}
+
+
+

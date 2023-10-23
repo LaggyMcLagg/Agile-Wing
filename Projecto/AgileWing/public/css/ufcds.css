@@ -1,170 +1,111 @@
-<<<<<<< Updated upstream
-.col-md-4{
-    background: linear-gradient(to bottom, #6d92e3, #aeb6e6);
-    width: 400px;
-    height: 400px;
-    border-radius: 5px;
-    margin-top: 100px;
+body {
+    font-family: 'Lexend Deca', sans-serif; /* Aplica a fonte aos elementos de texto do corpo do documento */
 }
-.col-md-8{
-
-    margin-top: 100px;
-
-}
-h3{
-    color: #6d92e3;
-    margin-right: 10px;
-
-}
-
-
-.table-title {
-  display: flex;
-  align-items: center;
-}
-
-
-.btn {
-  margin-left: 30px;
-  background-color: #6d92e3;
-  color: #fff;
-  padding: 5px 10px;
-  border: none;
-  cursor: pointer;
-
-}
-
-tr:nth-child(even) {
-    background-color:red;
-  }
-  .table th:nth-child(1), .table td:nth-child(1) {
-    display: none; /*to hide the id column*/
-}
-=======
-@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca&display=swap');
 
 :root {
-    --gradient-top: #6d92e3;
-    --gradient-bottom: #aeb6e6;
+    --primary-color: #6d92e3;
+    --dark-primary-color: #617add;
+    --light-bg-color: #f0f6fc;
+    --hover-color: #b9cdf0;
     --white: #ffffff;
     --black: #4d4e4f;
-    --blue: #6d92e3;
-    --blue-dark: #617add;
-    --table: #f0f6fc;
-    --table-hover: #b9cdf0;
 }
-
-/* Estilize os botões */
-.btn-primary {
-    background-color: var(--blue);
-    color: var(--white);
-}
-
-.btn-primary:hover {
-    background-color: var(--blue-dark);
-    color: var(--white);
-}
-
-.btn-danger {
-    background-color: var(--blue);
-    color: var(--white);
-    padding: 5px 20px 5px 20px;
-    cursor: pointer;
-}
-
-.save-btn,
-.cancel-btn {
-    margin-right: 10px;
-}
-
-.save-btn {
-    background-color: var(--white);
-    color: var(--black);
-}
-
-.cancel-btn {
-    background-color: var(--black);
-    color: var(--white);
-}
-
-/* Estilize a tabela */
-.table {
-    overflow: scroll;
-    height: 600px;
-    border-bottom: solid #6d92e3 2px;*/
-    border-collapse: separate;
-    border-spacing: 0;
-    width: 100%;
-}
-
-.table th,
-.table td {
-    background-color: var(--table);
-    color: var(--black);
-    padding: 8px;
-    text-align: left;
-}
-
-
-
-.table tbody tr:nth-child(even) {
-    background-color: var(--white);
-}
-
-.table tbody tr:nth-child(odd) {
-    background-color: var(--blue);
-    color: var(--white);
-}
-
-.table tbody tr:hover {
-    background-color: var(--table-hover);
-    cursor: pointer;
-}
-
-/* Estilize os elementos colapsíveis */
-.collapse {
-    display: none;
-}
-
-.collapse.show {
-    display: block;
-}
-
-.collapse.show + button {
-    background-color: var(--blue-dark);
-    color: var(--white);
-}
-
-/* Form */
-.col-md-4 {
-    margin-top: 50px;
-    background-image: linear-gradient(to top, #aeb6e6, #a0ade5, #91a3e5, #809be4, #6d92e3);
-    padding: 5%;
-    border-radius: 10px;
-    color: var(--white);
-    height: 500px;
-}
-
-h3, #createBtn, #editBtn {
+/*------------------------------CABEÇALHO TABELA--------------------------*/
+h3{
     margin-bottom: 10px;
     margin-top: 50px;
     display: inline-block;
     vertical-align: middle;
     margin-right: 10px;
-    color: var(--blue);
+    color: var(--primary-color);
 }
 
-/* Estilize o botão "Apagar" como um ícone de caixote do lixo */
-.btn-danger {
+
+#createBtn, #editBtn {
+    margin-bottom: 10px;
+    margin-top: 50px;
+    vertical-align: middle;
+    background-color: var(--primary-color); /* Cor de fundo do botão */
+    color: var(--white); /* Cor do texto do botão */
+      display: inline-block;
+    padding: 5px 15px; /* Espaçamento interno do botão */
+    border-radius: 5px; /* Bordas arredondadas */
+
+}
+
+#createBtn:hover, #editBtn:hover {
+    background-color: var(--dark-primary-color); /* Cor de fundo do botão no hover */
+}
+
+/*------------------------------FORM--------------------------*/
+#saveBtn,
+#cancelBtn {
+    background-color: var(--white);
+    display: flex;
+    margin-right: 10px; /* Espaçamento entre botões */
+    color: var(--black);
+}
+
+/*------------------------------TABLE--------------------------*/
+.table {
+    border-spacing: 0;
+    width: 100%;
+    }
+
+.table tbody tr:nth-child(odd) {
+    background-color: var(--light-bg-color);
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: var(--white);
+}
+
+.table th,
+.table td {
+    padding: 8px;
+    text-align: left;
+}
+
+.table-bordered tbody tr:hover {
+    background-color: var(--hover-color);
+}
+
+/* Botão "Apagar" */
+.btn-delete {
     background: none;
     border: none;
-    color: var(--blue);
-    font-size: 20px;
+    color: var(--blue); /* Cor do ícone */
+    font-size: 20px; /* Tamanho do ícone */
     cursor: pointer;
 }
 
-.btn-danger:hover {
-    color: var(--blue-dark);
+.btn-delete:hover {
+    color: var(--dark-primary-color); /* Cor do ícone no hover (vermelho escuro) */
 }
 
->>>>>>> Stashed changes
+  .table.table-bordered thead th, .table.table-bordered tbody td {
+    border: none; /* REMOVES THE COLUMN LINES*/
+  }
+
+/* Formulário */
+.col-md-4 {
+    margin-top: 50px;
+    background-image: linear-gradient(to top, #aeb6e6, #a0ade5, #91a3e5, #809be4, #6d92e3);
+    border-radius: 10px;
+    color: var(--white);
+    height: 600px;
+    /*padding: 5%;  VERQUAL ELES PREFEREM*/
+  }
+
+  #saveBtn,
+  #cancelBtn {
+    background-color: var(--white);
+    display: flex;
+    margin-right: 10px; /* Espaçamento entre botões */
+    color: var(--black);
+  }
+/* Hide the ID column */
+table th:nth-child(1),
+table td:nth-child(1) {
+  display: none;
+}

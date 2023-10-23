@@ -65,8 +65,10 @@
                 </div>
 
                 <!-- Save and Cancel buttons, initially hidden -->
-                <button id="saveBtn" type="submit" class="mt-2 mb-5 btn btn-primary" style="display: none;">Guardar</button>
-                <button id="cancelBtn" class="mt-2 mb-5 btn btn-secondary" style="display: none;">Cancelar</button>
+                <div class="d-flex justify-content-end mt-2 mb-5">
+                  <button id="saveBtn" type="submit" class="mt-2 mb-5 btn btn-primary" style="display: none;">Guardar</button>
+                  <button id="cancelBtn" class="mt-2 mb-5 btn btn-secondary" style="display: none;">Cancelar</button>
+                </div>
             </form>
         </div>
 
@@ -75,6 +77,7 @@
         <h3>Gestão de Grupos Pedagógicos</h3>
             <a id="createBtn" class="btn btn-primary">Criar</a>
             <a id="editBtn" type="button" class="btn btn-primary">Editar</a>
+            <div class="table-container" style="overflow: auto; max-height: 550px; border: no border">
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -132,7 +135,7 @@
                                 <form action="{{ route('pedagogical-groups.destroy', ['pedagogicalGroup' => $pedagogicalGroup]) }}" method="POST" onsubmit="return confirm('Tem a certeza que quer apagar este registo?');">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">Apagar</button>
+                                    <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                                 </form>
                             </div>
                         </td>

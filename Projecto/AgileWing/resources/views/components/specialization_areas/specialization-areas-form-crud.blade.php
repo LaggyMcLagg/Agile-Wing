@@ -85,8 +85,10 @@
                 </div>
 
                 <!-- Save and Cancel buttons, initially hidden -->
-                <button id="saveBtn" type="submit" class="mt-2 mb-5 btn btn-primary" style="display: none;">Guardar</button>
-                <button id="cancelBtn" class="mt-2 mb-5 btn btn-secondary" style="display: none;">Cancelar</button>
+                <div class="d-flex justify-content-end mt-2 mb-5">
+                  <button id="saveBtn" type="submit" class="mt-2 mb-5 btn btn-primary" style="display: none;">Guardar</button>
+                  <button id="cancelBtn" class="mt-2 mb-5 btn btn-secondary" style="display: none;">Cancelar</button>
+                </div>
             </form>
         </div>
 
@@ -154,7 +156,7 @@
                                 <form action="{{ route('specialization-areas.destroy', ['specializationArea' => $specializationArea]) }}" method="POST" onsubmit="return confirm('Tem a certeza que quer apagar este registo?');">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">Apagar</button>
+                                    <button type="submit" class="btn btn-delete" title="Apagar"><i class="fa fa-trash"></i></button>
                                 </form>
                             </div>
                         </td>

@@ -15,6 +15,7 @@ use Carbon\Carbon; //para usarmos o gt() e verificação do tempo útil do link 
 
 
 use Illuminate\Http\Request;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 class UserController extends Controller
 {

@@ -14,20 +14,16 @@
 }
 
 /* Estilos para botões */
-.btn-primary {
-    background-color: var(--primary-color);
-    color: var(--white);
-}
 
-.btn-primary:hover {
-    background-color: var(--dark-primary-color);
-    color: var(--white);
+.btn-danger:hover {
+    color: var(--dark-primary-color);
 }
 
 .btn-danger {
-    background-color: var(--primary-color);
-    color: var(--white);
-    padding: 5px 20px;
+    background: none;
+    border: none;
+    color: var(--blue);
+    font-size: 20px;
     cursor: pointer;
 }
 

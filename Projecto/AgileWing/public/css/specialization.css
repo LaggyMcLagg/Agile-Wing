@@ -1,7 +1,9 @@
-/* Importar a fonte do Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca&display=swap');
+/* Fonte para o corpo do documento */
+body {
+    font-family: 'Lexend Deca', sans-serif;
+}
 
-/* Definição de variáveis de cores */
+/* Cores personalizadas */
 :root {
     --primary-color: #6d92e3;
     --dark-primary-color: #617add;
@@ -9,136 +11,68 @@
     --hover-color: #b9cdf0;
     --white: #ffffff;
     --black: #4d4e4f;
-    --blue: #6d92e3;
-    --blue-dark: #617add;
 }
 
-/* Estilos para botões */
-.btn-primary {
-    background-color: var(--primary-color);
-    color: var(--white);
-}
-
-.btn-primary:hover {
-    background-color: var(--dark-primary-color);
-    color: var(--white);
-}
-
-.btn-danger {
-    background-color: var(--primary-color);
-    color: var(--white);
-    padding: 5px 20px;
-    cursor: pointer;
-}
-
-/* Estilos para botões de salvar e cancelar */
-.save-btn,
-.cancel-btn {
+/* Estilo para o cabeçalho da tabela (título) */
+h3 {
+    margin-bottom: 10px;
+    margin-top: 50px;
+    display: inline-block;
+    vertical-align: middle;
     margin-right: 10px;
+    color: var(--primary-color);
 }
 
-.save-btn {
+/* Estilo para botões "Criar" e "Editar" */
+#createBtn, #editBtn {
+    margin-bottom: 10px;
+    margin-top: 50px;
+    vertical-align: middle;
+    background-color: var(--primary-color);
+    color: var(--white);
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 5px;
+}
+
+#createBtn:hover, #editBtn:hover {
+    background-color: var(--dark-primary-color);
+}
+
+/* Estilo para botões "Guardar" e "Cancelar" */
+#saveBtn, #cancelBtn {
     background-color: var(--white);
+    display: flex;
+    margin-right: 10px;
     color: var(--black);
 }
 
-.cancel-btn {
-    background-color: var(--black);
-    color: var(--white);
-}
-
-/* Estilos para tabelas */
+/* Estilo para a tabela */
 .table {
-    overflow: scroll;
-    border-bottom: 2px solid var(--primary-color);
-    border-collapse: separate;
     border-spacing: 0;
     width: 100%;
 }
 
-.table th,
-.table td {
+.table tbody tr:nth-child(odd) {
     background-color: var(--light-bg-color);
-    color: var(--black);
-    padding: 8px;
-    text-align: left;
-}
-
-.table thead {
-    border-bottom: 2px solid var(--primary-color);
 }
 
 .table tbody tr:nth-child(even) {
     background-color: var(--white);
 }
 
-.table tbody tr:nth-child(odd) {
-    background-color: var(--blue);
-    color: var(--white);
+.table th, .table td {
+    padding: 8px;
+    text-align: left;
 }
 
-.table tbody tr:hover {
+/* Cor de fundo ao passar o mouse sobre uma linha da tabela */
+.table-bordered tbody tr:hover {
     background-color: var(--hover-color);
-    cursor: pointer;
 }
 
-/* Estilos para elementos colapsíveis */
-.collapse {
-    display: none;
-}
-
-.collapse.show {
-    display: block;
-}
-
-.collapse.show + button {
-    background-color: var(--dark-primary-color);
-    color: var(--white);
-}
-
-/* Estilos para o formulário */
-.col-md-4 {
-    margin-top: 50px;
-    background-image: linear-gradient(to top, #aeb6e6, #a0ade5, #91a3e5, #809be4, #6d92e3);
-    padding: 5%;
-    border-radius: 10px;
-    color: var(--white);
-}
-
-#saveBtn,
-#cancelBtn {
-    background-color: var(--white);
-    display: flex;
-}
-
-input[type="checkbox"] {
-    outline: none;
-    background: transparent;
-    border: none;
-    border-bottom: 2px solid;
-    color: var(--white);
-    box-shadow: none;
-}
-
-/* Alinhamento dos botões "Criar" e "Editar" com o título "Gestão de Áreas de Formação" */
-h3 {
-    margin-bottom: 10px;
-    margin-top: 50px;
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: 10px; /* Ajuste conforme necessário para o espaçamento desejado */
-    color: var(--blue);
-}
-
-#createBtn, #editBtn {
-    margin-bottom: 10px;
-    margin-top: 50px;
-    vertical-align: middle;
-    margin-right: 10px; /* Ajuste conforme necessário para o espaçamento desejado */
-}
-
-/* Estilize o botão "Apagar" como um ícone de lixeira */
-.btn-danger {
+/* Estilo para o botão "Apagar" */
+.btn-delete {
     background: none;
     border: none;
     color: var(--blue);
@@ -146,12 +80,27 @@ h3 {
     cursor: pointer;
 }
 
-.btn-danger:hover {
+.btn-delete:hover {
     color: var(--dark-primary-color);
 }
 
-/* Esconder a primeira coluna da tabela (ID) */
-table.table th:nth-child(1),
-table.table td:nth-child(1) {
+/* Remover bordas das colunas da tabela */
+.table.table-bordered thead th,
+.table.table-bordered tbody td {
+    border: none;
+}
+
+/* Estilo para o formulário */
+.col-md-4 {
+    margin-top: 50px;
+    background-image: linear-gradient(to top, #aeb6e6, #a0ade5, #91a3e5, #809be4, #6d92e3);
+    border-radius: 10px;
+    color: var(--white);
+    height: 600px;
+}
+
+/* Esconder a coluna de ID na tabela */
+table th:nth-child(1),
+table td:nth-child(1) {
     display: none;
 }

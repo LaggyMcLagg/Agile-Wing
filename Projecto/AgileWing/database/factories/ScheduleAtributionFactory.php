@@ -7,21 +7,29 @@ use App\ScheduleAtribution;
 use App\HourBlockCourseClass;
 use App\CourseClass;
 use App\Ufcd;
-use App\User;
 
-$factory->define(ScheduleAtribution::class, function (Faker $faker) {
-    // Selects a random CourseClass
-    $courseClass = CourseClass::all()->random();
-    $courseId = $courseClass->course_id;
+$factory->define(ScheduleAtribution::class, function (Faker $faker, $attributes) {
+    $date = $attributes['date'];
+    $userId = $attributes['user_id'];
 
-    // Selects a random hour block that belongs to the selected courseClass.
-    $hourBlockCourseClass = HourBlockCourseClass::where('course_class_id', $courseClass->id)->get()->random();
+    do {
+        // Select a random CourseClass.
+        $courseClass = CourseClass::all()->random();
+        $courseId = $courseClass->course_id;
 
-    // Selects an UFCD that's associated with the same course.
-    $ufcd = $courseClass->course->ufcds->random();
+        // Select a random hour block that belongs to the selected courseClass.
+        $hourBlockCourseClass = HourBlockCourseClass::where('course_class_id', $courseClass->id)->get()->random();
+
+        // Select an UFCD that's associated with the same course.
+        $ufcd = $courseClass->course->ufcds->random();
+
+    } while (ScheduleAtribution::where('date', $date)
+                             ->where('hour_block_course_class_id', $hourBlockCourseClass->id)
+                             ->where('course_class_id', $courseClass->id)
+                             ->where('user_id', $userId)
+                             ->exists());
 
     return [
-        'date' => $faker->dateTimeBetween('tomorrow', '+10 days'),
         'hour_block_course_class_id' => $hourBlockCourseClass->id,
         'availability_type_id' => rand(2, 3),
         'course_class_id' => $courseClass->id,

@@ -26,7 +26,6 @@ $factory->define(ScheduleAtribution::class, function (Faker $faker, $attributes)
     } while (ScheduleAtribution::where('date', $date)
                              ->where('hour_block_course_class_id', $hourBlockCourseClass->id)
                              ->where('course_class_id', $courseClass->id)
-                             ->where('user_id', $userId)
                              ->exists());
 
     return [

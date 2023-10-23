@@ -192,12 +192,22 @@ class ScheduleAtributionController extends Controller
             });
         });
 
+        $courseInitials = $courseClass->course->initials;
 
-    return view('pages.schedule_atribution.export-pdf', [
-        'courseClass' => $courseClass,
-        'formattedAtributions' => $formattedAtributions,
-    ]);
-}
+        //para repetir os dias da semana ao longo do número de semanas de duração
+        $firstDay = $formattedAtributions->min('date');
+        $lastDay = $formattedAtributions->max('date');
+        $numberOfWeeks = $firstDay->diffInWeeks($lastDay);
+
+        return view('pages.schedule_atribution.export-pdf', [
+            'courseClass' => $courseClass,
+            'formattedAtributions' => $formattedAtributions,
+            'courseInitials' => $courseInitials,
+            'firstDay' => $firstDay,
+            'lastDay' => $lastDay,
+            'numberOfWeeks' => $numberOfWeeks,
+        ]);
+    }
 
     
     

@@ -20,20 +20,27 @@
 Nome da turma: {{ $courseClass->name }}
 <br>
 Curso: {{ $courseClass->course->name }}
+ ({{ $courseInitials }})
 <br>
+<br>
+Primeiro dia: {{ $firstDay }}
+<br>
+Último dia: {{ $lastDay }}
 <br>
 
 <table class="custom-table">
     <thead>
         <tr>
-            <th>Hora</th>
-            <th>Segunda</th>
-            <th>Terça</th>
-            <th>Quarta</th>
-            <th>Quinta</th>
-            <th>Sexta</th>
-            <th>Sábado</th>
-            <th>Domingo</th>
+            @for($week = 0; $week <= $numberOfWeeks; $week++)
+                <th>Hora</th>
+                <th>Segunda</th>
+                <th>Terça</th>
+                <th>Quarta</th>
+                <th>Quinta</th>
+                <th>Sexta</th>
+                <th>Sábado</th>
+                <th>Domingo</th>
+            @endfor
         </tr>
     </thead>
     <tbody>
@@ -60,3 +67,55 @@ Curso: {{ $courseClass->course->name }}
         @endforeach
     </tbody>
 </table>
+
+
+<!-- TABELA EXEMPLO VASCO -->
+<!-- TABELA EXEMPLO VASCO -->
+<!-- TABELA EXEMPLO VASCO -->
+<!-- <table class="custom-table">
+    <thead>
+        <tr>
+            @for ($week = 0; $week <= $numberOfWeeks; $week++)
+                <th>Hora</th>
+                <th>Segunda</th>
+                <th>Terça</th>
+                <th>Quarta</th>
+                <th>Quinta</th>
+                <th>Sexta</th>
+                <th>Sábado</th>
+                <th>Domingo</th>
+            @endfor
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($courseClass->hourBlockCourseClasses as $hourBlockCourseClass)
+            <tr>
+                <td>
+                    {{ $hourBlockCourseClass->hour_beginning }} - {{ $hourBlockCourseClass->hour_end }}
+                </td>
+                @for ($week = 0; $week <= $numberOfWeeks; $week++)
+                    @for ($day = 1; $day <= 7; $day++)
+                        <td>
+                            <ul>
+                                @foreach ($formattedAtributions as $scheduleAtribution)
+                                    @php
+                                        $weekOfAtribution = $firstDay->copy()->addDays(($week * 7) + ($day - 1));
+                                    @endphp
+                                    @if (
+                                        $scheduleAtribution->hour_block_course_class_id == $hourBlockCourseClass->id
+                                        && $scheduleAtribution->date->dayOfWeek == $day
+                                        && $scheduleAtribution->date->format('Y-m-d') == $weekOfAtribution->format('Y-m-d')
+                                    )
+                                        <li>{{ $scheduleAtribution->ufcd->number }}</li>
+                                        <li>{{ $scheduleAtribution->user->name }}</li>
+                                        <li>{{ $scheduleAtribution->formattedDate }}</li>
+                                    @endif
+                                @endforeach
+                            </ul>
+                        </td>
+                    @endfor
+                @endfor
+            </tr>
+        @endforeach
+    </tbody>
+</table> -->

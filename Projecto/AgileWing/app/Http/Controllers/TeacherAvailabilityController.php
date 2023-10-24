@@ -8,6 +8,7 @@ use App\User;
 use App\HourBlock;
 use App\AvailabilityType;
 use Illuminate\Support\Facades\Auth; //to get the logged in user
+use Illuminate\Support\Facades\Validator; // to use costum rules in the validator
 use Carbon\Carbon;
 
 class TeacherAvailabilityController extends Controller
@@ -85,24 +86,89 @@ class TeacherAvailabilityController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $rules = [
             'user_id' => 'required|exists:users,id',
             'start_date' => 'required|date|after:today',
-            'end_date' => 'required|date|after_or_equal:start_date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
             'start_hour_block_id' => 'required|exists:hour_blocks,id',
-            'end_hour_block_id' => 'required|exists:hour_blocks,id|gte:start_hour_block_id',
+            'end_hour_block_id' => 'nullable|exists:hour_blocks,id',
             'availability_type_id' => 'required|exists:availability_types,id',
-        ]);
-    
-        $startDate = Carbon::parse($request->start_date);
-        $endDate = Carbon::parse($request->end_date);
+        ];
         
+        //so that if the is not the same then the GTE - greater or equal does not apply
+        //this adds the rule if the dates are the same
+        if ($request->input('start_date') === $request->input('end_date')) {
+            $rules['end_hour_block_id'][] = 'gte:start_hour_block_id';
+        }
+        
+        $messages = [
+            'user_id.required' => 'O campo user_id é obrigatório.',
+            'user_id.exists' => 'O utilizador selecionado não é válido.',
+            'start_date.required' => 'A data de início é obrigatória.',
+            'start_date.date' => 'A data de início deve ser uma data válida.',
+            'start_date.after' => 'A data de início deve ser após a data de hoje.',
+            'end_date.date' => 'A data de fim deve ser uma data válida.',
+            'end_date.after_or_equal' => 'A data de fim deve ser igual ou posterior à data de início.',
+            'start_hour_block_id.required' => 'O campo start_hour_block_id é obrigatório.',
+            'start_hour_block_id.exists' => 'O bloco de hora de início selecionado não é válido.',
+            'end_hour_block_id.exists' => 'O bloco de hora de fim selecionado não é válido.',
+            'end_hour_block_id.gte' => 'O bloco de hora de fim deve ser igual ou posterior ao bloco de hora de início.',
+            'availability_type_id.required' => 'O tipo de disponibilidade é obrigatório.',
+            'availability_type_id.exists' => 'O tipo de disponibilidade selecionado não é válido.'
+        ];
+
+        $request->validate($rules, $messages);
+
+        try {
+            $startDate = Carbon::parse($request->start_date);
+    
+            // If only start date is provided, handle single date entry.
+            if (!$request->has('end_date')) {
+                $this->updateOrCreateSingleEntry($request, $startDate);
+            } else {
+                $endDate = Carbon::parse($request->end_date);
+                $this->updateOrCreateDateRange($request, $startDate, $endDate);
+            }
+        } catch (\Exception $e) {
+            \Log::error('Error while storing teacher availability: ' . $e->getMessage());
+            return redirect()->back()->withInput()->withErrors(['error' => 'Ocorreu um erro ao processar este pedido. Por favor tente mais tarde.']);
+        }
+    
+        return redirect()->route('teacher-availabilities.create')->with('success', 'Disponibilidades criadas ou atualizadas com sucesso.');
+    }
+    
+    /**
+     * Auxiliary method to create () Handle the single date entry.
+     */
+    private function updateOrCreateSingleEntry($request, $date)
+    {
+        dd("single");
+        $hourBlock = HourBlock::findOrFail($request->start_hour_block_id);
+    
+        TeacherAvailability::updateOrCreate(
+            [
+                'user_id' => $request->user_id,
+                'availability_date' => $date->toDateString(),
+                'hour_block_id' => $hourBlock->id,
+            ],
+            [
+                'availability_type_id' => $request->availability_type_id,
+            ]
+        );
+    }
+    
+    /**
+     * Auxiliary method to create () Handle the date range entries.
+     */
+    private function updateOrCreateDateRange($request, $startDate, $endDate)
+    {
+        dd("range");
         $startHourBlock = HourBlock::findOrFail($request->start_hour_block_id);
         $endHourBlock = HourBlock::findOrFail($request->end_hour_block_id);
     
-        // Process each date in the range
+        // Process each date in the range. LTE - less then or equal to
         for($date = $startDate; $date->lte($endDate); $date->addDay()) {
-            // Process each hour block in the range
+            // Process each hour block in the range.
             $hourBlocks = HourBlock::whereBetween('id', [$startHourBlock->id, $endHourBlock->id])->get();
             foreach($hourBlocks as $hourBlock) {
                 TeacherAvailability::updateOrCreate(
@@ -117,11 +183,7 @@ class TeacherAvailabilityController extends Controller
                 );
             }
         }
-    
-        return redirect()->route('teacher-availabilities.create')->with('success', 'Disponibilidades criadas ou atualizadas com sucesso.');
     }
-    
-    
 
     /**
      * Display the specified resource.

@@ -86,74 +86,135 @@
         <!-- Second Column: Availability Details -->
         <div class="col-md-8">
             <h3 id="crudFormHeader">{{ $isEditing ? 'Edição' : 'Criação' }}</h3>
-            <form id="crudForm" method="POST" action="{{ route('teacher-availabilities.store') }}">
-                @csrf
-                
-                <input type="hidden" name="_method" value="POST" id="hiddenMethod">
 
-                 <!-- Hidden field for user ID -->
-                <input type="hidden" name="user_id" value="{{ $userId }}">
+            <!-- Create Form -->
+            <div id="createFormCont" style="{{ $isEditing ? 'display: none;' : '' }}">
+                <form id="createForm" method="POST" action="{{ route('teacher-availabilities.store') }}">
+                    @csrf
 
-                <div class="form-row">
-                    <div class="col-12">
-                        <label>Desde: (para registo uníco apenas preencher este campo)</label>
-                    </div>
+                    <!-- Hidden field for user ID -->
+                    <input type="hidden" name="user_id" value="{{ $userId }}">
 
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <input type="date" class="form-control" id="startDate" name="start_date">
+                    <div class="form-row">
+                        <div class="col-12">
+                            <label>Desde: (para registo uníco apenas preencher este campo)</label>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="date" class="form-control @error('start_date') is-invalid @enderror" id="startDate" name="start_date" value="{{ old('start_date') }}">
+                                @error('start_date')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <select class="form-control @error('start_hour_block_id') is-invalid @enderror" id="startHourBlock" name="start_hour_block_id">
+                                    @foreach($hourBlocks as $block)
+                                        <option value="{{$block->id}}" {{ old('start_hour_block_id') == $block->id ? 'selected' : '' }}>{{$block->hour_beginning}}-{{$block->hour_end}}</option>
+                                    @endforeach
+                                </select>
+                                @error('start_hour_block_id')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
                         </div>
                     </div>
 
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <select class="form-control" id="startHourBlock" name="start_hour_block_id">
-                                @foreach($hourBlocks as $block)
-                                    <option value="{{$block->id}}">{{$block->hour_beginning}}-{{$block->hour_end}}</option>
-                                @endforeach
-                            </select>
+                    <div class="form-row">
+                        <div class="col-12">
+                            <label>Até:</label>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="date" class="form-control @error('end_date') is-invalid @enderror" id="endDate" name="end_date" value="{{ old('end_date') }}">
+                                @error('end_date')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <select class="form-control @error('end_hour_block_id') is-invalid @enderror" id="endHourBlock" name="end_hour_block_id">
+                                    @foreach($hourBlocks as $block)
+                                        <option value="{{$block->id}}" {{ old('end_hour_block_id') == $block->id ? 'selected' : '' }}>{{$block->hour_beginning}}-{{$block->hour_end}}</option>
+                                    @endforeach
+                                </select>
+                                @error('end_hour_block_id')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="form-row">
-                    <div class="col-12">
-                        <label>Até:</label>
+                    <div class="form-group">
+                        <label for="availabilityType">Tipo de disponibilidade</label>
+                        <select class="form-control @error('availability_type_id') is-invalid @enderror" id="availabilityType" name="availability_type_id">
+                            @foreach($availabilityTypes as $type)
+                                <option value="{{$type->id}}" {{ old('availability_type_id') == $type->id ? 'selected' : '' }}>{{$type->name}}</option>
+                            @endforeach
+                        </select>
+                        @error('availability_type_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
 
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <input type="date" class="form-control" id="endDate" name="end_date">
-                        </div>
+                    <button id="createFormBtn" type="submit" class="btn btn-primary">Criar</button>
+                    <button id="cancelBtn" type="button" class="btn btn-secondary ml-2" >Cancel</button>
+                </form>
+
+            </div>
+
+            <!-- Edit form -->
+            <div id="editFormCont" style="{{ $isEditing ? '' : 'display: none;' }}">
+                <form id="editForm" method="POST" action="{{ route('teacher-availabilities.store') }}">
+                    @csrf
+
+                    @method('PUT')
+                    
+                    <!-- Hidden field for user ID -->
+                    <input type="hidden" name="user_id" value="{{ $userId }}">
+
+                    <div class="form-group">
+                        <label for="date">Data</label>
+                        <input type="date" class="form-control @error('availability_date') is-invalid @enderror" id="date" name="availability_date" value="{{ old('availability_date') }}">
+                        @error('availability_date')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
 
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <select class="form-control" id="endHourBlock" name="end_hour_block_id">
-                                @foreach($hourBlocks as $block)
-                                    <option value="{{$block->id}}">{{$block->hour_beginning}}-{{$block->hour_end}}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                    <div class="form-group">
+                        <label for="hourBlock">Bloco de horário</label>
+                        <select class="form-control @error('hour_block_id') is-invalid @enderror" id="hourBlock" name="hour_block_id">
+                            @foreach($hourBlocks as $block)
+                                <option value="{{$block->id}}" {{ old('hour_block_id') == $block->id ? 'selected' : '' }}>{{$block->hour_beginning}}-{{$block->hour_end}}</option>
+                            @endforeach
+                        </select>
+                        @error('hour_block_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
-                </div>
 
+                    <div class="form-group">
+                        <label for="availabilityType">Tipo de disponibilidade</label>
+                        <select class="form-control @error('availability_type_id') is-invalid @enderror" id="availabilityType" name="availability_type_id">
+                            @foreach($availabilityTypes as $type)
+                                <option value="{{$type->id}}" {{ old('availability_type_id') == $type->id ? 'selected' : '' }}>{{$type->name}}</option>
+                            @endforeach
+                        </select>
+                        @error('availability_type_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
 
-                <div class="form-group">
-                    <label for="availabilityType">Tipo de disponibilidade</label>
-                    <select class="form-control @error('availability_type_id') is-invalid @enderror" id="availabilityType" name="availability_type_id">
-                        @foreach($availabilityTypes as $type)
-                            <option value="{{$type->id}}" {{ old('availability_type_id') == $type->id ? 'selected' : '' }}>{{$type->name}}</option>
-                        @endforeach
-                    </select>
-                    @error('availability_type_id')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <button id="crudFormBtn" type="submit" class="btn btn-primary">Submit</button>
-                <button id="cancelBtn" type="button" class="btn btn-secondary ml-2" >Cancel</button>
-            </form>
+                    <button id="editFormBtn" type="submit" class="btn btn-primary">Alterar</button>
+                    <button id="cancelBtn" type="button" class="btn btn-secondary ml-2" >Cancel</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
@@ -205,39 +266,36 @@
             document.getElementById('bulkActionForm').submit();
         });
     });
-
 </script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const baseUrl = sessionStorage.getItem('baseUrl'); //default is POST create
-        const liElements = document.querySelectorAll('li.list-group-item');
-
+   document.addEventListener('DOMContentLoaded', function() {
+        const baseUrl = sessionStorage.getItem('baseUrl');
         const formHeader = document.querySelector('#crudFormHeader');
+        const liElements = document.querySelectorAll('li.list-group-item');
+        const createFormCont = document.querySelector('#createFormCont');
+        const editFormCont = document.querySelector('#editFormCont');
+        const editForm = document.querySelector('#editForm');
+        const submitButton = editForm.querySelector('#editFormBtn');
+        const cancelButton = editForm.querySelector('#cancelBtn');
+        const dateInput = editForm.querySelector('#date');
+        const hourBlockSelect = editForm.querySelector('#hourBlock');
+        const availabilityTypeSelect = editForm.querySelector('#availabilityType');
 
-        const form = document.querySelector('#crudForm');
-        const submitButton = form.querySelector('#crudFormBtn');
-        const cancelButton = form.querySelector('#cancelBtn');
-        const dateInput = form.querySelector('#date');
-        const hourBlockSelect = form.querySelector('#hourBlock');
-        const availabilityTypeSelect = form.querySelector('#availabilityType');
+        // Show Edit Form and Hide Create Form
+        const showEditForm = () => {
+            createFormCont.style.display = "none";
+            editFormCont.style.display = "";
+        };
 
-        // Create Cancel button
-        cancelButton.addEventListener('click', function() {
-            // Reset form state to "create"
-            form.action = baseUrl;
-            form.method = 'POST';
-            dateInput.value = '';
-            hourBlockSelect.selectedIndex = 0;
-            availabilityTypeSelect.selectedIndex = 0;
-            submitButton.textContent = "Criar";
-            formHeader.textContent = "Criação"
-            document.getElementById('hiddenMethod').value = 'POST';
-        });
+        // Show Create Form and Hide Edit Form
+        const showCreateForm = () => {
+            createFormCont.style.display = "";
+            editFormCont.style.display = "none";
+        };
 
         liElements.forEach(li => {
             li.addEventListener('click', function() {
-                console.log("List item clicked");
                 // Set form values based on clicked li
                 dateInput.value = li.getAttribute('data-date');
                 hourBlockSelect.value = li.getAttribute('data-hour-block-id');
@@ -245,12 +303,20 @@
 
                 // Change form to "edit" state
                 const availabilityId = li.getAttribute('data-id');
-                form.action = baseUrl + '/' + availabilityId;
-                document.getElementById('hiddenMethod').value = 'PUT';
-                submitButton.textContent = "Alterar";
+                editForm.action = baseUrl + '/' + availabilityId;
                 formHeader.textContent = "Edição";
+
+                showEditForm();
             });
         });
-    });
 
+        // Create Cancel button
+        cancelButton.addEventListener('click', function() {
+            dateInput.value = '';
+            hourBlockSelect.selectedIndex = 0;
+            availabilityTypeSelect.selectedIndex = 0;
+            formHeader.textContent = "Criação"
+            showCreateForm();
+        });
+    });
 </script>

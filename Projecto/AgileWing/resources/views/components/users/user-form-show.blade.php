@@ -103,4 +103,4 @@
     </form>
 </div>
 
-<button id="editBtn" type="button" class="btn btn-blue">Editar</button>
+<button id="editBtn" type="button" class="btn btn-blue edit-professor">Editar</button>

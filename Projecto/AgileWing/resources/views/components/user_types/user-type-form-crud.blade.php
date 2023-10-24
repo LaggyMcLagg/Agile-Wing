@@ -38,7 +38,7 @@
                 <input type="hidden" name="_method" value="POST" id="hiddenMethod">
 
                 <!-- UserType ID -->
-                <label for="id">Tipo de Utilizador ID: </label>
+                <label for="id" hidden>Tipo de Utilizador ID: </label>
                 <label data-name="id" id="id_label"></label>
 
                 <!-- UserType Name -->
@@ -70,15 +70,15 @@
 
                 <thead>
                     <tr>
-                        <th scope="col">ID</th>
                         <th scope="col">Nome Tipo de Utilizador</th>
+                        <th scope="col">Apagar</th>
                         <!-- Add any other headers here that are similar to the Course table headers -->
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($userTypes as $userType)
                     <tr>
-                        <td data-name="id">{{ $userType->id }}</td>
+                        <td data-name="id" hidden>{{ $userType->id }}</td>
                         <td data-name="name">{{ $userType->name }}</td>
                         <!-- Add any other columns here that are similar to the Course table columns -->
                         <td>

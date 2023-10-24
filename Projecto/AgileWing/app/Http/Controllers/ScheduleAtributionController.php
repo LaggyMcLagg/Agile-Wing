@@ -175,37 +175,44 @@ class ScheduleAtributionController extends Controller
 
     public function timelineToPdf()
     {
-        $classId = 3;
+        $classId = 1;
+        //recuperamos a turma juntamente com seu curso e blocos de horário associados
         $courseClass = CourseClass::with([
             'course',
             'hourBlockCourseClasses.scheduleAtributions',
         ])->find($classId);
     
         //formata as atribuições de horário
-        $formattedAtributions = $courseClass->hourBlockCourseClasses->flatMap(function ($hourBlockCourseClass) {
-            return $hourBlockCourseClass->scheduleAtributions->map(function ($scheduleAtribution) {
+        //$courseClass->hourBlockCourseClasses são os blocos de horário associados a cada turma
+        //usamos o flatMap para iterar por cada bloco de horário associado à turma
+        //dentro de flatMap, utilizamos o map para transformar cada bloco de horário numa coleção de atribuições de horário formatadas (scheduleAtributions)
+        //o resultado de flatMap será uma única coleção que contém todas as atribuições de horário daquela turma, em vez de uma coleção de coleções separadas
+        $formattedAtributions = $courseClass->hourBlockCourseClasses->flatMap(function ($hourBlockCourseClass) 
+        {
+            return $hourBlockCourseClass->scheduleAtributions->map(function ($scheduleAtribution) 
+            {
+                // Formata a data no formato 'd/m/Y' e a armazena como 'formattedDate' em cada atribuição de horário.
                 $scheduleAtribution->formattedDate = $scheduleAtribution->date->format('d/m/Y');
                 return $scheduleAtribution;
             });
         });
     
         //ordena as atribuições pelo mês e depois pela data dentro do mês
-        $formattedAtributions = $formattedAtributions->sortBy(function ($scheduleAtribution) {
+        $formattedAtributions = $formattedAtributions->sortBy(function ($scheduleAtribution) 
+        {
             return $scheduleAtribution->date->format('Ym') . $scheduleAtribution->date->format('d');
         });
     
         //agrupar as atribuições por mês/ano
-        $groupedAtributions = $formattedAtributions->groupBy(function ($scheduleAtribution) {
+        $groupedAtributions = $formattedAtributions->groupBy(function ($scheduleAtribution) 
+        {
             return $scheduleAtribution->date->format('m/Y');
         });
-    
-        $courseInitials = $courseClass->course->initials;
-    
+        
         return view('pages.schedule_atribution.export-pdf', [
             'courseClass' => $courseClass,
             'formattedAtributions' => $formattedAtributions,
             'groupedAtributions' => $groupedAtributions,
-            'courseInitials' => $courseInitials,
         ]);
     }
 }

@@ -2,6 +2,5 @@
     'courseClass' => $courseClass,
     'formattedAtributions' => $formattedAtributions,
     'groupedAtributions' => $groupedAtributions,
-    'courseInitials' => $courseInitials,
 ])
 @endcomponent

@@ -1,12 +1,13 @@
-Nome da turma: {{ $courseClass->name }}
+CET: {{ $courseClass->name }}
 <br>
-Curso: {{ $courseClass->course->name }}
- ({{ $courseInitials }})
+Turma: {{ $courseClass->course->name }}
+
 <br>
 <br>
 
 <!-- por cada mes, vai gerar a informação -->
 @foreach ($groupedAtributions as $month => $atributions)
+    <h3>{{ $month }}</h3>
     <table class="custom-table">
         <thead>
             <tr>
@@ -43,6 +44,27 @@ Curso: {{ $courseClass->course->name }}
         </tbody>
     </table>
 @endforeach
+
+<br>
+<br>
+
+<table class="custom-table">
+    <thead>
+        <tr>
+            <th>Número UFCD</th>
+            <th>Nome da UFCD</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($formattedAtributions as $scheduleAtribution)
+            <tr>
+                <td>{{ $scheduleAtribution->ufcd->number }}</td>
+                <td>{{ $scheduleAtribution->ufcd->name }}</td>
+            </tr>
+        @endforeach
+    </tbody>
+</table>
+
 
 
 

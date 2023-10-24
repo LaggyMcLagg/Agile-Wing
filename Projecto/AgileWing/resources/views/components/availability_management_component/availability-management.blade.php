@@ -44,6 +44,7 @@
 
 <div class="container">
     <div class="row">
+
         <!-- First Column: Collapsible Dates -->
         <div class="col-md-4">
             <h3> <input type="checkbox" id="selectAll"> Lista de marcações</h3>
@@ -93,25 +94,50 @@
                  <!-- Hidden field for user ID -->
                 <input type="hidden" name="user_id" value="{{ $userId }}">
 
-                <div class="form-group">
-                    <label for="date">Data</label>
-                    <input type="date" class="form-control @error('availability_date') is-invalid @enderror" id="date" name="availability_date" value="{{ old('availability_date') }}">
-                    @error('availability_date')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
+                <div class="form-row">
+                    <div class="col-12">
+                        <label>Desde: (para registo uníco apenas preencher este campo)</label>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input type="date" class="form-control" id="startDate" name="start_date">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <select class="form-control" id="startHourBlock" name="start_hour_block_id">
+                                @foreach($hourBlocks as $block)
+                                    <option value="{{$block->id}}">{{$block->hour_beginning}}-{{$block->hour_end}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="hourBlock">Bloco de horário</label>
-                    <select class="form-control @error('hour_block_id') is-invalid @enderror" id="hourBlock" name="hour_block_id">
-                        @foreach($hourBlocks as $block)
-                            <option value="{{$block->id}}" {{ old('hour_block_id') == $block->id ? 'selected' : '' }}>{{$block->hour_beginning}}-{{$block->hour_end}}</option>
-                        @endforeach
-                    </select>
-                    @error('hour_block_id')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
+                <div class="form-row">
+                    <div class="col-12">
+                        <label>Até:</label>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input type="date" class="form-control" id="endDate" name="end_date">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <select class="form-control" id="endHourBlock" name="end_hour_block_id">
+                                @foreach($hourBlocks as $block)
+                                    <option value="{{$block->id}}">{{$block->hour_beginning}}-{{$block->hour_end}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                 </div>
+
 
                 <div class="form-group">
                     <label for="availabilityType">Tipo de disponibilidade</label>

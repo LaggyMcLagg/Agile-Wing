@@ -85,18 +85,43 @@ class TeacherAvailabilityController extends Controller
      */
     public function store(Request $request)
     {
-        
         $request->validate([
             'user_id' => 'required|exists:users,id',
-            'availability_date' => 'required|date|after:today',
-            'hour_block_id' => 'required|exists:hour_blocks,id',
+            'start_date' => 'required|date|after:today',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'start_hour_block_id' => 'required|exists:hour_blocks,id',
+            'end_hour_block_id' => 'required|exists:hour_blocks,id|gte:start_hour_block_id',
             'availability_type_id' => 'required|exists:availability_types,id',
         ]);
     
-        TeacherAvailability::create($request->all());
+        $startDate = Carbon::parse($request->start_date);
+        $endDate = Carbon::parse($request->end_date);
+        
+        $startHourBlock = HourBlock::findOrFail($request->start_hour_block_id);
+        $endHourBlock = HourBlock::findOrFail($request->end_hour_block_id);
     
-        return redirect()->route('teacher-availabilities.create')->with('success', 'Disponibilidade criada com sucesso.');
+        // Process each date in the range
+        for($date = $startDate; $date->lte($endDate); $date->addDay()) {
+            // Process each hour block in the range
+            $hourBlocks = HourBlock::whereBetween('id', [$startHourBlock->id, $endHourBlock->id])->get();
+            foreach($hourBlocks as $hourBlock) {
+                TeacherAvailability::updateOrCreate(
+                    [
+                        'user_id' => $request->user_id,
+                        'availability_date' => $date->toDateString(),
+                        'hour_block_id' => $hourBlock->id,
+                    ],
+                    [
+                        'availability_type_id' => $request->availability_type_id,
+                    ]
+                );
+            }
+        }
+    
+        return redirect()->route('teacher-availabilities.create')->with('success', 'Disponibilidades criadas ou atualizadas com sucesso.');
     }
+    
+    
 
     /**
      * Display the specified resource.

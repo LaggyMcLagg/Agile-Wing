@@ -367,4 +367,9 @@ class UserController extends Controller
 
         return redirect('users')->with('success', 'Reset palavra-passe com sucesso!');
     } 
+
+    public function emailTeste() {
+        return view('pages.emails.verify-email-new-user');
+    }
 }
+

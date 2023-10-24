@@ -181,6 +181,7 @@ class ScheduleAtributionController extends Controller
             'hourBlockCourseClasses.scheduleAtributions',
         ])->find($classId);
     
+        //formata as atribuições de horário
         $formattedAtributions = $courseClass->hourBlockCourseClasses->flatMap(function ($hourBlockCourseClass) {
             return $hourBlockCourseClass->scheduleAtributions->map(function ($scheduleAtribution) {
                 $scheduleAtribution->formattedDate = $scheduleAtribution->date->format('d/m/Y');
@@ -188,17 +189,15 @@ class ScheduleAtributionController extends Controller
             });
         });
     
-        // Ordenar as atribuições pelo mês e depois pela data dentro do mês
+        //ordena as atribuições pelo mês e depois pela data dentro do mês
         $formattedAtributions = $formattedAtributions->sortBy(function ($scheduleAtribution) {
             return $scheduleAtribution->date->format('Ym') . $scheduleAtribution->date->format('d');
         });
     
+        //agrupar as atribuições por mês/ano
         $groupedAtributions = $formattedAtributions->groupBy(function ($scheduleAtribution) {
             return $scheduleAtribution->date->format('m/Y');
         });
-    
-        // Ordenar os meses do mais antigo para o mais recente
-        $groupedAtributions = $groupedAtributions->sortKeys();
     
         $courseInitials = $courseClass->course->initials;
     

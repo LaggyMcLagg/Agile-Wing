@@ -5,15 +5,10 @@ Curso: {{ $courseClass->course->name }}
 <br>
 <br>
 
-@foreach ($groupedAtributions->reverse() as $month => $atributions)
+<!-- por cada mes, vai gerar a informação -->
+@foreach ($groupedAtributions as $month => $atributions)
     <table class="custom-table">
         <thead>
-            <tr>
-                <th>{{ $month }}</th>
-                @foreach($atributions->unique('formattedDate') as $uniqueAtribution)
-                    <th>{{ $uniqueAtribution->formattedDate }}</th>
-                @endforeach
-            </tr>
             <tr>
                 <th>Horário</th>
                 @foreach($atributions->unique('formattedDate') as $uniqueAtribution)
@@ -21,22 +16,26 @@ Curso: {{ $courseClass->course->name }}
                 @endforeach
             </tr>
         </thead>
-        <tbody>
+        <!-- iniciar a interação pelos blocos de horário -->
+        <tbody> 
             @foreach($courseClass->hourBlockCourseClasses as $hourBlockCourseClass)
                 <tr>
                     <td>{{ $hourBlockCourseClass->hour_beginning }} - {{ $hourBlockCourseClass->hour_end }}</td>
                     @foreach($atributions->unique('formattedDate') as $uniqueAtribution)
                         <td>
                             @php
-                                $currentAtribution = $atributions->firstWhere('formattedDate', $uniqueAtribution->formattedDate);
+                                // Filtrar as atribuições para a data e o bloco de horário atual
+                                $filteredAtributions = $atributions->filter(function ($atribution) use ($uniqueAtribution, $hourBlockCourseClass) {
+                                    return $atribution->formattedDate === $uniqueAtribution->formattedDate && $atribution->hour_block_course_class_id == $hourBlockCourseClass->id;
+                                });
                             @endphp
-                            @if($currentAtribution && $currentAtribution->hour_block_course_class_id == $hourBlockCourseClass->id)
+                            @foreach($filteredAtributions as $currentAtribution)
                                 <ul>
                                     <li>{{ $currentAtribution->ufcd->number }}</li>
                                     <li>{{ $currentAtribution->user->name }}</li>
                                     <li>{{ $currentAtribution->date }}</li>
                                 </ul>
-                            @endif
+                            @endforeach
                         </td>
                     @endforeach
                 </tr>

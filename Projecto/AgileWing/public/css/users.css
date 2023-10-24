@@ -1,6 +1,6 @@
 :root {
     --gradient-top: #6d92e3;
-    --gradient-bottom: #aeb6e6;
+    --gradient-bottom: #a7d3e8;
     --white: #ffffff;
     --white-dark: #dfe3e5;
     --black: #4d4e4f;
@@ -24,14 +24,14 @@
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--blue);
+    background: var(--gradient-bottom);
     border-radius: 10px;
     border: 2px solid;
     border-color: var(--white);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--blue-dark);
+    background: var(--gradient-top);
 }
 
 .spacing {
@@ -166,7 +166,7 @@ thead {
 /* Form */
 
 .atec-form {
-    background-image: linear-gradient(to top, #aeb6e6, #a0ade5, #91a3e5, #809be4, #6d92e3);
+    background-image: linear-gradient(to top, #a7d3e8, #8ec5e8, #7ab5e8, #6ea4e7, #6d92e3);
     padding: 5%;
     border-radius: 10px;
     color: var(--white);

@@ -128,20 +128,22 @@ Route::middleware(['auth', 'checkUserType1:1'])->group(function(){
 
 //ROTAS DISPONIVEIS PARA USER TYPE 2 -> TESTES
 Route::middleware(['auth', 'checkUserType2:2'])->group(function(){
-
     // ROUTES for Teacher Availabilities
     Route::prefix('teacher-availabilities')->group(function(){
         //crud
+        Route::get('', 'TeacherAvailabilityController@index')->name('teacher-availabilities.index');
         Route::post('', 'TeacherAvailabilityController@store')->name('teacher-availabilities.store');
+        Route::get('create', 'TeacherAvailabilityController@create')->name('teacher-availabilities.create');
+        Route::get('{id}/edit', 'TeacherAvailabilityController@edit')->name('teacher-availabilities.edit');
         Route::put('{id}', 'TeacherAvailabilityController@update')->name('teacher-availabilities.update');
         Route::delete('{teacherAvailability}', 'TeacherAvailabilityController@destroy')->name('teacher-availabilities.destroy');
         //other
-        Route::get('/scheduler', 'TeacherAvailabilityController@scheduler')->name('teacher-availabilities.scheduler');
-        Route::get('/{id}', 'TeacherAvailabilityController@edit')->name('teacher-availabilities.edit');
-        Route::get('', 'TeacherAvailabilityController@create')->name('teacher-availabilities.create');
-        Route::post('/users/update-notes', 'UserController@updateNotes')->name('users.update-notes');
+        //user notes update
+        Route::post('users/update-notes', 'UserController@updateNotes')->name('users.update-notes');
+        //deal with bulk data
+        Route::post('delete-selected', 'TeacherAvailabilityController@deleteSelected')->name('teacher-availabilities.delete-selected');
+        Route::post('publish-selected', 'TeacherAvailabilityController@publishSelected')->name('teacher-availabilities.publish-selected');
     });
-
 });
 
 //ROTAS COMUNS

@@ -8,6 +8,7 @@ use App\User;
 use App\HourBlock;
 use App\AvailabilityType;
 use Illuminate\Support\Facades\Auth; //to get the logged in user
+use Carbon\Carbon;
 
 class TeacherAvailabilityController extends Controller
 {
@@ -21,7 +22,33 @@ class TeacherAvailabilityController extends Controller
      */
     public function index()
     {
-        //
+        //vars for content
+        $user = Auth::user();
+        $userNotes = $user->notes;
+        $availabilityTypes = AvailabilityType::all();
+        $hourBlocks = HourBlock::orderBy('hour_beginning', 'asc')->get();
+        $teacherAvailabilities = TeacherAvailability::where('user_id', $user->id)->get();
+        
+        //var for component setup
+        $showNotes = true;
+        $showLegend = true;
+        $showBtnStore = true;
+        $objectName = $user->name;
+        $jsonTeacherAvailabilities = json_encode($teacherAvailabilities);
+
+        return view('pages.teacher_availabilities.index', 
+        compact(
+            'userNotes',
+            'availabilityTypes',
+            'hourBlocks',
+            'teacherAvailabilities',
+
+            'showNotes',
+            'showLegend',
+            'showBtnStore',
+            'objectName',
+            'jsonTeacherAvailabilities'
+        ));
     }
 
     /**
@@ -31,7 +58,23 @@ class TeacherAvailabilityController extends Controller
      */
     public function create()
     {
-        //
+        $userId = Auth::user()->id;
+        $teacherAvailabilities = TeacherAvailability::with('hourBlock', 'availabilityType')
+        ->where('user_id', $userId)
+        ->where('is_locked', '!=', 1)
+        ->get();
+        
+        //group by expects a string not date so we need to cast
+        $teacherAvailabilitiesGroupedByDate = $teacherAvailabilities->groupBy(function($date) {
+            return Carbon::parse($date->availability_date)->format('Y-m-d'); // using a fixed format
+        });
+        
+        $hourBlocks = HourBlock::all();
+        $availabilityTypes = AvailabilityType::all();
+
+        $isEditing = false;
+
+        return view('pages.teacher_availabilities.crud', compact('teacherAvailabilitiesGroupedByDate', 'hourBlocks', 'availabilityTypes', 'isEditing', 'userId'));
     }
 
     /**
@@ -42,21 +85,17 @@ class TeacherAvailabilityController extends Controller
      */
     public function store(Request $request)
     {
-        //to get the value even if it is false, because if false the form
-        //sends it null instead
-        $request->merge(['is_locked' => $request->has('is_locked')]);
-
+        
         $request->validate([
             'user_id' => 'required|exists:users,id',
             'availability_date' => 'required|date|after:today',
-            'is_locked' => 'required|boolean',
             'hour_block_id' => 'required|exists:hour_blocks,id',
             'availability_type_id' => 'required|exists:availability_types,id',
         ]);
     
         TeacherAvailability::create($request->all());
     
-        return redirect()->route('teacher-availabilities.crud')->with('success', 'Teacher availability created successfully');
+        return redirect()->route('teacher-availabilities.create')->with('success', 'Disponibilidade criada com sucesso.');
     }
 
     /**
@@ -76,9 +115,10 @@ class TeacherAvailabilityController extends Controller
      * @param  \App\TeacherAvailability  $teacherAvailability
      * @return \Illuminate\Http\Response
      */
-    public function edit(TeacherAvailability $teacherAvailability)
+    public function edit($id)
     {
-        //
+        //TeacherAvailability $teacherAvailability
+        return view('pages.teacher_availabilities.edit', compact()); 
     }
     
 
@@ -89,21 +129,21 @@ class TeacherAvailabilityController extends Controller
      * @param  \App\TeacherAvailability  $teacherAvailability
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, TeacherAvailability $teacherAvailability)
+    public function update(Request $request, $id)
     {
-        $request->merge(['is_locked' => $request->has('is_locked')]);
-    
+        
+        $teacherAvailability = TeacherAvailability::find($id);
+        // dd($teacherAvailability, $id, $request);
         $request->validate([
             'user_id' => 'required|exists:users,id',
             'availability_date' => 'required|date|after:today',
-            'is_locked' => 'required|boolean',
             'hour_block_id' => 'required|exists:hour_blocks,id',
             'availability_type_id' => 'required|exists:availability_types,id',
         ]);
     
         $teacherAvailability->update($request->all());
     
-        return redirect()->route('teacher-availabilities.crud')->with('success', 'Teacher availability updated successfully');
+        return redirect()->route('teacher-availabilities.create')->with('success', 'Disponibilidade actualizada com sucesso.');
     }
     
 
@@ -115,48 +155,31 @@ class TeacherAvailabilityController extends Controller
      */
     public function destroy(TeacherAvailability $teacherAvailability)
     {
-        $teacherAvailability->delete();
-    
-        return redirect()->route('teacher-availabilities.crud')->with('success', 'Teacher availability deleted successfully');
+        //
     }
 
     //###############################
     //OTHER METHODS
     //###############################
 
-    public function scheduler()
+    public function deleteSelected(Request $request)
     {
-        //vars for content
-        $user = Auth::user();
-        $userNotes = $user->notes;
-        $availabilityTypes = AvailabilityType::all();
-        $hourBlocks = HourBlock::orderBy('hour_beginning', 'asc')->get();
-        $teacherAvailabilities = TeacherAvailability::where('user_id', $user->id)->get();
+        try {
+            TeacherAvailability::whereIn('id', $request->input('ids'))->delete();
+            return redirect()->back()->with('success', 'Registos apagados.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Erro ao apagar os registos.');
+        }
+    }
         
-        //var for component setup
-        $showNotes = true;
-        $showLegend = true;
-        $showBtnStore = true;
-        $objectName = $user->name;
-        $jsonTeacherAvailabilities = json_encode($teacherAvailabilities);
-
-        return view('pages.teacher_availabilities.scheduler', 
-        compact(
-            'userNotes', 
-            'availabilityTypes',
-            'hourBlocks', 
-            'teacherAvailabilities', 
-
-            'showNotes',
-            'showLegend',
-            'showBtnStore',
-            'objectName', 
-            'jsonTeacherAvailabilities'
-        ));
-    }
-
-    public function Crud()
+    public function publishSelected(Request $request)
     {
-        //
-    }
+        try {
+            TeacherAvailability::whereIn('id', $request->input('ids'))->update(['is_locked' => true]);
+            return redirect()->back()->with('success', 'Resgistos publicados.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Erro ao publicar os registos.');
+        }
+    }    
+    
 }

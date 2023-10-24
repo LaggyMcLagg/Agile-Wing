@@ -99,6 +99,7 @@ Route::middleware(['auth', 'checkUserType1:1'])->group(function(){
     
     Route::prefix('users')->group(function(){
         Route::get('', 'UserController@index')->name('users.index');
+        Route::get('emailTeste', 'UserController@emailTeste')->name('users.index');
         Route::get('create', 'UserController@create')->name('users.create');
         Route::post('', 'UserController@store')->name('users.store');
         Route::get('show/{id}', 'UserController@show');

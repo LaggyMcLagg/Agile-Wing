@@ -15,7 +15,7 @@ class ScheduleAtributionSeeder extends Seeder
     public function run()
     {
         User::where('user_type_id', 2)->get()->each(function ($user) {
-            foreach (range(1, 30) as $i) {
+            foreach (range(1, 250) as $i) {
                 factory(ScheduleAtribution::class)->create(
                     [
                         'date' => Carbon::now()->addDays($i)->format('Y-m-d'),

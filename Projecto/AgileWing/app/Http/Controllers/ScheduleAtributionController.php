@@ -175,43 +175,39 @@ class ScheduleAtributionController extends Controller
 
     public function timelineToPdf()
     {
-        $classId = 1;
+        $classId = 3;
         $courseClass = CourseClass::with([
             'course',
-            'hourBlockCourseClasses', 
-            'hourBlockCourseClasses.scheduleAtributions', 
+            'hourBlockCourseClasses.scheduleAtributions',
         ])->find($classId);
-
-        //cria uma coleção de atribuições de horário formatadas
-        $formattedAtributions = $courseClass->hourBlockCourseClasses->flatMap(function ($hourBlockCourseClass) 
-        {
-            return $hourBlockCourseClass->scheduleAtributions->map(function ($scheduleAtribution) 
-            {
-            $scheduleAtribution->formattedDate = $scheduleAtribution->date->format('d/m/Y');
-            return $scheduleAtribution;
+    
+        $formattedAtributions = $courseClass->hourBlockCourseClasses->flatMap(function ($hourBlockCourseClass) {
+            return $hourBlockCourseClass->scheduleAtributions->map(function ($scheduleAtribution) {
+                $scheduleAtribution->formattedDate = $scheduleAtribution->date->format('d/m/Y');
+                return $scheduleAtribution;
             });
         });
-
+    
+        // Ordenar as atribuições pelo mês e depois pela data dentro do mês
+        $formattedAtributions = $formattedAtributions->sortBy(function ($scheduleAtribution) {
+            return $scheduleAtribution->date->format('Ym') . $scheduleAtribution->date->format('d');
+        });
+    
+        $groupedAtributions = $formattedAtributions->groupBy(function ($scheduleAtribution) {
+            return $scheduleAtribution->date->format('m/Y');
+        });
+    
+        // Ordenar os meses do mais antigo para o mais recente
+        $groupedAtributions = $groupedAtributions->sortKeys();
+    
         $courseInitials = $courseClass->course->initials;
-
-        //para repetir os dias da semana ao longo do número de semanas de duração
-        $firstDay = $formattedAtributions->min('date');
-        $lastDay = $formattedAtributions->max('date');
-        $numberOfWeeks = $firstDay->diffInWeeks($lastDay);
-
+    
         return view('pages.schedule_atribution.export-pdf', [
             'courseClass' => $courseClass,
             'formattedAtributions' => $formattedAtributions,
+            'groupedAtributions' => $groupedAtributions,
             'courseInitials' => $courseInitials,
-            'firstDay' => $firstDay,
-            'lastDay' => $lastDay,
-            'numberOfWeeks' => $numberOfWeeks,
         ]);
     }
-
-    
-    
-    
-
 }
 

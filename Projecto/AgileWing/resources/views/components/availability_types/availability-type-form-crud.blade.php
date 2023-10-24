@@ -33,7 +33,7 @@
 
                 <input type="hidden" name="_method" value="POST" id="hiddenMethod">
 
-                <label for="id">ID: </label>
+                <label for="id" hidden>ID: </label>
                 <label data-name="id" id="id_label">
                 </label>
 
@@ -72,34 +72,35 @@
                 <a id="createBtn" class="btn btn-blue">Criar</a>
                 <a id="editBtn" type="button" class="btn btn-blue">Editar</a>
             </h3>
-
-            <table class="table table-borderless">
-                <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Cor</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($availabilityTypes as $availabilityType)
-                    <tr>
-                        <td data-name="id">{{ $availabilityType->id }}</td>
-                        <td data-name="name">{{ $availabilityType->name }}</td>
-                        <td data-name="color" data-value="{{ $availabilityType->color }}" style="background-color: {{ $availabilityType->color }};">
-                        </td>
-                        <td>
-                            <!-- Form for DELETE operation -->
-                            <form action="{{ route('availability-types.destroy', ['availabilityType' => $availabilityType]) }}" method="POST" onsubmit="return confirm('Tem a certeza que quer apagar este registo?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-trash"><i class="fa fa-trash"></i></button>
-                            </form>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            <div class="table-container">
+                <table class="table table-borderless ">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Cor</th>
+                            <th scope="col">Apagar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($availabilityTypes as $availabilityType)
+                        <tr>
+                            <td data-name="id" hidden>{{ $availabilityType->id }}</td>
+                            <td data-name="name">{{ $availabilityType->name }}</td>
+                            <td data-name="color" data-value="{{ $availabilityType->color }}" style="background-color: {{ $availabilityType->color }};">
+                            </td>
+                            <td>
+                                <!-- Form for DELETE operation -->
+                                <form action="{{ route('availability-types.destroy', ['availabilityType' => $availabilityType]) }}" method="POST" onsubmit="return confirm('Tem a certeza que quer apagar este registo?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-trash"><i class="fa fa-trash"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

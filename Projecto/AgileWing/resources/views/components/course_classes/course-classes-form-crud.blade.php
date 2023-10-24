@@ -40,7 +40,7 @@
                 <input type="hidden" name="_method" value="POST" id="hiddenMethod">
 
                 <!-- Course ID -->
-                <label for="id">Course Class ID: </label>
+                <label for="id" hidden>Course Class ID: </label>
                 <!-- The prop data-name tells js where to target to place the info collected from the table -->
                 <label data-name="id" id="id_label"></label>
 
@@ -93,50 +93,53 @@
                 <a id="createBtn" class="btn btn-blue">Criar</a>
                 <a id="editBtn" type="button" class="btn btn-blue">Editar</a>
             </h3>
-            <table class="table table-borderless">
-                <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Turma</th>
-                        <th scope="col">Numero mecanográfico</th>
-                        <th scope="col">Curso</th>
-                        <th scope="col">Blocos horário</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($courseClasses as $courseClass)
-                    <tr>
-                        <td data-name="id">{{ $courseClass->id }}</td>
-                        <td data-name="name">{{ $courseClass->name }}</td>
-                        <td data-name="number">{{ $courseClass->number }}</td>
-                        <td data-name="course">{{ $courseClass->course->initials }} - {{ $courseClass->course->name }}</td>
-                        <td>
-                            <button class="btn btn-light" type="button" data-toggle="collapse" data-target="#hourBlocksList_{{ $courseClass->id }}">
-                                Blocos Horário
-                            </button>
-                            <div id="hourBlocksList_{{ $courseClass->id }}" class="collapse">
-                                <ul>
-                                    @forelse($courseClass->hourBlockCourseClasses as $hourBlockCourseClasse)
-                                    <li>{{ $hourBlockCourseClasse->hour_beginning }} - {{ $hourBlockCourseClasse->hour_end }}</li>
-                                    @empty
-                                    <li>Sem blocos atribuidos.</li>
-                                    @endforelse
-                                </ul>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="btn-group" role="group">
-                                <form action="{{ route('course-classes.destroy', ['courseClass' => $courseClass]) }}" method="POST" onsubmit="return confirm('Tem a certeza que quer apagar este registo?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-trash"><i class="fa fa-trash"></i></button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            <div class="table-container">
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th scope="col">Turma</th>
+                            <th scope="col">Numero mec.</th>
+                            <th scope="col">Curso</th>
+                            <th scope="col">Blocos horário</th>
+                            <th scope="col">Apagar</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($courseClasses as $courseClass)
+                        <tr>
+                            <td data-name="id" hidden>{{ $courseClass->id }}</td>
+                            <td data-name="name">{{ $courseClass->name }}</td>
+                            <td data-name="number">{{ $courseClass->number }}</td>
+                            <td data-name="course">{{ $courseClass->course->initials }} - {{ $courseClass->course->name }}</td>
+                            <td>
+                                <button class="btn btn-light" type="button" data-toggle="collapse" data-target="#hourBlocksList_{{ $courseClass->id }}">
+                                    Blocos Horário
+                                </button>
+                                <div id="hourBlocksList_{{ $courseClass->id }}" class="collapse">
+                                    <ul>
+                                        @forelse($courseClass->hourBlockCourseClasses as $hourBlockCourseClasse)
+                                        <li>{{ $hourBlockCourseClasse->hour_beginning }} - {{ $hourBlockCourseClasse->hour_end }}</li>
+                                        @empty
+                                        <li>Sem blocos atribuidos.</li>
+                                        @endforelse
+                                    </ul>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <form action="{{ route('course-classes.destroy', ['courseClass' => $courseClass]) }}" method="POST" onsubmit="return confirm('Tem a certeza que quer apagar este registo?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-trash"><i class="fa fa-trash"></i></button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

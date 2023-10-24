@@ -300,6 +300,40 @@ input[type="password"][disabled] {
     padding: 0%;
 }
 
+
+/* Emails */
+
+.email-container {
+    display: flex;
+    width: 50vw;
+    justify-content: center;
+    text-align: center;
+    flex-wrap: wrap;
+    gap: 2px;
+    background-color:var(--white);
+    padding-bottom: 20px;
+}
+
+.email-container h3 {
+    color: var(--blue);
+}
+
+.email-banner {
+    background-color: var(--blue-dark);
+    width: 50vw;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.fa-envelope {
+    color: var(--blue-dark);
+    background-color: var(--white);
+    padding: 20px;
+    border-radius: 50px;
+}
+
 /* Media Queries */
 
 @media (max-width: 575.98px) {

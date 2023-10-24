@@ -367,6 +367,7 @@ class UserController extends Controller
 
         return redirect('users')->with('success', 'Reset palavra-passe com sucesso!');
     } 
+    
     /**
      * Display a listing of the resource. For the use case of teacher availabilities
      *

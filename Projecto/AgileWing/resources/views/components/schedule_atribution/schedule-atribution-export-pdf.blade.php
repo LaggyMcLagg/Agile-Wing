@@ -5,65 +5,44 @@ Turma: {{ $courseClass->course->name }}
 <br>
 <br>
 
-<!-- por cada mes, vai gerar a informação -->
-@foreach ($groupedAtributions as $month => $atributions)
-    <h3>{{ $month }}</h3>
-    <table class="custom-table">
-        <thead>
-            <tr>
-                <th>Horário</th>
-                @foreach($atributions->unique('formattedDate') as $uniqueAtribution)
-                    <th>{{ $uniqueAtribution->formattedDate }}</th>
-                @endforeach
-            </tr>
-        </thead>
-        <!-- iniciar a interação pelos blocos de horário -->
-        <tbody> 
-            @foreach($courseClass->hourBlockCourseClasses as $hourBlockCourseClass)
-                <tr>
-                    <td>{{ $hourBlockCourseClass->hour_beginning }} - {{ $hourBlockCourseClass->hour_end }}</td>
-                    @foreach($atributions->unique('formattedDate') as $uniqueAtribution)
-                        <td>
-                            @php
-                                // Filtrar as atribuições para a data e o bloco de horário atual
-                                $filteredAtributions = $atributions->filter(function ($atribution) use ($uniqueAtribution, $hourBlockCourseClass) {
-                                    return $atribution->formattedDate === $uniqueAtribution->formattedDate && $atribution->hour_block_course_class_id == $hourBlockCourseClass->id;
-                                });
-                            @endphp
-                            @foreach($filteredAtributions as $currentAtribution)
-                                <ul>
-                                    <li>{{ $currentAtribution->ufcd->number }}</li>
-                                    <li>{{ $currentAtribution->user->name }}</li>
-                                    <li>{{ $currentAtribution->date }}</li>
-                                </ul>
+    <div class="container">
+        @foreach ($tables as $table)
+            <h3>{{ $table['month'] }}</h3>
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        @foreach ($table['header'] as $header)
+                            <th>{{ $header }}</th>
+                        @endforeach
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($table['data'] as $row)
+                        <tr>
+                            <td>{{ $row['hour'] }}</td>
+                            @foreach ($row['data'] as $column)
+                                <td>
+                                    @foreach ($column as $currentAtribution)
+                                        <ul>
+                                            <li>{{ $currentAtribution['ufcd'] }}</li>
+                                            <li>{{ $currentAtribution['name'] }}</li>
+                                            <li>{{ $currentAtribution['date'] }}</li>
+                                        </ul>
+                                    @endforeach
+                                </td>
                             @endforeach
-                        </td>
+                        </tr>
                     @endforeach
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-@endforeach
-
-<br>
-<br>
-
-<table class="custom-table">
-    <thead>
-        <tr>
-            <th>Número UFCD</th>
-            <th>Nome da UFCD</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($formattedAtributions as $scheduleAtribution)
-            <tr>
-                <td>{{ $scheduleAtribution->ufcd->number }}</td>
-                <td>{{ $scheduleAtribution->ufcd->name }}</td>
-            </tr>
+                </tbody>
+            </table>
         @endforeach
-    </tbody>
-</table>
+    </div>
+
+
+<br>
+<br>
+
+
 
 
 

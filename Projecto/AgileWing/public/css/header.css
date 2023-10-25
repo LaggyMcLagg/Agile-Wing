@@ -1,37 +1,115 @@
 /* Estilos para a área de boas-vindas e logout */
-.containernav .row .justify-content-end {
-    background: #ffffff;
-    padding: 10px;
-    width: 100%;
-    height: 35px;
+:root {
+    --gradient-top: #6d92e3;
+    --gradient-bottom: #a7d3e8;
+    --white: #ffffff;
+    --white-dark: #dfe3e5;
+    --black: #4d4e4f;
+    --black-dark: #36353d;
+    --blue: #6d92e3;
+    --blue-dark: #617add;
+    --table: #f0f6fc;
+    --table-hover: #b9cdf0;
 }
-.containernav .row .d-flex.align-items-center {
-    color: var(--white);
-    padding: 10px;
-    background-color: #4d4e4f;
-    border-radius: 20px;
-    height: 22px;
 
+.navbar-collapse .nav-link {
+    font-weight: 700;
+    border-radius: 10px;
 }
-.containernav .row .justify-content-end .d-flex.align-items-center span:nth-child(2) {
-    display: none;
+
+.dropdown-toggle::after {
+    content: none;
 }
+
 .navbar {
-    background-color: #fff;
+    background-color: var(--white);
+    padding-top: 2%;
+    padding-bottom: 2%;
     height: 20px;
     margin-bottom: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+}
 
+.navbar-nav {
+    padding-left: 15vw;
+}
+
+.navbar img {
+    max-width: 100px;
+    height: auto;
 }
 
 .navbar .navbar-nav .nav-link {
-    color:  #4d4e4f;
+    color: var(--black);
+    margin-right: 2vw;
     text-align: center;
 }
+
+.navbar .navbar-nav .nav-link:hover {
+    color: var(--white);
+    text-align: center;
+    background-color: var(--blue);
+    transition: 0.2s;
+}
+
 .navbar-brand{
     color:  #4d4e4f;
     text-align: center;
 }
 
+.navbar li {
+    list-style: none;
+}
+
+.navbar li:last-child {
+    margin-left: 10vw;
+}
+
+.containernav {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    color: var(--white);
+    padding: 15px;
+    background-color: var(--black);
+    border-radius: 20px;
+    height: 22px;
+}
+
+.logout {
+    color: white;
+    padding: 0;
+    background-color: transparent;
+    font-weight: 700;
+}
+
+.logout:hover {
+    color: rgb(218, 230, 238);
+    box-shadow: none;
+}
+
+@media (max-width: 575.98px) {
+
+    .navbar {
+        background-color: var(--white);
+        padding-top: 2%;
+        padding-bottom: 2%;
+        height: auto;
+        margin-bottom: 5px;
+    }
+
+    .navbar-nav {
+        padding: 0%;
+    }
+    .containernav {
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        background-color: var(--black);
+        border-radius: 20px;
+        height: 22px;
+    }
+
+    .navbar li:last-child {
+        margin-left: 0vw;
+    }
+}

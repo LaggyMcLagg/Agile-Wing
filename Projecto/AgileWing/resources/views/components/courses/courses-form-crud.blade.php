@@ -1,4 +1,4 @@
-
+<link rel="stylesheet" href="{{ asset('css/geral.css') }}">
 
 @section('scripts')
 <script src="{{ asset('/js/control-form-dynamic-crud.js') }}"></script>
@@ -60,7 +60,14 @@
                 <!-- Course Initials -->
                 <div class="form-group">
                     <label for="initials">Sigla</label>
-                    <input data-name="initials" type="text" id="initials" name="initials" class="form-control @error('initials') is-invalid @enderror" value="{{ old('initials') }}" readonly>
+                    <input
+                        data-name="initials"
+                        type="text"
+                        id="initials"
+                        name="initials"
+                        class="form-control @error('initials') is-invalid @enderror"
+                        value="{{ old('initials') }}"
+                        readonly>
                     @error('initials')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -70,11 +77,18 @@
 
                 <!-- Specialization Area -->
                 <div class="form-group">
-                    <label for="specializationArea">Área de Formação</label>
-                    <select data-name="specializationArea" data-type="comboBox" id="specializationArea" name="specialization_area_number" class="form-control" disabled>
-                        @foreach($specializationAreas as $area)
-                        <option value="{{ $area->number }}" @if(old('specialization_area_number')==$area->number) selected @endif
-                            >
+                <label for="specializationArea">Área de Formação</label>
+                <select
+                    data-name="specializationArea"
+                    data-type="comboBox"
+                    id="specializationArea"
+                    name="specialization_area_number"
+                    class="form-control"
+                    disabled>
+                    @foreach($specializationAreas as $area)
+                        <option value="{{ $area->number }}"
+                            @if(old('specialization_area_number') == $area->number) selected @endif
+                        >
                             {{ $area->name }}
                         </option>
                         @endforeach
@@ -84,17 +98,31 @@
                 <!-- UFCDs checkbox list -->
                 <div class="form-group">
                     <label>UFCDs
-                        <button class="btn btn-light d-flex align-items-center" type="button" data-toggle="collapse" data-target="#ufcdsCheckboxList">
-                        </button>
+                        <button
+                            class="btn btn-light d-flex align-items-center"
+                            type="button"
+                            data-toggle="collapse"
+                            data-target="#ufcdsCheckboxList">
+                            <i class="fas fa-chevron-right mr-2"></i></button>
                     </label>
-                    <div id="ufcdsCheckboxList" data-name="ufcds" data-type="checkBoxList" class="collapse mt-2">
+                    <div
+                        id="ufcdsCheckboxList"
+                        data-name="ufcds"
+                        data-type="checkBoxList"
+                        class="collapse mt-2">
                         @foreach($ufcds as $ufcd)
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" name="ufcds[]" value="{{ $ufcd->id }}" id="ufcd_{{ $ufcd->id }}" class="custom-control-input @error('ufcds') is-invalid @enderror" @if(is_array(old('ufcds')) && in_array($ufcd->id, old('ufcds'))) checked @endif
-                            disabled>
-                            <label for="ufcd_{{ $ufcd->id }}" class="custom-control-label">{{ $ufcd->number }} - {{ $ufcd->name }}</label>
-                        </div>
-                        @endforeach
+                            <div class="custom-control custom-checkbox">
+                                <input
+                                    type="checkbox"
+                                    name="ufcds[]"
+                                    value="{{ $ufcd->id }}"
+                                    id="ufcd_{{ $ufcd->id }}"
+                                    class="custom-control-input @error('ufcds') is-invalid @enderror"
+                                    @if(is_array(old('ufcds')) && in_array($ufcd->id, old('ufcds'))) checked @endif
+                                    disabled>
+                                <label for="ufcd_{{ $ufcd->id }}" class="custom-control-label">{{ $ufcd->number }} - {{ $ufcd->name }}</label>
+                            </div>
+                            @endforeach
                     </div>
                 </div>
 
@@ -179,3 +207,4 @@
             </table>
         </div>
     </div>
+</div>

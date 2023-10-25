@@ -72,9 +72,16 @@
                 <!-- Course Class -->
                 <div class="form-group">
                     <label for="courseClass">Turma</label>
-                    <select data-name="courseClass" data-type="comboBox" id="courseClass" name="course_class_id" class="form-control" disabled>
+                    <select
+                        data-name="courseClass"
+                        data-type="comboBox"
+                        id="courseClass"
+                        name="course_class_id"
+                        class="form-control"
+                        disabled>
                         @foreach($courseClasses as $courseClass)
-                        <option value="{{ $courseClass->id }}" @if(old('courseClass_id')==$courseClass->id) selected @endif
+                            <option value="{{ $courseClass->id }}"
+                                @if(old('courseClass_id') == $courseClass->id) selected @endif
                             >
                             {{ $courseClass->name }} - {{ $courseClass->number }}
                         </option>

@@ -334,6 +334,9 @@ input[type="password"][disabled] {
     border-radius: 50px;
 }
 
+/* Schedule details */
+
+
 /* Media Queries */
 
 @media (max-width: 575.98px) {
@@ -375,11 +378,16 @@ input[type="password"][disabled] {
         gap: 5px;
     }
 
-    table {
-        width: 100vw;
-    }
+    /* Table */
 
-    table td {
+    .table-container {
+        max-width: 100%;
         overflow-x: scroll;
     }
+
+    /* Search */
+
+
+
+
 }

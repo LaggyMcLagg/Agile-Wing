@@ -32,6 +32,7 @@ Route::get('/verify-email/{token}', 'UserController@verifyEmail')->name('verify.
 Route::get('reset-password-form/{id}', 'UserController@resetPassword')->name('resetPassword');
 
 Route::get('/cronograma', 'ScheduleAtributionController@timelineToPdf');
+Route::get('/cronograma-exportPDF', 'ScheduleAtributionController@exportTimelineToPDF');
 
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/home', 'HomeController@index')->name('home');

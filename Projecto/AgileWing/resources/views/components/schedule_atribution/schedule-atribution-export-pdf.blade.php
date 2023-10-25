@@ -1,10 +1,7 @@
 CET: {{ $courseClass->name }}
 <br>
 Turma: {{ $courseClass->course->name }}
-
 <br>
-<br>
-
     <div class="container">
         @foreach ($tables as $table)
             <h3>{{ $table['month'] }}</h3>
@@ -26,7 +23,7 @@ Turma: {{ $courseClass->course->name }}
                                         <ul>
                                             <li>{{ $currentAtribution['ufcd'] }}</li>
                                             <li>{{ $currentAtribution['name'] }}</li>
-                                            <li>{{ $currentAtribution['date'] }}</li>
+                                            <li>{{ $currentAtribution['date']->format('d/m/Y') }}</li>
                                         </ul>
                                     @endforeach
                                 </td>
@@ -37,17 +34,19 @@ Turma: {{ $courseClass->course->name }}
             </table>
         @endforeach
     </div>
-
-
 <br>
-<br>
-
-
-
 
 
 
 <style>
+
+    .container
+    {
+        width: 100%;
+        max-width: 100%;
+
+    }
+
     .custom-table 
     {
         width: 100%;
@@ -57,9 +56,26 @@ Turma: {{ $courseClass->course->name }}
     .custom-table th, .custom-table td 
     {
         border: 1px solid #000;
-        padding: 8px;
         text-align: left;
+        font-size: 5px;
+        word-wrap: break-word;
     }
+
+    .custom-table tr td {
+    padding: 2px; /* Increase padding for better spacing */
+    max-width: 100px; /* Adjust the maximum width to your preference */
+}
+
+.custom-table td ul {
+    list-style: none;
+    width: 100%; /* Adjust the width if needed */
+    max-width: 100%; /* Adjust the maximum width to your preference */
+    padding: 0px;
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 5px;
+}
+
 
     .custom-table th {
         background-color: #f2f2f2;

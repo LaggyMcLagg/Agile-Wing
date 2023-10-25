@@ -9,5 +9,6 @@
     "/js/search-table-function.js": "/js/search-table-function.js",
     "/js/sort-table-function.js": "/js/sort-table-function.js",
     "/js/update-scheduler-availabilities.js": "/js/update-scheduler-availabilities.js",
-    "/js/users-edit-table.js": "/js/users-edit-table.js"
+    "/js/users-edit-table.js": "/js/users-edit-table.js",
+    "/js/warning-modal.js": "/js/warning-modal.js"
 }

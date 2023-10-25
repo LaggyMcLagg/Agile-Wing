@@ -18,6 +18,7 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/logic/double-click-table-function.js', 'public/js')//aplicado à tabel de Users
     .js('resources/js/logic/users-edit-table.js', 'public/js')//aplicado user-form-show.blade
     .js('resources/js/logic/control-form-dynamic-crud.js', 'public/js')//aplicado a:
+    .js('resources/js/logic/warning-modal.js', 'public/js')//aplicado a:
     //hour-blocks
     //course
     //user type

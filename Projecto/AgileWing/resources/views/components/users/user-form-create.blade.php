@@ -56,7 +56,7 @@
                 </div>
                 <div class="button-container">
                     <a href="/users" class=" btn save-btn">Voltar</a>
-                    <button type="submit" class=" btn cancel-btn">Gravar</button>
+                    <button id="btnSave" type="submit" class=" btn cancel-btn">Gravar</button>
                 </div>
         </div>
 
@@ -100,7 +100,10 @@
             </div>
         </div>
     </div>
-
-
     </form>
+
+    <x-warning-modal>
+    Are you sure you want to proceed with this action?
+    </x-warning-modal>
+
 </div>

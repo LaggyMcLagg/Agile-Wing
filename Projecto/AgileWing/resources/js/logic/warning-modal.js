@@ -81,97 +81,19 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 10);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./resources/js/logic/availabilities-form-dynamic-crud.js":
-/*!****************************************************************!*\
-  !*** ./resources/js/logic/availabilities-form-dynamic-crud.js ***!
-  \****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-document.addEventListener('DOMContentLoaded', function () {
-  var baseUrl = sessionStorage.getItem('baseUrl');
-  var formHeader = document.querySelector('#crudFormHeader');
-  var liElements = document.querySelectorAll('li.list-group-item');
-
-  //Edit form
-  var editFormCont = document.querySelector('#editFormCont');
-  var editForm = document.querySelector('#editForm');
-  var submitButton = editForm.querySelector('#editFormBtn');
-  var cancelButtonEdit = editForm.querySelector('#cancelBtnEdit');
-  var dateInput = editForm.querySelector('#date');
-  var hourBlockSelect = editForm.querySelector('#hourBlock');
-  var availabilityTypeSelect = editForm.querySelector('#availabilityType');
-
-  //create form
-  var createFormCont = document.querySelector('#createFormCont');
-  var createForm = document.querySelector('#createForm');
-  var startDateInput = createForm.querySelector('#startDate');
-  var startHourBlockSelect = createForm.querySelector('#startHourBlock');
-  var cancelButtonCreate = createForm.querySelector('#cancelBtnCreate');
-  var endDateInput = createForm.querySelector('#endDate');
-  var endHourBlockSelect = createForm.querySelector('#endHourBlock');
-  var availabilityTypeCreateSelect = createForm.querySelector('#availabilityType');
-
-  // Show Edit Form and Hide Create Form
-  var showEditForm = function showEditForm() {
-    createFormCont.style.display = "none";
-    editFormCont.style.display = "";
-  };
-
-  // Show Create Form and Hide Edit Form
-  var showCreateForm = function showCreateForm() {
-    createFormCont.style.display = "";
-    editFormCont.style.display = "none";
-  };
-  liElements.forEach(function (li) {
-    li.addEventListener('click', function () {
-      // Set form values based on clicked li
-      dateInput.value = li.getAttribute('data-date');
-      hourBlockSelect.value = li.getAttribute('data-hour-block-id');
-      availabilityTypeSelect.value = li.getAttribute('data-type');
-
-      // Change form to "edit" state
-      var availabilityId = li.getAttribute('data-id');
-      editForm.action = baseUrl + '/' + availabilityId;
-      formHeader.textContent = "Edição";
-      showEditForm();
-    });
-  });
-
-  // edit Cancel button
-  cancelButtonEdit.addEventListener('click', function () {
-    dateInput.value = '';
-    hourBlockSelect.selectedIndex = 0;
-    availabilityTypeSelect.selectedIndex = 0;
-    formHeader.textContent = "Criação";
-    showCreateForm();
-  });
-
-  // Create Cancel button
-  cancelButtonCreate.addEventListener('click', function () {
-    startDateInput.value = '';
-    startHourBlockSelect.selectedIndex = 0;
-    endDateInput.value = '';
-    endHourBlockSelect.selectedIndex = 0;
-    availabilityTypeCreateSelect.selectedIndex = 0;
-  });
-});
-
-/***/ }),
-
-/***/ 10:
-/*!**********************************************************************!*\
-  !*** multi ./resources/js/logic/availabilities-form-dynamic-crud.js ***!
-  \**********************************************************************/
+/***/ 6:
+/*!***************************************************!*\
+  !*** multi ./resources/js/logic/warning-modal.js ***!
+  \***************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! D:\ATEC\repos\Agile-Wing\Projecto\AgileWing\resources\js\logic\availabilities-form-dynamic-crud.js */"./resources/js/logic/availabilities-form-dynamic-crud.js");
+!(function webpackMissingModule() { var e = new Error("Cannot find module 'D:\\ATEC\\repos\\Agile-Wing\\Projecto\\AgileWing\\resources\\js\\logic\\warning-modal.js'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
 
 
 /***/ })

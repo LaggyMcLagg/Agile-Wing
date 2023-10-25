@@ -1,0 +1,14 @@
+/* Footer */
+.containerfooter{
+    padding-top: 10px;
+    margin-top: 10px;
+     background: #ffffff;
+     text-align: center;
+
+ }
+
+ footer h6 {
+     color:#4d4e4f;
+     font-weight: bold;
+     font-size: xx-small;
+ }

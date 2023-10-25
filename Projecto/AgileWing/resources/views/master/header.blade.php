@@ -1,6 +1,7 @@
+<link rel="stylesheet" href="{{ asset('css/header.css') }}">
 @auth
 
-<div class="container">
+<div class="containernav">
     <div class="row">
         <div class="justify-content-end d-flex">
             <!-- tudo o que estivesse dentro deste auth apenas seria mostrado
@@ -21,7 +22,7 @@
     </div>
 </div>
 @if(auth()->user()->user_type_id == 1)
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg">
     <a class="navbar-brand" href="#">Agile Wing</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -35,7 +36,7 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
                     <a class="dropdown-item" href="{{ route ('users.create') }}">Inserir Formador</a>
                     <a class="dropdown-item" href="{{route('users.edit')}}">Editar Formador</a>
-                    <a class="dropdown-item" href="{{route('users.index')}}">Listar Formador</a> 
+                    <a class="dropdown-item" href="{{route('users.index')}}">Listar Formador</a>
                 </div>
             </li>
             <li class="nav-item dropdown ">
@@ -74,7 +75,7 @@
 
 @elseif(auth()->user()->user_type_id == 2)
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg">
     <a class="navbar-brand" href="#">Agile Wing</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>

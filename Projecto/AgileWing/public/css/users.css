@@ -310,7 +310,7 @@ input[type="password"][disabled] {
     text-align: center;
     flex-wrap: wrap;
     gap: 2px;
-    background-color:var(--white);
+    background-color: var(--white);
     padding-bottom: 20px;
 }
 
@@ -338,12 +338,29 @@ input[type="password"][disabled] {
 
 @media (max-width: 575.98px) {
 
+    /* Login */
+
+    .login-form {
+        padding: 20px 10px 20px 10px;
+        border-radius: 10px;
+        width: 70vw;
+        background-color: var(--white);
+        margin-top: 30vh;
+        margin-left: 10vw;
+        border: 1px solid;
+        border-color: var(--white-dark);
+    }
+
+    .bg-atec {
+        right: -55%;
+    }
+
     #listForm {
         display: flex;
         flex-direction: column-reverse;
     }
 
-    #controlForm #controlTable{
+    #controlForm #controlTable {
         width: 100%;
     }
 
@@ -366,4 +383,3 @@ input[type="password"][disabled] {
         overflow-x: scroll;
     }
 }
-

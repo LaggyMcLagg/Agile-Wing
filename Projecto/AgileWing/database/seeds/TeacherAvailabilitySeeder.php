@@ -32,7 +32,7 @@ class TeacherAvailabilitySeeder extends Seeder
         for ($j=1; $j <= 4; $j++) { 
             DB::table('teacher_availabilities')->insert([
                 'availability_date'     => Carbon::now()->addDay($day),                
-                'is_locked'             => true,
+                'is_locked'             => false,
                 'user_id'               => $user+2,
                 'hour_block_id'         => $i,
                 'availability_type_id'  => random_int(1, 4),

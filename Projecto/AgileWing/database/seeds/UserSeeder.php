@@ -40,7 +40,7 @@ class UserSeeder extends Seeder
                 'email'             => 'prof.beterraba@edu.atec.pt',
                 'email_verified_at' => now(), 
                 'password'          =>  bcrypt('password'), 
-                'user_type_id'      => 2,
+                'user_type_id'      => 1,
                 'token_password'    => bcrypt(Str::random(10)),
                 'token_created_at'  => now(),
                 'last_login'        => now(),

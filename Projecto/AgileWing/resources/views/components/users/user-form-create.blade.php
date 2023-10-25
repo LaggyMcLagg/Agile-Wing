@@ -49,9 +49,7 @@
                         name="user_type_id" 
                         class="form-control @error('user_type_id') is-invalid @enderror">
                         @foreach($userTypes as $userType)
-                        <option value="{{ $userType->id }}" {{ $userType->id == $defaultUserType->id ? 'selected' : '' }}>
-                            {{ $userType->name }}
-                        </option>
+                            <option value="{{ $userType->id }}" {{ $userType->id == 2 ? 'selected' : '' }}>{{ $userType->name }}</option>
                         @endforeach
                     </select>
                     @error('user_type_id')

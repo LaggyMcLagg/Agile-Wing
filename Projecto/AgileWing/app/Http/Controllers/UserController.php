@@ -29,10 +29,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        //lógica para ir buscar os users que são apenas formadores
-        $users = User::whereHas('userType', function ($query) {
-            $query->where('name', 'professor');
-        })->with('specializationAreas', 'pedagogicalGroups')->get();
+        $users = User::with('specializationAreas', 'pedagogicalGroups')->get();
     
         foreach ($users as $user) {
             $lastAvailability = $user->teacherAvailabilities()
@@ -184,10 +181,7 @@ class UserController extends Controller
     {
         //este metodo faz o mesmo que o index() mas para ficheiros diferentes com diferens JS's associados
         //lógica para ir buscar os users que são apenas formadores
-        $users = User::whereHas('userType', function ($query) 
-        {
-            $query->where('name', 'professor');
-        })->with('specializationAreas', 'pedagogicalGroups')->get();
+        $users = User::minewith('specializationAreas', 'pedagogicalGroups')->get();
     
         foreach ($users as $user) {
             $lastAvailability = $user->teacherAvailabilities()
@@ -280,12 +274,12 @@ class UserController extends Controller
                
         $request->validate(
             [
-                'notes' => 'string|max:255|regex:/^[\pL\sÇç]+$/u',
+                'notes' => 'string|max:255|regex:/^[\pL\sÇç\.]+$/u',
             ],
             [
-                'name.regex' => 'The notes may only contain letters, accentuation, and Ç or ç.',
+                'notes.regex' => 'As notas só podem conter letras, acentuação, pontos e Ç ou ç.',
             ]
-        );        
+        );         
 
         try {
 
@@ -293,10 +287,11 @@ class UserController extends Controller
             $user->notes = $request->notes;
             $user->save();
         
-            return redirect()->route('teacher-availabilities.scheduler')->with('success', 'User notes updated successfully');
+            return redirect()->route('teacher-availabilities.index')->with('success', 'User notes updated successfully');
         } catch (\Exception $e) {
             //This way we resolve gracefully any errors, return the error message and the old form data
-            return back()->withInput()->with('error', 'There was an error updating the user: ' . $e->getMessage());        }
+            return back()->withInput()->with('error', 'There was an error updating the user: ' . $e->getMessage());        
+        }
     }
 
     public function changePasswordView()

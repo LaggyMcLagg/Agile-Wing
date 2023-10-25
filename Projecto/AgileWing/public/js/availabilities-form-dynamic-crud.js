@@ -95,6 +95,7 @@
 
 document.addEventListener('DOMContentLoaded', function () {
   var baseUrl = sessionStorage.getItem('baseUrl');
+  var userId = sessionStorage.getItem('userId');
   var formHeader = document.querySelector('#crudFormHeader');
   var liElements = document.querySelectorAll('li.list-group-item');
 
@@ -143,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // edit Cancel button
+  // editform Cancel button
   cancelButtonEdit.addEventListener('click', function () {
     dateInput.value = '';
     hourBlockSelect.selectedIndex = 0;
@@ -152,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function () {
     showCreateForm();
   });
 
-  // Create Cancel button
+  // Createform Cancel button
   cancelButtonCreate.addEventListener('click', function () {
     startDateInput.value = '';
     startHourBlockSelect.selectedIndex = 0;

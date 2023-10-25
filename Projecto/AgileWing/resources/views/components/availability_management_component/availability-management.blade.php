@@ -47,7 +47,13 @@
                             <div class="card">
                                 <div class="card-header" id="heading{{$loop->index}}">
                                     <h5 class="mb-0">
-                                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse{{$loop->index}}" aria-expanded="true" aria-controls="collapse{{$loop->index}}">
+                                        <button 
+                                        class="btn btn-link" 
+                                        type="button" 
+                                        data-toggle="collapse" 
+                                        data-target="#collapse{{$loop->index}}" 
+                                        aria-expanded="true" 
+                                        aria-controls="collapse{{$loop->index}}">
                                             {{$date}}
                                         </button>
                                     </h5>
@@ -56,10 +62,17 @@
                                     <div class="card-body">
                                         <ul class="list-group">
                                             @foreach($availabilities as $availability)
-                                            <li data-date="{{$date}}" data-id="{{$availability->id}}" data-hour-block-id="{{$availability->hourBlock->id}}" data-type="{{$availability->availabilityType->id}}" class="list-group-item d-flex justify-content-between align-items-center">
+                                            <li 
+                                            data-date="{{$date}}"
+                                            data-id="{{$availability->id}}" 
+                                            data-hour-block-id="{{$availability->hourBlock->id}}" 
+                                            data-type="{{$availability->availabilityType->id}}" 
+                                            class="list-group-item d-flex justify-content-between align-items-center">
+
                                                 <input type="checkbox" class="availability-checkbox" value="{{$availability->id}}">
                                                 {{$availability->hourBlock->hour_beginning}}-{{$availability->hourBlock->hour_end}}
                                                 <div class="square-badge" style="background-color: {{$availability->availabilityType->color}};"></div>
+
                                             </li>
                                             @endforeach
                                         </ul>
@@ -167,7 +180,10 @@
 
            <!-- Edit form -->
             <div id="editFormCont" style="{{ $isEditing ? '' : 'display: none;' }}">
-                <form id="editForm" method="POST" action="{{ route('teacher-availabilities.store') }}">
+                <form 
+                id="editForm" 
+                method="POST" 
+                action="{{ $teacherAvailability == null ? route('teacher-availabilities.store') : route('teacher-availabilities.update', $teacherAvailability->id) }}">
                     @csrf
 
                     @method('PUT')

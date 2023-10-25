@@ -7,6 +7,7 @@
     sessionStorage.setItem('deleteSelectedRoute', '{{ route('teacher-availabilities.delete-selected') }}');
     sessionStorage.setItem('publishSelectedRoute', '{{ route('teacher-availabilities.publish-selected') }}');
     sessionStorage.setItem('baseUrl', '{{ route('teacher-availabilities.store') }}');
+    sessionStorage.setItem('userId', "{{ $userId }}");
 </script>
 <script src="{{ asset('/js/availabilities-day-group-list.js') }}"></script>
 <script src="{{ asset('/js/availabilities-form-dynamic-crud.js') }}"></script>

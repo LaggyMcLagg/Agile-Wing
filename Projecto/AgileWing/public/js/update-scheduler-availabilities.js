@@ -142,8 +142,8 @@ document.addEventListener("DOMContentLoaded", function () {
   function updateScheduller() {
     // Load availabilities from sessionStorage
     var availabilities = JSON.parse(sessionStorage.getItem('localJson'));
-    var createRouteCreate = sessionStorage.getItem('createRouteCreate');
-    var createRouteIndex = sessionStorage.getItem('createRouteIndex');
+    var baseUrl = sessionStorage.getItem('baseUrl');
+    var userId = sessionStorage.getItem('userId');
     availabilities.forEach(function (availability) {
       // Convert the availability date to YYYY-MM-DD format for comparison
       var availabilityDate = new Date(availability.availability_date).toISOString().split('T')[0];
@@ -161,7 +161,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
           // Attach event listener to cell
           cell.addEventListener('click', function () {
-            window.location.href = "".concat(createRouteIndex, "/").concat(availability.id, "/", null, "/edit");
+            window.location.href = "".concat(baseUrl, "/").concat(availability.id, "/").concat(userId, "/edit");
           });
           cell.style.cursor = 'pointer';
         }
@@ -174,7 +174,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!cell.style.backgroundColor) {
         // If the cell doesn't already contain a link via the bg-color
         cell.addEventListener('click', function () {
-          window.location.href = createRouteCreate;
+          window.location.href = "".concat(baseUrl, "/create/").concat(userId);
         });
         cell.style.cursor = 'pointer';
       }

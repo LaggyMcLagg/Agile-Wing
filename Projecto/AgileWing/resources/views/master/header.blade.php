@@ -44,7 +44,7 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
                     <a class="dropdown-item" href="{{ route('course-class-schedule-attribution.index')}}">Turma</a>
-                    <a class="dropdown-item" href="{{url('/ROTA2/ROUTE2')}}">ROUTE2</a>
+                    <a class="dropdown-item" href="{{ route('users.index-teachers')}}">Formadores</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -61,7 +61,6 @@
                     <a class="dropdown-item" href="{{ route('hour-block-course-classes.index')}}">Blocos Horário (Turmas)</a>
                     <a class="dropdown-item" href="{{ route('hour-blocks.index') }}">Blocos Horário</a>
                     <a class="dropdown-item" href="{{ route('user-types.index') }}">Tipos de Utilizador</a>
-                    <!-- ADD THE ROUTES HERE -->
                 </div>
             </li>
             <li class="">
@@ -83,7 +82,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="{{route('teacher-availabilities.index')}}" role="button">
+                <a class="nav-link" href="{{ route('teacher-availabilities.index', ['id' => auth()->user()->id]) }}">
                     Preencher Disponibilidade
                 </a>
             </li>       

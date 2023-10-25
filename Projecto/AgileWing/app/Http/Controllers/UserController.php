@@ -12,7 +12,7 @@ use Illuminate\Support\Str; //para poder gerar pw aleatoria ao criar um user
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Log; // apagar, so serviu para testes
 use Carbon\Carbon; //para usarmos o gt() e verificação do tempo útil do link de verf de email
-
+use PDF;
 
 use Illuminate\Http\Request;
 
@@ -29,7 +29,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with('specializationAreas', 'pedagogicalGroups')->get();
+        //lógica para ir buscar os users que são apenas formadores
+        $users = User::whereHas('userType', function ($query) {
+            $query->where('name', 'professor');
+        })->with('specializationAreas', 'pedagogicalGroups')->get();
     
         foreach ($users as $user) {
             $lastAvailability = $user->teacherAvailabilities()
@@ -232,12 +235,12 @@ class UserController extends Controller
                 'color_2'   => 'required',
             ],
             [
-                'name.required'     => 'O campo nome é obrigatório.',
-                'email.required'    => 'O campo e-mail é obrigatório.',
-                'email.email'       => 'Por favor, forneça um endereço de e-mail válido.',
-                'email.unique'      => 'Este e-mail já está em use.',
-                'color_1.required'  => 'Cor 1 é obrigatória.',
-                'color_2.required'  => 'Cor 2 é obrigatória.',
+                'name.required'     => 'The name field is required.',
+                'email.required'    => 'The email field is required.',
+                'email.email'       => 'Please provide a valid email address.',
+                'email.unique'      => 'This email is already in use.',
+                'color_1.required'  => 'Color 1 is required.',
+                'color_2.required'  => 'Color 2 is required.',
             ]
         );
         
@@ -274,12 +277,12 @@ class UserController extends Controller
                
         $request->validate(
             [
-                'notes' => 'string|max:255|regex:/^[\pL\sÇç\.]+$/u',
+                'notes' => 'string|max:255|regex:/^[\pL\sÇç]+$/u',
             ],
             [
-                'notes.regex' => 'As notas só podem conter letras, acentuação, pontos e Ç ou ç.',
+                'name.regex' => 'The notes may only contain letters, accentuation, and Ç or ç.',
             ]
-        );         
+        );        
 
         try {
 
@@ -287,11 +290,10 @@ class UserController extends Controller
             $user->notes = $request->notes;
             $user->save();
         
-            return redirect()->route('teacher-availabilities.index')->with('success', 'User notes updated successfully');
+            return redirect()->route('teacher-availabilities.scheduler')->with('success', 'User notes updated successfully');
         } catch (\Exception $e) {
             //This way we resolve gracefully any errors, return the error message and the old form data
-            return back()->withInput()->with('error', 'There was an error updating the user: ' . $e->getMessage());        
-        }
+            return back()->withInput()->with('error', 'There was an error updating the user: ' . $e->getMessage());        }
     }
 
     public function changePasswordView()
@@ -404,3 +406,36 @@ class UserController extends Controller
     }
 }
 
+    public function exportUsersViewPdf()
+    {
+        //lógica para ir buscar os users que são apenas formadores
+        $users = User::whereHas('userType', function ($query) {
+            $query->where('name', 'professor');
+        })->with('specializationAreas', 'pedagogicalGroups')->get();
+    
+        foreach ($users as $user) {
+            $lastAvailability = $user->teacherAvailabilities()
+                ->where('is_locked', 1) // verifica apenas disponibilidades bloqueadas
+                ->latest('updated_at')
+                ->first();
+    
+            if ($lastAvailability) {
+                $lastUpdated = $lastAvailability->updated_at->format('Y-m-d H:i:s');
+                $lastLogin = $user->last_login;
+            } else {
+                $lastUpdated = 'N/A';
+                $lastLogin = 'N/A';
+            }
+            $user->lastUpdated = $lastUpdated; // adiciona lastUpdated ao objeto do user
+            $user->lastLogin = $lastLogin; // adiciona lastLogin ao objeto do user
+        }
+
+        $pdf = PDF::loadView('components.users.user-list',[
+            'users'         => $users,
+            'lastUpdated'   => $lastUpdated,
+            'lastLogin'     => $lastLogin,
+        ]);
+        
+        return $pdf->download('users-list.pdf');
+    }
+}

@@ -22,40 +22,42 @@
     </button>
 </div>
 @endif
-<table class="table table-borderless spacing" id="sortable-table">
-    <thead>
-        <tr>
-            <th data-column-index="0" scope="col">Nome do formador</th>
-            <th data-column-index="1" scope="col">Área de formação</th>
-            <th data-column-index="2" scope="col">Grupo pedagógico</th>
-            <th data-column-index="3" scope="col">Último Login</th>
-            <th data-column-index="4" scope="col">Última Gravação</th>
+<div class="table-container">
+    <table class="table table-borderless spacing" id="sortable-table">
+        <thead>
+            <tr>
+                <th data-column-index="0" scope="col">Nome do formador</th>
+                <th data-column-index="1" scope="col">Área de formação</th>
+                <th data-column-index="2" scope="col">Grupo pedagógico</th>
+                <th data-column-index="3" scope="col">Último Login</th>
+                <th data-column-index="4" scope="col">Última Gravação</th>
 
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($users as $user)
-        <tr class="clickable-row" data-user-id="{{ $user->id }}">
-            <td>{{ $user->name }}</td>
-            <td>
-                <ul>
-                    @foreach ($user->specializationAreas as $specializationArea)
-                    <li>{{ $specializationArea->name }}</li>
-                    @endforeach
-                </ul>
-            </td>
-            <td>
-                <ul>
-                    @foreach ($user->pedagogicalGroups as $pedagogicalGroup)
-                    <li>{{ $pedagogicalGroup->name }}</li>
-                    @endforeach
-                </ul>
-            </td>
-            <td>{{ $user->lastLogin }}</td>
-            <td>{{ $user->lastUpdated }}</td>
-            <td>
-            </td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($users as $user)
+            <tr class="clickable-row" data-user-id="{{ $user->id }}">
+                <td>{{ $user->name }}</td>
+                <td>
+                    <ul>
+                        @foreach ($user->specializationAreas as $specializationArea)
+                        <li>{{ $specializationArea->name }}</li>
+                        @endforeach
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        @foreach ($user->pedagogicalGroups as $pedagogicalGroup)
+                        <li>{{ $pedagogicalGroup->name }}</li>
+                        @endforeach
+                    </ul>
+                </td>
+                <td>{{ $user->lastLogin }}</td>
+                <td>{{ $user->lastUpdated }}</td>
+                <td>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>

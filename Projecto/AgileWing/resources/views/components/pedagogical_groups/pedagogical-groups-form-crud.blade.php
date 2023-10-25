@@ -48,7 +48,15 @@
                 <!-- Course Name -->
                 <div class="form-group">
                     <label for="name">Designação</label>
-                    <input data-name="name" type="text" id="name" name="name" class="form-control @error('name') is-invalid @enderror"  value="{{ old('name') }}" readonly>
+                    <input
+                        data-name="name"
+                        type="text"
+                        id="name"
+                        name="name"
+                        class="form-control @error('name') is-invalid @enderror"
+                        required
+                        value="{{ old('name') }}"
+                        readonly>
                     @error('name')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -96,37 +104,40 @@
                                         <li>{{ $user->name }}</li>
                                         @empty
                                         <li>Sem professores associados.</li>
-                                        @endforelse
-                                    </ul>
-                                </div>
-                            </td>
-                            <td>
-                                <button class="btn btn-light" type="button" data-toggle="collapse" data-target="#ufcdList_{{ $pedagogicalGroup->id }}">
-                                    UFCDs
-                                </button>
-                                <div id="ufcdList_{{ $pedagogicalGroup->id }}" class="collapse">
-                                    <ul>
-                                        @forelse($pedagogicalGroup->ufcds as $ufcd)
+                                    @endforelse
+                                </ul>
+                            </div>
+                        </td><td>
+                            <button
+                                class="btn btn-light"
+                                type="button"
+                                data-toggle="collapse"
+                                data-target="#ufcdList_{{ $pedagogicalGroup->id }}">
+                                UFCDs
+                            </button>
+                            <div id="ufcdList_{{ $pedagogicalGroup->id }}" class="collapse">
+                                <ul>
+                                    @forelse($pedagogicalGroup->ufcds as $ufcd)
                                         <li>{{ $ufcd->number }} - {{ $ufcd->name }}</li>
                                         @empty
                                         <li>Sem ufcds associadas.</li>
-                                        @endforelse
-                                    </ul>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="btn-group" role="group">
-                                    <form action="{{ route('pedagogical-groups.destroy', ['pedagogicalGroup' => $pedagogicalGroup]) }}" method="POST" onsubmit="return confirm('Tem a certeza que quer apagar este registo?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-trash"><i class="fa fa-trash"></i></button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                                    @endforelse
+                                </ul>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <form action="{{ route('pedagogical-groups.destroy', ['pedagogicalGroup' => $pedagogicalGroup]) }}" method="POST" onsubmit="return confirm('Tem a certeza que quer apagar este registo?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-trash"><i class="fa fa-trash"></i></button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
+</div>

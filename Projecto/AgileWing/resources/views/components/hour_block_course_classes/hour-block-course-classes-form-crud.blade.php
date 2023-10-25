@@ -72,20 +72,27 @@
                 <!-- Course Class -->
                 <div class="form-group">
                     <label for="courseClass">Turma</label>
-                    <select data-name="courseClass" data-type="comboBox" id="courseClass" name="course_class_id" class="form-control" disabled>
+                    <select
+                        data-name="courseClass"
+                        data-type="comboBox"
+                        id="courseClass"
+                        name="course_class_id"
+                        class="form-control"
+                        disabled>
                         @foreach($courseClasses as $courseClass)
-                        <option value="{{ $courseClass->id }}" @if(old('courseClass_id')==$courseClass->id) selected @endif
+                            <option value="{{ $courseClass->id }}"
+                                @if(old('courseClass_id') == $courseClass->id) selected @endif
                             >
                             {{ $courseClass->name }} - {{ $courseClass->number }}
                         </option>
                         @endforeach
                     </select>
-                </div>
+                </div>  
 
                 <!-- Save and Cancel buttons, initially hidden -->
                 <div class="d-flex justify-content-end mt-2 mb-5">
-                    <button id="saveBtn" type="submit" class="mt-2 mb-5 btn btn-save" style="display: none;">Guardar</button>
-                    <button id="cancelBtn" class="mt-2 mb-5 btn btn-cancel" style="display: none;">Cancelar</button>
+                  <button id="saveBtn" type="submit" class="mt-2 mb-5 btn btn-save" style="display: none;">Guardar</button>
+                  <button id="cancelBtn" class="mt-2 mb-5 btn btn-cancel" style="display: none;">Cancelar</button>
                 </div>
             </form>
         </div>
@@ -120,7 +127,7 @@
                     <tbody>
                         @foreach ($hourBlockCourseClasses as $hourBlockCourseClass)
                         <tr>
-                            <td data-name="id" hidden>{{ $hourBlockCourseClass->id }}</td>
+                              <td data-name="id" hidden>{{ $hourBlockCourseClass->id }}</td>
                             <td data-name="hour_beginning">{{ $hourBlockCourseClass->hour_beginning }}</td>
                             <td data-name="hour_end">{{ $hourBlockCourseClass->hour_end }}</td>
                             <td data-name="courseClass">

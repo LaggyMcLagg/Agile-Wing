@@ -37,6 +37,7 @@
 
 </style>
 @endsection
+<link rel="stylesheet" href="{{ asset('css/geral2.css') }}">
 
 
 @if (session('success'))
@@ -65,9 +66,9 @@
             <!-- Calendar Component -->
             <div class="calendar-component">
                 <div class="month-year-nav">
-                    <button id="prevMonth" class="btn btn-secondary">←</button>
+                    <button id="prevMonth" class="btn btn-blue">←</button>
                     <span id="currentMonthYear"></span>
-                    <button id="nextMonth" class="btn btn-secondary">→</button>
+                    <button id="nextMonth" class="btn btn-blue">→</button>
                 </div>
                 <div id="daysGrid" class="days-grid">
                     <!-- JS will populate this -->

@@ -23,6 +23,7 @@
         'teacherAvailabilities', 
 
         'showNotes',
+        'editNotes',
         'showLegend',
         'showBtnStore',
         'objectName', 

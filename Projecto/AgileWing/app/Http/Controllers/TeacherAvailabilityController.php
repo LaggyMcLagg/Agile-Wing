@@ -21,10 +21,11 @@ class TeacherAvailabilityController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id=null)
     {
         //vars for content
-        $user = Auth::user();
+        $editNotes = $id==null ? true : false;
+        $user = $id==null ? Auth::user() : User::find($id);
         $userNotes = $user->notes;
         $availabilityTypes = AvailabilityType::all();
         $hourBlocks = HourBlock::orderBy('hour_beginning', 'asc')->get();
@@ -45,6 +46,7 @@ class TeacherAvailabilityController extends Controller
             'teacherAvailabilities',
 
             'showNotes',
+            'editNotes',
             'showLegend',
             'showBtnStore',
             'objectName',
@@ -57,9 +59,10 @@ class TeacherAvailabilityController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id = null)
     {
-        $userId = Auth::user()->id;
+        //coalescing operator if it exists and is not null
+        $userId = $id ?? Auth::user()->id;
         $teacherAvailabilities = TeacherAvailability::with('hourBlock', 'availabilityType')
         ->where('user_id', $userId)
         ->where('is_locked', '!=', 1)
@@ -75,7 +78,10 @@ class TeacherAvailabilityController extends Controller
 
         $isEditing = false;
 
-        return view('pages.teacher_availabilities.crud', compact('teacherAvailabilitiesGroupedByDate', 'hourBlocks', 'availabilityTypes', 'isEditing', 'userId'));
+        //only in use for edit so that we can populate edit form with values from scheduler
+        $teacherAvailability = null;
+
+        return view('pages.teacher_availabilities.crud', compact('teacherAvailability', 'teacherAvailabilitiesGroupedByDate', 'hourBlocks', 'availabilityTypes', 'isEditing', 'userId'));
     }
 
     /**
@@ -96,9 +102,9 @@ class TeacherAvailabilityController extends Controller
         ];
         
         //so that if the is not the same then the GTE - greater or equal does not apply
-        //this adds the rule if the dates are the same
+        //this '.=' adds the rule if the dates are the same
         if ($request->input('start_date') === $request->input('end_date')) {
-            $rules['end_hour_block_id'][] = 'gte:start_hour_block_id';
+            $rules['end_hour_block_id'] .= '|gte:start_hour_block_id';
         }
         
         $messages = [
@@ -122,8 +128,8 @@ class TeacherAvailabilityController extends Controller
         try {
             $startDate = Carbon::parse($request->start_date);
     
-            // If only start date is provided, handle single date entry.
-            if (!$request->has('end_date')) {
+            // If only start date is provided, handle single date entry. It cannot be with the ->has() method 
+            if (is_null($request->input('end_date')) || empty(trim($request->input('end_date')))) {
                 $this->updateOrCreateSingleEntry($request, $startDate);
             } else {
                 $endDate = Carbon::parse($request->end_date);
@@ -142,7 +148,7 @@ class TeacherAvailabilityController extends Controller
      */
     private function updateOrCreateSingleEntry($request, $date)
     {
-        dd("single");
+        // dd("single");
         $hourBlock = HourBlock::findOrFail($request->start_hour_block_id);
     
         TeacherAvailability::updateOrCreate(
@@ -162,7 +168,7 @@ class TeacherAvailabilityController extends Controller
      */
     private function updateOrCreateDateRange($request, $startDate, $endDate)
     {
-        dd("range");
+        // dd("range");
         $startHourBlock = HourBlock::findOrFail($request->start_hour_block_id);
         $endHourBlock = HourBlock::findOrFail($request->end_hour_block_id);
     
@@ -202,11 +208,34 @@ class TeacherAvailabilityController extends Controller
      * @param  \App\TeacherAvailability  $teacherAvailability
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id, $userId)
     {
-        //TeacherAvailability $teacherAvailability
-        return view('pages.teacher_availabilities.edit', compact()); 
+        
+        //in the case of planning the user id will be fetched from a table
+        $userId = ($userId == "null" ? null : $userId) ?? Auth::user()->id;
+        $teacherAvailability = TeacherAvailability::find($id);
+    
+        if (!$teacherAvailability) {
+            return redirect()->back()->with('error', 'Disponibilidade não encontrada.');
+        }
+    
+        $teacherAvailabilities = TeacherAvailability::with('hourBlock', 'availabilityType')
+        ->where('user_id', $userId)
+        ->where('is_locked', '!=', 1)
+        ->get();
+    
+        $teacherAvailabilitiesGroupedByDate = $teacherAvailabilities->groupBy(function($date) {
+            return Carbon::parse($date->availability_date)->format('Y-m-d');
+        });
+    
+        $hourBlocks = HourBlock::all();
+        $availabilityTypes = AvailabilityType::all();
+    
+        $isEditing = true;
+    
+        return view('pages.teacher_availabilities.crud', compact('teacherAvailability', 'teacherAvailabilitiesGroupedByDate', 'hourBlocks', 'availabilityTypes', 'isEditing', 'userId'));
     }
+    
     
 
     /**

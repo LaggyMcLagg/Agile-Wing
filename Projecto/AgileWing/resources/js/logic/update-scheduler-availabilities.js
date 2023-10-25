@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                     // Attach event listener to cell
                     cell.addEventListener('click', function() {
-                        window.location.href = `${createRouteIndex}/${availability.id}/edit`;
+                        window.location.href = `${createRouteIndex}/${availability.id}/${null}/edit`;
                     });
                     cell.style.cursor = 'pointer';
                 }

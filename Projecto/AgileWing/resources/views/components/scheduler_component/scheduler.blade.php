@@ -76,17 +76,17 @@
             @if ($showNotes)
                 <form action="{{ route('users.update-notes') }}" method="POST">
                     @csrf
-                    <textarea name="notes">{{ old('notes', Auth::user()->notes) }}</textarea>
+                    <textarea name="notes" {{ $editNotes ? '' : 'disabled' }}>{{ old('notes', Auth::user()->notes) }}</textarea>
                     @error('notes')
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
-                    @if ($showBtnStore)
+                    @if ($editNotes)
                         <button class="btn btn-light" type="submit">Guardar</button>
                     @endif
                 </form>
             @endif
         </div>
-
+        
         <!-- Second Column -->
         <div class="col-md-9">
 

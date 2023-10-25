@@ -256,12 +256,12 @@ class UserController extends Controller
                
         $request->validate(
             [
-                'notes' => 'string|max:255|regex:/^[\pL\sÇç]+$/u',
+                'notes' => 'string|max:255|regex:/^[\pL\sÇç\.]+$/u',
             ],
             [
-                'name.regex' => 'The notes may only contain letters, accentuation, and Ç or ç.',
+                'notes.regex' => 'As notas só podem conter letras, acentuação, pontos e Ç ou ç.',
             ]
-        );        
+        );         
 
         try {
 
@@ -272,7 +272,8 @@ class UserController extends Controller
             return redirect()->route('teacher-availabilities.index')->with('success', 'User notes updated successfully');
         } catch (\Exception $e) {
             //This way we resolve gracefully any errors, return the error message and the old form data
-            return back()->withInput()->with('error', 'There was an error updating the user: ' . $e->getMessage());        }
+            return back()->withInput()->with('error', 'There was an error updating the user: ' . $e->getMessage());        
+        }
     }
 
     public function changePasswordView()

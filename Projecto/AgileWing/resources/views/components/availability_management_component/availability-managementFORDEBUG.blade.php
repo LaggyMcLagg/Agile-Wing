@@ -15,6 +15,15 @@
 </style>
 @endsection
 
+@section('scripts')
+<!-- this way the routes used in the js are allways updated and nor hardcoded -->
+<script>
+    sessionStorage.setItem('deleteSelectedRoute', '{{ route('teacher-availabilities.delete-selected') }}');
+    sessionStorage.setItem('publishSelectedRoute', '{{ route('teacher-availabilities.publish-selected') }}');
+    sessionStorage.setItem('baseUrl', '{{ route('teacher-availabilities.store') }}');
+</script>
+@endsection
+
 @if (session('success'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         {{ session('success') }}
@@ -88,10 +97,10 @@
 
                     <div class="form-row">
                         <div class="col-12">
+                            <label>Desde: (para registo uníco apenas preencher esta linha)</label>
                         </div>
-                            
+
                         <div class="col-md-6">
-                            <label>Desde: (para registo uníco apenas preencher esta data)</label>
                             <div class="form-group">
                                 <input type="date" class="form-control @error('start_date') is-invalid @enderror" id="startDate" name="start_date" value="{{ old('start_date') }}">
                                 @error('start_date')
@@ -101,28 +110,13 @@
                         </div>
 
                         <div class="col-md-6">
-                            <label>Intervalo de blocos:</label>
-                            <!-- Beguining block -->
                             <div class="form-group">
                                 <select class="form-control @error('start_hour_block_id') is-invalid @enderror" id="startHourBlock" name="start_hour_block_id">
-                                    <option value="" disabled selected>Bloco inicio</option>
                                     @foreach($hourBlocks as $block)
                                         <option value="{{$block->id}}" {{ old('start_hour_block_id') == $block->id ? 'selected' : '' }}>{{$block->hour_beginning}}-{{$block->hour_end}}</option>
                                     @endforeach
                                 </select>
                                 @error('start_hour_block_id')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <!-- End block -->
-                            <div class="form-group">
-                                <select class="form-control @error('end_hour_block_id') is-invalid @enderror" id="endHourBlock" name="end_hour_block_id">
-                                    <option value="" disabled selected>Bloco fim</option>
-                                    @foreach($hourBlocks as $block)
-                                        <option value="{{$block->id}}" {{ old('end_hour_block_id') == $block->id ? 'selected' : '' }}>{{$block->hour_beginning}}-{{$block->hour_end}}</option>
-                                    @endforeach
-                                </select>
-                                @error('end_hour_block_id')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -144,6 +138,16 @@
                         </div>
 
                         <div class="col-md-6">
+                            <div class="form-group">
+                                <select class="form-control @error('end_hour_block_id') is-invalid @enderror" id="endHourBlock" name="end_hour_block_id">
+                                    @foreach($hourBlocks as $block)
+                                        <option value="{{$block->id}}" {{ old('end_hour_block_id') == $block->id ? 'selected' : '' }}>{{$block->hour_beginning}}-{{$block->hour_end}}</option>
+                                    @endforeach
+                                </select>
+                                @error('end_hour_block_id')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
                         </div>
                     </div>
 
@@ -227,3 +231,124 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const deleteSelectedRoute = sessionStorage.getItem('deleteSelectedRoute');
+        const publishSelectedRoute = sessionStorage.getItem('publishSelectedRoute');
+        const selectAllCheckbox = document.getElementById('selectAll');
+        const availabilityCheckboxes = document.querySelectorAll('.availability-checkbox');
+        const deleteBtn = document.getElementById('deleteBtn');
+        const publishBtn = document.getElementById('publishBtn');
+
+        // Select/Deselect all functionality
+        selectAllCheckbox.addEventListener('change', function() {
+            availabilityCheckboxes.forEach(checkbox => {
+                checkbox.checked = selectAllCheckbox.checked;
+            });
+        });
+
+        // Delete functionality
+        deleteBtn.addEventListener('click', function() {
+            const selectedIds = [...availabilityCheckboxes].filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
+            
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'ids[]';
+            input.value = selectedIds;
+            document.getElementById('bulkActionForm').appendChild(input);
+            console.log(selectedIds);
+            
+            document.getElementById('bulkActionForm').action = deleteSelectedRoute;
+            document.getElementById('bulkActionForm').submit();
+        });
+
+        // Publish functionality
+        publishBtn.addEventListener('click', function() {
+            const selectedIds = [...availabilityCheckboxes].filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
+
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'ids[]';
+            input.value = selectedIds;
+            document.getElementById('bulkActionForm').appendChild(input);
+            console.log(selectedIds);
+            
+            document.getElementById('bulkActionForm').action = publishSelectedRoute;
+            document.getElementById('bulkActionForm').submit();
+        });
+    });
+</script>
+
+<script>
+   document.addEventListener('DOMContentLoaded', function() {
+        const baseUrl = sessionStorage.getItem('baseUrl');
+        const formHeader = document.querySelector('#crudFormHeader');
+        const liElements = document.querySelectorAll('li.list-group-item');
+        
+        //Edit form
+        const editFormCont = document.querySelector('#editFormCont');
+        const editForm = document.querySelector('#editForm');
+        const submitButton = editForm.querySelector('#editFormBtn');
+        const cancelButtonEdit = editForm.querySelector('#cancelBtnEdit');
+        const dateInput = editForm.querySelector('#date');
+        const hourBlockSelect = editForm.querySelector('#hourBlock');
+        const availabilityTypeSelect = editForm.querySelector('#availabilityType');
+        
+        //create form
+        const createFormCont = document.querySelector('#createFormCont');
+        const createForm = document.querySelector('#createForm');
+        const startDateInput = createForm.querySelector('#startDate');
+        const startHourBlockSelect = createForm.querySelector('#startHourBlock');
+        const cancelButtonCreate = createForm.querySelector('#cancelBtnCreate');
+        const endDateInput = createForm.querySelector('#endDate');
+        const endHourBlockSelect = createForm.querySelector('#endHourBlock');
+        const availabilityTypeCreateSelect = createForm.querySelector('#availabilityType');
+
+        // Show Edit Form and Hide Create Form
+        const showEditForm = () => {
+            createFormCont.style.display = "none";
+            editFormCont.style.display = "";
+        };
+
+        // Show Create Form and Hide Edit Form
+        const showCreateForm = () => {
+            createFormCont.style.display = "";
+            editFormCont.style.display = "none";
+        };
+
+        liElements.forEach(li => {
+            li.addEventListener('click', function() {
+                // Set form values based on clicked li
+                dateInput.value = li.getAttribute('data-date');
+                hourBlockSelect.value = li.getAttribute('data-hour-block-id');
+                availabilityTypeSelect.value = li.getAttribute('data-type');
+
+                // Change form to "edit" state
+                const availabilityId = li.getAttribute('data-id');
+                editForm.action = baseUrl + '/' + availabilityId;
+                formHeader.textContent = "Edição";
+
+                showEditForm();
+            });
+        });
+
+        // edit Cancel button
+        cancelButtonEdit.addEventListener('click', function() {
+            dateInput.value = '';
+            hourBlockSelect.selectedIndex = 0;
+            availabilityTypeSelect.selectedIndex = 0;
+            formHeader.textContent = "Criação"
+            showCreateForm();
+        });
+
+        // Create Cancel button
+        cancelButtonCreate.addEventListener('click', function() {
+            startDateInput.value = '';
+            startHourBlockSelect.selectedIndex = 0;
+            endDateInput.value = '';
+            endHourBlockSelect.selectedIndex = 0;
+            availabilityTypeCreateSelect.selectedIndex = 0;
+        });
+    });
+</script>

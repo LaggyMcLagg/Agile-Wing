@@ -86,12 +86,7 @@
                 <a class="nav-link" href="{{route('teacher-availabilities.index')}}" role="button">
                     Preencher Disponibilidade
                 </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('hour-block-course-classes.index')}}" role="button">
-                Consultar Horários
-                </a>
-            </li>        
+            </li>       
             <li class="nav-item">
                 <a class="nav-link" href="{{route('users.passwordForm')}}" id="navbarDropdown1" role="button" aria-haspopup="true" aria-expanded="false">
                     Alterar Palavra-passe

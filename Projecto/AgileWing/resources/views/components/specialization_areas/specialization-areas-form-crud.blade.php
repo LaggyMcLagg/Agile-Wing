@@ -48,7 +48,14 @@
                 <!-- Number -->
                 <div class="form-group">
                     <label for="number">Número</label>
-                    <input data-name="number" type="text" id="number" name="number" class="form-control @error('number') is-invalid @enderror" value="{{ old('number') }}" readonly>
+                    <input
+                        data-name="number"
+                        type="text"
+                        id="number"
+                        name="number"
+                        class="form-control @error('number') is-invalid @enderror"
+                        value="{{ old('number') }}"
+                        readonly>
                     @error('number')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -109,17 +116,20 @@
                                         <li>{{ $course->initials }} - {{ $course->name }}</li>
                                         @empty
                                         <li>Sem cursos associados.</li>
-                                        @endforelse
-                                    </ul>
-                                </div>
-                            </td>
-                            <td>
-                                <button class="btn btn-light" type="button" data-toggle="collapse" data-target="#usersList_{{ $specializationArea->id }}">
-                                    Professores
-                                </button>
-                                <div id="usersList_{{ $specializationArea->id }}" class="collapse">
-                                    <ul>
-                                        @forelse($specializationArea->users as $user)
+                                    @endforelse
+                                </ul>
+                            </div>
+                        </td>                        <td>
+                            <button
+                                class="btn btn-light"
+                                type="button"
+                                data-toggle="collapse"
+                                data-target="#usersList_{{ $specializationArea->id }}">
+                                Professores
+                            </button>
+                            <div id="usersList_{{ $specializationArea->id }}" class="collapse">
+                                <ul>
+                                    @forelse($specializationArea->users as $user)
                                         <li>{{ $user->name }}</li>
                                         @empty
                                         <li>Sem professores associados.</li>

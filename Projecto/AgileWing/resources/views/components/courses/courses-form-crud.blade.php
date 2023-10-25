@@ -1,4 +1,4 @@
-
+<link rel="stylesheet" href="{{ asset('css/geral.css') }}">
 
 @section('scripts')
 <script src="{{ asset('/js/control-form-dynamic-crud.js') }}"></script>
@@ -49,7 +49,15 @@
                 <!-- Course Name -->
                 <div class="form-group">
                     <label for="name">Nome Curso</label>
-                    <input data-name="name" type="text" id="name" name="name" class="form-control @error('name') is-invalid @enderror"  value="{{ old('name') }}" readonly>
+                    <input
+                        data-name="name"
+                        type="text"
+                        id="name"
+                        name="name"
+                        class="form-control @error('name') is-invalid @enderror"
+                        required
+                        value="{{ old('name') }}"
+                        readonly>
                     @error('name')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -60,7 +68,14 @@
                 <!-- Course Initials -->
                 <div class="form-group">
                     <label for="initials">Sigla</label>
-                    <input data-name="initials" type="text" id="initials" name="initials" class="form-control @error('initials') is-invalid @enderror" value="{{ old('initials') }}" readonly>
+                    <input
+                        data-name="initials"
+                        type="text"
+                        id="initials"
+                        name="initials"
+                        class="form-control @error('initials') is-invalid @enderror"
+                        value="{{ old('initials') }}"
+                        readonly>
                     @error('initials')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -70,11 +85,18 @@
 
                 <!-- Specialization Area -->
                 <div class="form-group">
-                    <label for="specializationArea">Área de Formação</label>
-                    <select data-name="specializationArea" data-type="comboBox" id="specializationArea" name="specialization_area_number" class="form-control" disabled>
-                        @foreach($specializationAreas as $area)
-                        <option value="{{ $area->number }}" @if(old('specialization_area_number')==$area->number) selected @endif
-                            >
+                <label for="specializationArea">Área de Formação</label>
+                <select
+                    data-name="specializationArea"
+                    data-type="comboBox"
+                    id="specializationArea"
+                    name="specialization_area_number"
+                    class="form-control"
+                    disabled>
+                    @foreach($specializationAreas as $area)
+                        <option value="{{ $area->number }}"
+                            @if(old('specialization_area_number') == $area->number) selected @endif
+                        >
                             {{ $area->name }}
                         </option>
                         @endforeach
@@ -84,61 +106,78 @@
                 <!-- UFCDs checkbox list -->
                 <div class="form-group">
                     <label>UFCDs
-                        <button class="btn btn-light d-flex align-items-center" type="button" data-toggle="collapse" data-target="#ufcdsCheckboxList">
-                        </button>
+                        <button
+                            class="btn btn-light d-flex align-items-center"
+                            type="button"
+                            data-toggle="collapse"
+                            data-target="#ufcdsCheckboxList">
+                            <i class="fas fa-chevron-right mr-2"></i></button>
                     </label>
-                    <div id="ufcdsCheckboxList" data-name="ufcds" data-type="checkBoxList" class="collapse mt-2">
+                    <div
+                        id="ufcdsCheckboxList"
+                        data-name="ufcds"
+                        data-type="checkBoxList"
+                        class="collapse mt-2">
                         @foreach($ufcds as $ufcd)
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" name="ufcds[]" value="{{ $ufcd->id }}" id="ufcd_{{ $ufcd->id }}" class="custom-control-input @error('ufcds') is-invalid @enderror" @if(is_array(old('ufcds')) && in_array($ufcd->id, old('ufcds'))) checked @endif
-                            disabled>
-                            <label for="ufcd_{{ $ufcd->id }}" class="custom-control-label">{{ $ufcd->number }} - {{ $ufcd->name }}</label>
-                        </div>
-                        @endforeach
+                            <div class="custom-control custom-checkbox">
+                                <input
+                                    type="checkbox"
+                                    name="ufcds[]"
+                                    value="{{ $ufcd->id }}"
+                                    id="ufcd_{{ $ufcd->id }}"
+                                    class="custom-control-input @error('ufcds') is-invalid @enderror"
+                                    @if(is_array(old('ufcds')) && in_array($ufcd->id, old('ufcds'))) checked @endif
+                                    disabled>
+                                <label for="ufcd_{{ $ufcd->id }}" class="custom-control-label">{{ $ufcd->number }} - {{ $ufcd->name }}</label>
+                            </div>
+                            @endforeach
                     </div>
                 </div>
 
                 <!-- Save and Cancel buttons, initially hidden -->
                 <div class="d-flex justify-content-end mt-2 mb-5">
-                    <button id="saveBtn" type="submit" class="mt-2 mb-5 btn btn-save" style="display: none;">Guardar</button>
-                    <button id="cancelBtn" class="mt-2 mb-5 btn btn-cancel" style="display: none;">Cancelar</button>
+                  <button id="saveBtn" type="submit" class="mt-2 mb-5 btn btn-save" style="display: none;">Guardar</button>
+                  <button id="cancelBtn" class="mt-2 mb-5 btn btn-cancel" style="display: none;">Cancelar</button>
                 </div>
             </form>
         </div>
 
         <!-- TABELA LIST/SHOW -->
         <div class="col-md-8">
-            <h3 class="title">Gestão de Cursos
-                <a id="createBtn" class="btn btn-blue">Criar</a>
-                <a id="editBtn" type="button" class="btn btn-blue">Editar</a>
-            </h3>
-            <div class="table-container">
-                <table class="table table-borderless">
-                    <thead>
-                        <tr>
-                            <th scope="col" hidden>ID</th>
-                            <th scope="col">Nome Curso</th>
-                            <th scope="col">Sigla</th>
-                            <th scope="col">Área de formação</th>
-                            <th scope="col">Lista turmas</th>
-                            <th scope="col">Lista UFCDs</th>
-                            <th scope="col">Apagar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($courses as $course)
-                        <tr>
-                            <td data-name="id" hidden>{{ $course->id }}</td>
-                            <td data-name="name">{{ $course->name }}</td>
-                            <td data-name="initials">{{ $course->initials }}</td>
-                            <td data-name="specializationArea">{{ $course->specializationArea->name }}</td>
-                            <td>
-                                <button class="btn btn-light" type="button" data-toggle="collapse" data-target="#courseClassesList_{{ $course->id }}">
-                                    Turmas
-                                </button>
-                                <div id="courseClassesList_{{ $course->id }}" class="collapse">
-                                    <ul>
-                                        @forelse($course->courseClasses as $courseClass)
+        <h3>Gestão de Cursos</h3>
+            <a id="createBtn" class="btn btn-blue">Criar</a>
+            <a id="editBtn" type="button" class="btn btn-blue">Editar</a>
+         <div class="table-container">
+            <table class="table table-borderless">
+                <thead>
+                    <tr>
+                        <th scope="col" hidden>ID</th>
+                        <th scope="col">Nome Curso</th>
+                        <th scope="col">Sigla</th>
+                        <th scope="col">Área de formação</th>
+                        <th scope="col">Lista turmas</th>
+                        <th scope="col">Lista UFCDs</th>
+                        <th scope="col">Apagar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($courses as $course)
+                    <tr>
+                        <td data-name="id" hidden>{{ $course->id }}</td>
+                        <td data-name="name">{{ $course->name }}</td>
+                        <td data-name="initials">{{ $course->initials }}</td>
+                        <td data-name="specializationArea">{{ $course->specializationArea->name }}</td>
+                        <td>
+                            <button
+                                class="btn btn-light"
+                                type="button"
+                                data-toggle="collapse"
+                                data-target="#courseClassesList_{{ $course->id }}">
+                                Turmas
+                            </button>
+                            <div id="courseClassesList_{{ $course->id }}" class="collapse">
+                                <ul>
+                                    @forelse($course->courseClasses as $courseClass)
                                         <li>{{ $courseClass->name }} {{ $courseClass->number }}</li>
                                     @empty
                                         <li>Sem turmas associadas.</li>
@@ -179,3 +218,4 @@
             </table>
         </div>
     </div>
+</div>

@@ -58,8 +58,8 @@
 
                 <!-- Save and Cancel buttons, initially hidden -->
                 <div class="d-flex justify-content-end mt-2 mb-5">
-                    <button id="saveBtn" type="submit" class="mt-2 mb-5 btn btn-save" style="display: none;">Guardar</button>
-                    <button id="cancelBtn" class="mt-2 mb-5 btn btn-cancel" style="display: none;">Cancelar</button>
+                  <button id="saveBtn" type="submit" class="mt-2 mb-5 btn btn-save" style="display: none;">Guardar</button>
+                  <button id="cancelBtn" class="mt-2 mb-5 btn btn-cancel" style="display: none;">Cancelar</button>
                 </div>
             </form>
         </div>

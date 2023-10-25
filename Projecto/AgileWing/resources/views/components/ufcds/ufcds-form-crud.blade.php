@@ -84,9 +84,16 @@
 
                 <div class="form-group">
                     <label for="pedagogicalGroup">Grupo Pedagógico</label>
-                    <select data-name="pedagogicalGroup" data-type="comboBox" id="pedagogicalGroup" name="pedagogical_group_id" class="form-control" disabled>
+                    <select
+                        data-name="pedagogicalGroup"
+                        data-type="comboBox"
+                        id="pedagogicalGroup"
+                        name="pedagogical_group_id"
+                        class="form-control"
+                        disabled>
                         @foreach($pedagogicalGroups as $group)
-                        <option value="{{ $group->id }}" @if(old('pedagogical_group_id')==$group->id) selected @endif
+                            <option value="{{ $group->id }}"
+                                @if(old('pedagogical_group_id') == $group->id) selected @endif
                             >
                             {{ $group->name }}
                         </option>
@@ -143,13 +150,17 @@
                             </div>
                         </td>
 
-                            <td>
-                                <button class="btn btn-light" type="button" data-toggle="collapse" data-target="#usersList_{{ $ufcd->id }}">
-                                    Professores
-                                </button>
-                                <div id="usersList_{{ $ufcd->id }}" class="collapse">
-                                    <ul>
-                                        @forelse($ufcd->users as $user)
+                        <td>
+                            <button
+                                class="btn btn-light"
+                                type="button"
+                                data-toggle="collapse"
+                                data-target="#usersList_{{ $ufcd->id }}">
+                                Professores
+                            </button>
+                            <div id="usersList_{{ $ufcd->id }}" class="collapse">
+                                <ul>
+                                    @forelse($ufcd->users as $user)
                                         <li>{{ $user->name }}</li>
                                     @empty
                                         <li>Sem Formadores associados.</li>
@@ -158,19 +169,19 @@
                             </div>
                         </td>
 
-                            <td>
-                                <div class="btn-group" role="group">
-                                    <form action="{{ route('ufcds.destroy', ['ufcd' => $ufcd]) }}" method="POST" onsubmit="return confirm('Tem a certeza que quer apagar este registo?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-trash"><i class="fa fa-trash"></i></button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <form action="{{ route('ufcds.destroy', ['ufcd' => $ufcd]) }}" method="POST" onsubmit="return confirm('Tem a certeza que quer apagar este registo?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-trash"><i class="fa fa-trash"></i></button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
+</div>

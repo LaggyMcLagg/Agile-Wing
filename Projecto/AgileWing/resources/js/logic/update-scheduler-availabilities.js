@@ -47,8 +47,8 @@ document.addEventListener("DOMContentLoaded", function() {
         // Load availabilities from sessionStorage
         const availabilities = JSON.parse(sessionStorage.getItem('localJson'));
 
-        const createRouteCreate = sessionStorage.getItem('createRouteCreate');
-        const createRouteIndex = sessionStorage.getItem('createRouteIndex');
+        const baseUrl = sessionStorage.getItem('baseUrl');
+        const userId = sessionStorage.getItem('userId');
 
 
         availabilities.forEach(availability => {
@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                     // Attach event listener to cell
                     cell.addEventListener('click', function() {
-                        window.location.href = `${createRouteIndex}/${availability.id}/${null}/edit`;
+                        window.location.href = `${baseUrl}/${availability.id}/${userId}/edit`;
                     });
                     cell.style.cursor = 'pointer';
                 }
@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function() {
         cells.forEach(cell => {
             if (!cell.style.backgroundColor) { // If the cell doesn't already contain a link via the bg-color
                 cell.addEventListener('click', function() {
-                    window.location.href = createRouteCreate;
+                    window.location.href = `${baseUrl}/create/${userId}`;
                 });
                 cell.style.cursor = 'pointer';
             }

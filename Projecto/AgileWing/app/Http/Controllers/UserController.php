@@ -165,7 +165,7 @@ class UserController extends Controller
     {
         //este metodo faz o mesmo que o index() mas para ficheiros diferentes com diferens JS's associados
         //lógica para ir buscar os users que são apenas formadores
-        $users = User::minewith('specializationAreas', 'pedagogicalGroups')->get();
+        $users = User::with('specializationAreas', 'pedagogicalGroups')->get();
     
         foreach ($users as $user) {
             $lastAvailability = $user->teacherAvailabilities()
@@ -293,5 +293,40 @@ class UserController extends Controller
         $user->password = Hash::make($request->new_password);
         $user->save();
         return redirect('home')->with('status', 'Password alterada com sucesso.');
+    }
+
+    /**
+     * Display a listing of the resource. For the use case of teacher availabilities
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function indexTeachers()
+    {
+        $users = User::with('specializationAreas', 'pedagogicalGroups')
+            ->where('user_type_id', 2)
+            ->get();
+
+        foreach ($users as $user) {
+            $lastAvailability = $user->teacherAvailabilities()
+                ->where('is_locked', 1) // verifica apenas disponibilidades bloqueadas
+                ->latest('updated_at')
+                ->first();
+    
+            if ($lastAvailability) {
+                $lastUpdated = $lastAvailability->updated_at->format('Y-m-d H:i:s');
+                $lastLogin = $user->last_login;
+            } else {
+                $lastUpdated = 'N/A';
+                $lastLogin = 'N/A';
+            }
+            $user->lastUpdated = $lastUpdated; // adiciona lastUpdated ao objeto do user
+            $user->lastLogin = $lastLogin; // adiciona lastLogin ao objeto do user
+        }
+    
+        return view('pages.teacher_availabilities.index-users', [
+            'users'         => $users,
+            'lastUpdated'   => $lastUpdated,
+            'lastLogin'     => $lastLogin,
+        ]);
     }
 }

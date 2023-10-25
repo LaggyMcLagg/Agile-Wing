@@ -102,6 +102,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 document.addEventListener('DOMContentLoaded', function () {
   var deleteSelectedRoute = sessionStorage.getItem('deleteSelectedRoute');
   var publishSelectedRoute = sessionStorage.getItem('publishSelectedRoute');
+  var userId = sessionStorage.getItem('userID');
   var selectAllCheckbox = document.getElementById('selectAll');
   var availabilityCheckboxes = document.querySelectorAll('.availability-checkbox');
   var deleteBtn = document.getElementById('deleteBtn');
@@ -114,6 +115,15 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
+  //create the hidden input for the user id
+  function appendUserIdToForm() {
+    var userIdInput = document.createElement('input');
+    userIdInput.type = 'hidden';
+    userIdInput.name = 'user_id';
+    userIdInput.value = userId;
+    document.getElementById('bulkActionForm').appendChild(userIdInput);
+  }
+
   // Delete functionality
   deleteBtn.addEventListener('click', function () {
     if (!window.confirm("Tem a certeza que quer apagar estes registos?")) {
@@ -124,12 +134,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }).map(function (checkbox) {
       return checkbox.value;
     });
-    var input = document.createElement('input');
-    input.type = 'hidden';
-    input.name = 'ids[]';
-    input.value = selectedIds;
-    document.getElementById('bulkActionForm').appendChild(input);
-    console.log(selectedIds);
+    selectedIds.forEach(function (id) {
+      var input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = 'ids[]'; // 'ids[]' will collect all inputs into an array
+      input.value = id;
+      document.getElementById('bulkActionForm').appendChild(input);
+    });
+    appendUserIdToForm();
     document.getElementById('bulkActionForm').action = deleteSelectedRoute;
     document.getElementById('bulkActionForm').submit();
   });
@@ -144,12 +156,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }).map(function (checkbox) {
       return checkbox.value;
     });
-    var input = document.createElement('input');
-    input.type = 'hidden';
-    input.name = 'ids[]';
-    input.value = selectedIds;
-    document.getElementById('bulkActionForm').appendChild(input);
-    console.log(selectedIds);
+    selectedIds.forEach(function (id) {
+      var input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = 'ids[]'; // 'ids[]' will collect all inputs into an array
+      input.value = id;
+      document.getElementById('bulkActionForm').appendChild(input);
+    });
+    appendUserIdToForm();
     document.getElementById('bulkActionForm').action = publishSelectedRoute;
     document.getElementById('bulkActionForm').submit();
   });

@@ -103,7 +103,6 @@ document.addEventListener('DOMContentLoaded', function () {
   var deleteSelectedRoute = sessionStorage.getItem('deleteSelectedRoute');
   var publishSelectedRoute = sessionStorage.getItem('publishSelectedRoute');
   var userId = sessionStorage.getItem('userId');
-  console.log(userId);
   var selectAllCheckbox = document.getElementById('selectAll');
   var availabilityCheckboxes = document.querySelectorAll('.availability-checkbox');
   var deleteBtn = document.getElementById('deleteBtn');
@@ -179,7 +178,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\LOCAL REPOS\Agile-Wing\Projecto\AgileWing\resources\js\logic\availabilities-day-group-list.js */"./resources/js/logic/availabilities-day-group-list.js");
+module.exports = __webpack_require__(/*! C:\Users\Administrador\Documents\GitHub\Agile-Wing\Projecto\AgileWing\resources\js\logic\availabilities-day-group-list.js */"./resources/js/logic/availabilities-day-group-list.js");
 
 
 /***/ })

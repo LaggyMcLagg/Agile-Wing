@@ -86,7 +86,7 @@
                 <a class="nav-link" href="{{ route('teacher-availabilities.index', ['id' => auth()->user()->id]) }}">
                     Preencher Disponibilidade
                 </a>
-            </li>       
+            </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{route('users.passwordForm')}}" id="navbarDropdown1" role="button" aria-haspopup="true" aria-expanded="false">
                     Alterar Palavra-passe

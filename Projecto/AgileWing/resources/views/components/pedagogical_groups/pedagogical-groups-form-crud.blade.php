@@ -41,9 +41,9 @@
                 <input type="hidden" name="_method" value="POST" id="hiddenMethod">
 
                 <!-- Course ID -->
-                <label for="id">Pedagogical Group ID: </label>
+                <label for="id" hidden>Pedagogical Group ID: </label>
                 <!-- The prop data-name tells js where to target to place the info collected from the table -->
-                <label data-name="id" id="id_label"></label>
+                <label data-name="id" id="id_label" hidden></label>
 
                 <!-- Course Name -->
                 <div class="form-group">
@@ -91,7 +91,7 @@
                 <tbody>
                     @foreach ($pedagogicalGroups as $pedagogicalGroup)
                     <tr>
-                        <td data-name="id">{{ $pedagogicalGroup->id }}</td>
+                        <td data-name="id"hidden>{{ $pedagogicalGroup->id }}</td>
                         <td data-name="name">{{ $pedagogicalGroup->name }}</td>
                         <td>
                             <button

@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\User;
 use App\ScheduleAtribution;
+use Carbon\Carbon;  // Import Carbon for date manipulation.
 
 class ScheduleAtributionSeeder extends Seeder
 {
@@ -13,9 +14,15 @@ class ScheduleAtributionSeeder extends Seeder
      */
     public function run()
     {
-
-        User::where('user_type_id', '<>', 2)->get()->each(function ($user) {
-            factory(ScheduleAtribution::class, 30)->create(['user_id' => $user->id]);
+        User::where('user_type_id', 2)->get()->each(function ($user) {
+            foreach (range(1, 150) as $i) {
+                factory(ScheduleAtribution::class)->create(
+                    [
+                        'date' => Carbon::now()->addDays($i)->format('Y-m-d'),
+                        'user_id' => $user->id,
+                    ]
+                );
+            }
         });
         
     }

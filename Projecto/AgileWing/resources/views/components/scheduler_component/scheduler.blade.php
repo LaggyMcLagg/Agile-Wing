@@ -1,3 +1,4 @@
+
 @section('styles')
 <style>
     /* <!-- SARA DPS RETIRA ISTO PARA O FICHEIRO CSS E ELIMINA ESTA SECTION STYLES--> */
@@ -37,6 +38,7 @@
 </style>
 @endsection
 
+
 @if (session('success'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         {{ session('success') }}
@@ -72,19 +74,23 @@
                 </div>
             </div>
 
-            <!-- User Notes Form -->
-            @if ($showNotes)
-                <form action="{{ route('users.update-notes') }}" method="POST">
-                    @csrf
-                    <textarea name="notes" {{ $editNotes ? '' : 'disabled' }}>{{ old('notes', Auth::user()->notes) }}</textarea>
-                    @error('notes')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
-                    @if ($editNotes)
-                        <button class="btn btn-light" type="submit">Guardar</button>
-                    @endif
-                </form>
-            @endif
+                <!-- User Notes Form -->
+                @if ($showNotes)
+                    <form action="{{ route('users.update-notes') }}" method="POST">
+                        @csrf
+                        <textarea name="notes" {{ $editNotes ? '' : 'disabled' }}>{{ old('notes', $userNotes) }}</textarea>
+                        @error('notes')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                        @if ($showBtnStore)
+                            <button class="btn btn-light" type="submit">Guardar</button>
+                        @endif
+                    </form>
+                @endif
+                <!-- Export to pdf -->
+                @if($showExportBtn)
+                <a class="btn btn-light" href="#">Exportar horário</a>
+                @endif
         </div>
         
         <!-- Second Column -->

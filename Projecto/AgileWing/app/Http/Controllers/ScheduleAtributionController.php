@@ -379,42 +379,82 @@ class ScheduleAtributionController extends Controller
         }
 
         $pdf = PDF::loadview('pages.schedule_atribution.export-pdf-class', compact('courseClass','tables'));
-        return $pdf->download('cronograma.pdf');
+        return $pdf->download('cronograma_turma.pdf');
     }
 
-public function teacherTimeLineView()
-{
-    $userId = 11;
-
-    $teacherClass = User::with([
-        'scheduleAtributions',
-        'scheduleAtributions.courseClass',
-        'scheduleAtributions.hourBlockCourseClass',
-        'scheduleAtributions.ufcd',
-    ])->find($userId);
-
-    // Sort the schedule attributions by date in ascending order
-    $teacherClass->scheduleAtributions = $teacherClass->scheduleAtributions
-        ->sortBy('date');
-
-    $groupedAtributions = $teacherClass->scheduleAtributions->groupBy(function ($attribution) {
-        return $attribution->date->format('Y-m-d'); // Group by complete date.
-    });
-
-    $dates = $groupedAtributions->keys(); // Get unique dates.
-
-    return view('pages.schedule_atribution.export-pdf-teacher', [
-        'teacherClass' => $teacherClass, 
-        'dates' => $dates, 
-        'groupedAtributions' => $groupedAtributions
-    ]);
-}
-
+    public function teacherTimeLineView()
+    {
+        $userId = 11;
     
-
+        $teacherClass = User::with([
+            'scheduleAtributions',
+            'scheduleAtributions.courseClass',
+            'scheduleAtributions.hourBlockCourseClass',
+            'scheduleAtributions.ufcd',
+            'scheduleAtributions.availabilityType',
+        ])->find($userId);
+    
+        // Sort the schedule attributions by date in ascending order
+        $teacherClass->scheduleAtributions = $teacherClass->scheduleAtributions
+            ->sortBy('date');
+    
+        $groupedAtributions = $teacherClass->scheduleAtributions->groupBy([
+            function ($attribution) {
+                return $attribution->date->format('Y-m-d'); // Primeiro, agrupe por data.
+            },
+            function ($attribution) {
+                return $attribution->id; // Em seguida, agrupe por ID de atribuição.
+            }
+        ]);
+    
+        // Set background color for each $attribution
+        foreach ($teacherClass->scheduleAtributions as $attribution) {
+            $attribution->backgroundColor = $attribution->availabilityType->color;
+        }
+    
+        $dates = $groupedAtributions->keys(); // Get unique dates.
+    
+        return view('pages.schedule_atribution.export-pdf-teacher', [
+            'teacherClass' => $teacherClass,
+            'dates' => $dates,
+            'groupedAtributions' => $groupedAtributions
+        ]);
+    }
+    
     public function teacherTimeLinePDF()
     {
+        $userId = 11;
+    
+        $teacherClass = User::with([
+            'scheduleAtributions',
+            'scheduleAtributions.courseClass',
+            'scheduleAtributions.hourBlockCourseClass',
+            'scheduleAtributions.ufcd',
+            'scheduleAtributions.availabilityType',
+        ])->find($userId);
 
+        // Sort the schedule attributions by date in ascending order
+        $teacherClass->scheduleAtributions = $teacherClass->scheduleAtributions
+            ->sortBy('date');
+    
+        $groupedAtributions = $teacherClass->scheduleAtributions->groupBy([
+            function ($attribution) {
+                return $attribution->date->format('Y-m-d'); // Primeiro, agrupe por data.
+            },
+            function ($attribution) {
+                return $attribution->id; // Em seguida, agrupe por ID de atribuição.
+            }
+        ]);
+    
+        // Set background color for each $attribution
+        foreach ($teacherClass->scheduleAtributions as $attribution) {
+            $attribution->backgroundColor = $attribution->availabilityType->color;
+        }
+    
+        $dates = $groupedAtributions->keys(); // Get unique dates.
+    
+        $pdf = PDF::loadview('pages.schedule_atribution.export-pdf-teacher', compact('teacherClass','dates', 'groupedAtributions'));
+        return $pdf->download('cronograma_formador.pdf');
     }
 }
 

@@ -1,28 +1,29 @@
-<h1>Teacher Timeline</h1>
+<h3>Cronograma formador</h3>
+<h4>Nome do formador: {{ $teacherClass->name }}</h4>
 
 <div class="container">
     @foreach ($teacherClass->scheduleAtributions->groupBy(function($date) {
         return \Carbon\Carbon::parse($date->date)->format('F Y');
     }) as $month => $scheduleAtributions)
         <table class="custom-table">
-            <caption>{{ $month }}</caption>
+        <caption>{{ \Carbon\Carbon::parse($month)->format('m/Y') }}</caption>
             <thead>
                 <tr>
                     <th>Data de Atribuição</th>
                     @foreach ($scheduleAtributions->unique('date') as $uniqueDate)
-                        <th>{{ $uniqueDate->date }}</th>
+                        <th>{{ \Carbon\Carbon::parse($uniqueDate->date)->format('d/m/Y') }}</th>
                     @endforeach
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>Marcacão</td>
+                    <td>Marcação</td>
                     @foreach ($scheduleAtributions->unique('date') as $uniqueDate)
-                        <td>
+                        <td style="background-color: {{ $uniqueDate->backgroundColor ?? '#fff' }}">
                             @foreach ($scheduleAtributions->where('date', $uniqueDate->date) as $attribution)
-                                Course Class: {{ $attribution->courseClass->name }} - {{ $attribution->courseClass->number }}<br>
-                                Hour Block: {{ $attribution->hourBlockCourseClass->hour_beginning }} - {{ $attribution->hourBlockCourseClass->hour_end }}<br>
-                                UFCD: {{ $attribution->ufcd->number }}<br>
+                                    <b>{{ $attribution->ufcd->number }}</b><br>
+                                    {{ $attribution->hourBlockCourseClass->hour_beginning }} - {{ $attribution->hourBlockCourseClass->hour_end }}<br>
+                                    {{ $attribution->courseClass->name }} - {{ $attribution->courseClass->number }}<br>
                             @endforeach
                         </td>
                     @endforeach
@@ -31,10 +32,6 @@
         </table>
     @endforeach
 </div>
-
-
-
-
 
 
 <style>

@@ -31,10 +31,14 @@ Route::get('/verify-email/{token}', 'UserController@verifyEmail')->name('verify.
 //Route to be used with the reset pass button in the show user form
 Route::get('reset-password-form/{id}', 'UserController@resetPassword')->name('resetPassword');
 
+//ROTAS EXPORT PDF
+Route::get('/cronograma-turma-exportPDF', 'ScheduleAtributionController@classTimeLinePDF')->name('class-timeline-export');
+Route::get('/cronograma-professor-exportPDF', 'ScheduleAtributionController@teacherTimeLinePDF')->name('user-timeline-export');
+
+//APAGAR DEPOIS DE TUDO FUNCIONAR - é a view para testar CSS dos cronogramas
+//APAGAR DEPOIS DE TUDO FUNCIONAR - é a view para testar CSS dos cronogramas
 Route::get('/cronograma-turma', 'ScheduleAtributionController@classTimeLineView');
-Route::get('/cronograma-turma-exportPDF', 'ScheduleAtributionController@classTimeLinePDF');
 Route::get('/cronograma-professor', 'ScheduleAtributionController@teacherTimeLineView');
-// Route::get('/cronograma-professor-exportPDF', 'ScheduleAtributionController@teacherTimeLinePDF');
 
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/home', 'HomeController@index')->name('home');

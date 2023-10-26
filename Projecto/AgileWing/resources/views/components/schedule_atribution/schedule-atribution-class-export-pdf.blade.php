@@ -1,3 +1,5 @@
+<h3>Cronograma turma</h3>
+
 CET: {{ $courseClass->name }}
 <br>
 Turma: {{ $courseClass->course->name }}

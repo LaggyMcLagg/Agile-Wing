@@ -8,7 +8,7 @@
         </div>
 
         <div class="col-md-4 login-form">
-            <h3>Login</h3>
+            <img src="{{ asset('images/atec-logo.png') }}" alt="atec-logo">
             <div class="card-body">
                 <form method="POST" action="{{ route('login') }}">
                     @csrf

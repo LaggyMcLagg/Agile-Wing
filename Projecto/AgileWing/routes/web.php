@@ -92,7 +92,7 @@ Route::middleware(['auth', 'checkUserType1:1'])->group(function(){
         Route::put('{id}', 'UfcdController@update')->name('ufcds.update');
         Route::delete('{ufcd}', 'UfcdController@destroy')->name('ufcds.destroy');
     });
-    
+
     Route::prefix('users')->group(function(){
         Route::get('', 'UserController@index')->name('users.index');
         Route::get('create', 'UserController@create')->name('users.create');
@@ -117,13 +117,13 @@ Route::middleware(['auth', 'checkUserType1:1'])->group(function(){
 
         //OTHER
 
+
         //CRUD
-        Route::post('{id}', 'ScheduleAtributionController@index')->name('schedule-atribution.index');
-        Route::get('create', 'ScheduleAtributionController@create')->name('schedule-atribution.create');
+        Route::get('{id}', 'ScheduleAtributionController@index')->name('schedule-atribution.index');
+        Route::get('create/{id}', 'ScheduleAtributionController@create')->name('schedule-atribution.create');
         Route::post('', 'ScheduleAtributionController@store')->name('schedule-atribution.store');
-        Route::get('{id}/edit', 'ScheduleAtributionController@edit')->name('schedule-atribution.edit');
+        Route::get('{id}/{courseClassId}/edit', 'ScheduleAtributionController@edit')->name('schedule-atribution.edit');
         Route::put('{id}', 'ScheduleAtributionController@update')->name('schedule-atribution.update');
-        Route::get('{id}', 'ScheduleAtributionController@show')->name('schedule-atribution.show');
         Route::delete('{id}', 'ScheduleAtributionController@destroy')->name('schedule-atribution.destroy');
     });
 

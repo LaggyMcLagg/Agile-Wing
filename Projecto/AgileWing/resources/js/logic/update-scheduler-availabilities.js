@@ -47,16 +47,23 @@ document.addEventListener("DOMContentLoaded", function() {
         // Load availabilities from sessionStorage
         const availabilities = JSON.parse(sessionStorage.getItem('localJson'));
 
+        // Load user colors
+        const userColors = JSON.parse(sessionStorage.getItem('localJsonUserColors'));
+
         const baseUrl = sessionStorage.getItem('baseUrl');
         const userId = sessionStorage.getItem('userId');
+        const courseClassId = sessionStorage.getItem('courseClassId');
 
 
         availabilities.forEach(availability => {
             // Convert the availability date to YYYY-MM-DD format for comparison
-            const availabilityDate = new Date(availability.availability_date).toISOString().split('T')[0];
+            const dateToUse = availability.availability_date ? availability.availability_date : availability.date;
+            const availabilityDate = new Date(dateToUse).toISOString().split('T')[0];
+            
 
             // Get the correct cell based on date and hour block
-            const row = document.querySelector(`#scheduler tbody tr td[data-id="${availability.hour_block_id}"]`).parentNode;
+            const idToUse = availability.hour_block_id ? availability.hour_block_id : availability.hour_block_course_class_id;
+            const row = document.querySelector(`#scheduler tbody tr td[data-id="${idToUse}"]`).parentNode;            
             const cell = [...row.children].find(td => td.getAttribute('data-date') === availabilityDate);
 
             if (cell) {
@@ -70,19 +77,56 @@ document.addEventListener("DOMContentLoaded", function() {
                         window.location.href = `${baseUrl}/${availability.id}/${userId}/edit`;
                     });
                     cell.style.cursor = 'pointer';
+                } 
+                else
+                {
+
+                    // Find the user color based on availability user_id
+                    const userColor = userColors.find(uc => uc.id === availability.user_id);
+                    
+                    if(userColor) {
+                        cell.style.backgroundColor = userColor.color_1;
+                    } 
+
+                    // Attach event listener to cell
+                    cell.addEventListener('click', function() {
+                        window.location.href = `${baseUrl}/${availability.id}/${courseClassId}/edit`;
+                    });
+                    cell.style.cursor = 'pointer';
                 }
             }
         });
 
-        // Set create links for empty cells
-        const cells = document.querySelectorAll("#scheduler tbody td:not(:first-child)");
-        cells.forEach(cell => {
-            if (!cell.style.backgroundColor) { // If the cell doesn't already contain a link via the bg-color
-                cell.addEventListener('click', function() {
-                    window.location.href = `${baseUrl}/create/${userId}`;
-                });
-                cell.style.cursor = 'pointer';
-            }
-        });
+        if (userId != null) {
+            // create links for empty cells TEACHER AVAILABILITIES
+            const cells = document.querySelectorAll("#scheduler tbody td:not(:first-child)");
+            cells.forEach(cell => {
+                if (!cell.style.backgroundColor) { // If the cell doesn't already contain a link via the bg-color
+                    cell.addEventListener('click', function() {
+                        window.location.href = `${baseUrl}/create/${userId}`;
+                    });
+                    cell.style.cursor = 'pointer';
+                }
+            });
+        } else {
+            // create links for empty cells COURSE CLASSE ATRIBUTIONS
+            const cells = document.querySelectorAll("#scheduler tbody td:not(:first-child)");
+            cells.forEach(cell => {
+                // If the cell doesn't already contain a link via the bg-color
+                if (!cell.style.backgroundColor) {
+    
+                    // Get the block ID from the first <td> of the row
+                    const blockId = cell.parentNode.querySelector('td[data-id]').getAttribute('data-id'); 
+
+                    // Get the date from the clicked cell
+                    const date = cell.getAttribute('data-date'); 
+    
+                    cell.addEventListener('click', function() {
+                        window.location.href = `${baseUrl}/create/${courseClassId}/${blockId}/${date}`;
+                    });
+                    cell.style.cursor = 'pointer';
+                }
+            });            
+        }
     }
 });

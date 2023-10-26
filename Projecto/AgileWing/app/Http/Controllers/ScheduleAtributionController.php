@@ -7,6 +7,7 @@ use App\CourseClass;
 use App\ScheduleAtribution;
 use App\Ufcd;
 use App\User;
+use App\HourBlockCourseClass;
 use Illuminate\Http\Request;
 
 class ScheduleAtributionController extends Controller
@@ -20,11 +21,53 @@ class ScheduleAtributionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(CourseClass $courseClass)
+    public function index($id)
     {
-        $scheduleAtributions = ScheduleAtribution::where('course_class_id', $courseClass->id)->get();
-            
-        return view('pages.schedule_atribution.index', compact('scheduleAtributions'));
+        // Fetch all schedule attributions related to the given course class ID with associated users
+        $courseClass = CourseClass::find($id);
+        $scheduleAtributions = ScheduleAtribution::where('course_class_id', $courseClass->id)
+            ->with('user')
+            ->get();
+
+        // Extract users from the schedule attributions, and map only the info needed
+        $users = $scheduleAtributions->pluck('user')->unique('id')->map(function ($user) {
+            return [
+                'id' => $user->id,
+                'color_1' => $user->color_1
+            ];
+        });
+
+        //vars for content
+        $courseClass = CourseClass::find($id);
+        $editNotes = false;
+        $courseClassId = $courseClass->id;
+        $userNotes = "";
+        $availabilityTypes = "";
+        $hourBlocks = HourBlockCourseClass::where('course_class_id', $courseClass->id)->orderBy('hour_beginning', 'asc')->get();
+
+        //var for component setup
+        $showNotes = false;
+        $showLegend = false;
+        $showBtnStore = false;
+        $objectName = $courseClass->number . ' - ' . $courseClass->name;
+        $jsonCourseClassAtributions = json_encode($scheduleAtributions);
+        $jsonUserColors = json_encode($users);
+
+        return view('pages.schedule_atribution.index',
+            compact(
+                'userNotes', 
+                'availabilityTypes',
+                'hourBlocks',
+                
+                'showNotes',
+                'editNotes',
+                'showLegend',
+                'showBtnStore',
+                'objectName', 
+                'jsonUserColors',
+                'jsonCourseClassAtributions',
+                'courseClassId'
+            ));
     }
     
     

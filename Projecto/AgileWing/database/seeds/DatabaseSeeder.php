@@ -24,8 +24,8 @@ class DatabaseSeeder extends Seeder
        $this->call(UfcdSeeder::class);
        $this->call(UserUfcdSeeder::class);
        $this->call(CourseUfcdSeeder::class);
+       $this->call(HourBlockCourseClassSeeder::class);
        $this->call(ScheduleAtributionSeeder::class);
        $this->call(SpecializationAreaUserSeeder::class);
-       $this->call(HourBlockCourseClassSeeder::class);
     }
 }

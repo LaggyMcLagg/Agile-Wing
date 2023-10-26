@@ -142,14 +142,20 @@ document.addEventListener("DOMContentLoaded", function () {
   function updateScheduller() {
     // Load availabilities from sessionStorage
     var availabilities = JSON.parse(sessionStorage.getItem('localJson'));
+
+    // Load user colors
+    var userColors = JSON.parse(sessionStorage.getItem('localJsonUserColors'));
     var baseUrl = sessionStorage.getItem('baseUrl');
     var userId = sessionStorage.getItem('userId');
+    var courseClassId = sessionStorage.getItem('courseClassId');
     availabilities.forEach(function (availability) {
       // Convert the availability date to YYYY-MM-DD format for comparison
-      var availabilityDate = new Date(availability.availability_date).toISOString().split('T')[0];
+      var dateToUse = availability.availability_date ? availability.availability_date : availability.date;
+      var availabilityDate = new Date(dateToUse).toISOString().split('T')[0];
 
       // Get the correct cell based on date and hour block
-      var row = document.querySelector("#scheduler tbody tr td[data-id=\"".concat(availability.hour_block_id, "\"]")).parentNode;
+      var idToUse = availability.hour_block_id ? availability.hour_block_id : availability.hour_block_course_class_id;
+      var row = document.querySelector("#scheduler tbody tr td[data-id=\"".concat(idToUse, "\"]")).parentNode;
       var cell = _toConsumableArray(row.children).find(function (td) {
         return td.getAttribute('data-date') === availabilityDate;
       });
@@ -164,21 +170,54 @@ document.addEventListener("DOMContentLoaded", function () {
             window.location.href = "".concat(baseUrl, "/").concat(availability.id, "/").concat(userId, "/edit");
           });
           cell.style.cursor = 'pointer';
+        } else {
+          console.log(userColor);
+          // Find the user color based on availability user_id
+          var userColor = userColors.find(function (uc) {
+            return uc.id === availability.user_id;
+          });
+          if (userColor) {
+            cell.style.backgroundColor = userColor.color_1;
+          }
+
+          // Attach event listener to cell
+          cell.addEventListener('click', function () {
+            window.location.href = "".concat(baseUrl, "/").concat(availability.id, "/").concat(courseClassId, "/edit");
+          });
+          cell.style.cursor = 'pointer';
         }
       }
     });
-
-    // Set create links for empty cells
-    var cells = document.querySelectorAll("#scheduler tbody td:not(:first-child)");
-    cells.forEach(function (cell) {
-      if (!cell.style.backgroundColor) {
+    if (userId != null) {
+      // create links for empty cells TEACHER AVAILABILITIES
+      var cells = document.querySelectorAll("#scheduler tbody td:not(:first-child)");
+      cells.forEach(function (cell) {
+        if (!cell.style.backgroundColor) {
+          // If the cell doesn't already contain a link via the bg-color
+          cell.addEventListener('click', function () {
+            window.location.href = "".concat(baseUrl, "/create/").concat(userId);
+          });
+          cell.style.cursor = 'pointer';
+        }
+      });
+    } else {
+      // create links for empty cells COURSE CLASSE ATRIBUTIONS
+      var _cells = document.querySelectorAll("#scheduler tbody td:not(:first-child)");
+      _cells.forEach(function (cell) {
         // If the cell doesn't already contain a link via the bg-color
-        cell.addEventListener('click', function () {
-          window.location.href = "".concat(baseUrl, "/create/").concat(userId);
-        });
-        cell.style.cursor = 'pointer';
-      }
-    });
+        if (!cell.style.backgroundColor) {
+          // Get the block ID from the first <td> of the row
+          var blockId = cell.parentNode.querySelector('td[data-id]').getAttribute('data-id');
+
+          // Get the date from the clicked cell
+          var date = cell.getAttribute('data-date');
+          cell.addEventListener('click', function () {
+            window.location.href = "".concat(baseUrl, "/create/").concat(courseClassId, "/").concat(blockId, "/").concat(date);
+          });
+          cell.style.cursor = 'pointer';
+        }
+      });
+    }
   }
 });
 

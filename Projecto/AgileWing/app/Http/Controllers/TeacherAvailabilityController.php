@@ -47,7 +47,6 @@ class TeacherAvailabilityController extends Controller
             'userNotes',
             'availabilityTypes',
             'hourBlocks',
-            'teacherAvailabilities',
 
             'showNotes',
             'editNotes',
@@ -257,7 +256,7 @@ class TeacherAvailabilityController extends Controller
         $request->validate([
             'user_id' => 'required|exists:users,id',
             'availability_date' => 'required|date|after:today',
-            'hour_block_id' => 'required|exists:hour_blocks,id|unique:teacher_availabilities,hour_block_id,' . $id . ',id,availability_date,' . $request->availability_date,
+            'hour_block_id' => 'required|exists:hour_blocks,id',
             'availability_type_id' => 'required|exists:availability_types,id',
         ],
         [

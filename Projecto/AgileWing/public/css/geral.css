@@ -5,7 +5,9 @@ body {
     --gradient-top: #6d92e3;
     --gradient-bottom: #a7d3e8;
     --white: #ffffff;
+    --white-dark: #dfe3e5;
     --black: #4d4e4f;
+    --black-dark: #36353d;
     --blue: #6d92e3;
     --blue-dark: #617add;
     --table: #f0f6fc;
@@ -78,7 +80,7 @@ thead {
 
 /* Apagar*/
 .btn-trash {
-    color: var(--blue-dark);
+    color: var(--black);
     padding: 5px 20px;
     cursor: pointer;
 }
@@ -165,6 +167,7 @@ input[type="text"][disabled] {
     border-radius: 10px;
     overflow: auto;
     max-height: 300px;
+
 
   }
   .form-group button {

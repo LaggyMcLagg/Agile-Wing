@@ -119,7 +119,10 @@
             <a id="createBtn" class="btn btn-blue">Criar</a>
             <a id="editBtn" type="button" class="btn btn-blue">Editar</a>
             <!-- Live search input -->
-            <input type="text" id="search-input" placeholder="Search..." >
+            <form class="form-inline my-2 my-lg-0 justify-content-end">
+                <input id="search-input" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-blue my-2 my-sm-0" type="submit">Pesquisa</button>
+            </form>
             <div class="table-container">
             <table class="table table-borderless">
                 <thead>

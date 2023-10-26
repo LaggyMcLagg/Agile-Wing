@@ -102,7 +102,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 document.addEventListener('DOMContentLoaded', function () {
   var deleteSelectedRoute = sessionStorage.getItem('deleteSelectedRoute');
   var publishSelectedRoute = sessionStorage.getItem('publishSelectedRoute');
-  var userId = sessionStorage.getItem('userID');
+  var userId = sessionStorage.getItem('userId');
+  console.log(userId);
   var selectAllCheckbox = document.getElementById('selectAll');
   var availabilityCheckboxes = document.querySelectorAll('.availability-checkbox');
   var deleteBtn = document.getElementById('deleteBtn');

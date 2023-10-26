@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class CourseClassController extends Controller
 {
+    
+    //###############################
+    //CRUD METHODS
+    //###############################
+
     /**
      * Display a listing of the resource.
      *
@@ -123,15 +128,19 @@ class CourseClassController extends Controller
             ->with('success', 'Course Class deleted successfully');
     }
 
+    //###############################
+    //OTHER METHODS
+    //###############################
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function indexForScheduleAtribution()
+    public function indexCourseClassesPlanning()
     {
         $courseClasses = CourseClass::with('course.specializationArea')->get();
-        return view('pages.course_classes.indexForScheduleAtribution', compact ('courseClasses'));
+        return view('pages.schedule_atribution.index-course-classes', compact ('courseClasses'));
     }
     
 }

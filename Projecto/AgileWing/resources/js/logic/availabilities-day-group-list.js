@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     const deleteSelectedRoute = sessionStorage.getItem('deleteSelectedRoute');
     const publishSelectedRoute = sessionStorage.getItem('publishSelectedRoute');
-    const userId = sessionStorage.getItem('userID');
+    const userId = sessionStorage.getItem('userId');
     const selectAllCheckbox = document.getElementById('selectAll');
     const availabilityCheckboxes = document.querySelectorAll('.availability-checkbox');
     const deleteBtn = document.getElementById('deleteBtn');

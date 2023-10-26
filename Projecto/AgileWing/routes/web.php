@@ -111,19 +111,20 @@ Route::middleware(['auth', 'checkUserType1:1'])->group(function(){
     });  
 
     // ROUTES FOR SCHEDULE ATRIBUTIONS USE CASE
-    // Route to get the list of classes to then manage the schedule atributions of that classes
-    Route::prefix('schedule-atribution-course-class')->group(function(){
-        Route::get('', 'CourseClassController@indexForScheduleAtribution')->name('course-class-schedule-attribution.index');
-    });
-    
     Route::prefix('schedule-atribution')->group(function(){
-        Route::post('{courseClass}', 'ScheduleAtributionController@index')->name('schedule-atribution.index');
+        // Route to get the list of classes to then manage the schedule atributions of that classes
+        Route::get('', 'CourseClassController@indexCourseClassesPlanning')->name('course-class-schedule-attribution.index');
+
+        //OTHER
+
+        //CRUD
+        Route::post('{id}', 'ScheduleAtributionController@index')->name('schedule-atribution.index');
         Route::get('create', 'ScheduleAtributionController@create')->name('schedule-atribution.create');
         Route::post('', 'ScheduleAtributionController@store')->name('schedule-atribution.store');
-        Route::get('{scheduleAtribution}/edit', 'ScheduleAtributionController@edit')->name('schedule-atribution.edit');
-        Route::put('{scheduleAtribution}', 'ScheduleAtributionController@update')->name('schedule-atribution.update');
-        Route::get('{scheduleAtribution}', 'ScheduleAtributionController@show')->name('schedule-atribution.show');
-        Route::delete('{scheduleAtribution}', 'ScheduleAtributionController@destroy')->name('schedule-atribution.destroy');
+        Route::get('{id}/edit', 'ScheduleAtributionController@edit')->name('schedule-atribution.edit');
+        Route::put('{id}', 'ScheduleAtributionController@update')->name('schedule-atribution.update');
+        Route::get('{id}', 'ScheduleAtributionController@show')->name('schedule-atribution.show');
+        Route::delete('{id}', 'ScheduleAtributionController@destroy')->name('schedule-atribution.destroy');
     });
 
     // ROUTES for Teacher Availabilities (Planning Use case)
@@ -137,6 +138,7 @@ Route::middleware(['auth', 'checkUserType1:1'])->group(function(){
 //ROTAS DISPONIVEIS PARA USER TYPE 2 -> TESTES
 Route::middleware(['auth', 'checkUserType2:2'])->group(function(){
 
+    // ROUTES for Teacher Availabilities (Teacher use case)
     Route::prefix('user-notes')->group(function(){
         //user notes update
         Route::post('users/update-notes', 'UserController@updateNotes')->name('users.update-notes');
@@ -147,7 +149,7 @@ Route::middleware(['auth', 'checkUserType2:2'])->group(function(){
 //ROTAS COMUNS
 Route::middleware(['auth'])->group(function(){
 
-    // ROUTES for Teacher Availabilities (Teacher Use case)
+    // ROUTES for Teacher Availabilities (Teacher/Planning Use case)
     Route::prefix('teacher-availabilities')->group(function(){    
         //deal with bulk data
         Route::post('delete-selected', 'TeacherAvailabilityController@deleteSelected')->name('teacher-availabilities.delete-selected');
@@ -161,6 +163,7 @@ Route::middleware(['auth'])->group(function(){
         Route::put('{id}', 'TeacherAvailabilityController@update')->name('teacher-availabilities.update');
     });
 
+    //ROUTES ALTER PASSWORD
     Route::prefix('users-alterar-pw')->group(function(){
         Route::get('password-form', 'UserController@changePasswordView')->name('users.passwordForm');
         Route::put('password-update', 'UserController@changePasswordLogic')->name('users.passwordUpdate');

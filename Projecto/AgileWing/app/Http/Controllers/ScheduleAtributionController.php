@@ -11,6 +11,10 @@ use Illuminate\Http\Request;
 
 class ScheduleAtributionController extends Controller
 {
+    //###############################
+    //CRUD METHODS
+    //###############################
+
     /**
      * Display a listing of the resource.
      *
@@ -123,7 +127,7 @@ class ScheduleAtributionController extends Controller
 
         return redirect()->route('schedule_atribution.index')->with('status', 'Schedule atribution updated successfully');
     }
-
+    
     /**
      * Remove the specified resource from storage.
      *
@@ -136,5 +140,10 @@ class ScheduleAtributionController extends Controller
 
         return redirect()->route('schedule_atribution.index', $user);
     }
+
+    //###############################
+    //OTHER METHODS
+    //###############################
+
 }
 

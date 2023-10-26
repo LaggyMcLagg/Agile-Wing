@@ -174,110 +174,7 @@ class ScheduleAtributionController extends Controller
         ));
     }
 
-    public function timelineToPdf()
-    {
-        $classId = 5;
-
-        //recupera a turma juntamente com seu curso e blocos de horário associados
-        $courseClass = CourseClass::with([
-            'course',
-            'hourBlockCourseClasses.scheduleAtributions',
-        ])->find($classId);
-
-        //formata as atribuições de horário
-        //$courseClass->hourBlockCourseClasses são os blocos de horário associados a cada turma
-        //usamos o flatMap para iterar por cada bloco de horário associado à turma
-        //dentro de flatMap, utilizamos o map para transformar cada bloco de horário numa coleção de atribuições de horário formatadas (scheduleAtributions)
-        //o resultado de flatMap será uma única coleção que contém todas as atribuições de horário daquela turma, em vez de uma coleção de coleções separadas
-        $allAtributions = $courseClass->hourBlockCourseClasses->flatMap(function ($hourBlockCourseClass) 
-        {
-            return $hourBlockCourseClass->scheduleAtributions->map(function ($scheduleAtribution) 
-            {
-                $scheduleAtribution->formattedDate = $scheduleAtribution->date->format('d/m/Y');
-                return $scheduleAtribution;
-            });
-        });
-
-        //ordena as atribuições pelo mês e depois pela data dentro do mês
-        $allAtributions = $allAtributions->sortBy(function ($scheduleAtribution) 
-        {
-            return $scheduleAtribution->date->format('Ym') . $scheduleAtribution->date->format('d');
-        });
-
-        //agrupa as atribuições por mês/ano
-        $atributionsByMonth = $allAtributions->groupBy(function ($scheduleAtribution) 
-        {
-            return $scheduleAtribution->date->format('m/Y');
-        });
-
-        $tables = [];
-
-        foreach ($atributionsByMonth as $month => $atributions) 
-        {
-            //inicializa a tabela para o mês atual
-            $table = [
-                'month' => $month,
-                'header' => [],
-                'data' => [],
-            ];
-
-            $header = ['Horário'];
-
-            //obtém todas as datas do mês
-            $startDate = Carbon::createFromFormat('m/Y', $month)->startOfMonth();
-            $endDate = Carbon::createFromFormat('m/Y', $month)->endOfMonth();
-
-            while ($startDate->lte($endDate)) 
-            {
-                $header[] = $startDate->format('d/m/Y');
-                $startDate->addDay();
-            }
-
-            $table['header'] = $header;
-
-            //inicia a iteração pelos blocos de horário
-            $data = [];
-
-            foreach ($courseClass->hourBlockCourseClasses as $hourBlockCourseClass) 
-            {
-                $row = [
-                    'hour' => $hourBlockCourseClass->hour_beginning . ' - ' . $hourBlockCourseClass->hour_end,
-                    'data' => [],
-                ];
-
-                foreach ($header as $date) {
-                    $column = [];
-
-                    foreach ($allAtributions as $currentAtribution) 
-                    {
-                        //verifica se a atribuição coincide com a data e o bloco de horário atual
-                        if ($currentAtribution->formattedDate === $date && $currentAtribution->hour_block_course_class_id == $hourBlockCourseClass->id) 
-                        {
-                            $column[] = [
-                                'ufcd' => $currentAtribution->ufcd->number,
-                                'name' => $currentAtribution->user->name,
-                                'date' => $currentAtribution->date,
-                            ];
-                        }
-                    }
-
-                    $row['data'][] = $column;
-                }
-
-                $data[] = $row;
-            }
-
-            $table['data'] = $data;
-            $tables[] = $table;
-        }
-        
-        return view('pages.schedule_atribution.export-pdf', [
-            'courseClass' => $courseClass,
-            'tables' => $tables,
-        ]);
-    }
-
-    public function exportTimelineToPDF()
+    public function classTimeLineView()
     {
         $classId = 5;
         
@@ -330,6 +227,114 @@ class ScheduleAtributionController extends Controller
             $startDate = Carbon::createFromFormat('m/Y', $month, 'UTC')->startOfMonth();
             $endDate = Carbon::createFromFormat('m/Y', $month, 'UTC')->endOfMonth();
 
+            //preenche o array $header com datas formatadas 'd/m/Y' para representar os dias do mês
+            while ($startDate->lte($endDate)) 
+            {
+                $header[] = $startDate->format('d/m/Y');
+                $startDate->addDay();
+            }
+
+            //define o cabeçalho da tabela representada por $table, utilizando as datas formatadas do mês armazenadas em $header.
+            $table['header'] = $header;
+
+            //inicia a iteração pelos blocos de horário
+            $data = [];
+
+            //para cada bloco de horário associado à turma, cria uma nova linha representada por um array.
+            //a linha contém informações sobre o horário, incluindo o horário de início e fim, e um array vazio chamado 'data' que vai ser preenchido em baixo
+            foreach ($courseClass->hourBlockCourseClasses as $hourBlockCourseClass) 
+            {
+                $row = [
+                    'hour' => $hourBlockCourseClass->hour_beginning . ' - ' . $hourBlockCourseClass->hour_end,
+                    'data' => [],
+                ];
+            
+                //itera por todas as datas no cabeçalho, começando da segunda data, já que a primeira é o título 'Horário'.
+                foreach ($header as $key => $date) 
+                {
+                    if ($key == 0) continue; //ignora a primeira entrada do cabeçalho
+                
+                    //para armazenar informações sobre atribuições de horário para a data atual
+                    $column = [];
+                
+                    //itera por todas as atribuições de horário disponíveis
+                    foreach ($allAtributions as $currentAtribution) 
+                    {
+                        //verifica se a atribuição de horário coincide com a data atual e o bloco de horário atual
+                        if ($currentAtribution->formattedDate === $date && $currentAtribution->hour_block_course_class_id == $hourBlockCourseClass->id) 
+                        {
+                            //se a atribuição coincidir, cria um array com informações como UFCD, nome do formador, data e cor
+                            $column[] = [
+                                'ufcd' => $currentAtribution->ufcd->number,
+                                'name' => $currentAtribution->user->name,
+                                'date' => $currentAtribution->date,
+                                'color_1' => $currentAtribution->user->color_1,
+                            ];
+                        }
+                    }
+
+                    //adiciona o array column ao array data da linha atual, que representa a informação de atribuições de horário para a data atual
+                    $row['data'][] = $column;
+                }
+                //adiciona a linha atual (representando um bloco de horário) ao array 'data'
+
+                $data[] = $row;
+            }
+            //aassocia o array 'data' ao array 'table' para representar os dados da tabela
+            $table['data'] = $data;
+            //adiciona o array 'table' (representando a tabela de um mês) ao array 'tables'
+            $tables[] = $table;
+        }
+        
+        return view('pages.schedule_atribution.export-pdf', [
+            'courseClass' => $courseClass,
+            'tables' => $tables,
+        ]);
+    }
+
+    public function classTimeLinePDF()
+    {
+        $classId = 5;
+        
+        $courseClass = CourseClass::with([
+            'course',
+            'hourBlockCourseClasses.scheduleAtributions',
+        ])->find($classId);
+
+        $allAtributions = $courseClass->hourBlockCourseClasses->flatMap(function ($hourBlockCourseClass) 
+        {
+            return $hourBlockCourseClass->scheduleAtributions->map(function ($scheduleAtribution) 
+            {
+                $scheduleAtribution->formattedDate = $scheduleAtribution->date->format('d/m/Y');
+                return $scheduleAtribution;
+            });
+        });
+
+        $allAtributions = $allAtributions->sortBy(function ($scheduleAtribution) 
+        {
+            return $scheduleAtribution->date->format('Ym') . $scheduleAtribution->date->format('d');
+        });
+
+        $atributionsByMonth = $allAtributions->groupBy(function ($scheduleAtribution) 
+        {
+            return $scheduleAtribution->date->format('m/Y');
+        });
+
+        $tables = [];
+
+        foreach ($atributionsByMonth as $month => $atributions) 
+        {
+            $table = [
+                'month' => $month,
+                'header' => [],
+                'data' => [],
+            ];
+
+            $header = ['Horário'];
+
+            $startDate = Carbon::createFromFormat('m/Y', $month, 'UTC')->startOfMonth();
+            $endDate = Carbon::createFromFormat('m/Y', $month, 'UTC')->endOfMonth();
+
             while ($startDate->lte($endDate)) 
             {
                 $header[] = $startDate->format('d/m/Y');
@@ -338,7 +343,6 @@ class ScheduleAtributionController extends Controller
 
             $table['header'] = $header;
 
-            //inicia a iteração pelos blocos de horário
             $data = [];
 
             foreach ($courseClass->hourBlockCourseClasses as $hourBlockCourseClass) 
@@ -347,35 +351,33 @@ class ScheduleAtributionController extends Controller
                     'hour' => $hourBlockCourseClass->hour_beginning . ' - ' . $hourBlockCourseClass->hour_end,
                     'data' => [],
                 ];
-
-                foreach ($header as $date) {
+            
+                foreach ($header as $key => $date) 
+                {
+                    if ($key == 0) continue; // ignore the first header entry
                     $column = [];
-                    
-                    foreach ($allAtributions as $currentAtribution) 
-                    {
-                        //verifica se a atribuição coincide com a data e o bloco de horário atual
+                    foreach ($allAtributions as $currentAtribution) {
+                        // verifica se a atribuição coincide com a data e o bloco de horário atual
                         if ($currentAtribution->formattedDate === $date && $currentAtribution->hour_block_course_class_id == $hourBlockCourseClass->id) 
                         {
                             $column[] = [
                                 'ufcd' => $currentAtribution->ufcd->number,
                                 'name' => $currentAtribution->user->name,
                                 'date' => $currentAtribution->date,
-                            ]; 
+                                'color_1' => $currentAtribution->user->color_1,
+                            ];
                         }
                     }
-                    
                     $row['data'][] = $column;
                 }
-
+            
                 $data[] = $row;
             }
-
+            
             $table['data'] = $data;
             $tables[] = $table;
-            
         }
 
-        // [$courseClass, $tables] = $this->timelineToPdf();
         $pdf = PDF::loadview('pages.schedule_atribution.export-pdf', compact('courseClass','tables'));
         return $pdf->download('cronograma.pdf');
     }

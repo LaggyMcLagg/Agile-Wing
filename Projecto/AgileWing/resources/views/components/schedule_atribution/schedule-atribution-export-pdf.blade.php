@@ -18,7 +18,7 @@ Turma: {{ $courseClass->course->name }}
                         <tr>
                             <td>{{ $row['hour'] }}</td>
                             @foreach ($row['data'] as $column)
-                                <td>
+                            <td @if (!empty($column)) style="background-color: {{ isset($currentAtribution['color_1']) ? $currentAtribution['color_1'] : '#ffffff' }};" @endif>
                                     @foreach ($column as $currentAtribution)
                                         <ul>
                                             <li>{{ $currentAtribution['ufcd'] }}</li>
@@ -39,7 +39,6 @@ Turma: {{ $courseClass->course->name }}
 
 
 <style>
-
     .container
     {
         width: 100%;

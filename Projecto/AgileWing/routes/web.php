@@ -31,9 +31,6 @@ Route::get('/verify-email/{token}', 'UserController@verifyEmail')->name('verify.
 //Route to be used with the reset pass button in the show user form
 Route::get('reset-password-form/{id}', 'UserController@resetPassword')->name('resetPassword');
 
-//ROTAS EXPORT PDF
-Route::get('/cronograma-turma-exportPDF', 'ScheduleAtributionController@classTimeLinePDF')->name('class-timeline-export');
-Route::get('/cronograma-professor-exportPDF', 'ScheduleAtributionController@teacherTimeLinePDF')->name('user-timeline-export');
 
 //APAGAR DEPOIS DE TUDO FUNCIONAR - é a view para testar CSS dos cronogramas
 //APAGAR DEPOIS DE TUDO FUNCIONAR - é a view para testar CSS dos cronogramas
@@ -48,7 +45,8 @@ Route::middleware(['auth', 'verified'])->group(function(){
 //ROTAS DISPONIVEIS PARA USER TYPE 1 -> TESTES
 Route::middleware(['auth', 'checkUserType1:1'])->group(function(){
 
-    Route::get('/export-users-pdf', 'UserController@exportUsersViewPdf')->name('export-users.pdf');
+    Route::get('/timeline-course-class-exportPDF/{courseClassId}', 'ScheduleAtributionController@classTimeLinePDF')->name('course-class-timeline-export');
+    Route::get('/timeline-teacher-exportPDF/{userId}', 'ScheduleAtributionController@teacherTimeLinePDF')->name('user-timeline-export');
 
     Route::prefix('availability-types')->group(function(){
         Route::get('', 'AvailabilityTypeController@index')->name('availability-types.index');

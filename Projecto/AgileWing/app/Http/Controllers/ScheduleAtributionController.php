@@ -286,7 +286,7 @@ class ScheduleAtributionController extends Controller
             $tables[] = $table;
         }
         
-        return view('pages.schedule_atribution.export-pdf', [
+        return view('pages.schedule_atribution.export-pdf-class', [
             'courseClass' => $courseClass,
             'tables' => $tables,
         ]);
@@ -378,8 +378,43 @@ class ScheduleAtributionController extends Controller
             $tables[] = $table;
         }
 
-        $pdf = PDF::loadview('pages.schedule_atribution.export-pdf', compact('courseClass','tables'));
+        $pdf = PDF::loadview('pages.schedule_atribution.export-pdf-class', compact('courseClass','tables'));
         return $pdf->download('cronograma.pdf');
+    }
+
+public function teacherTimeLineView()
+{
+    $userId = 11;
+
+    $teacherClass = User::with([
+        'scheduleAtributions',
+        'scheduleAtributions.courseClass',
+        'scheduleAtributions.hourBlockCourseClass',
+        'scheduleAtributions.ufcd',
+    ])->find($userId);
+
+    // Sort the schedule attributions by date in ascending order
+    $teacherClass->scheduleAtributions = $teacherClass->scheduleAtributions
+        ->sortBy('date');
+
+    $groupedAtributions = $teacherClass->scheduleAtributions->groupBy(function ($attribution) {
+        return $attribution->date->format('Y-m-d'); // Group by complete date.
+    });
+
+    $dates = $groupedAtributions->keys(); // Get unique dates.
+
+    return view('pages.schedule_atribution.export-pdf-teacher', [
+        'teacherClass' => $teacherClass, 
+        'dates' => $dates, 
+        'groupedAtributions' => $groupedAtributions
+    ]);
+}
+
+    
+
+    public function teacherTimeLinePDF()
+    {
+
     }
 }
 

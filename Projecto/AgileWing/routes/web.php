@@ -31,8 +31,10 @@ Route::get('/verify-email/{token}', 'UserController@verifyEmail')->name('verify.
 //Route to be used with the reset pass button in the show user form
 Route::get('reset-password-form/{id}', 'UserController@resetPassword')->name('resetPassword');
 
-Route::get('/cronograma', 'ScheduleAtributionController@classTimeLineView');
-Route::get('/cronograma-exportPDF', 'ScheduleAtributionController@classTimeLinePDF');
+Route::get('/cronograma-turma', 'ScheduleAtributionController@classTimeLineView');
+Route::get('/cronograma-turma-exportPDF', 'ScheduleAtributionController@classTimeLinePDF');
+Route::get('/cronograma-professor', 'ScheduleAtributionController@teacherTimeLineView');
+// Route::get('/cronograma-professor-exportPDF', 'ScheduleAtributionController@teacherTimeLinePDF');
 
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/home', 'HomeController@index')->name('home');

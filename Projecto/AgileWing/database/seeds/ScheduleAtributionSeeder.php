@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\User;
 use App\ScheduleAtribution;
-use Carbon\Carbon;
+use Carbon\Carbon;  // Import Carbon for date manipulation.
 
 class ScheduleAtributionSeeder extends Seeder
 {

@@ -29,7 +29,6 @@
  * @event DOMContentLoaded Fires when the initial HTML document has been completely loaded.
  * @function updateScheduller Responsible for the main logic of updating the scheduler.
  */
-
 document.addEventListener("DOMContentLoaded", function() {
 
     updateScheduller();
@@ -40,20 +39,21 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById("nextMonth").addEventListener("click", function() {
         updateScheduller();
-       
     });
 
     function updateScheduller(){
         // Load availabilities from sessionStorage
         const availabilities = JSON.parse(sessionStorage.getItem('localJson'));
 
-        // Load user colors
-        const userColors = JSON.parse(sessionStorage.getItem('localJsonUserColors'));
+        // Load users
+        const users = JSON.parse(sessionStorage.getItem('localJsonUser'));
+
+        // Load UFCDS
+        const ufcds = JSON.parse(sessionStorage.getItem('localJsonUfcd'));
 
         const baseUrl = sessionStorage.getItem('baseUrl');
         const userId = sessionStorage.getItem('userId');
         const courseClassId = sessionStorage.getItem('courseClassId');
-
 
         availabilities.forEach(availability => {
             // Convert the availability date to YYYY-MM-DD format for comparison
@@ -80,13 +80,28 @@ document.addEventListener("DOMContentLoaded", function() {
                 } 
                 else
                 {
+                    // Find the relevant user and UFCD data
+                    const relevantUser = Object.values(users).find(user => user.id === availability.user_id);
+                    const relevantUfcd = Object.values(ufcds).find(ufcd => ufcd.id === availability.ufcd_id);
+                                
+                    if(relevantUser) {
+                        
+                        cell.style.backgroundColor = relevantUser.color_1;
 
-                    // Find the user color based on availability user_id
-                    const userColor = userColors.find(uc => uc.id === availability.user_id);
-                    
-                    if(userColor) {
-                        cell.style.backgroundColor = userColor.color_1;
+                        // Generate div for user name
+                        const userDiv = document.createElement('div');
+                        userDiv.classList.add('user-name');
+                        userDiv.textContent = relevantUser.name;
+                        cell.appendChild(userDiv);
                     } 
+
+                    // Generate div for UFCD info
+                    if (relevantUfcd) {
+                        const ufcdDiv = document.createElement('div');
+                        ufcdDiv.classList.add('ufcd-info');
+                        ufcdDiv.textContent = `${relevantUfcd.number}`;
+                        cell.appendChild(ufcdDiv);
+                    }
 
                     // Attach event listener to cell
                     cell.addEventListener('click', function() {
@@ -96,8 +111,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             }
         });
+        if (userId === null) {
 
-        if (userId != null) {
             // create links for empty cells TEACHER AVAILABILITIES
             const cells = document.querySelectorAll("#scheduler tbody td:not(:first-child)");
             cells.forEach(cell => {
@@ -109,18 +124,19 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             });
         } else {
+
             // create links for empty cells COURSE CLASSE ATRIBUTIONS
             const cells = document.querySelectorAll("#scheduler tbody td:not(:first-child)");
             cells.forEach(cell => {
                 // If the cell doesn't already contain a link via the bg-color
                 if (!cell.style.backgroundColor) {
-    
+
                     // Get the block ID from the first <td> of the row
                     const blockId = cell.parentNode.querySelector('td[data-id]').getAttribute('data-id'); 
 
                     // Get the date from the clicked cell
                     const date = cell.getAttribute('data-date'); 
-    
+
                     cell.addEventListener('click', function() {
                         window.location.href = `${baseUrl}/create/${courseClassId}/${blockId}/${date}`;
                     });

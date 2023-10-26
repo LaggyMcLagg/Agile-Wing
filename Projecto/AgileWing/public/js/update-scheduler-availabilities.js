@@ -130,7 +130,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
  * @event DOMContentLoaded Fires when the initial HTML document has been completely loaded.
  * @function updateScheduller Responsible for the main logic of updating the scheduler.
  */
-
 document.addEventListener("DOMContentLoaded", function () {
   updateScheduller();
   document.getElementById("prevMonth").addEventListener("click", function () {
@@ -143,8 +142,11 @@ document.addEventListener("DOMContentLoaded", function () {
     // Load availabilities from sessionStorage
     var availabilities = JSON.parse(sessionStorage.getItem('localJson'));
 
-    // Load user colors
-    var userColors = JSON.parse(sessionStorage.getItem('localJsonUserColors'));
+    // Load users
+    var users = JSON.parse(sessionStorage.getItem('localJsonUser'));
+
+    // Load UFCDS
+    var ufcds = JSON.parse(sessionStorage.getItem('localJsonUfcd'));
     var baseUrl = sessionStorage.getItem('baseUrl');
     var userId = sessionStorage.getItem('userId');
     var courseClassId = sessionStorage.getItem('courseClassId');
@@ -171,13 +173,29 @@ document.addEventListener("DOMContentLoaded", function () {
           });
           cell.style.cursor = 'pointer';
         } else {
-          console.log(userColor);
-          // Find the user color based on availability user_id
-          var userColor = userColors.find(function (uc) {
-            return uc.id === availability.user_id;
+          // Find the relevant user and UFCD data
+          var relevantUser = Object.values(users).find(function (user) {
+            return user.id === availability.user_id;
           });
-          if (userColor) {
-            cell.style.backgroundColor = userColor.color_1;
+          var relevantUfcd = Object.values(ufcds).find(function (ufcd) {
+            return ufcd.id === availability.ufcd_id;
+          });
+          if (relevantUser) {
+            cell.style.backgroundColor = relevantUser.color_1;
+
+            // Generate div for user name
+            var userDiv = document.createElement('div');
+            userDiv.classList.add('user-name');
+            userDiv.textContent = relevantUser.name;
+            cell.appendChild(userDiv);
+          }
+
+          // Generate div for UFCD info
+          if (relevantUfcd) {
+            var ufcdDiv = document.createElement('div');
+            ufcdDiv.classList.add('ufcd-info');
+            ufcdDiv.textContent = "".concat(relevantUfcd.number);
+            cell.appendChild(ufcdDiv);
           }
 
           // Attach event listener to cell
@@ -188,7 +206,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       }
     });
-    if (userId != null) {
+    if (userId === null) {
       // create links for empty cells TEACHER AVAILABILITIES
       var cells = document.querySelectorAll("#scheduler tbody td:not(:first-child)");
       cells.forEach(function (cell) {

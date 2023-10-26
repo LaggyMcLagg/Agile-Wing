@@ -28,17 +28,18 @@ class TeacherAvailabilityController extends Controller
     {
         //vars for content
         $user = User::find($id);
-        $editNotes = $user->user_type_id == 2 ? true : false;
+        $editNotes = auth()->user()->user_type_id == 2 ? true : false;
         $userId = $user->id;
         $userNotes = $user->notes;
         $availabilityTypes = AvailabilityType::all();
         $hourBlocks = HourBlock::orderBy('hour_beginning', 'asc')->get();
         $teacherAvailabilities = TeacherAvailability::where('user_id', $user->id)->get();
-
+        
         //var for component setup
+        $showExportBtn = auth()->user()->user_type_id == 1 ? true : false;
         $showNotes = true;
         $showLegend = true;
-        $showBtnStore = true;
+        $showBtnStore = $editNotes;
         $objectName = $user->name;
         $jsonTeacherAvailabilities = json_encode($teacherAvailabilities);
 
@@ -48,6 +49,7 @@ class TeacherAvailabilityController extends Controller
             'availabilityTypes',
             'hourBlocks',
 
+            'showExportBtn',
             'showNotes',
             'editNotes',
             'showLegend',

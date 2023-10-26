@@ -26,14 +26,23 @@ class ScheduleAtributionController extends Controller
         // Fetch all schedule attributions related to the given course class ID with associated users
         $courseClass = CourseClass::find($id);
         $scheduleAtributions = ScheduleAtribution::where('course_class_id', $courseClass->id)
-            ->with('user')
+            ->with('user', 'ufcd')
             ->get();
 
         // Extract users from the schedule attributions, and map only the info needed
         $users = $scheduleAtributions->pluck('user')->unique('id')->map(function ($user) {
             return [
                 'id' => $user->id,
+                'name' => $user->name,
                 'color_1' => $user->color_1
+            ];
+        });
+
+        // Extract ufcd from the schedule attributions, and map only the info needed
+        $ufcds = $scheduleAtributions->pluck('ufcd')->unique('id')->map(function ($ufcd) {
+            return [
+                'id' => $ufcd->id,
+                'number' => $ufcd->number,
             ];
         });
 
@@ -44,14 +53,16 @@ class ScheduleAtributionController extends Controller
         $userNotes = "";
         $availabilityTypes = "";
         $hourBlocks = HourBlockCourseClass::where('course_class_id', $courseClass->id)->orderBy('hour_beginning', 'asc')->get();
-
+        
         //var for component setup
+        $showExportBtn = true;
         $showNotes = false;
         $showLegend = false;
         $showBtnStore = false;
         $objectName = $courseClass->number . ' - ' . $courseClass->name;
         $jsonCourseClassAtributions = json_encode($scheduleAtributions);
-        $jsonUserColors = json_encode($users);
+        $jsonUser = json_encode($users);
+        $jsonUfcd = json_encode($ufcds);
 
         return view('pages.schedule_atribution.index',
             compact(
@@ -59,12 +70,14 @@ class ScheduleAtributionController extends Controller
                 'availabilityTypes',
                 'hourBlocks',
                 
+                'showExportBtn',
                 'showNotes',
                 'editNotes',
                 'showLegend',
                 'showBtnStore',
                 'objectName', 
-                'jsonUserColors',
+                'jsonUser',
+                'jsonUfcd',
                 'jsonCourseClassAtributions',
                 'courseClassId'
             ));

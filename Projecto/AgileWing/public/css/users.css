@@ -6,13 +6,14 @@
     --black: #4d4e4f;
     --black-dark: #36353d;
     --blue: #6d92e3;
+    --blue-light: #d0e6ff;
+    --blue-light-shadow: #b6d6f7;
     --blue-dark: #617add;
     --table: #f0f6fc;
     --table-hover: #b9cdf0;
 }
 
 /* Misc */
-
 
 ::-webkit-scrollbar {
     width: 6px;
@@ -42,7 +43,7 @@
     margin-top: 6vh;
 }
 
-.title {
+.title, .title-m {
     color: var(--blue);
 }
 
@@ -140,11 +141,6 @@ input[type="checkbox"]:checked {
     z-index: 1;
 }
 
-/* .atec-table {
-    overflow: scroll;
-} */
-
-
 tbody tr:hover {
     background-color: var(--table-hover);
     cursor: pointer;
@@ -164,6 +160,11 @@ thead {
 }
 
 /* Form */
+
+.form-container {
+    background-color: var(--blue-light);
+}
+
 
 .atec-form {
     background-image: linear-gradient(to top, #a7d3e8, #8ec5e8, #7ab5e8, #6ea4e7, #6d92e3);
@@ -261,6 +262,11 @@ input[type="password"][disabled] {
     right: 25%;
 }
 
+.login-form img{
+    max-width: 200px;
+    height: auto;
+}
+
 .login-container {
     height: 100vh;
     width: 95vw;
@@ -270,10 +276,6 @@ input[type="password"][disabled] {
 .login-form {
     padding-top: 30vh;
     padding-left: 12%;
-}
-
-.login-form h3 {
-    text-decoration: underline;
 }
 
 .login-container input {
@@ -334,12 +336,40 @@ input[type="password"][disabled] {
     border-radius: 50px;
 }
 
-/* Schedule details */
+/* Accordion */
 
+#datesAccordion .card {
+    background-color: var(--gradient-top);
+    text-decoration: none;
+}
+
+#datesAccordion .card:hover{
+    background-color: var(--blue-dark);
+}
+
+#datesAccordion .card button {
+    text-decoration: none;
+    color: var(--white);
+    box-shadow: none;
+    width: 100%;
+    text-align: left;
+}
+
+#datesAccordion .card-body {
+    padding: 0%;
+}
+
+#datesAccordion .card li {
+    background-color: var(--white);
+    padding-left: 8%;
+}
 
 /* Media Queries */
 
 @media (max-width: 575.98px) {
+
+    /* Misc */
+
 
     /* Login */
 

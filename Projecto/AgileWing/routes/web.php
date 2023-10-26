@@ -32,6 +32,11 @@ Route::get('/verify-email/{token}', 'UserController@verifyEmail')->name('verify.
 Route::get('reset-password-form/{id}', 'UserController@resetPassword')->name('resetPassword');
 
 
+//APAGAR DEPOIS DE TUDO FUNCIONAR - é a view para testar CSS dos cronogramas
+//APAGAR DEPOIS DE TUDO FUNCIONAR - é a view para testar CSS dos cronogramas
+Route::get('/cronograma-turma', 'ScheduleAtributionController@classTimeLineView');
+Route::get('/cronograma-professor', 'ScheduleAtributionController@teacherTimeLineView');
+
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/home', 'HomeController@index')->name('home');
 });    
@@ -39,6 +44,9 @@ Route::middleware(['auth', 'verified'])->group(function(){
 
 //ROTAS DISPONIVEIS PARA USER TYPE 1 -> TESTES
 Route::middleware(['auth', 'checkUserType1:1'])->group(function(){
+
+    Route::get('/timeline-course-class-exportPDF/{courseClassId}', 'ScheduleAtributionController@classTimeLinePDF')->name('course-class-timeline-export');
+    Route::get('/timeline-teacher-exportPDF/{userId}', 'ScheduleAtributionController@teacherTimeLinePDF')->name('user-timeline-export');
 
     Route::prefix('availability-types')->group(function(){
         Route::get('', 'AvailabilityTypeController@index')->name('availability-types.index');
@@ -96,7 +104,7 @@ Route::middleware(['auth', 'checkUserType1:1'])->group(function(){
         Route::put('{id}', 'UfcdController@update')->name('ufcds.update');
         Route::delete('{ufcd}', 'UfcdController@destroy')->name('ufcds.destroy');
     });
-    
+
     Route::prefix('users')->group(function(){
         Route::get('', 'UserController@index')->name('users.index');
         Route::get('create', 'UserController@create')->name('users.create');
@@ -115,19 +123,20 @@ Route::middleware(['auth', 'checkUserType1:1'])->group(function(){
     });  
 
     // ROUTES FOR SCHEDULE ATRIBUTIONS USE CASE
-    // Route to get the list of classes to then manage the schedule atributions of that classes
-    Route::prefix('schedule-atribution-course-class')->group(function(){
-        Route::get('', 'CourseClassController@indexForScheduleAtribution')->name('course-class-schedule-attribution.index');
-    });
-    
     Route::prefix('schedule-atribution')->group(function(){
-        Route::post('{courseClass}', 'ScheduleAtributionController@index')->name('schedule-atribution.index');
-        Route::get('create', 'ScheduleAtributionController@create')->name('schedule-atribution.create');
+        // Route to get the list of classes to then manage the schedule atributions of that classes
+        Route::get('', 'CourseClassController@indexCourseClassesPlanning')->name('course-class-schedule-attribution.index');
+
+        //OTHER
+
+
+        //CRUD
+        Route::get('{id}', 'ScheduleAtributionController@index')->name('schedule-atribution.index');
+        Route::get('create/{id}', 'ScheduleAtributionController@create')->name('schedule-atribution.create');
         Route::post('', 'ScheduleAtributionController@store')->name('schedule-atribution.store');
-        Route::get('{scheduleAtribution}/edit', 'ScheduleAtributionController@edit')->name('schedule-atribution.edit');
-        Route::put('{scheduleAtribution}', 'ScheduleAtributionController@update')->name('schedule-atribution.update');
-        Route::get('{scheduleAtribution}', 'ScheduleAtributionController@show')->name('schedule-atribution.show');
-        Route::delete('{scheduleAtribution}', 'ScheduleAtributionController@destroy')->name('schedule-atribution.destroy');
+        Route::get('{id}/{courseClassId}/edit', 'ScheduleAtributionController@edit')->name('schedule-atribution.edit');
+        Route::put('{id}', 'ScheduleAtributionController@update')->name('schedule-atribution.update');
+        Route::delete('{id}', 'ScheduleAtributionController@destroy')->name('schedule-atribution.destroy');
     });
 
     // ROUTES for Teacher Availabilities (Planning Use case)
@@ -141,6 +150,7 @@ Route::middleware(['auth', 'checkUserType1:1'])->group(function(){
 //ROTAS DISPONIVEIS PARA USER TYPE 2 -> TESTES
 Route::middleware(['auth', 'checkUserType2:2'])->group(function(){
 
+    // ROUTES for Teacher Availabilities (Teacher use case)
     Route::prefix('user-notes')->group(function(){
         //user notes update
         Route::post('users/update-notes', 'UserController@updateNotes')->name('users.update-notes');
@@ -151,7 +161,7 @@ Route::middleware(['auth', 'checkUserType2:2'])->group(function(){
 //ROTAS COMUNS
 Route::middleware(['auth'])->group(function(){
 
-    // ROUTES for Teacher Availabilities (Teacher Use case)
+    // ROUTES for Teacher Availabilities (Teacher/Planning Use case)
     Route::prefix('teacher-availabilities')->group(function(){    
         //deal with bulk data
         Route::post('delete-selected', 'TeacherAvailabilityController@deleteSelected')->name('teacher-availabilities.delete-selected');
@@ -165,10 +175,11 @@ Route::middleware(['auth'])->group(function(){
         Route::put('{id}', 'TeacherAvailabilityController@update')->name('teacher-availabilities.update');
     });
 
+    //ROUTES ALTER PASSWORD
     Route::prefix('users-alterar-pw')->group(function(){
         Route::get('password-form', 'UserController@changePasswordView')->name('users.passwordForm');
         Route::put('password-update', 'UserController@changePasswordLogic')->name('users.passwordUpdate');
     });
-
+    
 });
 

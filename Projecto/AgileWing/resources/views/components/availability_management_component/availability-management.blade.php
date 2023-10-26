@@ -187,7 +187,7 @@
                         @enderror
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" style="display: none;">
                         <label for="hourBlock">Bloco de horário</label>
                         <select class="form-control @error('hour_block_id') is-invalid @enderror" id="hourBlock" name="hour_block_id">
                             @foreach($hourBlocks as $block)

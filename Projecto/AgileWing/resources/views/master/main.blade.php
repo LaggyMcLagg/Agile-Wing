@@ -25,6 +25,7 @@
     @yield('styles')
     
     <!-- Scripts -->
+    <script>sessionStorage.clear()</script>
     
     <!-- Bootstrap JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" defer></script>

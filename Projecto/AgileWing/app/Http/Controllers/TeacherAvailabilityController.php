@@ -7,10 +7,11 @@ use App\TeacherAvailability;
 use App\User;
 use App\HourBlock;
 use App\AvailabilityType;
-use Illuminate\Support\Facades\Auth; //to get the logged in user
+use Illuminate\Support\Facades\Auth; //to get the loggedin user
 use Illuminate\Support\Facades\Validator; // to use custom rules in the validator
-use Carbon\Carbon;
-use App\Http\Controllers\Log;
+use Illuminate\Support\Facades\Log; // Import the Log facade
+use Carbon\Carbon; // to use the carbon methods (casts, addDay(), now(), etc)
+
 
 class TeacherAvailabilityController extends Controller
 {
@@ -27,17 +28,18 @@ class TeacherAvailabilityController extends Controller
     {
         //vars for content
         $user = User::find($id);
-        $editNotes = $user->user_type_id == 2 ? true : false;
+        $editNotes = auth()->user()->user_type_id == 2 ? true : false;
         $userId = $user->id;
         $userNotes = $user->notes;
         $availabilityTypes = AvailabilityType::all();
         $hourBlocks = HourBlock::orderBy('hour_beginning', 'asc')->get();
         $teacherAvailabilities = TeacherAvailability::where('user_id', $user->id)->get();
-
+        
         //var for component setup
+        $showExportBtn = auth()->user()->user_type_id == 1 ? true : false;
         $showNotes = true;
         $showLegend = true;
-        $showBtnStore = true;
+        $showBtnStore = $editNotes;
         $objectName = $user->name;
         $jsonTeacherAvailabilities = json_encode($teacherAvailabilities);
 
@@ -46,8 +48,8 @@ class TeacherAvailabilityController extends Controller
             'userNotes',
             'availabilityTypes',
             'hourBlocks',
-            'teacherAvailabilities',
 
+            'showExportBtn',
             'showNotes',
             'editNotes',
             'showLegend',
@@ -115,6 +117,7 @@ class TeacherAvailabilityController extends Controller
      */
     public function store(Request $request)
     {
+        $this->detectIntrusion($request);
 
         $rules = [
             'user_id' => 'required|exists:users,id',
@@ -243,6 +246,7 @@ class TeacherAvailabilityController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->detectIntrusion($request);
 
         // Check for published availability and user type permission to edit
         $teacherAvailability = TeacherAvailability::find($id);
@@ -254,7 +258,7 @@ class TeacherAvailabilityController extends Controller
         $request->validate([
             'user_id' => 'required|exists:users,id',
             'availability_date' => 'required|date|after:today',
-            'hour_block_id' => 'required|exists:hour_blocks,id|unique:teacher_availabilities,hour_block_id,' . $id . ',id,availability_date,' . $request->availability_date,
+            'hour_block_id' => 'required|exists:hour_blocks,id',
             'availability_type_id' => 'required|exists:availability_types,id',
         ],
         [
@@ -295,6 +299,13 @@ class TeacherAvailabilityController extends Controller
 
     public function deleteSelected(Request $request)
     {
+        $this->detectIntrusion($request);
+
+        // Check for null or empty ids
+        $ids = $request->input('ids');
+        if (!$ids || !count($ids)) {
+            return redirect()->back()->with('error', 'Nenhum registo seleccionado para apagar.');
+        }
 
         try {
             TeacherAvailability::whereIn('id', $request->input('ids'))->delete();
@@ -306,6 +317,13 @@ class TeacherAvailabilityController extends Controller
 
     public function publishSelected(Request $request)
     {
+        $this->detectIntrusion($request);
+
+        // Check for null or empty ids
+        $ids = $request->input('ids');
+        if (!$ids || !count($ids)) {
+            return redirect()->back()->with('error', 'Nenhum registo seleccionado para publicar.');
+        }
 
         try {
             TeacherAvailability::whereIn('id', $request->input('ids'))->update(['is_locked' => true]);
@@ -314,26 +332,26 @@ class TeacherAvailabilityController extends Controller
             return redirect()->back()->with('error', 'Erro ao publicar os registos.');
         }
     }
-
+    
     /**
      * Auxiliary method to create () Handle the single date entry.
      */
     private function updateOrCreateSingleEntry($request, $date)
     {
-
+        
         $hourBlock = HourBlock::findOrFail($request->start_hour_block_id);
-
+        
         // Check for published availability and user type permission to edit
         $existingAvailability = TeacherAvailability::where([
             'user_id' => $request->user_id,
             'availability_date' => $date->toDateString(),
             'hour_block_id' => $hourBlock->id,
-        ])->first();
-
-        if ($existingAvailability && $existingAvailability->is_locked && auth()->user()->user_type_id !== 1) {
-            throw new \Exception('Alguns dos registos já se encontram publicados e não permitem edições.');
+            ])->first();
+            
+            if ($existingAvailability && $existingAvailability->is_locked && auth()->user()->user_type_id !== 1) {
+                throw new \Exception('Alguns dos registos já se encontram publicados e não permitem edições.');
         }
-
+        
         //UPDATE OR CREATE
         TeacherAvailability::updateOrCreate(
             [
@@ -343,10 +361,10 @@ class TeacherAvailabilityController extends Controller
             ],
             [
                 'availability_type_id' => $request->availability_type_id,
-            ]
-        );
-    }
-
+                ]
+            );
+        }
+        
     /**
      * Auxiliary method to create () Handle the date range entries.
      */
@@ -354,29 +372,29 @@ class TeacherAvailabilityController extends Controller
     {
         $startHourBlock = HourBlock::findOrFail($request->start_hour_block_id);
         $endHourBlock = HourBlock::findOrFail($request->end_hour_block_id);
-
+        
         // Gather all the hour block IDs
         $hourBlockIds = HourBlock::whereBetween('id', [$startHourBlock->id, $endHourBlock->id])
-                                 ->pluck('id')
-                                 ->toArray();
-
+            ->pluck('id')
+            ->toArray();
+            
         // Get all dates in the range.
         $dates = [];
         for ($date = $startDate->copy(); $date->lte($endDate); $date->addDay()) {
             $dates[] = $date->toDateString();
         }
-
+        
         // Check for any locked availabilities for the entire date and hour block range.
         $lockedRecords = TeacherAvailability::where('user_id', $request->user_id)
-                                           ->whereIn('availability_date', $dates)
-                                           ->whereIn('hour_block_id', $hourBlockIds)
-                                           ->where('is_locked', 1)
-                                           ->count();
-
+            ->whereIn('availability_date', $dates)
+            ->whereIn('hour_block_id', $hourBlockIds)
+            ->where('is_locked', 1)
+            ->count();
+        
         if ($lockedRecords > 0 && auth()->user()->user_type_id !== 1) {
             throw new \Exception('Alguns dos registos já se encontram publicados e não permitem edições.');
         }
-
+        
         // If there are no locked records, proceed to update or create the entries.
         foreach ($dates as $date) {
             foreach ($hourBlockIds as $hourBlockId) {
@@ -393,6 +411,33 @@ class TeacherAvailabilityController extends Controller
             }
         }
     }
-
-
+        
+    /**
+     * Detects unauthorized intrusion attempts based on user type and user ID.
+     *
+     * If an intrusion is detected:
+     * - The user's session is terminated.
+     * - An alert log is created with the IP address of the intruder.
+     * - A 403 Forbidden response is returned.
+     *
+     * @param  \Illuminate\Http\Request  $request  The incoming HTTP request instance.
+     * @throws \Symfony\Component\HttpKernel\Exception\HttpException  When an unauthorized action is detected.
+     * @return void
+     */
+    private function detectIntrusion($request)
+    {
+        if (auth()->user()->user_type_id !== 1 && auth()->user()->id != $request->user_id)
+        {
+            // End user's session
+            Auth::logout();
+            
+            // Log the intrusion
+            $ipAddress = $request->ip();
+            \Log::channel('intrusion')->alert("Intrusion Alert! Unauthorized access attempt from IP: $ipAddress");
+            
+            // Send 403 Forbidden response
+            abort(403, 'Unauthorized action.');
+        }
+    }   
 }
+    

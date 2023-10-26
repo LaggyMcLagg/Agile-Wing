@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="{{ asset('css/geral.css') }}">
 @section('scripts')
 <script src="{{ asset('/js/search-table-function.js') }}"></script>
 <script src="{{ asset('/js/sort-table-function.js') }}"></script>
@@ -37,20 +38,15 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-4"></div>
-        <div class="col-md-4"></div>
-        <div class="col-md-4">
             <form class="form-inline my-2 my-lg-0 justify-content-end">
                 <input id="search-input" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-primary my-2 my-sm-0" type="submit">Pesquisa</button>
+                <button class="btn btn-blue my-2 my-sm-0" type="submit">Pesquisa</button>
             </form>
-        </div>
     </div>
 </div>
-
 <h3>Listagem de Turmas para gestão de atribuições</h3>
 
-<table class="table table-bordered" id="sortable-table">
+<table class="table table-borderless" id="sortable-table">
     <thead>
         <tr>
             <th data-column-index="0" scope="col">Turma</th>

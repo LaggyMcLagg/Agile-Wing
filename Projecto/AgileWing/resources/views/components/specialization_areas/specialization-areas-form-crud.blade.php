@@ -41,9 +41,9 @@
                 <input type="hidden" name="_method" value="POST" id="hiddenMethod">
 
                 <!-- Course ID -->
-                <label for="id">Area formação ID: </label>
+                <label for="id" hidden>Area formação ID: </label>
                 <!-- The prop data-name tells js where to target to place the info collected from the table -->
-                <label data-name="id" id="id_label"></label>
+                <label data-name="id" id="id_label" hidden></label>
 
                 <!-- Number -->
                 <div class="form-group">

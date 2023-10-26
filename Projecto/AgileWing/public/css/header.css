@@ -20,6 +20,10 @@
     background-color: #fff;
     height: 20px;
     margin-bottom: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
 }
 
 .navbar .navbar-nav .nav-link {
@@ -30,3 +34,4 @@
     color:  #4d4e4f;
     text-align: center;
 }
+

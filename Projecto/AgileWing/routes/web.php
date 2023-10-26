@@ -32,6 +32,11 @@ Route::get('/verify-email/{token}', 'UserController@verifyEmail')->name('verify.
 Route::get('reset-password-form/{id}', 'UserController@resetPassword')->name('resetPassword');
 
 
+//APAGAR DEPOIS DE TUDO FUNCIONAR - é a view para testar CSS dos cronogramas
+//APAGAR DEPOIS DE TUDO FUNCIONAR - é a view para testar CSS dos cronogramas
+Route::get('/cronograma-turma', 'ScheduleAtributionController@classTimeLineView');
+Route::get('/cronograma-professor', 'ScheduleAtributionController@teacherTimeLineView');
+
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/home', 'HomeController@index')->name('home');
 });    
@@ -39,6 +44,9 @@ Route::middleware(['auth', 'verified'])->group(function(){
 
 //ROTAS DISPONIVEIS PARA USER TYPE 1 -> TESTES
 Route::middleware(['auth', 'checkUserType1:1'])->group(function(){
+
+    Route::get('/timeline-course-class-exportPDF/{courseClassId}', 'ScheduleAtributionController@classTimeLinePDF')->name('course-class-timeline-export');
+    Route::get('/timeline-teacher-exportPDF/{userId}', 'ScheduleAtributionController@teacherTimeLinePDF')->name('user-timeline-export');
 
     Route::prefix('availability-types')->group(function(){
         Route::get('', 'AvailabilityTypeController@index')->name('availability-types.index');
@@ -172,5 +180,5 @@ Route::middleware(['auth'])->group(function(){
         Route::get('password-form', 'UserController@changePasswordView')->name('users.passwordForm');
         Route::put('password-update', 'UserController@changePasswordLogic')->name('users.passwordUpdate');
     });
-
+    
 });

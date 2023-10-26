@@ -6,8 +6,6 @@
     --black: #4d4e4f;
     --black-dark: #36353d;
     --blue: #6d92e3;
-    --blue-light: #d0e6ff;
-    --blue-light-shadow: #b6d6f7;
     --blue-dark: #617add;
     --table: #f0f6fc;
     --table-hover: #b9cdf0;
@@ -160,11 +158,6 @@ thead {
 }
 
 /* Form */
-
-.form-container {
-    background-color: var(--blue-light);
-}
-
 
 .atec-form {
     background-image: linear-gradient(to top, #a7d3e8, #8ec5e8, #7ab5e8, #6ea4e7, #6d92e3);
@@ -403,6 +396,7 @@ input[type="password"][disabled] {
 
     .title {
         padding-top: 5%;
+        padding-left: 5%;
         display: flex;
         flex-direction: column;
         gap: 5px;
@@ -417,7 +411,15 @@ input[type="password"][disabled] {
 
     /* Search */
 
+    .users-search {
+        width: 98%;
+        padding-left: 2%;
+        gap: 2%;
+    }
 
+    .users-search .btn-blue {
+        margin: 0px;
+    }
 
 
 }

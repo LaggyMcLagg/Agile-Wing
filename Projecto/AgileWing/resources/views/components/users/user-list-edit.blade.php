@@ -4,11 +4,11 @@
 <script src="{{ asset('/js/double-click-table-function.js') }}"></script>
 @endsection
 
-<h3 class="title spacing">Listagem de Formadores para Edição</h3>
+<h3 class="title mt-md-4 mt-sm-2">Listagem de Formadores para Edição</h3>
 <div class="search-container">
     <form class="users-search">
         <input id="search-input" class="form-control mr-sm-2" type="search" placeholder="Pesquisar Formador..." aria-label="Search">
-        <button class="btn btn-blue my-2 my-sm-0" type="submit">Procurar</button>
+        <button class="btn btn-blue my-sm-0" type="submit">Procurar</button>
     </form>
 </div>
 

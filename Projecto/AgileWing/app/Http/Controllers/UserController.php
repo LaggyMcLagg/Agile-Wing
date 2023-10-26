@@ -12,7 +12,7 @@ use Illuminate\Support\Str; //para poder gerar pw aleatoria ao criar um user
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Log; // apagar, so serviu para testes
 use Carbon\Carbon; //para usarmos o gt() e verificação do tempo útil do link de verf de email
-use PDF;
+
 
 use Illuminate\Http\Request;
 
@@ -29,10 +29,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        //lógica para ir buscar os users que são apenas formadores
-        $users = User::whereHas('userType', function ($query) {
-            $query->where('name', 'professor');
-        })->with('specializationAreas', 'pedagogicalGroups')->get();
+        $users = User::with('specializationAreas', 'pedagogicalGroups')->get();
     
         foreach ($users as $user) {
             $lastAvailability = $user->teacherAvailabilities()
@@ -278,12 +275,12 @@ class UserController extends Controller
                
         $request->validate(
             [
-                'notes' => 'string|max:255|regex:/^[\pL\sÇç]+$/u',
+                'notes' => 'string|max:255|regex:/^[\pL\sÇç\.]+$/u',
             ],
             [
-                'name.regex' => 'The notes may only contain letters, accentuation, and Ç or ç.',
+                'notes.regex' => 'As notas só podem conter letras, acentuação, pontos e Ç ou ç.',
             ]
-        );        
+        );         
 
         try {
 

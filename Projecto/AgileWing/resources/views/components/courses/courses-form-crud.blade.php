@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="{{ asset('css/geral.css') }}">
+
 
 @section('scripts')
 <script src="{{ asset('/js/control-form-dynamic-crud.js') }}"></script>

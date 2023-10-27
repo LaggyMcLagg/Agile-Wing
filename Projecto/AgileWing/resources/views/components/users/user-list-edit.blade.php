@@ -4,7 +4,7 @@
 <script src="{{ asset('/js/double-click-table-function.js') }}"></script>
 @endsection
 
-<h3 class="title mt-md-4 mt-sm-2">Listagem de Formadores para Edição</h3>
+<h3 class="title mt-md-4 mt-sm-2 ml-3">Listagem de Formadores para Edição</h3>
 <div class="search-container">
     <form class="users-search">
         <input id="search-input" class="form-control mr-sm-2" type="search" placeholder="Pesquisar Formador..." aria-label="Search">
@@ -21,7 +21,7 @@
 </div>
 @endif
 <div class="table-container">
-    <table class="table table-borderless spacing" id="sortable-table">
+    <table class="table table-borderless" id="sortable-table">
         <thead>
             <tr>
                 <th data-column-index="0" scope="col">Nome do formador</th>

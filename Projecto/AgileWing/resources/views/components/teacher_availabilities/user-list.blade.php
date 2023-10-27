@@ -37,13 +37,14 @@
     </div>
 @endif
 
-<h3>Listagem de Formadores para gestão disponibilidades</h3>
+<h3 class="title mt-md-4 mt-sm-2">Listagem de Formadores para gestão disponibilidades</h3>
 <div class="search-container">
     <form class="users-search">
         <input id="search-input" class="form-control mr-sm-2" type="search" placeholder="Pesquisar..." aria-label="Search">
         <button class="btn btn-blue my-sm-0" type="submit">Procurar</button>
     </form>
 </div>
+<div class="table-container">
 <table class="table table-borderless" id="sortable-table">
     <thead>
         <tr>
@@ -81,3 +82,4 @@
         @endforeach
     </tbody>
 </table>
+</div>

@@ -49,7 +49,7 @@
                 <!-- Input for 'hour_beginning' -->
                 <div class="form-group">
                     <label for="hour_beginning">Hora de início</label>
-                    <input data-name="hour_beginning" type="text" id="hour_beginning" name="hour_beginning" class="form-control @error('hour_beginning') is-invalid @enderror" required value="{{ old('hour_beginning') }}" readonly>
+                    <input data-name="hour_beginning" type="text" id="hour_beginning" name="hour_beginning" class="form-control @error('hour_beginning') is-invalid @enderror"  value="{{ old('hour_beginning') }}" readonly>
                     <!-- Error message for 'hour_beginning' -->
                     @error('hour_beginning')
                     <span class="invalid-feedback" role="alert">
@@ -61,7 +61,7 @@
                 <!-- Input for 'hour_end' -->
                 <div class="form-group">
                     <label for="hour_end">Hora de fim</label>
-                    <input data-name="hour_end" type="text" id="hour_end" name="hour_end" class="form-control @error('hour_end') is-invalid @enderror" required value="{{ old('hour_end') }}" readonly>
+                    <input data-name="hour_end" type="text" id="hour_end" name="hour_end" class="form-control @error('hour_end') is-invalid @enderror"  value="{{ old('hour_end') }}" readonly>
                     <!-- Error message for 'hour_end' -->
                     @error('hour_end')
                     <span class="invalid-feedback" role="alert">

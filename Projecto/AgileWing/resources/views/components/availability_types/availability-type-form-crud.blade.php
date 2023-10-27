@@ -40,7 +40,7 @@
                 <!-- Input for 'name' -->
                 <div class="form-group">
                     <label for="name">Nome</label>
-                    <input data-name="name" type="text" id="name" name="name" class="form-control @error('name') is-invalid @enderror" required value="{{ old('name') }}" readonly>
+                    <input data-name="name" type="text" id="name" name="name" class="form-control @error('name') is-invalid @enderror"  value="{{ old('name') }}" readonly>
                     @error('name')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -51,7 +51,7 @@
                 <!-- Color picker -->
                 <div class="form-group">
                     <label for="color">Cor</label>
-                    <input data-name="color" data-type="colorPicker" type="color" id="color" name="color" class="form-control @error('color') is-invalid @enderror" required value="{{ old('color') }}" readonly>
+                    <input data-name="color" data-type="colorPicker" type="color" id="color" name="color" class="form-control @error('color') is-invalid @enderror"  value="{{ old('color') }}" readonly>
                     @error('color')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>

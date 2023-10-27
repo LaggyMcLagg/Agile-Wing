@@ -233,12 +233,12 @@ class UserController extends Controller
                 'color_2'   => 'required',
             ],
             [
-                'name.required'     => 'The name field is required.',
-                'email.required'    => 'The email field is required.',
-                'email.email'       => 'Please provide a valid email address.',
-                'email.unique'      => 'This email is already in use.',
-                'color_1.required'  => 'Color 1 is required.',
-                'color_2.required'  => 'Color 2 is required.',
+                'name.required' => 'O campo de nome é obrigatório.',
+                'email.required' => 'O campo de correio eletrónico é obrigatório.',
+                'email.email' => 'Forneça um endereço de correio eletrónico válido.',
+                'email.unique' => 'Este correio eletrónico já está a ser utilizado.',
+                'color_1.required' => 'A cor 1 é obrigatória.',
+                'color_2.required' => 'A cor 2 é obrigatória.',
             ]
         );
         
@@ -288,10 +288,10 @@ class UserController extends Controller
             $user->notes = $request->notes;
             $user->save();
         
-            return redirect()->route('teacher-availabilities.index')->with('success', 'User notes updated successfully');
+            return redirect()->route('teacher-availabilities.index')->with('success', 'Notas de utilizador actualizadas com sucesso');
         } catch (\Exception $e) {
             //This way we resolve gracefully any errors, return the error message and the old form data
-            return back()->withInput()->with('error', 'There was an error updating the user: ' . $e->getMessage());        
+            return back()->withInput()->with('error', 'Ocorreu um erro ao atualizar o utilizador: ' . $e->getMessage());        
         }
     }
 

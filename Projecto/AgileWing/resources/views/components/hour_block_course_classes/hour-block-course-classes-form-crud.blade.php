@@ -50,15 +50,7 @@
                 <!--Hour Beginning -->
                 <div class="form-group">
                     <label for="hour_beginning">Hora inicio</label>
-                    <input
-                        data-name="hour_beginning"
-                        type="text"
-                        id="hour_beginning"
-                        name="hour_beginning"
-                        class="form-control @error('hour_beginning') is-invalid @enderror"
-                        required
-                        value="{{ old('hour_beginning') }}"
-                        readonly>
+                    <input data-name="hour_beginning" type="text" id="hour_beginning" name="hour_beginning" class="form-control @error('hour_beginning') is-invalid @enderror"  value="{{ old('hour_beginning') }}" readonly>
                     @error('hour_beginning')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -69,15 +61,7 @@
                 <!--Hour End -->
                 <div class="form-group">
                     <label for="hour_end">Hora fim</label>
-                    <input
-                        data-name="hour_end"
-                        type="text"
-                        id="hour_end"
-                        name="hour_end"
-                        class="form-control @error('hour_end') is-invalid @enderror"
-                        required
-                        value="{{ old('hour_end') }}"
-                        readonly>
+                    <input data-name="hour_end" type="text" id="hour_end" name="hour_end" class="form-control @error('hour_end') is-invalid @enderror"  value="{{ old('hour_end') }}" readonly>
                     @error('hour_end')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -88,16 +72,9 @@
                 <!-- Course Class -->
                 <div class="form-group">
                     <label for="courseClass">Turma</label>
-                    <select
-                        data-name="courseClass"
-                        data-type="comboBox"
-                        id="courseClass"
-                        name="course_class_id"
-                        class="form-control"
-                        disabled>
+                    <select data-name="courseClass" data-type="comboBox" id="courseClass" name="course_class_id" class="form-control" disabled>
                         @foreach($courseClasses as $courseClass)
-                            <option value="{{ $courseClass->id }}"
-                                @if(old('courseClass_id') == $courseClass->id) selected @endif
+                        <option value="{{ $courseClass->id }}" @if(old('courseClass_id')==$courseClass->id) selected @endif
                             >
                             {{ $courseClass->name }} - {{ $courseClass->number }}
                         </option>
@@ -107,8 +84,8 @@
 
                 <!-- Save and Cancel buttons, initially hidden -->
                 <div class="d-flex justify-content-end mt-2 mb-5">
-                  <button id="saveBtn" type="submit" class="mt-2 mb-5 btn btn-save" style="display: none;">Guardar</button>
-                  <button id="cancelBtn" class="mt-2 mb-5 btn btn-cancel" style="display: none;">Cancelar</button>
+                    <button id="saveBtn" type="submit" class="mt-2 mb-5 btn btn-save" style="display: none;">Guardar</button>
+                    <button id="cancelBtn" class="mt-2 mb-5 btn btn-cancel" style="display: none;">Cancelar</button>
                 </div>
             </form>
         </div>
@@ -143,7 +120,7 @@
                     <tbody>
                         @foreach ($hourBlockCourseClasses as $hourBlockCourseClass)
                         <tr>
-                              <td data-name="id" hidden>{{ $hourBlockCourseClass->id }}</td>
+                            <td data-name="id" hidden>{{ $hourBlockCourseClass->id }}</td>
                             <td data-name="hour_beginning">{{ $hourBlockCourseClass->hour_beginning }}</td>
                             <td data-name="hour_end">{{ $hourBlockCourseClass->hour_end }}</td>
                             <td data-name="courseClass">

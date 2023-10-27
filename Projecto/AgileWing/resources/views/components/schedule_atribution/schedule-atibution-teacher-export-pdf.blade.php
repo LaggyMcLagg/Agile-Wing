@@ -4,34 +4,48 @@
 <div class="container">
     @foreach ($teacherClass->scheduleAtributions->groupBy(function($date) {
         return \Carbon\Carbon::parse($date->date)->format('F Y');
-    }) as $month => $scheduleAtributions)
-        <table class="custom-table">
+    }) as $month => $scheduleAtributionsByMonth)
+    <table class="custom-table">
         <caption>{{ \Carbon\Carbon::parse($month)->format('m/Y') }}</caption>
-            <thead>
+        <thead>
+            <tr>
+                <th>Hora de Início</th>
+                @foreach ($scheduleAtributionsByMonth->pluck('date')->unique() as $date)
+                    <th>{{ \Carbon\Carbon::parse($date)->format('d/m/Y') }}</th>
+                @endforeach
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($scheduleAtributionsByMonth->groupBy('hourBlockCourseClass.hour_beginning')->sortBy(function ($item) {
+                return $item->first()->hourBlockCourseClass->hour_beginning;
+            }) as $startTime => $attributionsByTime)
                 <tr>
-                    <th>Data de Atribuição</th>
-                    @foreach ($scheduleAtributions->unique('date') as $uniqueDate)
-                        <th>{{ \Carbon\Carbon::parse($uniqueDate->date)->format('d/m/Y') }}</th>
-                    @endforeach
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Marcação</td>
-                    @foreach ($scheduleAtributions->unique('date') as $uniqueDate)
-                        <td style="background-color: {{ $uniqueDate->backgroundColor ?? '#fff' }}">
-                            @foreach ($scheduleAtributions->where('date', $uniqueDate->date) as $attribution)
+                    <td>{{ $startTime }}</td>
+                    @foreach ($scheduleAtributionsByMonth->pluck('date')->unique() as $date)
+                        @php
+                            $attributionsForDateAndTime = $attributionsByTime->where('date', $date);
+                        @endphp
+                        <td>
+                            @foreach ($attributionsForDateAndTime as $attribution)
+                                <div style="background-color: {{ $attribution->backgroundColor ?? '#fff' }}">
                                     <b>{{ $attribution->ufcd->number }}</b><br>
                                     {{ $attribution->hourBlockCourseClass->hour_beginning }} - {{ $attribution->hourBlockCourseClass->hour_end }}<br>
                                     {{ $attribution->courseClass->name }} - {{ $attribution->courseClass->number }}<br>
+                                    {{ $attribution->date->format('d/m/Y') }}<br>
+                                </div>
                             @endforeach
                         </td>
                     @endforeach
                 </tr>
-            </tbody>
-        </table>
+            @endforeach
+        </tbody>
+    </table>
     @endforeach
 </div>
+
+
+
+
 
 
 <style>

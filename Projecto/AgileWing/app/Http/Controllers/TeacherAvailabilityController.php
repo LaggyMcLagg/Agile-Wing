@@ -30,6 +30,7 @@ class TeacherAvailabilityController extends Controller
         $user = User::find($id);
         $editNotes = auth()->user()->user_type_id == 2 ? true : false;
         $userId = $user->id;
+        $courseClassId = null;
         $userNotes = $user->notes;
         $availabilityTypes = AvailabilityType::all();
         $hourBlocks = HourBlock::orderBy('hour_beginning', 'asc')->get();
@@ -56,7 +57,8 @@ class TeacherAvailabilityController extends Controller
             'showBtnStore',
             'objectName',
             'jsonTeacherAvailabilities',
-            'userId'
+            'userId',
+            'courseClassId'
         ));
     }
 

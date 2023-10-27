@@ -91,7 +91,7 @@
                 @if($showExportBtn)
                     <a 
                         class="btn btn-light" 
-                        href="{{ $userId == null ? route('user-timeline-export', $userId) : route('course-class-timeline-export', $courseClassId) }}">
+                        href="{{ $userId ? route('user-timeline-export', $userId) : route('course-class-timeline-export', $courseClassId) }}">
                     Exportar Horário
                     </a>
                 @endif

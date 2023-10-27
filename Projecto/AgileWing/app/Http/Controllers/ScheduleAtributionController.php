@@ -55,6 +55,7 @@ class ScheduleAtributionController extends Controller
         $courseClass = CourseClass::find($id);
         $editNotes = false;
         $courseClassId = $courseClass->id;
+        $userId = null;
         $userNotes = "";
         $availabilityTypes = "";
         $hourBlocks = HourBlockCourseClass::where('course_class_id', $courseClass->id)->orderBy('hour_beginning', 'asc')->get();
@@ -84,7 +85,8 @@ class ScheduleAtributionController extends Controller
                 'jsonUser',
                 'jsonUfcd',
                 'jsonCourseClassAtributions',
-                'courseClassId'
+                'courseClassId',
+                'userId'
             ));
     }
     
@@ -326,9 +328,9 @@ class ScheduleAtributionController extends Controller
     }
 
     //MANTER ESTA É A QUE EXPORTA PDF
-    public function classTimeLinePDF()
+    public function classTimeLinePDF($id)
     {
-        $classId = 5;
+        $classId = $id;
         
         $courseClass = CourseClass::with([
             'course',
@@ -420,7 +422,7 @@ class ScheduleAtributionController extends Controller
     public function teacherTimeLineView()
     {
         $userId = 11;
-    
+     
         $teacherClass = User::with([
             'scheduleAtributions',
             'scheduleAtributions.courseClass',
@@ -428,38 +430,26 @@ class ScheduleAtributionController extends Controller
             'scheduleAtributions.ufcd',
             'scheduleAtributions.availabilityType',
         ])->find($userId);
-    
+     
         // Sort the schedule attributions by date in ascending order
         $teacherClass->scheduleAtributions = $teacherClass->scheduleAtributions
             ->sortBy('date');
-    
-        $groupedAtributions = $teacherClass->scheduleAtributions->groupBy([
-            function ($attribution) {
-                return $attribution->date->format('Y-m-d'); // Primeiro, agrupe por data.
-            },
-            function ($attribution) {
-                return $attribution->id; // Em seguida, agrupe por ID de atribuição.
-            }
-        ]);
-    
+     
         // Set background color for each $attribution
         foreach ($teacherClass->scheduleAtributions as $attribution) {
             $attribution->backgroundColor = $attribution->availabilityType->color;
         }
-    
-        $dates = $groupedAtributions->keys(); // Get unique dates.
-    
+     
         return view('pages.schedule_atribution.export-pdf-teacher', [
-            'teacherClass' => $teacherClass,
-            'dates' => $dates,
-            'groupedAtributions' => $groupedAtributions
+            'teacherClass' => $teacherClass
         ]);
     }
     
+    
     //MANTER ESTA É A QUE EXPORTA PDF
-    public function teacherTimeLinePDF()
+    public function teacherTimeLinePDF($id)
     {
-        $userId = 11;
+        $userId = $id;
     
         $teacherClass = User::with([
             'scheduleAtributions',

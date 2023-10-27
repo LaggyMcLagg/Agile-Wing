@@ -33,7 +33,8 @@
         'showBtnStore',
         'objectName', 
         'jsonTeacherAvailabilities',
-        'userId'
+        'userId',
+        'courseClassId'
         )
     )
 @endcomponent

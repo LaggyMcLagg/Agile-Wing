@@ -25,11 +25,10 @@
 @endif
 
 <!-- Start of the Main Container -->
-<div class="container spacing" id="listForm">
+<div class="container" id="listForm">
     <div class="row">
         <!-- LEFT COLUMN: CREATE/EDIT FORM -->
         <div class="col-md-4">
-
 
             <!-- FORM -->
             <form class="atec-form" action="{{ route('course-classes.store') }}" id="controlForm" method="POST">

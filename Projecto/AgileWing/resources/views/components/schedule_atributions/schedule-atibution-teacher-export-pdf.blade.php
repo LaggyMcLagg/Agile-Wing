@@ -25,7 +25,7 @@
                         @php
                             $attributionsForDateAndTime = $attributionsByTime->where('date', $date);
                         @endphp
-                        <td>
+                        <td style="padding: 0;">
                             @foreach ($attributionsForDateAndTime as $attribution)
                                 <div style="background-color: {{ $attribution->backgroundColor ?? '#fff' }}">
                                     <b>{{ $attribution->ufcd->number }}</b><br>
@@ -49,29 +49,31 @@
 
 
 <style>
+     .custom-table caption {
+            background-color: #dfe3e5;
+            color: #617add;
+        }
     .container
     {
         width: 100%;
         max-width: 100%;
-
     }
 
-    .custom-table 
+    .custom-table
     {
         width: 100%;
         border-collapse: collapse;
     }
 
-    .custom-table th, .custom-table td 
+    .custom-table th, .custom-table td
     {
         border: 1px solid #000;
-        text-align: left;
+        text-align: center;
         font-size: 5px;
         word-wrap: break-word;
     }
 
     .custom-table tr td {
-    padding: 2px; /* Increase padding for better spacing */
     max-width: 100px; /* Adjust the maximum width to your preference */
 }
 
@@ -89,4 +91,11 @@
     .custom-table th {
         background-color: #f2f2f2;
     }
+
+h3,h4 {
+    text-align: center;
+    color: #617add;
+    margin-top:10px;
+}
+
 </style>

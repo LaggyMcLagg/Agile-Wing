@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="{{ asset('css/geral.css') }}">
 @section('scripts')
 <script src="{{ asset('/js/search-table-function.js') }}"></script>
 <script src="{{ asset('/js/sort-table-function.js') }}"></script>

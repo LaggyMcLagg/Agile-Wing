@@ -276,7 +276,7 @@ document.addEventListener("DOMContentLoaded", function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\Administrador\Documents\GitHub\Agile-Wing\Projecto\AgileWing\resources\js\components\build-scheduler.js */"./resources/js/components/build-scheduler.js");
+module.exports = __webpack_require__(/*! C:\Users\ruiru\Desktop\Agile-Wing\Projecto\AgileWing\resources\js\components\build-scheduler.js */"./resources/js/components/build-scheduler.js");
 
 
 /***/ })

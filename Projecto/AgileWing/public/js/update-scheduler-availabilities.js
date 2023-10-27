@@ -130,7 +130,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
  * @event DOMContentLoaded Fires when the initial HTML document has been completely loaded.
  * @function updateScheduller Responsible for the main logic of updating the scheduler.
  */
-
 document.addEventListener("DOMContentLoaded", function () {
   updateScheduller();
   document.getElementById("prevMonth").addEventListener("click", function () {
@@ -142,14 +141,23 @@ document.addEventListener("DOMContentLoaded", function () {
   function updateScheduller() {
     // Load availabilities from sessionStorage
     var availabilities = JSON.parse(sessionStorage.getItem('localJson'));
+
+    // Load users
+    var users = JSON.parse(sessionStorage.getItem('localJsonUser'));
+
+    // Load UFCDS
+    var ufcds = JSON.parse(sessionStorage.getItem('localJsonUfcd'));
     var baseUrl = sessionStorage.getItem('baseUrl');
     var userId = sessionStorage.getItem('userId');
+    var courseClassId = sessionStorage.getItem('courseClassId');
     availabilities.forEach(function (availability) {
       // Convert the availability date to YYYY-MM-DD format for comparison
-      var availabilityDate = new Date(availability.availability_date).toISOString().split('T')[0];
+      var dateToUse = availability.availability_date ? availability.availability_date : availability.date;
+      var availabilityDate = new Date(dateToUse).toISOString().split('T')[0];
 
       // Get the correct cell based on date and hour block
-      var row = document.querySelector("#scheduler tbody tr td[data-id=\"".concat(availability.hour_block_id, "\"]")).parentNode;
+      var idToUse = availability.hour_block_id ? availability.hour_block_id : availability.hour_block_course_class_id;
+      var row = document.querySelector("#scheduler tbody tr td[data-id=\"".concat(idToUse, "\"]")).parentNode;
       var cell = _toConsumableArray(row.children).find(function (td) {
         return td.getAttribute('data-date') === availabilityDate;
       });
@@ -164,21 +172,70 @@ document.addEventListener("DOMContentLoaded", function () {
             window.location.href = "".concat(baseUrl, "/").concat(availability.id, "/").concat(userId, "/edit");
           });
           cell.style.cursor = 'pointer';
+        } else {
+          // Find the relevant user and UFCD data
+          var relevantUser = Object.values(users).find(function (user) {
+            return user.id === availability.user_id;
+          });
+          var relevantUfcd = Object.values(ufcds).find(function (ufcd) {
+            return ufcd.id === availability.ufcd_id;
+          });
+          if (relevantUser) {
+            cell.style.backgroundColor = relevantUser.color_1;
+
+            // Generate div for user name
+            var userDiv = document.createElement('div');
+            userDiv.classList.add('user-name');
+            userDiv.textContent = relevantUser.name;
+            cell.appendChild(userDiv);
+          }
+
+          // Generate div for UFCD info
+          if (relevantUfcd) {
+            var ufcdDiv = document.createElement('div');
+            ufcdDiv.classList.add('ufcd-info');
+            ufcdDiv.textContent = "".concat(relevantUfcd.number);
+            cell.appendChild(ufcdDiv);
+          }
+
+          // Attach event listener to cell
+          cell.addEventListener('click', function () {
+            window.location.href = "".concat(baseUrl, "/").concat(availability.id, "/").concat(courseClassId, "/edit");
+          });
+          cell.style.cursor = 'pointer';
         }
       }
     });
-
-    // Set create links for empty cells
-    var cells = document.querySelectorAll("#scheduler tbody td:not(:first-child)");
-    cells.forEach(function (cell) {
-      if (!cell.style.backgroundColor) {
+    if (courseClassId == 0) {
+      // create links for empty cells TEACHER AVAILABILITIES
+      var cells = document.querySelectorAll("#scheduler tbody td:not(:first-child)");
+      cells.forEach(function (cell) {
+        if (!cell.style.backgroundColor) {
+          // If the cell doesn't already contain a link via the bg-color
+          cell.addEventListener('click', function () {
+            window.location.href = "".concat(baseUrl, "/create/").concat(userId);
+          });
+          cell.style.cursor = 'pointer';
+        }
+      });
+    } else {
+      // create links for empty cells COURSE CLASSE ATRIBUTIONS
+      var _cells = document.querySelectorAll("#scheduler tbody td:not(:first-child)");
+      _cells.forEach(function (cell) {
         // If the cell doesn't already contain a link via the bg-color
-        cell.addEventListener('click', function () {
-          window.location.href = "".concat(baseUrl, "/create/").concat(userId);
-        });
-        cell.style.cursor = 'pointer';
-      }
-    });
+        if (!cell.style.backgroundColor) {
+          // Get the block ID from the first <td> of the row
+          var blockId = cell.parentNode.querySelector('td[data-id]').getAttribute('data-id');
+
+          // Get the date from the clicked cell
+          var date = cell.getAttribute('data-date');
+          cell.addEventListener('click', function () {
+            window.location.href = "".concat(baseUrl, "/create/").concat(courseClassId, "/").concat(blockId, "/").concat(date);
+          });
+          cell.style.cursor = 'pointer';
+        }
+      });
+    }
   }
 });
 
@@ -191,7 +248,7 @@ document.addEventListener("DOMContentLoaded", function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\Administrador\Documents\GitHub\Agile-Wing\Projecto\AgileWing\resources\js\logic\update-scheduler-availabilities.js */"./resources/js/logic/update-scheduler-availabilities.js");
+module.exports = __webpack_require__(/*! C:\Users\ruiru\Desktop\Agile-Wing\Projecto\AgileWing\resources\js\logic\update-scheduler-availabilities.js */"./resources/js/logic/update-scheduler-availabilities.js");
 
 
 /***/ })

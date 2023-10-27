@@ -20,7 +20,7 @@
             </span>
             @enderror
             <small id="passwordHelp" class="form-text text-error">
-                Insira uma nova senha com pelo menos 4 caracteres.
+                Insira uma nova senha com pelo menos 8 caracteres.
             </small>
         </div>
         

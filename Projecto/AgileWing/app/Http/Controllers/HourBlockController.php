@@ -56,7 +56,7 @@ class HourBlockController extends Controller
         // Se a validação passar, crie o registro
         HourBlock::create($request->all());
     
-        return redirect()->route('hour-blocks.index')->with('success', 'Registo criado com sucesso!');
+        return redirect()->route('hour-blocks.index')->with('success', 'Bloco de horário criado com sucesso.');
     }
     
 

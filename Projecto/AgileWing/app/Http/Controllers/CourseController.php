@@ -155,10 +155,10 @@ class CourseController extends Controller
             
             $course->ufcds()->sync($request->ufcds);
         
-            return redirect()->route('courses.index')->with('success', 'Course deleted successfully');
+            return redirect()->route('courses.index')->with('success', 'Course editado com sucesso.');
         } catch (\Exception $e) {
             //This way we resolve gracefully any errors, return the error message the old form data
-            session()->flash('error', 'There was an error updating the course: ' . $e->getMessage());
+            session()->flash('error', 'Houve um erro a editar o curso. ' . $e->getMessage());
             return back()->withInput();
         }
     }    
@@ -180,10 +180,10 @@ class CourseController extends Controller
             // Soft delete the course
             $course->delete();
     
-            return redirect()->route('courses.index')->with('success', 'Course deleted successfully');
+            return redirect()->route('courses.index')->with('success', 'Curso apagado com sucesso');
         } catch (\Exception $e) {            
     
-            return redirect()->route('courses.index')->with('error', 'There was an error deleting the course.' . $e->getMessage());
+            return redirect()->route('courses.index')->with('error', 'Houve um erro a apagar o curso.' . $e->getMessage());
         }
     }
 }

@@ -84,7 +84,8 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name'          => 'required',
+
+            'name'      => 'required|string|max:255|regex:/^[\pL\sÇç]+$/u',
             'email'         => 'required|email',
             'user_type_id'  => 'required',
             'color_1'       => 'required',
@@ -262,7 +263,7 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        return redirect()->route('users.edit')->with('status', 'Registo apagado com sucesso');
+        return redirect()->route('users.edit')->with('success', 'Registo apagado com sucesso');
     }
 
     //###############################
@@ -302,7 +303,7 @@ class UserController extends Controller
     public function changePasswordLogic(Request $request)
     {
         $request->validate([
-            'new_password'      => 'required|string|min:4|confirmed',
+            'new_password'      => 'required|string|min:8|confirmed',
         ], 
         [
             'new_password.required'     => 'A nova password é obrigatória.',

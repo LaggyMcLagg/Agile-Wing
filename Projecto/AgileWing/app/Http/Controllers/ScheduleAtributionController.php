@@ -8,7 +8,9 @@ use App\ScheduleAtribution;
 use App\Ufcd;
 use App\User;
 use App\HourBlockCourseClass;
+use App\Course;
 use Illuminate\Http\Request;
+
 
 class ScheduleAtributionController extends Controller
 {
@@ -21,10 +23,10 @@ class ScheduleAtributionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index($courseClassId)
     {
         // Fetch all schedule attributions related to the given course class ID with associated users
-        $courseClass = CourseClass::find($id);
+        $courseClass = CourseClass::find($courseClassId);
         $scheduleAtributions = ScheduleAtribution::where('course_class_id', $courseClass->id)
             ->with('user', 'ufcd')
             ->get();
@@ -47,13 +49,11 @@ class ScheduleAtributionController extends Controller
         });
 
         //vars for content
-        $courseClass = CourseClass::find($id);
         $editNotes = false;
-        $courseClassId = $courseClass->id;
         $userNotes = "";
         $availabilityTypes = "";
         $hourBlocks = HourBlockCourseClass::where('course_class_id', $courseClass->id)->orderBy('hour_beginning', 'asc')->get();
-        
+
         //var for component setup
         $showExportBtn = true;
         $showNotes = false;
@@ -64,7 +64,7 @@ class ScheduleAtributionController extends Controller
         $jsonUser = json_encode($users);
         $jsonUfcd = json_encode($ufcds);
 
-        return view('pages.schedule_atribution.index',
+        return view('pages.schedule_atributions.index',
             compact(
                 'userNotes', 
                 'availabilityTypes',
@@ -82,25 +82,93 @@ class ScheduleAtributionController extends Controller
                 'courseClassId'
             ));
     }
-    
-    
+
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(User $user)
+    public function create($idCourseClass, $idHourBlockCourseClass, $date)
     {
-        $availabilityTypes = AvailabilityType::all();
-        $courseClasses = CourseClass::all();
-        $ufcds = Ufcd::all();
-        $users = User::all();
+        //ensure date format
+        $dateObject = new \DateTime($date);
+        $formattedDate = $dateObject->format('Y-m-d');
+        
+        //get the object course class from the idCourseClass
+        $courseClass = CourseClass::findOrFail($idCourseClass);
 
-        //if($user->user_type_id == 1) { //TODO descomentar
-            return view('pages.schedule_atribution.create', compact('availabilityTypes', 'courseClasses', 'ufcds', 'users'));
-        //} else {
-            //return view('pages.error');
-        //}
+        //get the object hourblock course class idHourBlockCourseClass
+        $hourBlockCourseClass = HourBlockCourseClass::findOrFail($idHourBlockCourseClass);
+
+        //get all the ufcds of this idCourseClass via the course
+        $ufcds = $courseClass->course->ufcds;
+
+        //get all the users that have the same ufcds as courseClass course, and eager load their teacher availabilities
+        //filter dy date and type
+        $usersWithSameUfcds = User::whereHas('ufcds', function ($query) use ($ufcds) {
+            $query->whereIn('ufcds.id', $ufcds->pluck('id'));
+        })->with(['teacherAvailabilities' => function ($query) use ($formattedDate) {
+            $query  
+                ->where('availability_date', $formattedDate)
+                ->whereIn('availability_type_id', [1, 2]);
+        }])->get();
+        // dd($usersWithSameUfcds);
+
+        $usersAvailableOnDate = $usersWithSameUfcds->filter(function ($user) {
+            return $user->teacherAvailabilities->isNotEmpty();
+        });
+        // dd($usersAvailableOnDate);
+
+        // //#############
+        // $usersWithAvailabilitiesArray = $usersAvailableOnDate->map(function ($user) {
+        //     return [
+        //         'user_id' => $user->id,
+        //         'user_name' => $user->name, // Assuming the user model has a 'name' field
+        //         'availabilities' => $user->teacherAvailabilities->map(function ($availability) {
+        //             return [
+        //                 'availability_id' => $availability->id,
+        //                 'availability_date' => $availability->availability_date,
+        //                 'hour_block' => [
+        //                     'hour_beginning' => $availability->hourBlock->hour_beginning,
+        //                     'hour_end' => $availability->hourBlock->hour_end,
+        //                 ],
+        //                 'availability_type_id' => $availability->availability_type_id,
+        //                 // ... Any other fields you want from the availability model
+        //             ];
+        //         })->toArray(),
+        //     ];
+        // })->toArray();
+        
+        // // Encode the structured data into JSON
+        // $jsonOutput = json_encode($usersWithAvailabilitiesArray, JSON_PRETTY_PRINT);
+        // dd($jsonOutput);
+        // //############
+
+        $filteredUsers = $usersAvailableOnDate->filter(function ($user) use ($hourBlockCourseClass) {
+            // fetch all the hour blocks where the user is available
+            $availableHourBlocks = $user->teacherAvailabilities->pluck('hourBlock');
+            // dd($availableHourBlocks);
+            
+            // Check if the user has any availability that envelops the hour block of the course class
+            foreach ($availableHourBlocks as $hourBlock) {
+                if ($hourBlock->hour_beginning <= $hourBlockCourseClass->hour_beginning 
+                && $hourBlock->hour_end >= $hourBlockCourseClass->hour_end) {
+                    return true;
+                }
+            }
+            
+            return false;
+        });
+        // dd($filteredUsers);
+        
+        return view('pages.schedule_atributions.create', 
+            compact(
+                'courseClass', 
+                'hourBlockCourseClass', 
+                'ufcds', 
+                'filteredUsers', 
+                'date'
+            ));
     }
 
     /**
@@ -109,24 +177,9 @@ class ScheduleAtributionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, User $user)
+    public function store(Request $request)
     {
-        // Validar dados
-        $request->validate([
-            'date' => 'required|date|after:today',
-            'hour_start' => 'required|date_format:H:i',
-            'hour_end' => 'required|date_format:H:i',
-            'availability_type_id' => 'required|exists:availability_types,id',
-            'course_class_id' => 'required|exists:course_classes,id',
-            'ufcd_id' => 'required|exists:ufcds,id',
-            'user_id' => 'required|exists:users,id',
-        ]);
-
-        $scheduleUser = User::find($request->user_id);
-
-        $scheduleUser->scheduleAtributions()->create($request->all());
-
-        return redirect()->route('schedule_atribution.index')->with('status', 'Schedule atribution created successfully');
+        //
     }
 
     /**
@@ -135,13 +188,9 @@ class ScheduleAtributionController extends Controller
      * @param  \App\ScheduleAtribution  $scheduleAtribution
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user, ScheduleAtribution $scheduleAtribution)
+    public function show(ScheduleAtribution $scheduleAtribution)
     {
-        // Eager load the necessary relationships
-        $scheduleAtribution->load('user', 'ufcd', 'courseClass', 'availabilityType');
-
-        // Pass the data to the view
-        return view('pages.schedule_atribution.show', compact('scheduleAtribution'));
+        //
     }
 
     /**
@@ -150,14 +199,9 @@ class ScheduleAtributionController extends Controller
      * @param  \App\ScheduleAtribution  $scheduleAtribution
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user, ScheduleAtribution $scheduleAtribution)
+    public function edit($scheduleAtributionId, $courseClassId)
     {
-        $availabilityTypes = AvailabilityType::all();
-        $courseClasses = CourseClass::all();
-        $ufcds = Ufcd::all();
-        $users = User::all();
-
-        return view('pages.schedule_atribution.edit', compact('scheduleAtribution', 'availabilityTypes', 'courseClasses', 'ufcds', 'users'));
+        //
     }
 
     /**
@@ -167,34 +211,20 @@ class ScheduleAtributionController extends Controller
      * @param  \App\ScheduleAtribution  $scheduleAtribution
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user, ScheduleAtribution $scheduleAtribution)
+    public function update(Request $request)
     {
-        $request->validate([
-            'date' => 'required|date|after:today',
-            'hour_start' => 'required|date_format:H:i',
-            'hour_end' => 'required|date_format:H:i',
-            'availability_type_id' => 'required|exists:availability_types,id',
-            'course_class_id' => 'required|exists:course_classes,id',
-            'ufcd_id' => 'required|exists:ufcds,id',
-            'user_id' => 'required|exists:users,id',
-        ]);
-
-        $scheduleAtribution->update($request->all());
-
-        return redirect()->route('schedule_atribution.index')->with('status', 'Schedule atribution updated successfully');
+        //
     }
-    
+
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\ScheduleAtribution  $scheduleAtribution
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user, ScheduleAtribution $scheduleAtribution)
+    public function destroy($scheduleAtributionId)
     {
-        $scheduleAtribution->delete();
-
-        return redirect()->route('schedule_atribution.index', $user);
+       //
     }
 
     //###############################

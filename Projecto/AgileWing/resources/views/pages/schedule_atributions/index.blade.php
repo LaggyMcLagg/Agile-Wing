@@ -10,7 +10,7 @@
     sessionStorage.setItem('localJsonUfcd', @json($jsonUfcd));
     //creates a js global var with the routes
     sessionStorage.setItem('baseUrl', "{{ route('schedule-atribution.store') }}");
-    sessionStorage.setItem('userId', null);
+    sessionStorage.setItem('userId', 0);
     sessionStorage.setItem('courseClassId', "{{ $courseClassId }}");
 </script>
 <script src="{{ asset('/js/build-scheduler.js') }}"></script>

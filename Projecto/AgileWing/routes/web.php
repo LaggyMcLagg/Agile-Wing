@@ -119,12 +119,12 @@ Route::middleware(['auth', 'checkUserType1:1'])->group(function(){
 
 
         //CRUD
-        Route::get('{id}', 'ScheduleAtributionController@index')->name('schedule-atribution.index');
-        Route::get('create/{id}', 'ScheduleAtributionController@create')->name('schedule-atribution.create');
+        Route::get('{courseClassId}', 'ScheduleAtributionController@index')->name('schedule-atribution.index');
+        Route::get('create/{courseClassId}/{hourBlockCourseClassId}/{date}', 'ScheduleAtributionController@create')->name('schedule-atribution.create');
         Route::post('', 'ScheduleAtributionController@store')->name('schedule-atribution.store');
-        Route::get('{id}/{courseClassId}/edit', 'ScheduleAtributionController@edit')->name('schedule-atribution.edit');
-        Route::put('{id}', 'ScheduleAtributionController@update')->name('schedule-atribution.update');
-        Route::delete('{id}', 'ScheduleAtributionController@destroy')->name('schedule-atribution.destroy');
+        Route::get('{scheduleAtributionId}/{courseClassId}/edit', 'ScheduleAtributionController@edit')->name('schedule-atribution.edit');
+        Route::put('', 'ScheduleAtributionController@update')->name('schedule-atribution.update');
+        Route::delete('{scheduleAtributionId}', 'ScheduleAtributionController@destroy')->name('schedule-atribution.destroy');
     });
 
     // ROUTES for Teacher Availabilities (Planning Use case)
@@ -157,8 +157,8 @@ Route::middleware(['auth'])->group(function(){
     
         //crud
         Route::get('create/{id}', 'TeacherAvailabilityController@create')->name('teacher-availabilities.create');
-        Route::get('{id}/{userId}/edit', 'TeacherAvailabilityController@edit')->name('teacher-availabilities.edit');
         Route::get('{id}', 'TeacherAvailabilityController@index')->name('teacher-availabilities.index');
+        Route::get('{id}/{userId}/edit', 'TeacherAvailabilityController@edit')->name('teacher-availabilities.edit');
         Route::post('', 'TeacherAvailabilityController@store')->name('teacher-availabilities.store');
         Route::put('{id}', 'TeacherAvailabilityController@update')->name('teacher-availabilities.update');
     });

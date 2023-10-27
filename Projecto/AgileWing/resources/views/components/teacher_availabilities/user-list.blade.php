@@ -3,9 +3,7 @@
 <script src="{{ asset('/js/sort-table-function.js') }}"></script>
 <script>
     sessionStorage.setItem('baseUrl', '{{ route('teacher-availabilities.store') }}');
-</script>
 
-<script>
     document.addEventListener('DOMContentLoaded', function() {
         const rows = document.querySelectorAll('.clickable-row');
         rows.forEach(row => {

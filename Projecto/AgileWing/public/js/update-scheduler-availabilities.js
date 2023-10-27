@@ -206,7 +206,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       }
     });
-    if (userId === null) {
+    if (courseClassId == 0) {
+      //IT MUST FALL IN HERE IF COURSECLASS IS NULL 
       // create links for empty cells TEACHER AVAILABILITIES
       var cells = document.querySelectorAll("#scheduler tbody td:not(:first-child)");
       cells.forEach(function (cell) {

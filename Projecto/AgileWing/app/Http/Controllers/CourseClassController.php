@@ -140,7 +140,7 @@ class CourseClassController extends Controller
     public function indexCourseClassesPlanning()
     {
         $courseClasses = CourseClass::with('course.specializationArea')->get();
-        return view('pages.schedule_atribution.index-course-classes', compact ('courseClasses'));
+        return view('pages.schedule_atributions.index-course-classes', compact ('courseClasses'));
     }
     
 }

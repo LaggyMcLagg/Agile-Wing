@@ -4,11 +4,6 @@
 <div class="containernav">
     <div class="row">
         <div class="justify-content-end d-flex">
-            <!-- tudo o que estivesse dentro deste auth apenas seria mostrado
-            se o user tivesse um login valido, nao sendo necessário pois
-            esta blade apenas é acedida pelo middleware auth garantindo a
-            autenticação-->
-            <!-- @auth -->
             <div class="d-flex align-items-center">
                     <span class="mr-2">Welcome, {{ auth()->user()->name }}!</span>
                     <span class="mr-2">ID: {{ auth()->user()->id }}</span>
@@ -17,7 +12,6 @@
                         <button class="btn btn-link nav-link" type="submit">Logout</button>
                     </form>
                 </div>
-            <!-- @endauth -->
         </div>
     </div>
 </div>

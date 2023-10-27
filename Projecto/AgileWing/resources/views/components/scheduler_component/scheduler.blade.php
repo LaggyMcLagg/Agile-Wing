@@ -1,4 +1,44 @@
+
+@section('styles')
+<style>
+    /* <!-- SARA DPS RETIRA ISTO PARA O FICHEIRO CSS E ELIMINA ESTA SECTION STYLES--> */
+    .legend-color-box {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 1px solid #333;
+    }
+
+    .month-year-nav {
+        display: flex;
+        align-items: center;
+        width: 250px;
+    }
+
+    #currentMonthYear {
+        flex-grow: 1;
+        text-align: center;
+    }
+
+    .days-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 5px;
+    }
+
+    .day-name {
+        font-weight: bold;
+    }
+
+    .scheduler-container {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+</style>
+@endsection
 <link rel="stylesheet" href="{{ asset('css/geral2.css') }}">
+
 
 @if (session('success'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -35,21 +75,25 @@
                 </div>
             </div>
 
-            <!-- User Notes Form -->
-            @if ($showNotes)
-                <form action="{{ route('users.update-notes') }}" method="POST">
-                    @csrf
-                    <textarea name="notes" {{ $editNotes ? '' : 'disabled' }}>{{ old('notes', Auth::user()->notes) }}</textarea>
-                    @error('notes')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
-                    @if ($showBtnStore)
-                        <button class="btn btn-save" type="submit">Guardar</button>
-                    @endif
-                </form>
-            @endif
+                <!-- User Notes Form -->
+                @if ($showNotes)
+                    <form action="{{ route('users.update-notes') }}" method="POST">
+                        @csrf
+                        <textarea name="notes" {{ $editNotes ? '' : 'disabled' }}>{{ old('notes', $userNotes) }}</textarea>
+                        @error('notes')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                        @if ($showBtnStore)
+                            <button class="btn btn-light" type="submit">Guardar</button>
+                        @endif
+                    </form>
+                @endif
+                <!-- Export to pdf -->
+                @if($showExportBtn)
+                <a class="btn btn-light" href="#">Exportar horário</a>
+                @endif
         </div>
-        
+
         <!-- Second Column -->
         <div class="col-md-9">
 

@@ -108,7 +108,7 @@ class HourBlockController extends Controller
                 'hour_end.after' => 'O final da hora deve ser posterior ao início da hora.',
             ]
         ); 
-
+ 
     $hourBlock->update($request->all());
 
         return redirect()->route('hour-blocks.index')->with('success', 'Registo editado com sucesso!');

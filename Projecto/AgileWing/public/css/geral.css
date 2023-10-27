@@ -1,0 +1,206 @@
+body {
+    font-family: 'Lexend Deca', sans-serif;
+}
+:root {
+    --gradient-top: #6d92e3;
+    --gradient-bottom: #a7d3e8;
+    --white: #ffffff;
+    --white-dark: #dfe3e5;
+    --black: #4d4e4f;
+    --black-dark: #36353d;
+    --blue: #6d92e3;
+    --blue-dark: #617add;
+    --table: #f0f6fc;
+    --table-hover: #b9cdf0;
+}
+/*----------------------------------------------CABEÇALHO-----------------------------------------*/
+h3 {
+    margin-bottom: 10px;
+    margin-top: 50px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+    color: var(--blue);
+}
+
+#createBtn, #editBtn {
+    margin-bottom: 10px;
+    margin-top: 50px;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+.btn-blue {
+    background-color: var(--blue);
+    color: var(--white);
+}
+
+.btn-blue:hover {
+    background-color: var(--blue-dark);
+    color: var(--white);
+}
+
+/*----------------------------------------------TABELA-----------------------------------------*/
+.table {
+
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    max-height: 600px;
+
+}
+
+.table th,
+.table td {
+    padding: 8px;
+    text-align: left;
+    border: none;
+}
+
+
+.table tbody tr:nth-child(even) {
+    background-color: var(--table);
+}
+
+.table tbody tr:hover {
+    background-color: var(--table-hover);
+    cursor: pointer;
+}
+
+
+.table tbody tr:nth-child(even):hover {
+    background-color: var(--table-hover);
+    cursor: pointer;
+}
+
+
+thead {
+    border-bottom: 2px solid #6d92e3;
+}
+
+/* Apagar*/
+.btn-trash {
+    color: var(--black);
+    padding: 5px 20px;
+    cursor: pointer;
+}
+
+.table-container{
+    overflow-y: auto;
+    max-height: 65vh;
+}
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+
+}
+::-webkit-scrollbar-thumb {
+    background: var(--blue);
+    border-radius: 10px;
+    border: 2px solid;
+    border-color: var(--white);
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--blue-dark);
+}
+
+.table-container thead {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 1;
+
+}
+
+/*----------------------------------------------FORMULÁRIO-----------------------------------------*/
+.col-md-4 {
+    margin-top: 50px;
+    background-image: linear-gradient(to top, #a7d3e8, #a0ade5, #91a3e5, #809be4, #6d92e3);
+    padding: 5%;
+    border-radius: 10px;
+    color: var(--white);
+  }
+.btn-save, .btn-cancel {
+    margin-right: 10px;
+}
+
+.btn-save {
+    background-color: var(--white);
+    color: var(--black);
+
+}
+.btn-save:hover {
+    background-color: var(--white-dark);
+}
+
+
+.btn-cancel {
+    background-color: var(--black);
+    color: var(--white);
+
+}
+.btn-cancel:hover {
+    background-color: var(--black-dark);
+}
+
+/*INPUTS FORMS*/
+input[type=text] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 2px solid;
+    border-color: var(--white);
+    color: var(--white);
+    background: transparent;
+}
+
+input[type=text]:focus {
+    outline: none;
+    background: transparent;
+    border-bottom: 2px solid;
+    color: var(--white);
+    box-shadow: none;
+}
+
+input[type="text"][disabled] {
+    background-color: transparent;
+}
+
+#ufcdsCheckboxList.collapse {
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+    overflow: auto;
+    max-height: 300px;
+
+
+  }
+  .form-group button {
+    width: 310px;
+    height: 40px;
+   }
+
+/*----------------------------------------------SEARCH BAR-----------------------------------------*/
+.search-container {
+    width: 100%;
+    padding-right: 0px;
+    padding-left: 0px;
+    margin-right: auto;
+    margin-left: auto;
+
+}
+.search-input {
+    display: flex;
+    flex-direction: row;
+    padding-left: 2px;
+    width: 98vw;
+
+}
+
+
+
+

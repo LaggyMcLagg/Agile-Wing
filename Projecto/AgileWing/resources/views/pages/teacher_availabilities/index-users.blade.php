@@ -9,4 +9,4 @@
     ])
 @endcomponent
 
-@endsection 
+@endsection

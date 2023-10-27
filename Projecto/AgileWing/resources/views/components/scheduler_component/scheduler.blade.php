@@ -10,14 +10,14 @@
     }
 
     .month-year-nav {
-        display: flex; 
-        align-items: center; 
-        width: 250px; 
-    }  
+        display: flex;
+        align-items: center;
+        width: 250px;
+    }
 
     #currentMonthYear {
-        flex-grow: 1; 
-        text-align: center; 
+        flex-grow: 1;
+        text-align: center;
     }
 
     .days-grid {
@@ -27,9 +27,9 @@
     }
 
     .day-name {
-        font-weight: bold; 
+        font-weight: bold;
     }
-    
+
     .scheduler-container {
         width: 100%;
         overflow-x: auto;
@@ -37,6 +37,7 @@
 
 </style>
 @endsection
+<link rel="stylesheet" href="{{ asset('css/geral2.css') }}">
 
 
 @if (session('success'))
@@ -65,9 +66,9 @@
             <!-- Calendar Component -->
             <div class="calendar-component">
                 <div class="month-year-nav">
-                    <button id="prevMonth" class="btn btn-secondary">←</button>
+                    <button id="prevMonth" class="btn btn-blue">←</button>
                     <span id="currentMonthYear"></span>
-                    <button id="nextMonth" class="btn btn-secondary">→</button>
+                    <button id="nextMonth" class="btn btn-blue">→</button>
                 </div>
                 <div id="daysGrid" class="days-grid">
                     <!-- JS will populate this -->
@@ -97,7 +98,7 @@
                 @endif
 
         </div>
-        
+
         <!-- Second Column -->
         <div class="col-md-9">
 

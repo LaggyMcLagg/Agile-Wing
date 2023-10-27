@@ -58,8 +58,8 @@
 
                 <!-- Save and Cancel buttons, initially hidden -->
                 <div class="d-flex justify-content-end mt-2 mb-5">
-                  <button id="saveBtn" type="submit" class="mt-2 mb-5 btn btn-save" style="display: none;">Guardar</button>
-                  <button id="cancelBtn" class="mt-2 mb-5 btn btn-cancel" style="display: none;">Cancelar</button>
+                    <button id="saveBtn" type="submit" class="mt-2 mb-5 btn btn-save" style="display: none;">Guardar</button>
+                    <button id="cancelBtn" class="mt-2 mb-5 btn btn-cancel" style="display: none;">Cancelar</button>
                 </div>
             </form>
         </div>
@@ -71,32 +71,28 @@
                 <a id="editBtn" type="button" class="btn btn-blue">Editar</a>
             </h3>
             <div class="table-container">
-            <table class="table table-borderless">
-                <thead>
-                    <tr>
-                        <th scope="col"hidden>ID</th>
-                        <th scope="col">Designação</th>
-                        <th scope="col">Lista de professores</th>
-                        <th scope="col">Lista UFCDs</th>
-                        <th scope="col">Apagar</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($pedagogicalGroups as $pedagogicalGroup)
-                    <tr>
-                        <td data-name="id"hidden>{{ $pedagogicalGroup->id }}</td>
-                        <td data-name="name">{{ $pedagogicalGroup->name }}</td>
-                        <td>
-                            <button
-                                class="btn btn-light"
-                                type="button"
-                                data-toggle="collapse"
-                                data-target="#usersList_{{ $pedagogicalGroup->id }}">
-                                Professores
-                            </button>
-                            <div id="usersList_{{ $pedagogicalGroup->id }}" class="collapse">
-                                <ul>
-                                    @forelse($pedagogicalGroup->users as $user)
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th scope="col" hidden>ID</th>
+                            <th scope="col">Designação</th>
+                            <th scope="col">Lista de professores</th>
+                            <th scope="col">Lista UFCDs</th>
+                            <th scope="col">Apagar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($pedagogicalGroups as $pedagogicalGroup)
+                        <tr>
+                            <td data-name="id" hidden>{{ $pedagogicalGroup->id }}</td>
+                            <td data-name="name">{{ $pedagogicalGroup->name }}</td>
+                            <td>
+                                <button class="btn btn-light" type="button" data-toggle="collapse" data-target="#usersList_{{ $pedagogicalGroup->id }}">
+                                    Professores
+                                </button>
+                                <div id="usersList_{{ $pedagogicalGroup->id }}" class="collapse">
+                                    <ul>
+                                        @forelse($pedagogicalGroup->users as $user)
                                         <li>{{ $user->name }}</li>
                                         @empty
                                         <li>Sem professores associados.</li>

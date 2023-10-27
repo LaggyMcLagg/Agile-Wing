@@ -48,14 +48,7 @@
                 <!-- Number -->
                 <div class="form-group">
                     <label for="number">Número</label>
-                    <input
-                        data-name="number"
-                        type="text"
-                        id="number"
-                        name="number"
-                        class="form-control @error('number') is-invalid @enderror"
-                        value="{{ old('number') }}"
-                        readonly>
+                    <input data-name="number" type="text" id="number" name="number" class="form-control @error('number') is-invalid @enderror" value="{{ old('number') }}" readonly>
                     @error('number')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -76,8 +69,8 @@
 
                 <!-- Save and Cancel buttons, initially hidden -->
                 <div class="d-flex justify-content-end mt-2 mb-5">
-                  <button id="saveBtn" type="submit" class="mt-2 mb-5 btn btn-save" style="display: none;">Guardar</button>
-                  <button id="cancelBtn" class="mt-2 mb-5 btn btn-cancel" style="display: none;">Cancelar</button>
+                    <button id="saveBtn" type="submit" class="mt-2 mb-5 btn btn-save" style="display: none;">Guardar</button>
+                    <button id="cancelBtn" class="mt-2 mb-5 btn btn-cancel" style="display: none;">Cancelar</button>
                 </div>
             </form>
         </div>
@@ -116,40 +109,37 @@
                                         <li>{{ $course->initials }} - {{ $course->name }}</li>
                                         @empty
                                         <li>Sem cursos associados.</li>
-                                    @endforelse
-                                </ul>
-                            </div>
-                        </td>                        <td>
-                            <button
-                                class="btn btn-light"
-                                type="button"
-                                data-toggle="collapse"
-                                data-target="#usersList_{{ $specializationArea->id }}">
-                                Professores
-                            </button>
-                            <div id="usersList_{{ $specializationArea->id }}" class="collapse">
-                                <ul>
-                                    @forelse($specializationArea->users as $user)
+                                        @endforelse
+                                    </ul>
+                                </div>
+                            </td>
+                            <td>
+                                <button class="btn btn-light" type="button" data-toggle="collapse" data-target="#usersList_{{ $specializationArea->id }}">
+                                    Professores
+                                </button>
+                                <div id="usersList_{{ $specializationArea->id }}" class="collapse">
+                                    <ul>
+                                        @forelse($specializationArea->users as $user)
                                         <li>{{ $user->name }}</li>
                                         @empty
                                         <li>Sem professores associados.</li>
-                                    @endforelse
-                                </ul>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="btn-group" role="group">
-                                <form action="{{ route('specialization-areas.destroy', ['specializationArea' => $specializationArea]) }}" method="POST" onsubmit="return confirm('Tem a certeza que quer apagar este registo?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-trash"><i class="fa fa-trash"></i></button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                                        @endforelse
+                                    </ul>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <form action="{{ route('specialization-areas.destroy', ['specializationArea' => $specializationArea]) }}" method="POST" onsubmit="return confirm('Tem a certeza que quer apagar este registo?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-trash"><i class="fa fa-trash"></i></button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>

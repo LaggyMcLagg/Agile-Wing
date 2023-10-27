@@ -35,7 +35,7 @@
             <form class="atec-form" action="{{ route('course-classes.store') }}" id="controlForm" method="POST">
                 @csrf
 
-                <!-- Hidden input for HTTP method override. Needed because HTML forms only support GET/POST natively and we're not using 
+                <!-- Hidden input for HTTP method override. Needed because HTML forms only support GET/POST natively and we're not using
                 @method('PUT') to be able to switch between methods-->
                 <input type="hidden" name="_method" value="POST" id="hiddenMethod">
 
@@ -47,7 +47,15 @@
                 <!-- Course Name -->
                 <div class="form-group">
                     <label for="name">Designação</label>
-                    <input data-name="name" type="text" id="name" name="name" class="form-control @error('name') is-invalid @enderror" required value="{{ old('name') }}" readonly>
+                    <input
+                        data-name="name"
+                        type="text"
+                        id="name"
+                        name="name"
+                        class="form-control @error('name') is-invalid @enderror"
+                        required
+                        value="{{ old('name') }}"
+                        readonly>
                     @error('name')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -58,7 +66,14 @@
                 <!-- Number -->
                 <div class="form-group">
                     <label for="number">Número</label>
-                    <input data-name="number" type="text" id="number" name="number" class="form-control @error('number') is-invalid @enderror" value="{{ old('number') }}" readonly>
+                    <input
+                        data-name="number"
+                        type="text"
+                        id="number"
+                        name="number"
+                        class="form-control @error('number') is-invalid @enderror"
+                        value="{{ old('number') }}"
+                        readonly>
                     @error('number')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -69,9 +84,16 @@
                 <!-- Course -->
                 <div class="form-group">
                     <label for="course">Curso</label>
-                    <select data-name="course" data-type="comboBox" id="course" name="course_id" class="form-control" disabled>
+                    <select
+                        data-name="course"
+                        data-type="comboBox"
+                        id="course"
+                        name="course_id"
+                        class="form-control"
+                        disabled>
                         @foreach($courses as $course)
-                        <option value="{{ $course->id }}" @if(old('course_id')==$course->id) selected @endif
+                            <option value="{{ $course->id }}"
+                                @if(old('course_id') == $course->id) selected @endif
                             >
                             {{ $course->initials }} - {{ $course->name }}
                         </option>

@@ -44,7 +44,7 @@
                 <!-- Course ID -->
                 <label for="id" hidden>Course ID: </label>
                 <!-- The prop data-name tells js where to target to place the info collected from the table -->
-                <label data-name="id" id="id_label"></label>
+                <label data-name="id" id="id_label"hidden></label>
 
                 <!-- Course Name -->
                 <div class="form-group">
@@ -111,7 +111,7 @@
                             type="button"
                             data-toggle="collapse"
                             data-target="#ufcdsCheckboxList">
-                            <i class="fas fa-chevron-right mr-2"></i></button>
+                            </button>
                     </label>
                     <div
                         id="ufcdsCheckboxList"

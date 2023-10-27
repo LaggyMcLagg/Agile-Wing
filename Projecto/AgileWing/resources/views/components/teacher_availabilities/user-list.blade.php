@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="{{ asset('css/geral.css') }}">
 @section('scripts')
 <script src="{{ asset('/js/search-table-function.js') }}"></script>
 <script src="{{ asset('/js/sort-table-function.js') }}"></script>
@@ -36,22 +37,14 @@
     </div>
 @endif
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-4"></div>
-        <div class="col-md-4"></div>
-        <div class="col-md-4">
-            <form class="form-inline my-2 my-lg-0 justify-content-end">
-                <input id="search-input" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
-            </form>
-        </div>
-    </div>
-</div>
-
 <h3>Listagem de Formadores para gestão disponibilidades</h3>
-
-<table class="table table-bordered" id="sortable-table">
+<div class="search-container">
+    <form class="users-search">
+        <input id="search-input" class="form-control mr-sm-2" type="search" placeholder="Pesquisar Formador..." aria-label="Search">
+        <button class="btn btn-blue my-sm-0" type="submit">Procurar</button>
+    </form>
+</div>
+<table class="table table-borderless" id="sortable-table">
     <thead>
         <tr>
             <th data-column-index="0" scope="col">Nome do formador</th>

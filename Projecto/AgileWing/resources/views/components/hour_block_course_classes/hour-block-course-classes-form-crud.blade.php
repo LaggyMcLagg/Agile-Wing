@@ -45,7 +45,7 @@
                 <!-- Course ID -->
                 <label for="id" hidden>Hour Block Course Classes ID: </label>
                 <!-- The prop data-name tells js where to target to place the info collected from the table -->
-                <label data-name="id" id="id_label"></label>
+                <label data-name="id" id="id_label" hidden></label>
 
                 <!--Hour Beginning -->
                 <div class="form-group">
@@ -119,10 +119,12 @@
             <a id="createBtn" class="btn btn-blue">Criar</a>
             <a id="editBtn" type="button" class="btn btn-blue">Editar</a>
             <!-- Live search input -->
-            <form class="form-inline my-2 my-lg-0 justify-content-end">
-                <input id="search-input" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-blue my-2 my-sm-0" type="submit">Pesquisa</button>
-            </form>
+            <div class="search-container">
+                <form class="users-search">
+                    <input id="search-input" class="form-control mr-sm-2" type="search" placeholder="Pesquisar..." aria-label="Search">
+                    <button class="btn btn-blue my-sm-0" type="submit">Procurar</button>
+                </form>
+            </div>
             <div class="table-container">
             <table class="table table-borderless">
                 <thead>

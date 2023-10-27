@@ -12,7 +12,7 @@ use Illuminate\Support\Str; //para poder gerar pw aleatoria ao criar um user
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Log; // apagar, so serviu para testes
 use Carbon\Carbon; //para usarmos o gt() e verificação do tempo útil do link de verf de email
-use PDF;
+
 
 use Illuminate\Http\Request;
 

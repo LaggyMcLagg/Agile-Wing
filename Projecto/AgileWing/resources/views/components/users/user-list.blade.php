@@ -3,77 +3,61 @@
 <script src="{{ asset('/js/sort-table-function.js') }}"></script>
 @endsection
 
-<style>
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-    th, td {
-        border: 1px solid #000;
-        padding: 8px;
-        background-color: red;
-    }
 
 
-</style>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-4"></div>
-        <div class="col-md-4"></div>
-        <div class="col-md-4">
-            <form class="form-inline my-2 my-lg-0 justify-content-end">
-                <input id="search-input" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
-            </form>
-        </div>
-    </div>
+<h3 class="title mt-md-4 mt-sm-2">Listagem de Formadores para Visualização</h3>
+<div class="search-container">
+    <form class="users-search">
+        <input id="search-input" class="form-control mr-sm-2" type="search" placeholder="Pesquisar Formador..." aria-label="Search">
+        <button class="btn btn-blue my-sm-0" type="submit">Procurar</button>
+    </form>
 </div>
 
-
-<h3>Listagem de Formadores para Visualização</h3>
 @if (session('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ session('success') }}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ session('success') }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
 @endif
-<table class="table table-bordered" id="sortable-table">
-    <thead>
-        <tr>
-            <th data-column-index="0" scope="col">Nome do formador</th>
-            <th data-column-index="1" scope="col">Área de formação</th>
-            <th data-column-index="2" scope="col">Grupo pedagógico</th>
-            <th data-column-index="3" scope="col">Último Login</th>
-            <th data-column-index="4" scope="col">Última Gravação</th>
+<div class="table-container">
+    <table class="table table-borderless spacing" id="sortable-table">
+        <thead>
+            <tr>
+                <th data-column-index="0" scope="col">Nome do formador</th>
+                <th data-column-index="1" scope="col">Área de formação</th>
+                <th data-column-index="2" scope="col">Grupo pedagógico</th>
+                <th data-column-index="3" scope="col">Último Login</th>
+                <th data-column-index="4" scope="col">Última Gravação</th>
 
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($users as $user)
-        <tr class="clickable-row" data-user-id="{{ $user->id }}">
-            <td>{{ $user->name }}</td>
-            <td>
-                <ul>
-                    @foreach ($user->specializationAreas as $specializationArea)
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($users as $user)
+            <tr class="clickable-row" data-user-id="{{ $user->id }}">
+                <td>{{ $user->name }}</td>
+                <td>
+                    <ul>
+                        @foreach ($user->specializationAreas as $specializationArea)
                         <li>{{ $specializationArea->name }}</li>
-                    @endforeach
-                </ul>
-            </td>
-            <td>
-                <ul>
-                    @foreach ($user->pedagogicalGroups as $pedagogicalGroup)
+                        @endforeach
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        @foreach ($user->pedagogicalGroups as $pedagogicalGroup)
                         <li>{{ $pedagogicalGroup->name }}</li>
-                    @endforeach
-                </ul>
-            </td>
-            <td>{{ $user->lastLogin }}</td>
-            <td>{{ $user->lastUpdated }}</td>
-            <td>
-            </td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
+                        @endforeach
+                    </ul>
+                </td>
+                <td>{{ $user->lastLogin }}</td>
+                <td>{{ $user->lastUpdated }}</td>
+                <td>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>

@@ -39,18 +39,32 @@
                 <label data-name="id" id="id_label" hidden></label>
 
                 <div class="form-group">
-                    <label for="number">Numero</label>
-                    <input data-name="number" type="text" id="number" name="number" class="form-control @error('number') is-invalid @enderror"  value="{{ old('number') }}" readonly>
-                    @error('name')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
+                    <label for="number">Número</label>
+                    <input
+                        data-name="number"
+                        type="text"
+                        id="number"
+                        name="number"
+                        class="form-control @error('number') is-invalid @enderror"
+                        value="{{ old('number') }}"
+                        readonly>
+                    @error('number')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
                     @enderror
                 </div>
 
                 <div class="form-group">
                     <label for="name">Designação</label>
-                    <input data-name="name" type="text" id="name" name="name" class="form-control @error('name') is-invalid @enderror"  value="{{ old('name') }}" readonly>
+                    <input
+                        data-name="name"
+                        type="text"
+                        id="name"
+                        name="name"
+                        class="form-control @error('name') is-invalid @enderror"
+                        value="{{ old('name') }}"
+                        readonly>
                     @error('name')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -122,12 +136,12 @@
                                     <ul>
                                         @forelse($ufcd->courses as $course)
                                         <li>{{ $course->name }} {{ $course->number }}</li>
-                                        @empty
-                                        <li>Sem turmas ainda.</li>
-                                        @endforelse
-                                    </ul>
-                                </div>
-                            </td>
+                                    @empty
+                                        <li>Sem turmas associadas.</li>
+                                    @endforelse
+                                </ul>
+                            </div>
+                        </td>
 
                             <td>
                                 <button class="btn btn-light" type="button" data-toggle="collapse" data-target="#usersList_{{ $ufcd->id }}">
@@ -137,12 +151,12 @@
                                     <ul>
                                         @forelse($ufcd->users as $user)
                                         <li>{{ $user->name }}</li>
-                                        @empty
-                                        <li>Sem Professores ainda.</li>
-                                        @endforelse
-                                    </ul>
-                                </div>
-                            </td>
+                                    @empty
+                                        <li>Sem Formadores associados.</li>
+                                    @endforelse
+                                </ul>
+                            </div>
+                        </td>
 
                             <td>
                                 <div class="btn-group" role="group">

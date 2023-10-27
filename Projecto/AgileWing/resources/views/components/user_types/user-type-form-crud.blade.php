@@ -39,7 +39,7 @@
 
                 <!-- UserType ID -->
                 <label for="id" hidden>Tipo de Utilizador ID: </label>
-                <label data-name="id" id="id_label"></label>
+                <label data-name="id" id="id_label" hidden></label>
 
                 <!-- UserType Name -->
                 <div class="form-group">

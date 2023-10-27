@@ -37,7 +37,7 @@
         </button>
     </div>
 @endif
-<h3 class="title mt-md-4 mt-sm-2">Listagem de Formadores para Visualização</h3>
+<h3 class="title mt-md-4 mt-sm-2">Listagem de Turmas para Visualização</h3>
 <div class="search-container">
     <form class="users-search">
         <input id="search-input" class="form-control mr-sm-2" type="search" placeholder="Pesquisar Formador..." aria-label="Search">

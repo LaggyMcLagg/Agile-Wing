@@ -39,20 +39,19 @@
                 <label data-name="id" id="id_label" hidden></label>
 
                 <div class="form-group">
-                    <label for="number">Numero</label>
+                    <label for="number">Número</label>
                     <input
                         data-name="number"
                         type="text"
                         id="number"
                         name="number"
                         class="form-control @error('number') is-invalid @enderror"
-                        required
                         value="{{ old('number') }}"
                         readonly>
-                    @error('name')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
+                    @error('number')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
                     @enderror
                 </div>
 
@@ -64,7 +63,6 @@
                         id="name"
                         name="name"
                         class="form-control @error('name') is-invalid @enderror"
-                        required
                         value="{{ old('name') }}"
                         readonly>
                     @error('name')
@@ -126,12 +124,12 @@
                 <thead>
                     <tr>
                         <th scope="col"hidden>ID</th>
-                        <th scope="col">Numero</th>
+                        <th scope="col">Número</th>
                         <th scope="col">Designação</th>
                         <th scope="col">Horas</th>
                         <th scope="col">Grupo Pedagógico</th>
                         <th scope="col">Lista cursos</th>
-                        <th scope="col">Lista professores</th>
+                        <th scope="col">Lista Formadores</th>
                         <th scope="col">Apagar</th>
                     </tr>
                 </thead>
@@ -157,7 +155,7 @@
                                     @forelse($ufcd->courses as $course)
                                         <li>{{ $course->name }} {{ $course->number }}</li>
                                     @empty
-                                        <li>Sem turmas ainda.</li>
+                                        <li>Sem turmas associadas.</li>
                                     @endforelse
                                 </ul>
                             </div>
@@ -176,7 +174,7 @@
                                     @forelse($ufcd->users as $user)
                                         <li>{{ $user->name }}</li>
                                     @empty
-                                        <li>Sem Professores ainda.</li>
+                                        <li>Sem Formadores associados.</li>
                                     @endforelse
                                 </ul>
                             </div>

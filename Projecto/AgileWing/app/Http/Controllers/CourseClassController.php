@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class CourseClassController extends Controller
 {
-    
+
     //###############################
     //CRUD METHODS
     //###############################
@@ -56,6 +56,7 @@ class CourseClassController extends Controller
             'number.unique' => 'O número fornecido já existe.',
             'name.required' => 'O campo nome é obrigatório.',
             'name.regex' => 'O nome só pode conter letras, acentuação e Ç ou ç.',
+
         ]);
 
         CourseClass::create($request->all());
@@ -93,7 +94,7 @@ class CourseClassController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {    
+    {
         $courseClass = CourseClass::find($id);
 
         $request->validate([
@@ -108,9 +109,9 @@ class CourseClassController extends Controller
             'name.required' => 'O campo nome é obrigatório.',
             'name.regex' => 'O nome só pode conter letras, acentuação e Ç ou ç.',
         ]);
-    
+
         $courseClass->update($request->all());
-    
+
         return redirect()->route('course-classes.index')->with('success', 'Course Class updated successfully');
     }
 
@@ -142,5 +143,5 @@ class CourseClassController extends Controller
         $courseClasses = CourseClass::with('course.specializationArea')->get();
         return view('pages.schedule_atributions.index-course-classes', compact ('courseClasses'));
     }
-    
+
 }

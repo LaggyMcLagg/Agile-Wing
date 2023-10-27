@@ -36,14 +36,14 @@
             <form class="atec-form" action="{{ route('hour-blocks.store') }}" id="controlForm" method="POST">
                 @csrf
 
-                <!-- Hidden input for HTTP method override. Needed because HTML forms only support GET/POST natively and we're not using 
+                <!-- Hidden input for HTTP method override. Needed because HTML forms only support GET/POST natively and we're not using
                 @method('PUT') to be able to switch between methods-->
                 <input type="hidden" name="_method" value="POST" id="hiddenMethod">
 
                 <!-- Display Block ID label -->
                 <label for="id" hidden>ID: </label>
                 <!-- The prop data-name tells js where to target to place the info collected from the table -->
-                <label data-name="id" id="id_label">
+                <label data-name="id" id="id_label"hidden>
                 </label>
 
                 <!-- Input for 'hour_beginning' -->

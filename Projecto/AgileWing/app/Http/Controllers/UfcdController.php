@@ -46,10 +46,17 @@ class UfcdController extends Controller
             'name' => 'required',
             'hours' => 'required',
             'pedagogical_group_id' => 'required'
+        ],
+        [
+            'number.required' => 'O campo numérico é obrigatório.',
+            'number.regex' => 'O número deve estar no formato XX.XX (por exemplo, 12.34).',
+            'number.unique' => 'O número fornecido já existe.',
+            'name.required' => 'O campo nome é obrigatório.',
+            'name.regex' => 'O nome só pode conter letras, acentuação e Ç ou ç.',
         ]);
-    
+
         Ufcd::create($data);
-    
+
         return redirect()->route('ufcds.index')->with('success', 'UFCD created successfully');
     }
 
@@ -90,11 +97,11 @@ class UfcdController extends Controller
             'hours' => 'required',
             'pedagogical_group_id' => 'required'
         ]);
-        
+
         $ufcd = Ufcd::find($id);
 
         $ufcd->update($request->all());
-    
+
         return redirect()->route('ufcds.index')->with('success', 'UFCD updated successfully');
     }
 
@@ -107,7 +114,7 @@ class UfcdController extends Controller
     public function destroy(Ufcd $ufcd)
     {
         $ufcd->delete();
-    
+
         return redirect()->route('ufcds.index')->with('success', 'Ufcd deleted successfully');
     }
 }

@@ -83,7 +83,7 @@
                     <tr>
                         <th scope="col"hidden>ID</th>
                         <th scope="col">Designação</th>
-                        <th scope="col">Lista de professores</th>
+                        <th scope="col">Lista de Formadores</th>
                         <th scope="col">Lista UFCDs</th>
                         <th scope="col">Apagar</th>
                     </tr>

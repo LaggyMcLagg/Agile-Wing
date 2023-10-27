@@ -42,10 +42,10 @@ class SpecializationAreaController extends Controller
             'number' => 'required|integer|unique:specialization_areas,number',
             'name' => 'required|string|max:255|regex:/^[\pL\sÇç]+$/u',
         ], [
-            'number.required' => 'The number field is required.',
-            'number.unique' => 'The provided number already exists.',
-            'name.required' => 'The name field is required.',
-            'name.regex' => 'The name may only contain letters, accentuation, and Ç or ç.',
+            'number.required' => 'O campo numérico é obrigatório.',
+            'number.unique' => 'O número fornecido já existe.',
+            'name.required' => 'O campo nome é obrigatório.',
+            'name.regex' => 'O nome só pode conter letras, acentuação e Ç ou ç.',
         ]);
 
         try {
@@ -94,15 +94,15 @@ class SpecializationAreaController extends Controller
     public function update(Request $request, $id)
     {
         $specializationArea = SpecializationArea::find($id);
-        
+
         $request->validate([
             'number' => 'required|integer|unique:specialization_areas,number,' . $specializationArea->id,
             'name' => 'required|string|max:255|regex:/^[\pL\sÇç]+$/u',
         ], [
-            'number.required' => 'The number field is required.',
-            'number.unique' => 'The provided number already exists for another specialization area.',
-            'name.required' => 'The name field is required.',
-            'name.regex' => 'The name may only contain letters, accentuation, and Ç or ç.',
+            'number.required' => 'O campo numérico é obrigatório.',
+            'number.unique' => 'O número fornecido já existe.',
+            'name.required' => 'O campo nome é obrigatório.',
+            'name.regex' => 'O nome só pode conter letras, acentuação e Ç ou ç.',
         ]);
 
         try {

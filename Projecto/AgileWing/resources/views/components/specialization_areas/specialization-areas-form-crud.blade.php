@@ -102,8 +102,8 @@
                         <th scope="col" hidden>ID</th>
                         <th scope="col">Número</th>
                         <th scope="col">Designação</th>
-                        <th scope="col">Lista Professores</th>
-                        <th scope="col">Lista Crusos</th>
+                        <th scope="col">Lista Formadores</th>
+                        <th scope="col">Lista Cursos</th>
                         <th scope="col">Apagar</th>
                     </tr>
                 </thead>

@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="{{ asset('css/geral.css') }}">
+
 
 @section('scripts')
 <script src="{{ asset('/js/control-form-dynamic-crud.js') }}"></script>
@@ -180,7 +180,7 @@
                                     @forelse($course->courseClasses as $courseClass)
                                         <li>{{ $courseClass->name }} {{ $courseClass->number }}</li>
                                     @empty
-                                        <li>No classes associated yet.</li>
+                                        <li>Sem turmas associadas.</li>
                                     @endforelse
                                 </ul>
                             </div>
@@ -198,7 +198,7 @@
                                     @forelse($course->ufcds as $ufcd)
                                         <li value="{{ $ufcd->id }}">{{ $ufcd->number }} - {{ $ufcd->name }}</li>
                                     @empty
-                                        <li value="-1">No UFCDs associated yet.</li>
+                                        <li value="-1">Sem UFDCs associadas.</li>
                                     @endforelse
                                 </ul>
                             </div>

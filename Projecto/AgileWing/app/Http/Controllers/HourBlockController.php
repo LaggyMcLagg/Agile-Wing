@@ -110,9 +110,9 @@ public function update(Request $request, $id)
     ); 
 
     // Se a validação passar, atualize o registro existente
-    $hourBlock->hour_beginning = $hourBeginning;
-    $hourBlock->hour_end = $hourEnd;
-    $hourBlock->save();
+    // $hourBlock->hour_beginning = $hourBeginning;
+    // $hourBlock->hour_end = $hourEnd;
+    $hourBlock->update($request->all());
 
     return redirect()->route('hour-blocks.index')->with('success', 'Registo editado com sucesso!');
 }

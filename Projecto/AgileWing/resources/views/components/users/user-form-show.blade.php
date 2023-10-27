@@ -2,7 +2,7 @@
 <script src="{{ asset('/js/users-edit-table.js') }}"></script>
 @endsection
 
-<div class="container spacing">
+<div class="container mt-4">
     <div class="row">
         <div class="col-md-4">
             <form class="atec-form" method="POST" action="{{ route('users.update', $user->id) }}">
@@ -55,11 +55,12 @@
                     <button id="saveBtn" type="submit" class="btn save-btn" style="display: none;">Guardar</button>
                     <button id="cancelBtn" class="btn cancel-btn" style="display: none;">Cancelar</button>
                 </div>
-            </form>
         </div>
 
         <div class="col-md-4">
-            <h3 class="title">Detalhes do Utilizador</h3>
+            <h3 class="title">Detalhes do Utilizador
+                <button id="editBtn" type="button" class="btn btn-blue edit-professor">Editar</button>
+            </h3>
             <div class="form-group">
                 <label>Grupos Pedagógicos</label>
                 @foreach($pedagogicalGroups as $pedagogicalGroup)
@@ -76,7 +77,7 @@
             </div>
         </div>
 
-        <div class="col-md-4 spacing-af">
+        <div class="col-md-4 spacing">
             <div class="form-group line-break">
                 <label>Áreas de Formação</label>
                 @foreach($specializationAreas as $specializationArea)
@@ -92,15 +93,14 @@
                 @endforeach
             </div>
         </div>
+        </form>
     </div>
 </div>
-</form>
-<div class="delete-btn spacing">
+
+<div class="delete-btn mt-1">
     <form id="deleteForm" action="{{ route('users.destroy', $user) }}" method="POST" style="display: none;">
         @csrf
         @method('DELETE')
         <button type="submit" class="btn cancel-btn">Apagar Formador</button>
     </form>
 </div>
-
-<button id="editBtn" type="button" class="btn btn-blue edit-professor">Editar</button>

@@ -1,10 +1,10 @@
-<div class="container spacing">
+<div class="container mt-4">
     <div class="row">
         <div class="col-md-4">
             <form class="atec-form" method="POST" action="{{ url('users') }}">
                 @csrf
                 <div class="form-group">
-                    <input type="text" id="name" name="name" autocomplete="name" placeholder="Nome do utilizador" class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}" required aria-describedby="nameHelp">
+                    <input type="text" id="name" name="name" autocomplete="name" placeholder="Nome do utilizador" class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}"  aria-describedby="nameHelp">
                     @error('name')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -13,7 +13,7 @@
                 </div>
 
                 <div class="form-group">
-                    <input type="text" id="email" name="email" autocomplete="email" placeholder="Email do utilizador" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" required aria-describedby="emailHelp">
+                    <input type="text" id="email" name="email" autocomplete="email" placeholder="Email do utilizador" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}"  aria-describedby="emailHelp">
                     @error('email')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -63,7 +63,7 @@
         <div class="col-md-4">
             <h3 class="title">Criação de utilizador</h3>
             <div class="form-group">
-                <label>Grupos Pedagógicos</label>
+                <label class="title">Grupos Pedagógicos</label>
                 @foreach($pedagogicalGroups as $pedagogicalGroup)
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" name="pedagogicalGroups[]" value="{{ $pedagogicalGroup->id }}" id="{{ $pedagogicalGroup->id }}">
@@ -81,9 +81,9 @@
         </div>
 
 
-        <div class="col-md-4 spacing-af">
+        <div class="col-md-4 spacing">
             <div class="form-group line-break">
-                <label>Áreas de Formação</label>
+                <label class="title">Áreas de Formação</label>
                 @foreach($specializationAreas as $specializationArea)
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" name="specializationAreas[]" value="{{ $specializationArea->id }}" id="{{ $specializationArea->id }}">

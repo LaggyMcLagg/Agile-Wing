@@ -11,7 +11,12 @@
     --table-hover: #b9cdf0;
 }
 
+.body {
+    width: 100vw;
+}
+
 /* Misc */
+
 
 ::-webkit-scrollbar {
     width: 6px;
@@ -34,14 +39,12 @@
 }
 
 .spacing {
-    margin-top: 5vh;
-}
-
-.spacing-af {
     margin-top: 6vh;
 }
 
-.title, .title-m {
+
+.title,
+.title-m {
     color: var(--blue);
 }
 
@@ -164,6 +167,16 @@ thead {
     padding: 5%;
     border-radius: 10px;
     color: var(--white);
+    min-height: calc(65vh + 42px);
+}
+
+.password-form {
+    background-image: linear-gradient(to top, #a7d3e8, #8ec5e8, #7ab5e8, #6ea4e7, #6d92e3);
+    padding: 5%;
+    border-radius: 10px;
+    color: var(--white);
+    min-height: 65vh;
+
 }
 
 .form-control::placeholder {
@@ -234,7 +247,7 @@ input[type="password"][disabled] {
 .search-container {
     width: 100%;
     padding-right: 0px;
-    padding-left: 0px;
+    padding-left: 1vw;
     margin-right: auto;
     margin-left: auto;
 }
@@ -255,7 +268,7 @@ input[type="password"][disabled] {
     right: 25%;
 }
 
-.login-form img{
+.login-form img {
     max-width: 200px;
     height: auto;
 }
@@ -336,7 +349,7 @@ input[type="password"][disabled] {
     text-decoration: none;
 }
 
-#datesAccordion .card:hover{
+#datesAccordion .card:hover {
     background-color: var(--blue-dark);
 }
 
@@ -361,8 +374,20 @@ input[type="password"][disabled] {
 
 @media (max-width: 575.98px) {
 
-    /* Misc */
+    /* Form */
 
+    .spacing {
+        margin-top: 0vh;
+    }
+
+    .mt-md-4, .mt-sm-2 {
+        margin: 0%;
+    }
+
+    /* Buttons */
+    .col-md-8 .title {
+        padding-right: 5%;
+    }
 
     /* Login */
 
@@ -421,5 +446,9 @@ input[type="password"][disabled] {
         margin: 0px;
     }
 
+    .line-break {
+        border-left: none;
+        padding: 0%;
+    }
 
 }

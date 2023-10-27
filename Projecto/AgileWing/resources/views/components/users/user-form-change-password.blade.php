@@ -1,5 +1,5 @@
 <div class="container spacing">
-    <form method="POST" action="{{ route('users.passwordUpdate') }}" class="atec-form">
+    <form method="POST" action="{{ route('users.passwordUpdate') }}" class="password-form">
         @csrf
         @method('PUT')
         
@@ -12,7 +12,7 @@
             autocomplete="new-password"
             class="form-control @error('new_password') is-invalid @enderror"
             value="{{ old('new_password') }}"
-            required
+            
             aria-describedby="passwordHelp">
             @error('new_password')
             <span class="invalid-feedback" role="alert">
@@ -32,7 +32,7 @@
             autocomplete="new_password_confirmation"
             class="form-control @error('new_password_confirmation') is-invalid @enderror"
             value="{{ old('new_password_confirmation') }}"
-            required
+            
             aria-describedby="new_password_confirmationdHelp">
             @error('new_password_confirmation')
             <span class="invalid-feedback" role="alert">

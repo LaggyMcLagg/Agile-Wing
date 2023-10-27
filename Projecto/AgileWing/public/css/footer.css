@@ -1,14 +1,31 @@
-/* Footer */
-.containerfooter{
-    padding-top: 10px;
-    margin-top: 10px;
-     background: #ffffff;
-     text-align: center;
+/* Add these styles to your CSS */
+.containerfooter {
+    background: #ffffff;
+    text-align: center;
+    padding: 10px;
+}
 
- }
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
 
- footer h6 {
-     color:#4d4e4f;
-     font-weight: bold;
-     font-size: xx-small;
- }
+footer h6 {
+    color: #4d4e4f;
+    font-weight: bold;
+    font-size: xx-small;
+}
+
+body {
+    position: relative;
+    padding-bottom: 60px; /* Set a padding-bottom to accommodate the footer */
+}
+
+/* The following styles ensure that your content doesn't go behind the footer on small screens */
+.container.spacing {
+    margin-bottom: 80px; /* Adjust this value to ensure proper spacing */
+}
+
+/* If needed, you can add media queries to further adjust the spacing for different screen sizes */
+

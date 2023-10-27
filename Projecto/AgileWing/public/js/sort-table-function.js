@@ -135,7 +135,7 @@ function sortTableByColumn(table, headers, rows, clickedHeader) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! D:\ATEC\repos\Agile-Wing\Projecto\AgileWing\resources\js\logic\sort-table-function.js */"./resources/js/logic/sort-table-function.js");
+module.exports = __webpack_require__(/*! C:\Users\Administrador\Documents\GitHub\Agile-Wing\Projecto\AgileWing\resources\js\logic\sort-table-function.js */"./resources/js/logic/sort-table-function.js");
 
 
 /***/ })

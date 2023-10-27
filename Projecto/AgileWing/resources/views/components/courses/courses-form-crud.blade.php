@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="{{ asset('css/geral.css') }}">
+
 
 @section('scripts')
 <script src="{{ asset('/js/control-form-dynamic-crud.js') }}"></script>
@@ -140,39 +140,42 @@
                                     <ul>
                                         @forelse($course->courseClasses as $courseClass)
                                         <li>{{ $courseClass->name }} {{ $courseClass->number }}</li>
-                                        @empty
-                                        <li>No classes associated yet.</li>
-                                        @endforelse
-                                    </ul>
-                                </div>
-                            </td>
-                            <td data-name="ufcds" data-list-id="ufcdsList_{{ $course->id }}">
-                                <button class="btn btn-light" type="button" data-toggle="collapse" data-target="#ufcdsList_{{ $course->id }}">
-                                    UFCDs
-                                </button>
-                                <div id="ufcdsList_{{ $course->id }}" class="collapse">
-                                    <ul>
-                                        @forelse($course->ufcds as $ufcd)
+                                    @empty
+                                        <li>Sem turmas associadas.</li>
+                                    @endforelse
+                                </ul>
+                            </div>
+                        </td>
+                        <td data-name="ufcds" data-list-id="ufcdsList_{{ $course->id }}">
+                            <button
+                                class="btn btn-light"
+                                type="button"
+                                data-toggle="collapse"
+                                data-target="#ufcdsList_{{ $course->id }}">
+                                UFCDs
+                            </button>
+                            <div id="ufcdsList_{{ $course->id }}" class="collapse">
+                                <ul>
+                                    @forelse($course->ufcds as $ufcd)
                                         <li value="{{ $ufcd->id }}">{{ $ufcd->number }} - {{ $ufcd->name }}</li>
-                                        @empty
-                                        <li value="-1">No UFCDs associated yet.</li>
-                                        @endforelse
-                                    </ul>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="btn-group" role="group">
-                                    <form action="{{ route('courses.destroy', ['course' => $course]) }}" method="POST" onsubmit="return confirm('Tem a certeza que quer apagar este registo?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-trash"><i class="fa fa-trash"></i></button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                                    @empty
+                                        <li value="-1">Sem UFDCs associadas.</li>
+                                    @endforelse
+                                </ul>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <form action="{{ route('courses.destroy', ['course' => $course]) }}" method="POST" onsubmit="return confirm('Tem a certeza que quer apagar este registo?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-trash"><i class="fa fa-trash"></i></button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </div>

@@ -82,30 +82,34 @@
                 <a id="editBtn" type="button" class="btn btn-blue">Editar</a>
             </h3>
             <div class="table-container">
-                <table class="table table-borderless">
-                    <thead>
-                        <tr>
-                            <th scope="col" hidden>ID</th>
-                            <th scope="col">Número</th>
-                            <th scope="col">Designação</th>
-                            <th scope="col">Lista Professores</th>
-                            <th scope="col">Lista Crusos</th>
-                            <th scope="col">Apagar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($specializationAreas as $specializationArea)
-                        <tr>
-                            <td data-name="id" hidden>{{ $specializationArea->id }}</td>
-                            <td data-name="number">{{ $specializationArea->number }}</td>
-                            <td data-name="name">{{ $specializationArea->name }}</td>
-                            <td>
-                                <button class="btn btn-light" type="button" data-toggle="collapse" data-target="#coursesList_{{ $specializationArea->id }}">
-                                    Cursos
-                                </button>
-                                <div id="coursesList_{{ $specializationArea->id }}" class="collapse">
-                                    <ul>
-                                        @forelse($specializationArea->courses as $course)
+            <table class="table table-borderless">
+                <thead>
+                    <tr>
+                        <th scope="col" hidden>ID</th>
+                        <th scope="col">Número</th>
+                        <th scope="col">Designação</th>
+                        <th scope="col">Lista Formadores</th>
+                        <th scope="col">Lista Cursos</th>
+                        <th scope="col">Apagar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($specializationAreas as $specializationArea)
+                    <tr>
+                        <td data-name="id" hidden>{{ $specializationArea->id }}</td>
+                        <td data-name="number">{{ $specializationArea->number }}</td>
+                        <td data-name="name">{{ $specializationArea->name }}</td>
+                        <td>
+                            <button
+                                class="btn btn-light"
+                                type="button"
+                                data-toggle="collapse"
+                                data-target="#coursesList_{{ $specializationArea->id }}">
+                                Cursos
+                            </button>
+                            <div id="coursesList_{{ $specializationArea->id }}" class="collapse">
+                                <ul>
+                                    @forelse($specializationArea->courses as $course)
                                         <li>{{ $course->initials }} - {{ $course->name }}</li>
                                         @empty
                                         <li>Sem cursos associados.</li>

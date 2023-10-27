@@ -36,7 +36,7 @@
                 <input type="hidden" name="_method" value="POST" id="hiddenMethod">
 
                 <label for="id" hidden>UFCD ID: </label>
-                <label data-name="id" id="id_label"></label>
+                <label data-name="id" id="id_label" hidden></label>
 
                 <div class="form-group">
                     <label for="number">Numero</label>

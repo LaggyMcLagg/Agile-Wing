@@ -130,11 +130,20 @@ thead {
 .btn-save {
     background-color: var(--white);
     color: var(--black);
+
 }
+.btn-save:hover {
+    background-color: var(--white-dark);
+}
+
 
 .btn-cancel {
     background-color: var(--black);
     color: var(--white);
+
+}
+.btn-cancel:hover {
+    background-color: var(--black-dark);
 }
 
 /*INPUTS FORMS*/
@@ -176,18 +185,20 @@ input[type="text"][disabled] {
    }
 
 /*----------------------------------------------SEARCH BAR-----------------------------------------*/
-.search-input {
+.search-container {
     width: 100%;
     padding-right: 0px;
     padding-left: 0px;
     margin-right: auto;
     margin-left: auto;
+
 }
 .search-input {
     display: flex;
     flex-direction: row;
     padding-left: 2px;
     width: 98vw;
+
 }
 
 

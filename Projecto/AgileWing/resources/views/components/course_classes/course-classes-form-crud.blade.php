@@ -26,16 +26,16 @@
 
 <!-- Start of the Main Container -->
 <div class="container" id="listForm">
-    <div class="row"> 
+    <div class="row">
         <!-- LEFT COLUMN: CREATE/EDIT FORM -->
-        <div class="col-md-4"> 
+        <div class="col-md-4">
 
             <h3>Gestão de Turmas</h3>
             <!-- FORM -->
             <form action="{{ route('course-classes.store') }}" id="controlForm" method="POST">
                 @csrf
 
-                <!-- Hidden input for HTTP method override. Needed because HTML forms only support GET/POST natively and we're not using 
+                <!-- Hidden input for HTTP method override. Needed because HTML forms only support GET/POST natively and we're not using
                 @method('PUT') to be able to switch between methods-->
                 <input type="hidden" name="_method" value="POST" id="hiddenMethod">
 
@@ -47,11 +47,11 @@
                 <!-- Course Name -->
                 <div class="form-group">
                     <label for="name">Designação</label>
-                    <input 
-                        data-name="name" 
-                        type="text" 
-                        id="name" 
-                        name="name" 
+                    <input
+                        data-name="name"
+                        type="text"
+                        id="name"
+                        name="name"
                         class="form-control @error('name') is-invalid @enderror"
                         required
                         value="{{ old('name') }}"
@@ -66,10 +66,10 @@
                 <!-- Number -->
                 <div class="form-group">
                     <label for="number">Número</label>
-                    <input 
+                    <input
                         data-name="number"
                         type="text"
-                        id="number" 
+                        id="number"
                         name="number"
                         class="form-control @error('number') is-invalid @enderror"
                         value="{{ old('number') }}"
@@ -83,16 +83,16 @@
 
                 <!-- Course -->
                 <div class="form-group">
-                    <label for="course">Cruso</label>
-                    <select 
+                    <label for="course">Curso</label>
+                    <select
                         data-name="course"
-                        data-type="comboBox" 
-                        id="course" 
-                        name="course_id" 
+                        data-type="comboBox"
+                        id="course"
+                        name="course_id"
                         class="form-control"
                         disabled>
                         @foreach($courses as $course)
-                            <option value="{{ $course->id }}" 
+                            <option value="{{ $course->id }}"
                                 @if(old('course_id') == $course->id) selected @endif
                             >
                             {{ $course->initials }} - {{ $course->name }}
@@ -131,10 +131,10 @@
                         <td data-name="number">{{ $courseClass->number }}</td>
                         <td data-name="course">{{ $courseClass->course->initials }} - {{ $courseClass->course->name }}</td>
                         <td>
-                            <button 
-                                class="btn btn-light" 
-                                type="button" 
-                                data-toggle="collapse" 
+                            <button
+                                class="btn btn-light"
+                                type="button"
+                                data-toggle="collapse"
                                 data-target="#hourBlocksList_{{ $courseClass->id }}">
                                 Blocos Horário
                             </button>

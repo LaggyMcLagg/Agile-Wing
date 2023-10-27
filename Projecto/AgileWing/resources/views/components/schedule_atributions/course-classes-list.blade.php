@@ -37,17 +37,13 @@
         </button>
     </div>
 @endif
-
-<div class="container">
-    <div class="row">
-            <form class="form-inline my-2 my-lg-0 justify-content-end">
-                <input id="search-input" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-blue my-2 my-sm-0" type="submit">Pesquisa</button>
-            </form>
-    </div>
+<h3 class="title mt-md-4 mt-sm-2">Listagem de Formadores para Visualização</h3>
+<div class="search-container">
+    <form class="users-search">
+        <input id="search-input" class="form-control mr-sm-2" type="search" placeholder="Pesquisar Formador..." aria-label="Search">
+        <button class="btn btn-blue my-sm-0" type="submit">Procurar</button>
+    </form>
 </div>
-<h3>Listagem de Turmas para gestão de atribuições</h3>
-
 <table class="table table-borderless" id="sortable-table">
     <thead>
         <tr>

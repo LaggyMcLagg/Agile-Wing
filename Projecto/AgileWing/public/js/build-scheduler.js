@@ -106,8 +106,8 @@
  *
  * Major Components:
  * - `buildScheduler`: This function constructs the scheduler calendar based on a given month and year.
- *     It starts by setting the header with day names, then calculates key days (like the start and end
- *     days of the month). Days are then rendered on the calendar, including tail days from the previous
+ *     It starts by setting the header with day names, then calculates key days (like the start and end 
+ *     days of the month). Days are then rendered on the calendar, including tail days from the previous 
  *     and next months. The scheduler header and body are also adjusted to the current month.
  *
  * Assumptions:
@@ -170,7 +170,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Calculate important days for calendar building.
 
-    // Determine which day of the week the current month starts on.
+    // Determine which day of the week the current month starts on. 
     // E.g., 0 for Sunday, 1 for Monday, etc.
     var firstDayOfMonth = new Date(year, month, 1).getDay();
 
@@ -184,7 +184,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Display days from the previous month in gray.
 
-    // Depending on which day of the week the current month starts on,
+    // Depending on which day of the week the current month starts on, 
     // fill in the calendar grid with the corresponding number of days from the end of the previous month.
     // These are displayed in gray to differentiate them from the days of the current month.
     for (var i = 0; i < firstDayOfMonth; i++) {
@@ -206,8 +206,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // Display days from the next month in gray to ensure a complete grid.
 
     // To keep a consistent look of the calendar grid, sometimes it's necessary to show some days from the next month.
-    // The calendar grid has 7 rows of 7 days, totaling 49 cells.
-    // Thus, after filling the days of the current and previous months,
+    // The calendar grid has 7 rows of 7 days, totaling 49 cells. 
+    // Thus, after filling the days of the current and previous months, 
     // any remaining cells are filled with the days from the next month.
     var nextMonthDay = 1; // Start from the first day of the next month.
     while (daysGrid.children.length < 49) {
@@ -276,7 +276,7 @@ document.addEventListener("DOMContentLoaded", function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\ruiru\Desktop\Agile-Wing\Projecto\AgileWing\resources\js\components\build-scheduler.js */"./resources/js/components/build-scheduler.js");
+module.exports = __webpack_require__(/*! C:\Users\Administrador\Documents\GitHub\Agile-Wing\Projecto\AgileWing\resources\js\components\build-scheduler.js */"./resources/js/components/build-scheduler.js");
 
 
 /***/ })

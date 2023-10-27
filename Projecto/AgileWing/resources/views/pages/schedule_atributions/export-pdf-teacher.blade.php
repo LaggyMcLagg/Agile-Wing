@@ -1,4 +1,4 @@
-@component('components.schedule_atribution.schedule-atibution-teacher-export-pdf', [
+@component('components.schedule_atributions.schedule-atibution-teacher-export-pdf', [
     'teacherClass' => $teacherClass
 ])
 @endcomponent

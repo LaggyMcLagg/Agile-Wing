@@ -516,7 +516,7 @@ public function store(Request $request)
             $tables[] = $table;
         }
         
-        return view('pages.schedule_atribution.export-pdf-class', [
+        return view('pages.schedule_atributions.export-pdf-class', [
             'courseClass' => $courseClass,
             'tables' => $tables,
         ]);
@@ -609,7 +609,7 @@ public function store(Request $request)
             $tables[] = $table;
         }
 
-        $pdf = PDF::loadview('pages.schedule_atribution.export-pdf-class', compact('courseClass','tables'));
+        $pdf = PDF::loadview('pages.schedule_atributions.export-pdf-class', compact('courseClass','tables'));
         return $pdf->download('cronograma_turma.pdf');
     }
 
@@ -635,7 +635,7 @@ public function store(Request $request)
             $attribution->backgroundColor = $attribution->availabilityType->color;
         }
      
-        return view('pages.schedule_atribution.export-pdf-teacher', [
+        return view('pages.schedule_atributions.export-pdf-teacher', [
             'teacherClass' => $teacherClass
         ]);
     }
@@ -674,7 +674,7 @@ public function store(Request $request)
     
         $dates = $groupedAtributions->keys(); // Get unique dates.
     
-        $pdf = PDF::loadview('pages.schedule_atribution.export-pdf-teacher', compact('teacherClass','dates', 'groupedAtributions'));
+        $pdf = PDF::loadview('pages.schedule_atributions.export-pdf-teacher', compact('teacherClass','dates', 'groupedAtributions'));
         return $pdf->download('cronograma_formador.pdf');
     }
 }

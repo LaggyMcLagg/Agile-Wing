@@ -1,4 +1,4 @@
-@component('components.schedule_atribution.schedule-atribution-class-export-pdf', [
+@component('components.schedule_atributions.schedule-atribution-class-export-pdf', [
     'courseClass' => $courseClass,
     'tables' => $tables,
 ])

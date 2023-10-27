@@ -44,7 +44,7 @@
                 <!-- UserType Name -->
                 <div class="form-group">
                     <label for="name">Nome de Tipo de Utilizador</label>
-                    <input data-name="name" type="text" id="name" name="name" class="form-control @error('name') is-invalid @enderror" required value="{{ old('name') }}" readonly>
+                    <input data-name="name" type="text" id="name" name="name" class="form-control @error('name') is-invalid @enderror" readonly>
                     @error('name')
                     <div class="invalid-feedback">
                         {{ $message }}

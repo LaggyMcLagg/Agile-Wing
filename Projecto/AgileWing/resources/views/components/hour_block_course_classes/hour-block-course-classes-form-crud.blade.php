@@ -115,25 +115,26 @@
 
         <!-- TABELA LIST/SHOW -->
         <div class="col-md-8">
-            <h3>Gestão de Blocos Horário Turmas</h3>
+        <h3>Gestão de Blocos Horário Turmas</h3>
+            <!-- Live search input -->
             <a id="createBtn" class="btn btn-blue">Criar</a>
             <a id="editBtn" type="button" class="btn btn-blue">Editar</a>
-            <!-- Live search input -->
             <div class="search-container">
-                <form class="users-search">
-                    <input id="search-input" class="form-control mr-sm-2" type="search" placeholder="Pesquisar..." aria-label="Search">
-                    <button class="btn btn-blue my-sm-0" type="submit">Procurar</button>
-                </form>
-            </div>
-            <div class="table-container">
-            <table class="table table-borderless">
+    <form class="users-search">
+        <input id="search-input" class="form-control mr-sm-2" type="search" placeholder="Pesquisar..." aria-label="Search">
+        <button class="btn btn-blue my-sm-0" type="submit">Procurar</button>
+    </form>
+</div>
+            <table id="sortable-table" class="table table-borderless">
                 <thead>
                     <tr>
                         <th scope="col" data-column-index="0" hidden>ID</th>
                         <th scope="col" data-column-index="1">Hora inicio</th>
                         <th scope="col" data-column-index="2">Hora fim</th>
                         <th scope="col" data-column-index="3">Nome Curso</th>
-                        <th scope="col">Apagar</th>
+                        <th scope="col">
+
+                        </th>
                     </tr>
                 </thead>
                 <tbody>

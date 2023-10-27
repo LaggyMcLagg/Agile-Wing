@@ -42,15 +42,15 @@ class UfcdController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'number' => 'required',
+            'number' => 'required|numeric',
             'name' => 'required',
-            'hours' => 'required',
+            'hours' => 'required|numeric',
             'pedagogical_group_id' => 'required'
         ]);
     
         Ufcd::create($data);
     
-        return redirect()->route('ufcds.index')->with('success', 'UFCD created successfully');
+        return redirect()->route('ufcds.index')->with('success', 'UFCD criada com sucesso.');
     }
 
     /**
@@ -95,7 +95,7 @@ class UfcdController extends Controller
 
         $ufcd->update($request->all());
     
-        return redirect()->route('ufcds.index')->with('success', 'UFCD updated successfully');
+        return redirect()->route('ufcds.index')->with('success', 'UFCD editada com sucesso.');
     }
 
     /**
@@ -108,6 +108,6 @@ class UfcdController extends Controller
     {
         $ufcd->delete();
     
-        return redirect()->route('ufcds.index')->with('success', 'Ufcd deleted successfully');
+        return redirect()->route('ufcds.index')->with('success', 'UFCD apagada com sucesso.');
     }
 }

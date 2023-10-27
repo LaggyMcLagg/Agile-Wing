@@ -206,7 +206,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       }
     });
-    if (userId === null) {
+    if (courseClassId == 0) {
       // create links for empty cells TEACHER AVAILABILITIES
       var cells = document.querySelectorAll("#scheduler tbody td:not(:first-child)");
       cells.forEach(function (cell) {
@@ -248,7 +248,7 @@ document.addEventListener("DOMContentLoaded", function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! D:\ATEC\repos\Agile-Wing\Projecto\AgileWing\resources\js\logic\update-scheduler-availabilities.js */"./resources/js/logic/update-scheduler-availabilities.js");
+module.exports = __webpack_require__(/*! C:\Users\ruiru\Desktop\Agile-Wing\Projecto\AgileWing\resources\js\logic\update-scheduler-availabilities.js */"./resources/js/logic/update-scheduler-availabilities.js");
 
 
 /***/ })

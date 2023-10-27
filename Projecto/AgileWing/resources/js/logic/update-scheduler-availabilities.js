@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             }
         });
-        if (userId === null) {
+        if (courseClassId == 0) {
 
             // create links for empty cells TEACHER AVAILABILITIES
             const cells = document.querySelectorAll("#scheduler tbody td:not(:first-child)");

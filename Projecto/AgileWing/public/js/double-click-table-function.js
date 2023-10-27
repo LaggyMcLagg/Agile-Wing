@@ -115,7 +115,7 @@ function redirectToEditPage(cell) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! D:\ATEC\repos\Agile-Wing\Projecto\AgileWing\resources\js\logic\double-click-table-function.js */"./resources/js/logic/double-click-table-function.js");
+module.exports = __webpack_require__(/*! C:\Users\ruiru\Desktop\Agile-Wing\Projecto\AgileWing\resources\js\logic\double-click-table-function.js */"./resources/js/logic/double-click-table-function.js");
 
 
 /***/ })

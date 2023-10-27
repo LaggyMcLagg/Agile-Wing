@@ -1,12 +1,9 @@
-<link rel="stylesheet" href="{{ asset('css/geral.css') }}">
 @section('scripts')
 <script src="{{ asset('/js/search-table-function.js') }}"></script>
 <script src="{{ asset('/js/sort-table-function.js') }}"></script>
 <script>
     sessionStorage.setItem('baseUrl', '{{ route('schedule-atribution.store') }}');
-</script>
-
-<script>
+    
     document.addEventListener('DOMContentLoaded', function() {
         const rows = document.querySelectorAll('.clickable-row');
         rows.forEach(row => {
@@ -37,14 +34,23 @@
         </button>
     </div>
 @endif
-<h3 class="title mt-md-4 mt-sm-2">Listagem de Formadores para Visualização</h3>
-<div class="search-container">
-    <form class="users-search">
-        <input id="search-input" class="form-control mr-sm-2" type="search" placeholder="Pesquisar Formador..." aria-label="Search">
-        <button class="btn btn-blue my-sm-0" type="submit">Procurar</button>
-    </form>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <form class="form-inline my-2 my-lg-0 justify-content-end">
+                <input id="search-input" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-primary my-2 my-sm-0" type="submit">Pesquisa</button>
+            </form>
+        </div>
+    </div>
 </div>
-<table class="table table-borderless" id="sortable-table">
+
+<h3>Listagem de Turmas para gestão de atribuições</h3>
+
+<table class="table table-bordered" id="sortable-table">
     <thead>
         <tr>
             <th data-column-index="0" scope="col">Turma</th>

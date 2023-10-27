@@ -111,7 +111,7 @@
                             type="button"
                             data-toggle="collapse"
                             data-target="#ufcdsCheckboxList">
-                            <i class="fas fa-chevron-right mr-2"></i></button>
+                            </button>
                     </label>
                     <div
                         id="ufcdsCheckboxList"

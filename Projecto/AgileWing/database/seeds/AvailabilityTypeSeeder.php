@@ -14,9 +14,9 @@ class AvailabilityTypeSeeder extends Seeder
         $availabilityTypes = [
             ['name' => 'Indisponível',
             'color' => '#F53729'],
-            ['name' => 'Online',
-            'color' => '#F8E700'],
             ['name' => 'Presencial',
+            'color' => '#F8E700'],
+            ['name' => 'Online',
             'color' => '#FFA500'],
             ['name' => 'Disponível',
             'color' => '#6AA84F'],

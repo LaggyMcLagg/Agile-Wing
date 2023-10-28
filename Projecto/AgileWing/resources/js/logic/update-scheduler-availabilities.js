@@ -111,8 +111,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             }
         });
-        if (userId === null) {
 
+        if (courseClassId == 0) {
+            //IT MUST FALL IN HERE IF COURSECLASS IS NULL 
             // create links for empty cells TEACHER AVAILABILITIES
             const cells = document.querySelectorAll("#scheduler tbody td:not(:first-child)");
             cells.forEach(cell => {
@@ -124,7 +125,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             });
         } else {
-
             // create links for empty cells COURSE CLASSE ATRIBUTIONS
             const cells = document.querySelectorAll("#scheduler tbody td:not(:first-child)");
             cells.forEach(cell => {

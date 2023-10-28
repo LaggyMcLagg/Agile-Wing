@@ -34,7 +34,11 @@ mix.js('resources/js/app.js', 'public/js')
     //teacher-availabilities  
     .js('resources/js/logic/availabilities-form-dynamic-crud.js', 'public/js')//aplicado a:
     //teacher-availabilities  
+    .js('resources/js/logic/form-control-schedule-atributions.js', 'public/js')//aplicado a:
+    //components.schedule_atributions.create-form
+    //components.schedule_atributions.edit-form
+    .js('resources/js/logic/checkbox-control-schedule-atributions.js', 'public/js')//aplicado a:
+    //components.schedule_atributions.create-form
+    //components.schedule_atributions.edit-form
 
-
-
-
+    

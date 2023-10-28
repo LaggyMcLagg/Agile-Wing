@@ -36,8 +36,8 @@ class UserSeeder extends Seeder
                 'updated_at'        => now(),
             ],
             [
-                'name'              => 'Professor Beterraba',
-                'email'             => 'prof.beterraba@edu.atec.pt',
+                'name'              => 'Planeamento Lisboa',
+                'email'             => 'planeamento.lx@edu.atec.pt',
                 'email_verified_at' => now(), 
                 'password'          =>  bcrypt('password'), 
                 'user_type_id'      => 1,

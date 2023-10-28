@@ -49,12 +49,12 @@ class HourBlockCourseClassController extends Controller
                 'hour_end' => 'required|date_format:H:i:s|after:hour_beginning',
             ],
             [
-                'course_class_id.required' => 'O campo de Turma é obrigatório.',
+                'course_class_id.required' => 'O campo é obrigatório.',
                 'course_class_id.exists' => 'A Turma seleccionda é inválida.',
-                'hour_beginning.required' => 'O campo de início da hora é obrigatório.',
+                'hour_beginning.required' => 'O campo é obrigatório.',
                 'hour_beginning.date_format' =>  'O início da hora deve estar no formato hh:mm:ss.',
                 'hour_beginning.before' => 'O início da hora deve ser antes do final da hora.',
-                'hour_end.required' => 'O campo de final de hora é obrigatório.',
+                'hour_end.required' => 'O campo é obrigatório.',
                 'hour_end.date_format' => 'O final da hora deve estar no formato hh:mm:ss.',
                 'hour_end.after' => 'O final da hora deve ser posterior ao início da hora.',
 
@@ -62,7 +62,7 @@ class HourBlockCourseClassController extends Controller
         );
 
         HourBlockCourseClass::create($request->all());
-        return redirect()->route('hour-block-course-classes.index')->with('success', 'Hour Block Course Class created successfully');
+        return redirect()->route('hour-block-course-classes.index')->with('success', 'Bloco de horário criado com sucesso.');
     }
 
     /**
@@ -105,12 +105,12 @@ class HourBlockCourseClassController extends Controller
                 'hour_end' => 'required|date_format:H:i:s|after:hour_beginning',
             ],
             [
-                'course_class_id.required' => 'O campo de Turma é obrigatório.',
+                'course_class_id.required' => 'O campo é obrigatório.',
                 'course_class_id.exists' => 'A Turma seleccionda é inválida.',
-                'hour_beginning.required' => 'O campo de início da hora é obrigatório.',
+                'hour_beginning.required' => 'O campo é obrigatório.',
                 'hour_beginning.date_format' =>  'O início da hora deve estar no formato hh:mm:ss.',
                 'hour_beginning.before' => 'O início da hora deve ser antes do final da hora.',
-                'hour_end.required' => 'O campo de final de hora é obrigatório.',
+                'hour_end.required' => 'O campo é obrigatório.',
                 'hour_end.date_format' => 'O final da hora deve estar no formato hh:mm:ss.',
                 'hour_end.after' => 'O final da hora deve ser posterior ao início da hora.',
             ]
@@ -118,7 +118,7 @@ class HourBlockCourseClassController extends Controller
 
         $hourBlockCourseClass->update($request->all());
 
-        return redirect()->route('hour-block-course-classes.index')->with('success', 'Hour Block Course Classes updated successfully');
+        return redirect()->route('hour-block-course-classes.index')->with('success', 'Bloco de horário editado com sucesso.');
     }
 
     /**
@@ -132,6 +132,6 @@ class HourBlockCourseClassController extends Controller
         $hourBlockCourseClass->delete();
 
         return redirect()->route('hour-block-course-classes.index')
-                         ->with('success', 'Hour Block Course Class deleted successfully');
+                         ->with('success', 'Bloco de horário apagado com sucesso.');
     }
 }

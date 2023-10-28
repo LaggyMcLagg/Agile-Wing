@@ -42,10 +42,10 @@ class SpecializationAreaController extends Controller
             'number' => 'required|integer|unique:specialization_areas,number',
             'name' => 'required|string|max:255|regex:/^[\pL\sÇç]+$/u',
         ], [
-            'number.required' => 'Campo por preencher.',
+            'number.required' => 'O campo é obrigatório.',
             'number.unique' => 'O número já existe.',
             'number.integer' => 'O número deve ser um valor inteiro.',
-            'name.required' => 'Campo por preencher.',
+            'name.required' => 'O campo é obrigatório.',
             'name.regex' => 'O nome só pode conter letras, acentos, Ç ou ç.',
         ]);
 
@@ -100,9 +100,9 @@ class SpecializationAreaController extends Controller
             'number' => 'required|integer|unique:specialization_areas,number,' . $specializationArea->id,
             'name' => 'required|string|max:255|regex:/^[\pL\sÇç]+$/u',
         ], [
-            'number.required' => 'O campo numérico é obrigatório.',
+            'number.required' => 'O campo é obrigatório.',
             'number.unique' => 'O número fornecido já existe.',
-            'name.required' => 'O campo nome é obrigatório.',
+            'name.required' => 'O campo é obrigatório.',
             'name.regex' => 'O nome só pode conter letras, acentuação e Ç ou ç.',
         ]);
 

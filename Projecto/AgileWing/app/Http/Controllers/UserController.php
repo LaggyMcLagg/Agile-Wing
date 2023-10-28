@@ -84,13 +84,20 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-
-            'name'      => 'required|string|max:255|regex:/^[\pL\sÇç]+$/u',
-            'email'         => 'required|email',
-            'user_type_id'  => 'required',
-            'color_1'       => 'required',
-            'color_2'       => 'required',
+            'name' => 'required|string|max:255|regex:/^[\pL\sÇç]+$/u',
+            'email' => 'required|email',
+            'user_type_id' => 'required',
+            'color_1' => 'required',
+            'color_2' => 'required',
+        ], [
+            'name.required' => 'O campo é obrigatório.',
+            'name.string' => 'O campo não pode conter números.',
+            'name.max' => 'O campo nome não pode ter mais de 255 caracteres.',
+            'name.regex' => 'O campo nome só pode conter letras, acentos, Ç ou ç.',
+            'email.required' => 'O campo é obrigatório.',
+            'email.email' => 'O campo email deve ser um endereço de email válido.',
         ]);
+        
 
         $temporaryPassword = bcrypt(Str::random(20));
         $token = Str::random(32); //aqui nao podemos usar bcrypt porque da erro na url
@@ -123,7 +130,7 @@ class UserController extends Controller
             $message->to($user->email)->subject('Verificação de utilizador');
         });
 
-        return redirect('users')->with('success', 'Registo criado com sucesso!');
+        return redirect('users')->with('success', 'Utilizador criado com sucesso.');
     }
 
     /**

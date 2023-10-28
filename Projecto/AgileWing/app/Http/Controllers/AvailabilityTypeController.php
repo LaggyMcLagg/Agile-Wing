@@ -39,11 +39,14 @@ class AvailabilityTypeController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'color' => 'required|string|max:7',
+        ], [
+            'name.required' => 'O campo é obrigatório.',
         ]);
+        
 
         AvailabilityType::create($request->all());
 
-        return redirect()->route('availability-types.index')->with('success', 'Registo criado com sucesso!');
+        return redirect()->route('availability-types.index')->with('success', 'Tipo de disponibilidade criado com sucesso.');
     }
 
     /**
@@ -81,7 +84,7 @@ class AvailabilityTypeController extends Controller
         $availabilityType->color = $request->color;
         $availabilityType->save();
 
-        return redirect()->route('availability-types.index')->with('success', 'Registo editado com sucesso!');
+        return redirect()->route('availability-types.index')->with('success', 'Tipo de disponibilidade editado com sucesso.');
     }
 
 
@@ -94,6 +97,6 @@ class AvailabilityTypeController extends Controller
     public function destroy(AvailabilityType $availabilityType)
     {
         $availabilityType->delete();
-        return redirect()->route('availability-types.index')->with('success', 'Registo apagado com sucesso');
+        return redirect()->route('availability-types.index')->with('success', 'Tipo de disponibilidade apagado com sucesso.');
     }
 }

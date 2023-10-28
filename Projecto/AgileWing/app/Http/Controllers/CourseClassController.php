@@ -51,17 +51,17 @@ class CourseClassController extends Controller
             'course_id' => 'required|exists:courses,id',
         ],
         [
-            'number.required' => 'O campo numérico é obrigatório.',
+            'number.required' => 'O campo é obrigatório.',
             'number.regex' => 'O número deve estar no formato XX.XX (por exemplo, 12.34).',
             'number.unique' => 'O número fornecido já existe.',
-            'name.required' => 'O campo nome é obrigatório.',
+            'name.required' => 'O campo é obrigatório.',
             'name.regex' => 'O nome só pode conter letras, acentuação e Ç ou ç.',
 
         ]);
 
         CourseClass::create($request->all());
 
-        return redirect()->route('course-classes.index')->with('success', 'Item created successfully!');
+        return redirect()->route('course-classes.index')->with('success', 'Turma criada com sucesso.');
     }
 
     /**
@@ -112,7 +112,7 @@ class CourseClassController extends Controller
 
         $courseClass->update($request->all());
 
-        return redirect()->route('course-classes.index')->with('success', 'Course Class updated successfully');
+        return redirect()->route('course-classes.index')->with('success', 'Turma editada com sucesso.');
     }
 
     /**
@@ -126,7 +126,7 @@ class CourseClassController extends Controller
         $courseClass->delete();
 
         return redirect()->route('course-classes.index')
-            ->with('success', 'Course Class deleted successfully');
+            ->with('success', 'Turma apagada com sucesso.');
     }
 
     //###############################

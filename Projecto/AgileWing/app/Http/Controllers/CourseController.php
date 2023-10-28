@@ -51,11 +51,11 @@ class CourseController extends Controller
                 'ufcds.*' => 'exists:ufcds,id',
             ],
             [
-                'name.required' => 'O campo nome é obrigatório.',
+                'name.required' => 'O campo é obrigatório.',
                 'name.regex' => 'O nome só pode conter letras, acentuação e Ç ou ç.',
-                'initials.required' => 'O campo iniciais é obrigatório.',
+                'initials.required' => 'O campo é obrigatório.',
                 'initials.regex' => 'As iniciais só podem conter letras maiúsculas e Ç.',
-                'specialization_area_number.required' => 'O número da Área de Formação é obrigatório.',
+                'specialization_area_number.required' => 'O campo é obrigatório.',
                 'ufcds.required' => 'Deve selecionar pelo menos uma UFCD.',
                 'ufcds.*.exists' => 'Uma ou mais UFCDs selecionadas não existem.',
 
@@ -78,11 +78,11 @@ class CourseController extends Controller
 
             $course->ufcds()->attach($request->ufcds);
 
-            return redirect()->route('courses.index')->with('success', 'Course created successfully');
+            return redirect()->route('courses.index')->with('success', 'Curso criado com sucesso.');
 
         } catch (\Exception $e) {
             //This way we resolve gracefully any errors, return the error message the old form data
-            session()->flash('error', 'There was an error creating the course: ' . $e->getMessage());
+            session()->flash('error', 'Houve um erro a criar o curso: ' . $e->getMessage());
             return back()->withInput();
         }
     }
@@ -127,11 +127,11 @@ class CourseController extends Controller
                 'ufcds.*' => 'exists:ufcds,id',
             ],
             [
-                'name.required' => 'O campo nome é obrigatório.',
+                'name.required' => 'O campo é obrigatório.',
                 'name.regex' => 'O nome só pode conter letras, acentuação e Ç ou ç.',
-                'initials.required' => 'O campo iniciais é obrigatório.',
+                'initials.required' => 'O campo é obrigatório.',
                 'initials.regex' => 'As iniciais só podem conter letras maiúsculas e Ç.',
-                'specialization_area_number.required' => 'O número da Área de Formação é obrigatório.',
+                'specialization_area_number.required' => 'O campo é obrigatório.',
                 'specialization_area_number.exists' => 'O número da Área de Formação inserido não existe.',
                 'ufcds.required' => 'Deve selecionar pelo menos uma UFCD.',
                 'ufcds.*.exists' => 'Uma ou mais UFCDs selecionadas não existem.',
@@ -156,19 +156,11 @@ class CourseController extends Controller
             ]);
 
             $course->ufcds()->sync($request->ufcds);
-<<<<<<< Updated upstream
-        
-            return redirect()->route('courses.index')->with('success', 'Course editado com sucesso.');
-        } catch (\Exception $e) {
-            //This way we resolve gracefully any errors, return the error message the old form data
-            session()->flash('error', 'Houve um erro a editar o curso. ' . $e->getMessage());
-=======
 
             return redirect()->route('courses.index')->with('success', 'Curso apagado com sucesso.');
         } catch (\Exception $e) {
             //This way we resolve gracefully any errors, return the error message the old form data
             session()->flash('error', 'Ocorreu um erro ao atualizar o curso: ' . $e->getMessage());
->>>>>>> Stashed changes
             return back()->withInput();
         }
     }
@@ -189,19 +181,11 @@ class CourseController extends Controller
 
             // Soft delete the course
             $course->delete();
-<<<<<<< Updated upstream
-    
-            return redirect()->route('courses.index')->with('success', 'Curso apagado com sucesso');
-        } catch (\Exception $e) {            
-    
-            return redirect()->route('courses.index')->with('error', 'Houve um erro a apagar o curso.' . $e->getMessage());
-=======
 
             return redirect()->route('courses.index')->with('success', 'Curso apagado com sucesso');
         } catch (\Exception $e) {
 
             return redirect()->route('courses.index')->with('error', 'Ocorreu um erro ao apagar o curso.' . $e->getMessage());
->>>>>>> Stashed changes
         }
     }
 }

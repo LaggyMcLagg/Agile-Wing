@@ -53,7 +53,7 @@ class UserTypeController extends Controller
             $request->validate([
                 'name' => 'required|string|max:255|regex:/^[\pL\sÇç]+$/u|unique:user_types,name',
             ], [
-                'name.required' => 'O campo nome é obrigatório.',
+                'name.required' => 'O campo é obrigatório.',
                 'name.regex' => 'O nome só pode conter letras, acentuação e Ç ou ç.',
                 'name.unique' => 'O nome já foi escolhido',
             ]);
@@ -62,7 +62,7 @@ class UserTypeController extends Controller
                 UserType::create($request->all());
                 session()->flash('success', 'Tipo de utilizador criado com sucesso.');
             } catch (Exception $e) {
-                session()->flash('error', 'Ocorreu um erro ao tentar criar o registro: ' . $e->getMessage());
+                session()->flash('error', 'Ocorreu um erro ao tentar criar o registo: ' . $e->getMessage());
                 return back()->withInput();
             }
         }
@@ -111,7 +111,7 @@ class UserTypeController extends Controller
                 'name' => 'required|string|max:255|regex:/^[\pL\sÇç]+$/u',
             ],
             [
-                'name.required' => 'O campo obrigatório.',
+                'name.required' => 'O obrigatório.',
                 'name.regex' => 'O nome só pode conter letras, acentuação e Ç ou ç.',
             ]
         );
@@ -125,7 +125,7 @@ class UserTypeController extends Controller
             return redirect()->route('user-types.index');
         } catch (Exception $e) {
             
-            session()->flash('error', 'Ocorreu um erro a tentar editar o resgisto: ' . $e->getMessage());
+            session()->flash('error', 'Ocorreu um erro a tentar editar o tipo de utilizador: ' . $e->getMessage());
             return back()->withInput();
         }
         
@@ -145,7 +145,7 @@ class UserTypeController extends Controller
             return redirect()->route('user-types.index')->with('success', 'Tipo de utilizador apagado com successo.');
         } catch (Exception $e) {            
     
-            return redirect()->route('user-types.index')->with('error', 'Houve um erro a apagar o tipo de utilizador.' . $e->getMessage());
+            return redirect()->route('user-types.index')->with('error', 'Ocorreu um erro a apagar o tipo de utilizador.' . $e->getMessage());
         }
     }
 }

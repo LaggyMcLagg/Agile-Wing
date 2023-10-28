@@ -1,0 +1,11 @@
+@extends('master.main')
+@section('content')
+@component(
+    'components.hour_block_course_classes.hour-block-course-classes-form-crud', 
+    compact(
+        'hourBlockCourseClasses',
+        'courseClasses'
+        )
+    )
+@endcomponent
+@endsection

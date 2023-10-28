@@ -1,0 +1,10 @@
+@extends('master.main')
+@section('content')
+@component(
+    'components.pedagogical_groups.pedagogical-groups-form-crud',
+    compact(
+        'pedagogicalGroups'
+        )
+    )
+@endcomponent
+@endsection

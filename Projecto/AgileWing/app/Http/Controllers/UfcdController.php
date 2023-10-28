@@ -16,12 +16,11 @@ class UfcdController extends Controller
     public function index()
     {
         // Fetch all teacher availabilities along with the related information
-        $ufcds = Ufcd::with('pedagogicalGroup')->get();
+        $ufcds = Ufcd::with('pedagogicalGroup', 'courses', 'users')->get();
         $pedagogicalGroups = PedagogicalGroup::all();
 
         // Pass the data to the view
-        return view('pages.ufcds.index', compact('ufcds', 'pedagogicalGroups'));
-
+        return view('pages.ufcds.crud', compact('ufcds', 'pedagogicalGroups'));
     }
 
     /**
@@ -31,12 +30,7 @@ class UfcdController extends Controller
      */
     public function create()
     {
-        $pedagogicalGroups = PedagogicalGroup::all();
-
-        return view('pages.ufcds.create', compact(
-            'pedagogicalGroups'
-
-        ));
+        //
     }
 
     /**
@@ -48,15 +42,22 @@ class UfcdController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
+            'number' => 'required|numeric',
             'name' => 'required',
-            'pedagogical_group_id' => 'required',
-            'number' => 'required',
-            'hours' => 'required'
+            'hours' => 'required|numeric',
+            'pedagogical_group_id' => 'required'
+        ],
+        [
+            'number.required' => 'O campo numérico é obrigatório.',
+            'number.regex' => 'O número deve estar no formato XX.XX (por exemplo, 12.34).',
+            'number.unique' => 'O número fornecido já existe.',
+            'name.required' => 'O campo nome é obrigatório.',
+            'name.regex' => 'O nome só pode conter letras, acentuação e Ç ou ç.',
         ]);
-    
+
         Ufcd::create($data);
     
-        return redirect()->route('ufcds.index')->with('success', 'UFCD created successfully');
+        return redirect()->route('ufcds.index')->with('success', 'UFCD criada com sucesso.');
     }
 
     /**
@@ -67,11 +68,7 @@ class UfcdController extends Controller
      */
     public function show(Ufcd $ufcd)
     {
-        // Eager load the necessary relationships
-        $ufcd->load('pedagogicalGroup');
-
-        // Pass the data to the view
-        return view('pages.ufcds.show', compact('ufcd'));
+        //
     }
 
     /**
@@ -82,9 +79,7 @@ class UfcdController extends Controller
      */
     public function edit(Ufcd $ufcd)
     {
-        $pedagogicalGroups = PedagogicalGroup::all();
-        
-        return view('pages.ufcds.edit', compact('ufcd', 'pedagogicalGroups'));
+        //
     }
 
     /**
@@ -94,19 +89,26 @@ class UfcdController extends Controller
      * @param  \App\Ufcd  $ufcd
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Ufcd $ufcd)
+    public function update(Request $request, $id)
     {
-        
         $this->validate($request, [
-            'name' => 'required',
-            'pedagogical_group_id' => 'required',
             'number' => 'required',
-            'hours' => 'required'
+            'name' => 'required',
+            'hours' => 'required',
+            'pedagogical_group_id' => 'required'
+        ], [
+            'number.required' => 'O campo é obrigatório.',
+            'name.required' => 'O campo é obrigatório.',
+            'hours.required' => 'O campo é obrigatório.',
+            'pedagogical_group_id.required' => 'O campo é obrigatório.'
         ]);
-    
+        
+
+        $ufcd = Ufcd::find($id);
+
         $ufcd->update($request->all());
     
-        return redirect()->route('ufcds.index')->with('success', 'UFCD updated successfully');
+        return redirect()->route('ufcds.index')->with('success', 'UFCD editada com sucesso.');
     }
 
     /**
@@ -119,7 +121,6 @@ class UfcdController extends Controller
     {
         $ufcd->delete();
     
-        return redirect()->route('ufcds.index')
-                         ->with('success', 'Ufcd deleted successfully');
+        return redirect()->route('ufcds.index')->with('success', 'UFCD apagada com sucesso.');
     }
 }

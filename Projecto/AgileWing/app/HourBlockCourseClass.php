@@ -10,6 +10,11 @@ use App\CourseClass;
 class HourBlockCourseClass extends Model
 {
     use SoftDeletes;
+
+    public function scheduleAtributions()
+    {
+        return $this->hasMany(ScheduleAtribution::class);
+    }
     
     public function courseClass()
     {

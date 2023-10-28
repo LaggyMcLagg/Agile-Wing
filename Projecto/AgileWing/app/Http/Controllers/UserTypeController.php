@@ -36,28 +36,44 @@ class UserTypeController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate(
-            [
+        // Procura na BD um nome igual ao inserido, incluindo registros excluídos suavemente
+        $existingUserType = UserType::withTrashed()->where('name', $request->input('name'))->first();
+    
+        if ($existingUserType) {
+            if ($existingUserType->trashed()) {
+                // Se o registro existir e estiver excluído suavemente, restaure-o
+                $existingUserType->restore();
+                session()->flash('success', 'Tipo de utilizador restaurado com sucesso.');
+            } else {
+                // Se o registro existir e não estiver excluído suavemente, exiba uma mensagem de erro
+                session()->flash('error', 'O tipo de utilizador já existe.');
+            }
+        } else {
+            // Se não houver um registro existente, continue com a validação dos campos
+            $request->validate([
                 'name' => 'required|string|max:255|regex:/^[\pL\sÇç]+$/u|unique:user_types,name',
-            ],
-            [
-                'name.required' => 'The name field is required.',
-                'name.regex' => 'The name may only contain letters, accentuation, and Ç or ç.',
-                'name.unique' => 'The name has already been taken.',
-            ]
-        );
-
-        try {        
-            UserType::create($request->all());
-        
-            session()->flash('success', 'Registo criado com sucesso!');
-            return redirect()->route('user-types.index');
-        } catch (Exception $e) {
-            
-            session()->flash('error', 'Ocorreu um erro a tentar criar o resgisto: ' . $e->getMessage());
-            return back()->withInput();
+            ], [
+                'name.required' => 'O campo nome é obrigatório.',
+                'name.regex' => 'O nome só pode conter letras, acentuação e Ç ou ç.',
+                'name.unique' => 'O nome já foi escolhido',
+            ]);
+    
+            try {        
+                UserType::create($request->all());
+                session()->flash('success', 'Tipo de utilizador criado com sucesso.');
+            } catch (Exception $e) {
+                session()->flash('error', 'Ocorreu um erro ao tentar criar o registro: ' . $e->getMessage());
+                return back()->withInput();
+            }
         }
+    
+        return redirect()->route('user-types.index');
     }
+    
+    
+    
+    
+    
 
     /**
      * Display the specified resource.
@@ -95,8 +111,8 @@ class UserTypeController extends Controller
                 'name' => 'required|string|max:255|regex:/^[\pL\sÇç]+$/u',
             ],
             [
-                'name.required' => 'The name field is required.',
-                'name.regex' => 'The name may only contain letters, accentuation, and Ç or ç.',
+                'name.required' => 'O campo obrigatório.',
+                'name.regex' => 'O nome só pode conter letras, acentuação e Ç ou ç.',
             ]
         );
 
@@ -105,7 +121,7 @@ class UserTypeController extends Controller
             $userType->name = $request->name;
             $userType->save();
         
-            session()->flash('success', 'Registo editado com sucesso!');
+            session()->flash('success', 'Tipo de utilizador editado com sucesso.');
             return redirect()->route('user-types.index');
         } catch (Exception $e) {
             

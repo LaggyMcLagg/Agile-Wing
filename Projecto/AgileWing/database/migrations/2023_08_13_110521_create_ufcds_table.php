@@ -17,7 +17,7 @@ class CreateUfcdsTable extends Migration
             $table->id();
             $table->string('name');
             $table->foreignid('pedagogical_group_id')->constrained();
-            $table->integer('number');
+            $table->string('number');
             $table->integer('hours');
             $table->timestamps();
             $table->softDeletes();

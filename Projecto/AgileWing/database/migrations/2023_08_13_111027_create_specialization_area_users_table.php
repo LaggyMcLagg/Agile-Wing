@@ -15,11 +15,11 @@ class CreateSpecializationAreaUsersTable extends Migration
     {
         Schema::create('specialization_area_users', function (Blueprint $table) {
             $table->id();
-            $table->integer('specialization_area_number')->onDelete('cascade');
-            $table->foreign('specialization_area_number')
-                  ->references('number')
-                  ->on('specialization_areas')
-                  ->onDelete('cascade');
+            $table->unsignedBigInteger('specialization_area_id');
+            $table->foreign('specialization_area_id')
+                ->references('id')
+                ->on('specialization_areas')
+                ->onDelete('cascade');
             $table->foreignid('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();

@@ -16,9 +16,8 @@ class CreateScheduleAtributionsTable extends Migration
         Schema::create('schedule_atributions', function (Blueprint $table) {
             $table->id();
             $table->date('date');
-            $table->time('hour_start');
-            $table->time('hour_end');
             $table->boolean('published')->default(false);
+            $table->foreignid('hour_block_course_class_id')->constrained();
             $table->foreignid('availability_type_id')->constrained();
             $table->foreignid('course_class_id')->constrained()->onDelete('cascade');
             $table->foreignid('ufcd_id')->constrained()->onDelete('cascade');

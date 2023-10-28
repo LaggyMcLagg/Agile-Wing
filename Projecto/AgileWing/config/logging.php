@@ -99,6 +99,12 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+
+        'intrusion' => [
+            'driver' => 'daily', //improvment: slack, must config slack channel
+            'path' => storage_path('logs/intrusion.log'),
+            'level' => 'critical',
+        ],
     ],
 
 ];

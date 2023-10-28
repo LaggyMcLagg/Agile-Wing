@@ -14,10 +14,10 @@ class CreateCourseUfcdsTable extends Migration
     public function up()
     {
         Schema::create('course_ufcds', function (Blueprint $table) {
-            $table->foreignid('course_id')->constrained();
-            $table->foreignid('ufcd_id')->constrained();
+            $table->id();
+            $table->foreignid('course_id')->constrained()->onDelete('cascade');
+            $table->foreignid('ufcd_id')->constrained()->onDelete('cascade');
             $table->timestamps();
-            $table->primary(['course_id', 'ufcd_id']);
             $table->softDeletes();
         });
     }

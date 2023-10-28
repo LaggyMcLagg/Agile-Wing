@@ -20,6 +20,7 @@ use Illuminate\Support\Str;
 $factory->define(User::class, function (Faker $faker) {
     $name = $faker->firstName . ' ' . $faker->lastName;
     $email = Str::lower(str_replace(' ', '.', $name)) . '@edu.atec.pt';
+    $randomColor = '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
 
     return [
         'name'             => $name,
@@ -28,8 +29,8 @@ $factory->define(User::class, function (Faker $faker) {
         'email_verified_at' => now(), 
         'user_type_id'     => 2,
         'token_password'   => bcrypt(Str::random(10)),
-        'token_used'       => true,
         'token_created_at' => now(),
+        'color_1'          => $randomColor,
         'notes'            => $faker->paragraph,
         'last_login'       => now(),
         'created_at'       => now(),

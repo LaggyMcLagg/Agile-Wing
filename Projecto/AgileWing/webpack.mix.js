@@ -16,8 +16,28 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/logic/search-table-function.js', 'public/js')//aplicado à tabel de Users
     .js('resources/js/logic/sort-table-function.js', 'public/js')//aplicado à tabel de Users
     .js('resources/js/logic/double-click-table-function.js', 'public/js')//aplicado à tabel de Users
-    .js('resources/js/logic/course_class_table.js', 'public/js')
-    //aplicado a:
-    //- hour-blocks
-    .js('resources/js/logic/control-form-dynamic-crud.js', 'public/js')
-
+    .js('resources/js/logic/users-edit-table.js', 'public/js')//aplicado user-form-show.blade
+    .js('resources/js/logic/control-form-dynamic-crud.js', 'public/js')//aplicado a:
+    //hour-blocks
+    //course
+    //user type
+    //availability type
+    //ufcd
+    //specialization area
+    //course class
+    //pedagogical group
+    //hour block course class
+    .js('resources/js/logic/update-scheduler-availabilities.js', 'public/js')//aplicado teacher-availabilities
+    .js('resources/js/components/build-scheduler.js', 'public/js')//aplicado a:
+    //teacher-availabilities  
+    //hour block course class
+    .js('resources/js/logic/availabilities-day-group-list.js', 'public/js')//aplicado a:
+    //teacher-availabilities  
+    .js('resources/js/logic/availabilities-form-dynamic-crud.js', 'public/js')//aplicado a:
+    //teacher-availabilities  
+    .js('resources/js/logic/form-control-schedule-atributions.js', 'public/js')//aplicado a:
+    //components.schedule_atributions.create-form
+    //components.schedule_atributions.edit-form
+    .js('resources/js/logic/checkbox-control-schedule-atributions.js', 'public/js')//aplicado a:
+    //components.schedule_atributions.create-form
+    //components.schedule_atributions.edit-form

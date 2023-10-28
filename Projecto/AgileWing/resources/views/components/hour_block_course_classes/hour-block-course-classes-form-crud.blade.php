@@ -92,7 +92,7 @@
 
         <!-- TABELA LIST/SHOW -->
         <div class="col-md-8">
-            <h3 class="title">Gestão de Blocos Horário Turmas
+            <h3 class="title title-m mt-5">Gestão de Blocos Horário Turmas
             <!-- Live search input -->
             <a id="createBtn" class="btn btn-blue">Criar</a>
             <a id="editBtn" type="button" class="btn btn-blue">Editar</a>

@@ -1,7 +1,7 @@
 @section('styles')
 <style> 
-.selected {
-    background-color: #d1e7dd;
+.selected { 
+    background-color: #617add !important;
 }
 .color-box{
     display: inline-block; 
@@ -53,7 +53,7 @@
             <input type="hidden" name="hour_block_course_class_id" value="{{ old('hour_block_course_class_id', $hourBlockCourseClass->id) }}">
             <input type="hidden" name="date" value="{{ old('date', $date) }}">
 
-            <button type="submit" class="btn btn-primary mt-2">Gravar</button>
+            <button type="submit" class="btn btn-blue mt-2">Gravar</button>
         </form>
         <form 
             action="{{ route('schedule-atribution.destroy', ['id' => $scheduleAtribution->id, 'courseClassId' => $courseClass->id]) }}" 
@@ -62,14 +62,14 @@
             class="mt-3">
             @csrf
             @method('DELETE')
-            <button type="submit" class="btn btn-danger">Delete</button>
+            <button type="submit" class="btn cancel-btn">Apagar</button>
         </form>
     </div>
 
 
     <!-- Users Table -->
     <div class="col-md-4">
-        <table id="users-table" class="table table-bordered">
+        <table id="users-table" class="table table-borderless">
             <thead>
                 <tr>
                     <th>User</th>
@@ -94,7 +94,7 @@
 
     <!-- UFCDs Table -->
     <div class="col-md-4">
-        <table id="ufcds-table" class="table table-bordered">
+        <table id="ufcds-table" class="table table-borderless">
             <thead>
                 <tr>
                     <th>UFCD</th>

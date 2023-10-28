@@ -65,7 +65,7 @@
         <!-- TABELA LIST/SHOW -->
         <div class="col-md-8">
             <table class="table table-borderless">
-                <h3 class="title">Gestão de Tipos de utilizador
+                <h3 class="title title-m">Gestão de Tipos de utilizador
                     <a id="createBtn" class="btn btn-blue">Criar</a>
                     <a id="editBtn" type="button" class="btn btn-blue">Editar</a>
                 </h3>

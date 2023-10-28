@@ -299,7 +299,7 @@ document.addEventListener("DOMContentLoaded", function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\ruiru\Desktop\Agile-Wing\Projecto\AgileWing\resources\js\logic\control-form-dynamic-crud.js */"./resources/js/logic/control-form-dynamic-crud.js");
+module.exports = __webpack_require__(/*! D:\ATEC\repos\Agile-Wing\Projecto\AgileWing\resources\js\logic\control-form-dynamic-crud.js */"./resources/js/logic/control-form-dynamic-crud.js");
 
 
 /***/ })

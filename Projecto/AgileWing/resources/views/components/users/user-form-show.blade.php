@@ -9,7 +9,7 @@
                 @csrf
                 @method('PUT')
                 <div class="form-group">
-                    <label for="id">ID</label>
+                    <label for="id" hidden>ID</label>
                     <label id="id" name="id" class="form-control">{{ $user->id }}</label>
                 </div>
                 <div class="form-group">
@@ -59,7 +59,7 @@
 
         <div class="col-md-4">
             <h3 class="title">Detalhes do Utilizador
-                <button id="editBtn" type="button" class="btn btn-blue edit-professor">Editar</button>
+                <button id="editBtn" type="button" class="btn btn-blue">Editar</button>
             </h3>
             <div class="form-group">
                 <label>Grupos Pedagógicos</label>
@@ -103,4 +103,5 @@
         @method('DELETE')
         <button type="submit" class="btn cancel-btn">Apagar Formador</button>
     </form>
+        <button id="resetPwBtn" href="{{ route('resetPassword', $user->id) }}" class="btn cancel-btn" style="display: none;">Repor palavra passe</button>
 </div>

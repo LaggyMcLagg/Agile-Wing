@@ -42,10 +42,11 @@ class SpecializationAreaController extends Controller
             'number' => 'required|integer|unique:specialization_areas,number',
             'name' => 'required|string|max:255|regex:/^[\pL\sÇç]+$/u',
         ], [
-            'number.required' => 'O campo numérico é obrigatório.',
-            'number.unique' => 'O número fornecido já existe.',
-            'name.required' => 'O campo nome é obrigatório.',
-            'name.regex' => 'O nome só pode conter letras, acentuação e Ç ou ç.',
+            'number.required' => 'Campo por preencher.',
+            'number.unique' => 'O número já existe.',
+            'number.integer' => 'O número deve ser um valor inteiro.',
+            'name.required' => 'Campo por preencher.',
+            'name.regex' => 'O nome só pode conter letras, acentos, Ç ou ç.',
         ]);
 
         try {
@@ -54,10 +55,10 @@ class SpecializationAreaController extends Controller
                 'name' => $request->name,
             ]);
 
-            return redirect()->route('specialization-areas.index')->with('success', 'Specialization Area created successfully');
+            return redirect()->route('specialization-areas.index')->with('success', 'Área de formação criada com sucesso.');
 
         } catch (\Exception $e) {
-            session()->flash('error', 'There was an error creating the specialization area: ' . $e->getMessage());
+            session()->flash('error', 'Houve um erro a criar a área de formação: ' . $e->getMessage());
             return back()->withInput();
         }
     }
@@ -112,10 +113,10 @@ class SpecializationAreaController extends Controller
                 'name' => $request->name,
             ]);
 
-            return redirect()->route('specialization-areas.index')->with('success', 'Specialization Area updated successfully');
+            return redirect()->route('specialization-areas.index')->with('success', 'Área de formação editada com sucesso.');
 
         } catch (\Exception $e) {
-            session()->flash('error', 'There was an error updating the specialization area: ' . $e->getMessage());
+            session()->flash('error', 'Houve um erro a editar a área de formação: ' . $e->getMessage());
             return back()->withInput();
         }
     }
@@ -132,10 +133,10 @@ class SpecializationAreaController extends Controller
             // Soft delete the specialization area
             $specializationArea->delete();
 
-            return redirect()->route('specialization-areas.index')->with('success', 'Specialization Area deleted successfully');
+            return redirect()->route('specialization-areas.index')->with('success', 'Área de formação apagada com sucesso.');
 
         } catch (\Exception $e) {
-            return redirect()->route('specialization-areas.index')->with('error', 'There was an error deleting the specialization area. ' . $e->getMessage());
+            return redirect()->route('specialization-areas.index')->with('error', 'Houve um erro a apagar a área de formação: ' . $e->getMessage());
         }
     }
 }

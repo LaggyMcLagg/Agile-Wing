@@ -153,7 +153,7 @@ Route::middleware(['auth', 'checkUserType1:1'])->group(function(){
     Route::post('', 'ScheduleAtributionController@store')->name('schedule-atribution.store');
     Route::get('{scheduleAtributionId}/{courseClassId}/edit', 'ScheduleAtributionController@edit')->name('schedule-atribution.edit');
     Route::put('', 'ScheduleAtributionController@update')->name('schedule-atribution.update');
-    Route::delete('{scheduleAtributionId}', 'ScheduleAtributionController@destroy')->name('schedule-atribution.destroy');
+    Route::delete('{id}/{courseClassId}', 'ScheduleAtributionController@destroy')->name('schedule-atribution.destroy');
 });
 
     // ROUTES for Teacher Availabilities (Planning Use case)

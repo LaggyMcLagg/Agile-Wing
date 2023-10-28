@@ -96,7 +96,13 @@ class UfcdController extends Controller
             'name' => 'required',
             'hours' => 'required',
             'pedagogical_group_id' => 'required'
+        ], [
+            'number.required' => 'O campo é obrigatório.',
+            'name.required' => 'O campo é obrigatório.',
+            'hours.required' => 'O campo é obrigatório.',
+            'pedagogical_group_id.required' => 'O campo é obrigatório.'
         ]);
+        
 
         $ufcd = Ufcd::find($id);
 

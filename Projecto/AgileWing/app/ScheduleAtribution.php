@@ -39,8 +39,7 @@ class ScheduleAtribution extends Model
 
     protected $fillable = [
         'date',
-        'hour_start',
-        'hour_end',
+        'hour_block_course_class_id',
         'availability_type_id',
         'course_class_id',
         'ufcd_id',

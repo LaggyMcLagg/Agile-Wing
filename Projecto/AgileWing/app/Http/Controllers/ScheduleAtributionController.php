@@ -10,6 +10,8 @@ use App\User;
 use App\HourBlockCourseClass;
 use App\Course;
 use Illuminate\Http\Request;
+use App\Rules\AvailabilityTypeMatchesUser; //custom rule
+
 
 
 class ScheduleAtributionController extends Controller
@@ -110,44 +112,17 @@ class ScheduleAtributionController extends Controller
         })->with(['teacherAvailabilities' => function ($query) use ($formattedDate) {
             $query  
                 ->where('availability_date', $formattedDate)
-                ->whereIn('availability_type_id', [1, 2]);
+                ->whereIn('availability_type_id', [2, 3, 4])
+                ->with('availabilityType');
         }])->get();
-        // dd($usersWithSameUfcds);
 
         $usersAvailableOnDate = $usersWithSameUfcds->filter(function ($user) {
             return $user->teacherAvailabilities->isNotEmpty();
         });
-        // dd($usersAvailableOnDate);
-
-        // //#############
-        // $usersWithAvailabilitiesArray = $usersAvailableOnDate->map(function ($user) {
-        //     return [
-        //         'user_id' => $user->id,
-        //         'user_name' => $user->name, // Assuming the user model has a 'name' field
-        //         'availabilities' => $user->teacherAvailabilities->map(function ($availability) {
-        //             return [
-        //                 'availability_id' => $availability->id,
-        //                 'availability_date' => $availability->availability_date,
-        //                 'hour_block' => [
-        //                     'hour_beginning' => $availability->hourBlock->hour_beginning,
-        //                     'hour_end' => $availability->hourBlock->hour_end,
-        //                 ],
-        //                 'availability_type_id' => $availability->availability_type_id,
-        //                 // ... Any other fields you want from the availability model
-        //             ];
-        //         })->toArray(),
-        //     ];
-        // })->toArray();
-        
-        // // Encode the structured data into JSON
-        // $jsonOutput = json_encode($usersWithAvailabilitiesArray, JSON_PRETTY_PRINT);
-        // dd($jsonOutput);
-        // //############
 
         $filteredUsers = $usersAvailableOnDate->filter(function ($user) use ($hourBlockCourseClass) {
             // fetch all the hour blocks where the user is available
             $availableHourBlocks = $user->teacherAvailabilities->pluck('hourBlock');
-            // dd($availableHourBlocks);
             
             // Check if the user has any availability that envelops the hour block of the course class
             foreach ($availableHourBlocks as $hourBlock) {
@@ -159,28 +134,94 @@ class ScheduleAtributionController extends Controller
             
             return false;
         });
-        // dd($filteredUsers);
+
+        //for the js on cliente side to work
+        $usersWithUfcdsJson = $filteredUsers->map(function ($user) {
+            return [
+                'id' => $user->id,
+                'name' => $user->name,
+                'ufcd_ids' => $user->ufcds->pluck('id')->toArray(),
+            ];
+        })->toJson();
+
+        // Transform the filtered users by processing each one of them.
+        $processedUsers = $filteredUsers->map(function ($user) use ($hourBlockCourseClass) {
+            // For each user, find the first availability that matches the criteria defined within the inner function.
+            $matchingAvailability = $user->teacherAvailabilities->first(function ($availability) use ($hourBlockCourseClass) {
+                
+                // Extract the hour block from the current availability.
+                $hourBlock = $availability->hourBlock;
+
+                // Check if the hour block of the current availability matches the hour block of the course class
+                return $hourBlock->hour_beginning <= $hourBlockCourseClass->hour_beginning 
+                    && $hourBlock->hour_end >= $hourBlockCourseClass->hour_end;
+            });
+
+            // Return a new array for each user containing:
+            return [
+                'id' => $user->id,
+                'name' => $user->name,
+                'matchingAvailability' => $matchingAvailability
+            ];
+        })->all(); // Convert the resulting collection to an PHP array.
+
+        
         
         return view('pages.schedule_atributions.create', 
             compact(
                 'courseClass', 
                 'hourBlockCourseClass', 
                 'ufcds', 
-                'filteredUsers', 
-                'date'
-            ));
+                'processedUsers', 
+                'date',
+                'usersWithUfcdsJson'
+        ));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+/**
+ * Store a newly created resource in storage.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return \Illuminate\Http\Response
+ */
+public function store(Request $request)
+{
+    $request->validate([
+        'user_id' => 'required|exists:users,id',
+        'ufcd_id' => 'required|exists:ufcds,id',
+        'course_class_id' => 'required|exists:course_classes,id',
+        'availability_type_id' => ['required', 'exists:availability_types,id', new AvailabilityTypeMatchesUser($request->user_id)],
+        'hour_block_course_class_id' => 'required|exists:hour_block_course_classes,id',
+        'date' => 'required|date_format:Y-m-d',
+        'presencial' => 'nullable|boolean'
+    ], [
+        'user_id.required' => 'É obrigatório seleccionar um formador.',
+        'user_id.exists' => 'O formador selecionado não é válido.',
+    
+        'ufcd_id.required' => 'É obrigatório seleccionar uma UFCD.',
+        'ufcd_id.exists' => 'A UFCD selecionado não é válida.',
+    
+        'course_class_id.required' => 'O campo turma é obrigatório.',
+        'course_class_id.exists' => 'A turma selecionada não é válida.',
+    
+        'availability_type_id.required' => 'O campo tipo de disponibilidade é obrigatório.',
+        'availability_type_id.exists' => 'O tipo de disponibilidade selecionado não é válido.',
+    
+        'hour_block_course_class_id.required' => 'O campo bloco de horas da turma é obrigatório.',
+        'hour_block_course_class_id.exists' => 'O bloco de horas da turma selecionado não é válido.',
+    
+        'date.required' => 'O campo data é obrigatório.',
+        'date.date_format' => 'O formato da data é inválido. O formato correto é AAAA-MM-DD.',
+    
+        'presencial.boolean' => 'O valor do campo presencial é inválido.'
+    ]);
+    
+
+    $scheduleAtribution = ScheduleAtribution::create($request->all());
+
+    return redirect()->route('schedule-atribution.index', ['courseClassId' => $request['course_class_id']])->with('success', 'Agendado com sucesso!');
+}
+
 
     /**
      * Display the specified resource.
@@ -201,7 +242,94 @@ class ScheduleAtributionController extends Controller
      */
     public function edit($scheduleAtributionId, $courseClassId)
     {
-        //
+
+        $scheduleAtribution = ScheduleAtribution::find($scheduleAtributionId);
+
+        //ensure date format
+        $dateObject = new \DateTime($scheduleAtribution->date);
+        $date = $dateObject->format('Y-m-d');
+        
+        //get the object course class from the idCourseClass
+        $courseClass = CourseClass::findOrFail($courseClassId);
+
+        //get the object hourblock course class idHourBlockCourseClass
+        $hourBlockCourseClass = HourBlockCourseClass::findOrFail($scheduleAtribution->hour_block_course_class_id);
+
+        //get all the ufcds of this idCourseClass via the course
+        $ufcds = $courseClass->course->ufcds;
+
+        //get all the users that have the same ufcds as courseClass course, and eager load their teacher availabilities
+        //filter dy date and type
+        $usersWithSameUfcds = User::whereHas('ufcds', function ($query) use ($ufcds) {
+            $query->whereIn('ufcds.id', $ufcds->pluck('id'));
+        })->with(['teacherAvailabilities' => function ($query) use ($date) {
+            $query  
+                ->where('availability_date', $date)
+                ->whereIn('availability_type_id', [2, 3, 4])
+                ->with('availabilityType');
+        }])->get();
+
+        $usersAvailableOnDate = $usersWithSameUfcds->filter(function ($user) {
+            return $user->teacherAvailabilities->isNotEmpty();
+        });
+
+        $filteredUsers = $usersAvailableOnDate->filter(function ($user) use ($hourBlockCourseClass) {
+            // fetch all the hour blocks where the user is available
+            $availableHourBlocks = $user->teacherAvailabilities->pluck('hourBlock');
+            
+            // Check if the user has any availability that envelops the hour block of the course class
+            foreach ($availableHourBlocks as $hourBlock) {
+                if ($hourBlock->hour_beginning <= $hourBlockCourseClass->hour_beginning 
+                && $hourBlock->hour_end >= $hourBlockCourseClass->hour_end) {
+                    return true;
+                }
+            }
+            
+            return false;
+        });
+
+        //for the js on cliente side to work
+        $usersWithUfcdsJson = $filteredUsers->map(function ($user) {
+            return [
+                'id' => $user->id,
+                'name' => $user->name,
+                'ufcd_ids' => $user->ufcds->pluck('id')->toArray(),
+            ];
+        })->toJson();
+
+        // Transform the filtered users by processing each one of them.
+        $processedUsers = $filteredUsers->map(function ($user) use ($hourBlockCourseClass) {
+            // For each user, find the first availability that matches the criteria defined within the inner function.
+            $matchingAvailability = $user->teacherAvailabilities->first(function ($availability) use ($hourBlockCourseClass) {
+                
+                // Extract the hour block from the current availability.
+                $hourBlock = $availability->hourBlock;
+
+                // Check if the hour block of the current availability matches the hour block of the course class
+                return $hourBlock->hour_beginning <= $hourBlockCourseClass->hour_beginning 
+                    && $hourBlock->hour_end >= $hourBlockCourseClass->hour_end;
+            });
+
+            // Return a new array for each user containing:
+            return [
+                'id' => $user->id,
+                'name' => $user->name,
+                'matchingAvailability' => $matchingAvailability
+            ];
+        })->all(); // Convert the resulting collection to an PHP array.
+
+        
+        
+        return view('pages.schedule_atributions.edit', 
+            compact(
+                'courseClass', 
+                'hourBlockCourseClass', 
+                'ufcds', 
+                'processedUsers', 
+                'date',
+                'usersWithUfcdsJson',
+                'scheduleAtribution'
+        ));
     }
 
     /**
@@ -211,9 +339,43 @@ class ScheduleAtributionController extends Controller
      * @param  \App\ScheduleAtribution  $scheduleAtribution
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'ufcd_id' => 'required|exists:ufcds,id',
+            'course_class_id' => 'required|exists:course_classes,id',
+            'availability_type_id' => ['required', 'exists:availability_types,id', new AvailabilityTypeMatchesUser($request->user_id)],
+            'hour_block_course_class_id' => 'required|exists:hour_block_course_classes,id',
+            'date' => 'required|date_format:Y-m-d',
+            'presencial' => 'nullable|boolean'
+        ], [
+            'user_id.required' => 'É obrigatório seleccionar um formador.',
+            'user_id.exists' => 'O formador selecionado não é válido.',
+        
+            'ufcd_id.required' => 'É obrigatório seleccionar uma UFCD.',
+            'ufcd_id.exists' => 'A UFCD selecionado não é válida.',
+        
+            'course_class_id.required' => 'O campo turma é obrigatório.',
+            'course_class_id.exists' => 'A turma selecionada não é válida.',
+        
+            'availability_type_id.required' => 'O campo tipo de disponibilidade é obrigatório.',
+            'availability_type_id.exists' => 'O tipo de disponibilidade selecionado não é válido.',
+        
+            'hour_block_course_class_id.required' => 'O campo bloco de horas da turma é obrigatório.',
+            'hour_block_course_class_id.exists' => 'O bloco de horas da turma selecionado não é válido.',
+        
+            'date.required' => 'O campo data é obrigatório.',
+            'date.date_format' => 'O formato da data é inválido. O formato correto é AAAA-MM-DD.',
+        
+            'presencial.boolean' => 'O valor do campo presencial é inválido.'
+        ]);
+        
+        $scheduleAtribution = ScheduleAtribution::find($id);
+    
+        $scheduleAtribution->update($request->all());
+    
+        return redirect()->route('schedule-atribution.index', ['courseClassId' => $request['course_class_id']])->with('success', 'Agendamento alterado com sucesso!');
     }
 
     /**
@@ -222,10 +384,15 @@ class ScheduleAtributionController extends Controller
      * @param  \App\ScheduleAtribution  $scheduleAtribution
      * @return \Illuminate\Http\Response
      */
-    public function destroy($scheduleAtributionId)
+    public function destroy($id, $courseClassId)
     {
-       //
+        $scheduleAtribution = ScheduleAtribution::find($id);
+
+        $scheduleAtribution->delete();
+        
+        return redirect()->route('schedule-atribution.index', $courseClassId)->with('success', 'Agendamento apagado com sucesso!');
     }
+    
 
     //###############################
     //OTHER METHODS

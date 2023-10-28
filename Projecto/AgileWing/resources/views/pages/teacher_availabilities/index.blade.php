@@ -15,7 +15,7 @@
 </script>
 <script src="{{ asset('/js/build-scheduler.js') }}"></script>
 <script src="{{ asset('/js/update-scheduler-availabilities.js') }}"></script>
-@endsection
+@endsection 
 
 @section('content')
 

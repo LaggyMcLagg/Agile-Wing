@@ -34,8 +34,10 @@
         @endif
 
         <!-- Form with hidden fields -->
-        <form id="form-schedule-atribution" action="{{ route('schedule-atribution.store') }}" method="post" class="mt-3">
+        <form id="form-schedule-atribution" action="{{ route('schedule-atribution.update', $scheduleAtribution->id ) }}" method="post" class="mt-3">
             @csrf
+
+            @method('PUT')
 
             <!-- Checkbox for "Presencial" -->
             <div class="form-check">
@@ -44,8 +46,8 @@
             </div>
 
             <!-- Hidden Fields -->
-            <input type="hidden" name="user_id" id="hidden-user-id" value="{{ old('user_id') }}">
-            <input type="hidden" name="ufcd_id" id="hidden-ufcd-id" value="{{ old('ufcd_id') }}">
+            <input type="hidden" name="user_id" id="hidden-user-id" value="{{ old('user_id', $scheduleAtribution->user_id ) }}">
+            <input type="hidden" name="ufcd_id" id="hidden-ufcd-id" value="{{ old('ufcd_id', $scheduleAtribution->ufcd_id ) }}">
             <input type="hidden" name="course_class_id" value="{{ old('course_class_id', $courseClass->id) }}">
             <input type="hidden" name="availability_type_id" id="availability-type-id" value="{{ old('availability_type_id') }}">
             <input type="hidden" name="hour_block_course_class_id" value="{{ old('hour_block_course_class_id', $hourBlockCourseClass->id) }}">
@@ -53,7 +55,17 @@
 
             <button type="submit" class="btn btn-primary mt-2">Gravar</button>
         </form>
+        <form 
+            action="{{ route('schedule-atribution.destroy', ['id' => $scheduleAtribution->id, 'courseClassId' => $courseClass->id]) }}" 
+            method="POST" 
+            onsubmit="return confirm('Tem a certeza que quer apagar este registo?');" 
+            class="mt-3">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
     </div>
+
 
     <!-- Users Table -->
     <div class="col-md-4">
@@ -65,7 +77,8 @@
             </thead>
             <tbody>
                 @foreach($processedUsers as $user)
-                <tr data-user-id="{{ $user['id'] }}">
+                <tr data-user-id="{{ $user['id'] }}" 
+                @if($user['id'] == $scheduleAtribution->user_id) class="selected" @endif>
                     <td><strong>{{ $user['name'] }}</strong>
                     @if ($user['matchingAvailability'])
                         <div class="color-box" style="background-color: {{ $user['matchingAvailability']->availabilityType->color }}"></div>
@@ -89,7 +102,8 @@
             </thead>
             <tbody>
                 @foreach($ufcds as $ufcd)
-                <tr data-ufcd-id="{{ $ufcd->id }}">
+                <tr data-ufcd-id="{{ $ufcd->id }}"
+                @if($ufcd->id == $scheduleAtribution->ufcd_id) class="selected" @endif>
                     <td>{{ $ufcd->name }}</td>
                 </tr>
                 @endforeach

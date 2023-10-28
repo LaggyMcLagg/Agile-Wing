@@ -81,61 +81,112 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 10);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./resources/js/logic/sort-table-function.js":
-/*!***************************************************!*\
-  !*** ./resources/js/logic/sort-table-function.js ***!
-  \***************************************************/
+/***/ "./resources/js/logic/form-control-schedule-atributions.js":
+/*!*****************************************************************!*\
+  !*** ./resources/js/logic/form-control-schedule-atributions.js ***!
+  \*****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
+//USER -> UFCD -> FORM CONTROL
+var usersWithUfcdsData = JSON.parse(sessionStorage.getItem('usersWithUfcdsJson'));
 document.addEventListener("DOMContentLoaded", function () {
-  // Client-side sorting
-  var table = document.getElementById("sortable-table");
-  var headers = table.querySelectorAll("th[data-column-index]");
-  var rows = table.querySelectorAll("tbody tr");
-  headers.forEach(function (header) {
-    header.addEventListener("click", function () {
-      sortTableByColumn(table, headers, rows, header);
+  // Reference to the users and ufcds tables
+  var usersTable = document.getElementById("users-table");
+  var ufcdsTable = document.getElementById("ufcds-table");
+
+  // Reference to hidden input fields
+  var hiddenUserId = document.getElementById("hidden-user-id");
+  var hiddenUfcdId = document.getElementById("hidden-ufcd-id");
+
+  // Reference to UFCD table rows within tbody
+  var ufcdRows = ufcdsTable.querySelectorAll("tbody tr");
+
+  // Reference to the currently selected user and ufcd rows
+  var selectedUserRow = null;
+  var selectedUfcdRow = null;
+
+  // Add click event to every row in the users table
+  usersTable.querySelectorAll("tbody tr").forEach(function (row) {
+    row.addEventListener("click", function () {
+      var userId = row.getAttribute("data-user-id");
+      hiddenUserId.value = userId;
+
+      // Filter UFCDs based on this user
+      var selectedUser = Object.values(usersWithUfcdsData).find(function (user) {
+        return user.id == userId;
+      });
+      if (selectedUser) {
+        var allowedUfcdIds = new Set(selectedUser.ufcd_ids);
+        ufcdRows.forEach(function (ufcdRow) {
+          var ufcdId = ufcdRow.getAttribute("data-ufcd-id");
+          if (allowedUfcdIds.has(parseInt(ufcdId))) {
+            ufcdRow.style.display = ""; // show row
+          } else {
+            ufcdRow.style.display = "none"; // hide row
+          }
+        });
+      }
+
+      // Remove selected class from previously selected user row, if any
+      if (selectedUserRow) {
+        selectedUserRow.classList.remove("selected");
+        selectedUfcdRow.classList.remove("selected");
+        hiddenUfcdId.value = "";
+      }
+
+      // Add selected class to the clicked row
+      row.classList.add("selected");
+      selectedUserRow = row;
     });
   });
-});
-function sortTableByColumn(table, headers, rows, clickedHeader) {
-  var columnIndex = parseInt(clickedHeader.getAttribute("data-column-index"));
-  var sortDirection = clickedHeader.classList.contains("sorted-asc") ? "desc" : "asc";
-  rows = Array.from(rows);
-  rows.sort(function (a, b) {
-    var aValue = a.children[columnIndex].textContent;
-    var bValue = b.children[columnIndex].textContent;
-    if (sortDirection === "asc") {
-      return aValue.localeCompare(bValue);
-    } else {
-      return bValue.localeCompare(aValue);
+
+  // Add click event to every row in the ufcds table
+  ufcdRows.forEach(function (row) {
+    row.addEventListener("click", function () {
+      if (!selectedUserRow) {
+        alert("Selecione um formador antes de escolher um UFCD.");
+        return;
+      }
+      var ufcdId = row.getAttribute("data-ufcd-id");
+      hiddenUfcdId.value = ufcdId;
+
+      // Remove selected class from previously selected ufcd row, if any
+      if (selectedUfcdRow) {
+        selectedUfcdRow.classList.remove("selected");
+      }
+
+      // Add selected class to the clicked row
+      row.classList.add("selected");
+      selectedUfcdRow = row;
+    });
+  });
+
+  // Ensure all fields are filled before submission
+  var form = document.querySelector("#form-schedule-atribution");
+  form.addEventListener("submit", function (e) {
+    if (hiddenUserId.value == "" || hiddenUfcdId.value == "") {
+      e.preventDefault();
+      alert("Por favor, selecione um formador e uma UFCD antes de submeter.");
     }
   });
-  rows.forEach(function (row) {
-    table.querySelector("tbody").appendChild(row);
-  });
-  headers.forEach(function (header) {
-    header.classList.remove("sorted-asc", "sorted-desc");
-  });
-  clickedHeader.classList.add(sortDirection === "asc" ? "sorted-asc" : "sorted-desc");
-}
+});
 
 /***/ }),
 
-/***/ 2:
-/*!*********************************************************!*\
-  !*** multi ./resources/js/logic/sort-table-function.js ***!
-  \*********************************************************/
+/***/ 10:
+/*!***********************************************************************!*\
+  !*** multi ./resources/js/logic/form-control-schedule-atributions.js ***!
+  \***********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\LOCAL REPOS\Agile-Wing\Projecto\AgileWing\resources\js\logic\sort-table-function.js */"./resources/js/logic/sort-table-function.js");
+module.exports = __webpack_require__(/*! C:\LOCAL REPOS\Agile-Wing\Projecto\AgileWing\resources\js\logic\form-control-schedule-atributions.js */"./resources/js/logic/form-control-schedule-atributions.js");
 
 
 /***/ })

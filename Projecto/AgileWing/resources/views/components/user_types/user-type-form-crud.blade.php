@@ -44,11 +44,7 @@
                 <!-- UserType Name -->
                 <div class="form-group">
                     <label for="name">Nome de Tipo de Utilizador</label>
-<<<<<<< Updated upstream
-                    <input data-name="name" type="text" id="name" name="name" class="form-control @error('name') is-invalid @enderror" readonly>
-=======
                     <input data-name="name" type="text" id="name" name="name" class="form-control @error('name') is-invalid @enderror"  value="{{ old('name') }}" readonly>
->>>>>>> Stashed changes
                     @error('name')
                     <div class="invalid-feedback">
                         {{ $message }}

@@ -38,10 +38,7 @@
 
         <!-- First Column: Collapsible Dates -->
         <div class="col-md-4">
-            <h3 class="title-m mt-2">
-                <div class="fa fa-check-square"></div> Lista de marcações
-            </h3>
-            <hr>
+            <h3> <input type="checkbox" id="selectAll"> Lista de marcações</h3>
             <form id="bulkActionForm" method="post">
                 @csrf
                 <div class="scrollable-col">

@@ -69,6 +69,7 @@ class ScheduleAtributionController extends Controller
         $jsonCourseClassAtributions = json_encode($scheduleAtributions);
         $jsonUser = json_encode($users);
         $jsonUfcd = json_encode($ufcds);
+        $userId = 0;
 
         return view('pages.schedule_atributions.index',
             compact(

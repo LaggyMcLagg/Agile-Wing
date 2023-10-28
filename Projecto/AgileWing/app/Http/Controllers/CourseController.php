@@ -156,11 +156,19 @@ class CourseController extends Controller
             ]);
 
             $course->ufcds()->sync($request->ufcds);
+<<<<<<< Updated upstream
         
             return redirect()->route('courses.index')->with('success', 'Course editado com sucesso.');
         } catch (\Exception $e) {
             //This way we resolve gracefully any errors, return the error message the old form data
             session()->flash('error', 'Houve um erro a editar o curso. ' . $e->getMessage());
+=======
+
+            return redirect()->route('courses.index')->with('success', 'Curso apagado com sucesso.');
+        } catch (\Exception $e) {
+            //This way we resolve gracefully any errors, return the error message the old form data
+            session()->flash('error', 'Ocorreu um erro ao atualizar o curso: ' . $e->getMessage());
+>>>>>>> Stashed changes
             return back()->withInput();
         }
     }
@@ -181,11 +189,19 @@ class CourseController extends Controller
 
             // Soft delete the course
             $course->delete();
+<<<<<<< Updated upstream
     
             return redirect()->route('courses.index')->with('success', 'Curso apagado com sucesso');
         } catch (\Exception $e) {            
     
             return redirect()->route('courses.index')->with('error', 'Houve um erro a apagar o curso.' . $e->getMessage());
+=======
+
+            return redirect()->route('courses.index')->with('success', 'Curso apagado com sucesso');
+        } catch (\Exception $e) {
+
+            return redirect()->route('courses.index')->with('error', 'Ocorreu um erro ao apagar o curso.' . $e->getMessage());
+>>>>>>> Stashed changes
         }
     }
 }

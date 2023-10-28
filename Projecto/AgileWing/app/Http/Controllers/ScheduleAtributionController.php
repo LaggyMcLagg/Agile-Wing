@@ -73,16 +73,16 @@ class ScheduleAtributionController extends Controller
 
         return view('pages.schedule_atributions.index',
             compact(
-                'userNotes', 
+                'userNotes',
                 'availabilityTypes',
                 'hourBlocks',
-                
+
                 'showExportBtn',
                 'showNotes',
                 'editNotes',
                 'showLegend',
                 'showBtnStore',
-                'objectName', 
+                'objectName',
                 'jsonUser',
                 'jsonUfcd',
                 'jsonCourseClassAtributions',
@@ -408,7 +408,7 @@ public function store(Request $request)
     public function classTimeLineView()
     {
         $classId = 5;
-        
+
         //recupera a turma juntamente com seu curso e blocos de horário associados
         $courseClass = CourseClass::with([
             'course',
@@ -420,9 +420,9 @@ public function store(Request $request)
         //usamos o flatMap para iterar por cada bloco de horário associado à turma
         //dentro de flatMap, utilizamos o map para transformar cada bloco de horário numa coleção de atribuições de horário formatadas (scheduleAtributions)
         //o resultado de flatMap será uma única coleção que contém todas as atribuições de horário daquela turma, em vez de uma coleção de coleções separadas
-        $allAtributions = $courseClass->hourBlockCourseClasses->flatMap(function ($hourBlockCourseClass) 
+        $allAtributions = $courseClass->hourBlockCourseClasses->flatMap(function ($hourBlockCourseClass)
         {
-            return $hourBlockCourseClass->scheduleAtributions->map(function ($scheduleAtribution) 
+            return $hourBlockCourseClass->scheduleAtributions->map(function ($scheduleAtribution)
             {
                 $scheduleAtribution->formattedDate = $scheduleAtribution->date->format('d/m/Y');
                 return $scheduleAtribution;
@@ -430,20 +430,20 @@ public function store(Request $request)
         });
 
         //ordena as atribuições pelo mês e depois pela data dentro do mês
-        $allAtributions = $allAtributions->sortBy(function ($scheduleAtribution) 
+        $allAtributions = $allAtributions->sortBy(function ($scheduleAtribution)
         {
             return $scheduleAtribution->date->format('Ym') . $scheduleAtribution->date->format('d');
         });
 
         //agrupa as atribuições por mês/ano
-        $atributionsByMonth = $allAtributions->groupBy(function ($scheduleAtribution) 
+        $atributionsByMonth = $allAtributions->groupBy(function ($scheduleAtribution)
         {
             return $scheduleAtribution->date->format('m/Y');
         });
 
         $tables = [];
 
-        foreach ($atributionsByMonth as $month => $atributions) 
+        foreach ($atributionsByMonth as $month => $atributions)
         {
             //inicializa a tabela para o mês atual
             $table = [
@@ -459,7 +459,7 @@ public function store(Request $request)
             $endDate = Carbon::createFromFormat('m/Y', $month, 'UTC')->endOfMonth();
 
             //preenche o array $header com datas formatadas 'd/m/Y' para representar os dias do mês
-            while ($startDate->lte($endDate)) 
+            while ($startDate->lte($endDate))
             {
                 $header[] = $startDate->format('d/m/Y');
                 $startDate->addDay();
@@ -473,26 +473,26 @@ public function store(Request $request)
 
             //para cada bloco de horário associado à turma, cria uma nova linha representada por um array.
             //a linha contém informações sobre o horário, incluindo o horário de início e fim, e um array vazio chamado 'data' que vai ser preenchido em baixo
-            foreach ($courseClass->hourBlockCourseClasses as $hourBlockCourseClass) 
+            foreach ($courseClass->hourBlockCourseClasses as $hourBlockCourseClass)
             {
                 $row = [
                     'hour' => $hourBlockCourseClass->hour_beginning . ' - ' . $hourBlockCourseClass->hour_end,
                     'data' => [],
                 ];
-            
+
                 //itera por todas as datas no cabeçalho, começando da segunda data, já que a primeira é o título 'Horário'.
-                foreach ($header as $key => $date) 
+                foreach ($header as $key => $date)
                 {
                     if ($key == 0) continue; //ignora a primeira entrada do cabeçalho
-                
+
                     //para armazenar informações sobre atribuições de horário para a data atual
                     $column = [];
-                
+
                     //itera por todas as atribuições de horário disponíveis
-                    foreach ($allAtributions as $currentAtribution) 
+                    foreach ($allAtributions as $currentAtribution)
                     {
                         //verifica se a atribuição de horário coincide com a data atual e o bloco de horário atual
-                        if ($currentAtribution->formattedDate === $date && $currentAtribution->hour_block_course_class_id == $hourBlockCourseClass->id) 
+                        if ($currentAtribution->formattedDate === $date && $currentAtribution->hour_block_course_class_id == $hourBlockCourseClass->id)
                         {
                             //se a atribuição coincidir, cria um array com informações como UFCD, nome do formador, data e cor
                             $column[] = [
@@ -516,7 +516,7 @@ public function store(Request $request)
             //adiciona o array 'table' (representando a tabela de um mês) ao array 'tables'
             $tables[] = $table;
         }
-        
+
         return view('pages.schedule_atributions.export-pdf-class', [
             'courseClass' => $courseClass,
             'tables' => $tables,
@@ -527,34 +527,34 @@ public function store(Request $request)
     public function classTimeLinePDF($id)
     {
         $classId = $id;
-        
+
         $courseClass = CourseClass::with([
             'course',
             'hourBlockCourseClasses.scheduleAtributions',
         ])->find($classId);
 
-        $allAtributions = $courseClass->hourBlockCourseClasses->flatMap(function ($hourBlockCourseClass) 
+        $allAtributions = $courseClass->hourBlockCourseClasses->flatMap(function ($hourBlockCourseClass)
         {
-            return $hourBlockCourseClass->scheduleAtributions->map(function ($scheduleAtribution) 
+            return $hourBlockCourseClass->scheduleAtributions->map(function ($scheduleAtribution)
             {
                 $scheduleAtribution->formattedDate = $scheduleAtribution->date->format('d/m/Y');
                 return $scheduleAtribution;
             });
         });
 
-        $allAtributions = $allAtributions->sortBy(function ($scheduleAtribution) 
+        $allAtributions = $allAtributions->sortBy(function ($scheduleAtribution)
         {
             return $scheduleAtribution->date->format('Ym') . $scheduleAtribution->date->format('d');
         });
 
-        $atributionsByMonth = $allAtributions->groupBy(function ($scheduleAtribution) 
+        $atributionsByMonth = $allAtributions->groupBy(function ($scheduleAtribution)
         {
             return $scheduleAtribution->date->format('m/Y');
         });
 
         $tables = [];
 
-        foreach ($atributionsByMonth as $month => $atributions) 
+        foreach ($atributionsByMonth as $month => $atributions)
         {
             $table = [
                 'month' => $month,
@@ -567,7 +567,7 @@ public function store(Request $request)
             $startDate = Carbon::createFromFormat('m/Y', $month, 'UTC')->startOfMonth();
             $endDate = Carbon::createFromFormat('m/Y', $month, 'UTC')->endOfMonth();
 
-            while ($startDate->lte($endDate)) 
+            while ($startDate->lte($endDate))
             {
                 $header[] = $startDate->format('d/m/Y');
                 $startDate->addDay();
@@ -577,20 +577,20 @@ public function store(Request $request)
 
             $data = [];
 
-            foreach ($courseClass->hourBlockCourseClasses as $hourBlockCourseClass) 
+            foreach ($courseClass->hourBlockCourseClasses as $hourBlockCourseClass)
             {
                 $row = [
                     'hour' => $hourBlockCourseClass->hour_beginning . ' - ' . $hourBlockCourseClass->hour_end,
                     'data' => [],
                 ];
-            
-                foreach ($header as $key => $date) 
+
+                foreach ($header as $key => $date)
                 {
                     if ($key == 0) continue; // ignore the first header entry
                     $column = [];
                     foreach ($allAtributions as $currentAtribution) {
                         // verifica se a atribuição coincide com a data e o bloco de horário atual
-                        if ($currentAtribution->formattedDate === $date && $currentAtribution->hour_block_course_class_id == $hourBlockCourseClass->id) 
+                        if ($currentAtribution->formattedDate === $date && $currentAtribution->hour_block_course_class_id == $hourBlockCourseClass->id)
                         {
                             $column[] = [
                                 'ufcd' => $currentAtribution->ufcd->number,
@@ -602,10 +602,10 @@ public function store(Request $request)
                     }
                     $row['data'][] = $column;
                 }
-            
+
                 $data[] = $row;
             }
-            
+
             $table['data'] = $data;
             $tables[] = $table;
         }
@@ -618,35 +618,7 @@ public function store(Request $request)
     public function teacherTimeLineView()
     {
         $userId = 11;
-     
-        $teacherClass = User::with([
-            'scheduleAtributions',
-            'scheduleAtributions.courseClass',
-            'scheduleAtributions.hourBlockCourseClass',
-            'scheduleAtributions.ufcd',
-            'scheduleAtributions.availabilityType',
-        ])->find($userId);
-     
-        // Sort the schedule attributions by date in ascending order
-        $teacherClass->scheduleAtributions = $teacherClass->scheduleAtributions
-            ->sortBy('date');
-     
-        // Set background color for each $attribution
-        foreach ($teacherClass->scheduleAtributions as $attribution) {
-            $attribution->backgroundColor = $attribution->availabilityType->color;
-        }
-     
-        return view('pages.schedule_atributions.export-pdf-teacher', [
-            'teacherClass' => $teacherClass
-        ]);
-    }
-    
-    
-    //MANTER ESTA É A QUE EXPORTA PDF
-    public function teacherTimeLinePDF($id)
-    {
-        $userId = $id;
-    
+
         $teacherClass = User::with([
             'scheduleAtributions',
             'scheduleAtributions.courseClass',
@@ -658,7 +630,35 @@ public function store(Request $request)
         // Sort the schedule attributions by date in ascending order
         $teacherClass->scheduleAtributions = $teacherClass->scheduleAtributions
             ->sortBy('date');
-    
+
+        // Set background color for each $attribution
+        foreach ($teacherClass->scheduleAtributions as $attribution) {
+            $attribution->backgroundColor = $attribution->availabilityType->color;
+        }
+
+        return view('pages.schedule_atributions.export-pdf-teacher', [
+            'teacherClass' => $teacherClass
+        ]);
+    }
+
+
+    //MANTER ESTA É A QUE EXPORTA PDF
+    public function teacherTimeLinePDF($id)
+    {
+        $userId = $id;
+
+        $teacherClass = User::with([
+            'scheduleAtributions',
+            'scheduleAtributions.courseClass',
+            'scheduleAtributions.hourBlockCourseClass',
+            'scheduleAtributions.ufcd',
+            'scheduleAtributions.availabilityType',
+        ])->find($userId);
+
+        // Sort the schedule attributions by date in ascending order
+        $teacherClass->scheduleAtributions = $teacherClass->scheduleAtributions
+            ->sortBy('date');
+
         $groupedAtributions = $teacherClass->scheduleAtributions->groupBy([
             function ($attribution) {
                 return $attribution->date->format('Y-m-d'); // Primeiro, agrupe por data.
@@ -667,14 +667,14 @@ public function store(Request $request)
                 return $attribution->id; // Em seguida, agrupe por ID de atribuição.
             }
         ]);
-    
+
         // Set background color for each $attribution
         foreach ($teacherClass->scheduleAtributions as $attribution) {
             $attribution->backgroundColor = $attribution->availabilityType->color;
         }
-    
+
         $dates = $groupedAtributions->keys(); // Get unique dates.
-    
+
         $pdf = PDF::loadview('pages.schedule_atributions.export-pdf-teacher', compact('teacherClass','dates', 'groupedAtributions'));
         return $pdf->download('cronograma_formador.pdf');
     }

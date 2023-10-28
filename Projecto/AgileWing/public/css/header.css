@@ -112,4 +112,8 @@
     .navbar li:last-child {
         margin-left: 0vw;
     }
+
+span.mr-2{
+    width: 100%;
+}
 }

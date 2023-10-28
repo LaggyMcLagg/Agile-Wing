@@ -1,9 +1,16 @@
 {
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
+    "/js/availabilities-day-group-list.js": "/js/availabilities-day-group-list.js",
+    "/js/availabilities-form-dynamic-crud.js": "/js/availabilities-form-dynamic-crud.js",
+    "/js/build-scheduler.js": "/js/build-scheduler.js",
+    "/js/checkbox-control-schedule-atributions.js": "/js/checkbox-control-schedule-atributions.js",
     "/js/control-form-dynamic-crud.js": "/js/control-form-dynamic-crud.js",
     "/js/course_class_table.js": "/js/course_class_table.js",
     "/js/double-click-table-function.js": "/js/double-click-table-function.js",
+    "/js/form-control-schedule-atributions.js": "/js/form-control-schedule-atributions.js",
     "/js/search-table-function.js": "/js/search-table-function.js",
-    "/js/sort-table-function.js": "/js/sort-table-function.js"
+    "/js/sort-table-function.js": "/js/sort-table-function.js",
+    "/js/update-scheduler-availabilities.js": "/js/update-scheduler-availabilities.js",
+    "/js/users-edit-table.js": "/js/users-edit-table.js"
 }

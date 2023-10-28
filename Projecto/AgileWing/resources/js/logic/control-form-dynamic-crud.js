@@ -7,7 +7,7 @@
  * - Transferring data from table rows to the form for potential editing.
  * - Storing certain form states and selections in session storage.
  *
- * @author   [Vasco Vitória]
+ *
  */
 
  // Wait until the DOM is fully loaded

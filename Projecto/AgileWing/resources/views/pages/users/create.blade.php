@@ -5,7 +5,8 @@
 @component('components.users.user-form-create', [
     'userTypes'             => $userTypes,
     'pedagogicalGroups'     => $pedagogicalGroups,
-    'specializationAreas'   => $specializationAreas])
+    'specializationAreas'   => $specializationAreas,
+    'defaultUserType'       => $defaultUserType])
 @endcomponent
 
 @endsection

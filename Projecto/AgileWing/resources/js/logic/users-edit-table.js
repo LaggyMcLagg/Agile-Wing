@@ -1,65 +1,46 @@
-// document.addEventListener("DOMContentLoaded", function() {
-//     // Client-side sorting
-//     var table = document.getElementById("sortable-table");
-//     var headers = table.querySelectorAll("th[data-column-index]");
-//     var rows = table.querySelectorAll("tbody tr");
-//     headers.forEach(function(header) {
-//         header.addEventListener("click", function() {
-//             sortTableByColumn(table, headers, rows, header);
-//         });
-//     });
-//     // Live search
-//     var searchInput = document.getElementById("search-input");
-//     searchInput.addEventListener("keyup", function() {
-//         filterRowsBySearchInput(searchInput, rows);
-//     });
-//     // Clickable rows
-//     var editCells = document.querySelectorAll(".clickable-row");
-//     editCells.forEach(function(cell) {
-//         cell.addEventListener("dblclick", function() {
-//             redirectToEditPage(cell);
-//         });
-//     });
-// });
+document.addEventListener("DOMContentLoaded", function(){
+    const editBtn = document.getElementById("editBtn");
+    const saveBtn = document.getElementById("saveBtn");
+    const deleteForm = document.getElementById("deleteForm");
+    const cancelBtn = document.getElementById("cancelBtn");
+    const resetPwBtn = document.getElementById("resetPwBtn");
+  
+    console.log('RUI');
 
+    editBtn.addEventListener("click", function(event){
 
-// function sortTableByColumn(table, headers, rows, clickedHeader) {
-//     var columnIndex = parseInt(clickedHeader.getAttribute("data-column-index"));
-//     var sortDirection = clickedHeader.classList.contains("sorted-asc") ? "desc" : "asc";
-//     rows = Array.from(rows);
-//     rows.sort(function(a, b) {
-//         var aValue = a.children[columnIndex].textContent;
-//         var bValue = b.children[columnIndex].textContent;
-//         if (sortDirection === "asc") {
-//             return aValue.localeCompare(bValue);
-//         } else {
-//             return bValue.localeCompare(aValue);
-//         }
-//     });
-//     rows.forEach(function(row) {
-//         table.querySelector("tbody").appendChild(row);
-//     });
-//     headers.forEach(function(header) {
-//         header.classList.remove("sorted-asc", "sorted-desc");
-//     });
-//     clickedHeader.classList.add(sortDirection === "asc" ? "sorted-asc" : "sorted-desc");
-// }
+        // Habilitar campos editáveis
+        document.querySelectorAll("input[readonly]").forEach(function(input){
+            input.removeAttribute("readonly");
+        });
+        document.querySelectorAll("input[type=checkbox]").forEach(function(checkbox){
+            checkbox.removeAttribute("disabled");
+        });
 
-// function filterRowsBySearchInput(searchInput, rows) {
-//     var searchText = searchInput.value.toLowerCase();
-//     rows.forEach(function(row) {
-//         var rowText = row.textContent.toLowerCase();
-//         if (rowText.includes(searchText)) {
-//             row.style.display = "";
-//         } else {
-//             row.style.display = "none";
-//         }
-//     });
-// }
+        // Mostrar botão "Guardar" e esconder o botão "Editar"
+        editBtn.style.display = "none";
+        saveBtn.style.display = "inline-block";
+        deleteForm.style.display = "inline-block";
+        cancelBtn.style.display = "inline-block";
+        resetPwBtn.style.display = "inline-block";
+    });
 
-// function redirectToEditPage(cell) 
-// {
-//     var userId = cell.getAttribute("data-user-id");
-//     window.location.href = "/users/edit/" + userId;
-// }
+    cancelBtn.addEventListener("click", function (event) {
+        event.preventDefault();
+        // Desabilitar campos editáveis
+        document.querySelectorAll("input").forEach(function (input) {
+            input.setAttribute("readonly", true);
+        });
+        document.querySelectorAll("input[type=checkbox]").forEach(function (checkbox) {
+            checkbox.setAttribute("disabled", true);
+        });
+    
+        // Esconder botão "Guardar" e "Apagar" e mostrar o botão "Editar"
+        editBtn.style.display = "inline-block";
+        saveBtn.style.display = "none";
+        deleteForm.style.display = "none";
+        cancelBtn.style.display = "none";
+        resetPwBtn.style.display = "none";
 
+    });
+});

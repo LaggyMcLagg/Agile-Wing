@@ -17,8 +17,7 @@ use App\HourBlockCourse;
 class User extends Authenticatable implements MustVerifyEmail
 
 {
-    use SoftDeletes;
-    
+    use SoftDeletes; 
     use Notifiable;
 
     public function pedagogicalGroups()
@@ -43,7 +42,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function specializationAreas()
     {
-        return $this->belongsToMany(SpecializationArea::class, 'specialization_area_users', 'user_id', 'specialization_area_number');
+        return $this->belongsToMany(SpecializationArea::class, 'specialization_area_users', 'user_id', 'specialization_area_id');
     }
 
     public function scheduleAtributions()
@@ -64,6 +63,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'notes', 
         'color_1', 
         'color_2',
+        'token_password',
     ];    
     
 
@@ -83,5 +83,8 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'last_login' => 'datetime',
+        'token_created_at' => 'datetime',
     ];
 }

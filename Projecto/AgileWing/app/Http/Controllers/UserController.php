@@ -7,23 +7,29 @@ use App\PedagogicalGroup;
 use App\SpecializationArea;
 use App\UserType;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str; //para poder gerar pw aleatoria ao criar um user
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Log; // apagar, so serviu para testes
+use Carbon\Carbon; //para usarmos o gt() e verificação do tempo útil do link de verf de email
+
 
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    //###############################
+    //CRUD METHODS
+    //###############################
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() //está a ser usado 01/10/2023
+    public function index()
     {
-        //lógica para ir buscar os users que são apenas formadores
-        $users = User::whereHas('userType', function ($query) {
-            $query->where('name', 'professor');
-        })->with('specializationAreas', 'pedagogicalGroups')->get();
+        $users = User::with('specializationAreas', 'pedagogicalGroups')->get();
     
         foreach ($users as $user) {
             $lastAvailability = $user->teacherAvailabilities()
@@ -43,9 +49,9 @@ class UserController extends Controller
         }
     
         return view('pages.users.index', [
-            'users' => $users,
-            'lastUpdated' => $lastUpdated,
-            'lastLogin' => $lastLogin,
+            'users'         => $users,
+            'lastUpdated'   => $lastUpdated,
+            'lastLogin'     => $lastLogin,
         ]);
     }
 
@@ -59,10 +65,14 @@ class UserController extends Controller
         $userTypes = UserType::all();
         $pedagogicalGroups = PedagogicalGroup::all();
         $specializationAreas = SpecializationArea::all();
+        $defaultUserType = UserType::find(2);
+
         return view('pages.users.create', [
-            'userTypes' => $userTypes, 
-            'pedagogicalGroups' => $pedagogicalGroups,
-            'specializationAreas' => $specializationAreas]);
+            'userTypes'             => $userTypes, 
+            'pedagogicalGroups'     => $pedagogicalGroups,
+            'specializationAreas'   => $specializationAreas,
+            'defaultUserType'       => $defaultUserType
+        ]);
     }
 
     /**
@@ -72,38 +82,49 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-{
-    $this->validate($request, [
-        'name'                  => 'required',
-        'email'                 => 'required|email',
-        'password'              => 'required|min:4|confirmed',
-        'user_type_id'          => 'required',
-        'color_1'               => 'required',
-        'color_2'               => 'required',
-    ]);
+    {
+        $this->validate($request, [
 
-    $user = User::create([
-        'name' => $request->input('name'),
-        'email' => $request->input('email'),
-        'password' => bcrypt($request->input('password')),
-        'user_type_id' => $request->input('user_type_id'),
-        'color_1' => $request->input('color_1'),
-        'color_2' => $request->input('color_2'),
-    ]);
+            'name'      => 'required|string|max:255|regex:/^[\pL\sÇç]+$/u',
+            'email'         => 'required|email',
+            'user_type_id'  => 'required',
+            'color_1'       => 'required',
+            'color_2'       => 'required',
+        ]);
 
-    // Associar grupos pedagógicos, se estiverem presentes no pedido
-    if ($request->has('pedagogicalGroups')) {
-        $user->pedagogicalGroups()->sync($request->input('pedagogicalGroups'));
+        $temporaryPassword = bcrypt(Str::random(20));
+        $token = Str::random(32); //aqui nao podemos usar bcrypt porque da erro na url
+
+        $user = User::create([
+            'name'              => $request->input('name'),
+            'email'             => $request->input('email'),
+            'password'          => $temporaryPassword,
+            'user_type_id'      => $request->input('user_type_id'),
+            'color_1'           => $request->input('color_1'),
+            'color_2'           => $request->input('color_2'),
+            'token_password'    => $token,
+            'token_created_at'  => now()
+        ]);
+
+        // Associar grupos pedagógicos, se estiverem presentes no pedido
+        if ($request->has('pedagogicalGroups')) {
+            $user->pedagogicalGroups()->sync($request->input('pedagogicalGroups'));
+        }
+
+        // Associar áreas de especialização, se estiverem presentes no pedido
+        if ($request->has('specializationAreas')) {
+            $user->specializationAreas()->sync($request->input('specializationAreas'));
+        }
+
+        $verificationUrl = route('verify.email', ['token' => $token]);
+
+        Mail::send('pages.emails.verify-email-new-user', ['user' => $user, 'verificationUrl' => $verificationUrl], function ($message) use ($user) 
+        {
+            $message->to($user->email)->subject('Verificação de utilizador');
+        });
+
+        return redirect('users')->with('success', 'Registo criado com sucesso!');
     }
-
-    // Associar áreas de especialização, se estiverem presentes no pedido
-    if ($request->has('specializationAreas')) {
-        $user->specializationAreas()->sync($request->input('specializationAreas'));
-    }
-
-    return redirect('users')->with('status', 'Registo criado com sucesso!');
-}
-
 
     /**
      * Display the specified resource.
@@ -119,7 +140,7 @@ class UserController extends Controller
         
         foreach ($pedagogicalGroups as $pedagogicalGroup)
         {
-            // Verificar se o usuário está associado a este grupo pedagógico
+            // Verificar se o user está associado a este grupo pedagógico
             $userAssociatedPedagogicalGroup = $user->pedagogicalGroups->contains($pedagogicalGroup->id);
             
             // Adicionar um elemento ao array
@@ -133,20 +154,20 @@ class UserController extends Controller
         
         foreach ($specializationAreas as $specializationArea)
         {
-            $userAssociatedSpecializationArea = $user->specializationAreas->contains($specializationArea->number);
+            $userAssociatedSpecializationArea = $user->specializationAreas->contains($specializationArea->id);
             
             // Adicionar um elemento ao array
-            $specializationAreaUserList[$specializationArea->number] = [
+            $specializationAreaUserList[$specializationArea->id] = [
                 'isAssociated' => $userAssociatedSpecializationArea
             ];
         }
         
         return view('pages.users.show', [
             'user' => $user,
-            'pedagogicalGroupUserList' => $pedagogicalGroupUserList,
-            'specializationAreaUserList' => $specializationAreaUserList,
-            'pedagogicalGroups' => $pedagogicalGroups,
-            'specializationAreas' => $specializationAreas
+            'pedagogicalGroupUserList'      => $pedagogicalGroupUserList,
+            'specializationAreaUserList'    => $specializationAreaUserList,
+            'pedagogicalGroups'             => $pedagogicalGroups,
+            'specializationAreas'           => $specializationAreas
         ]);
     }
     
@@ -157,13 +178,11 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-//este metodo faz o mesmo que o index() mas para ficheiros diferentes com diferens JS's associados
     public function edit() 
     {
+        //este metodo faz o mesmo que o index() mas para ficheiros diferentes com diferens JS's associados
         //lógica para ir buscar os users que são apenas formadores
-        $users = User::whereHas('userType', function ($query) {
-            $query->where('name', 'professor');
-        })->with('specializationAreas', 'pedagogicalGroups')->get();
+        $users = User::with('specializationAreas', 'pedagogicalGroups')->get();
     
         foreach ($users as $user) {
             $lastAvailability = $user->teacherAvailabilities()
@@ -171,10 +190,12 @@ class UserController extends Controller
                 ->latest('updated_at')
                 ->first();
     
-            if ($lastAvailability) {
+            if ($lastAvailability) 
+            {
                 $lastUpdated = $lastAvailability->updated_at->format('Y-m-d H:i:s');
                 $lastLogin = $user->last_login;
-            } else {
+            } else 
+            {
                 $lastUpdated = 'N/A';
                 $lastLogin = 'N/A';
             }
@@ -183,9 +204,9 @@ class UserController extends Controller
         }
     
         return view('pages.users.edit', [
-            'users' => $users,
-            'lastUpdated' => $lastUpdated,
-            'lastLogin' => $lastLogin,
+            'users'         => $users,
+            'lastUpdated'   => $lastUpdated,
+            'lastLogin'     => $lastLogin,
         ]);
     }
 
@@ -212,12 +233,12 @@ class UserController extends Controller
                 'color_2'   => 'required',
             ],
             [
-                'name.required'     => 'The name field is required.',
-                'email.required'    => 'The email field is required.',
-                'email.email'       => 'Please provide a valid email address.',
-                'email.unique'      => 'This email is already in use.',
-                'color_1.required'  => 'Color 1 is required.',
-                'color_2.required'  => 'Color 2 is required.',
+                'name.required' => 'O campo de nome é obrigatório.',
+                'email.required' => 'O campo de correio eletrónico é obrigatório.',
+                'email.email' => 'Forneça um endereço de correio eletrónico válido.',
+                'email.unique' => 'Este correio eletrónico já está a ser utilizado.',
+                'color_1.required' => 'A cor 1 é obrigatória.',
+                'color_2.required' => 'A cor 2 é obrigatória.',
             ]
         );
         
@@ -230,7 +251,7 @@ class UserController extends Controller
         $user->specializationAreas()->sync($request->input('specializationAreas', []));
 
         
-        return redirect()->route('users.edit')->with('status', 'Registo editado com sucesso!');
+        return redirect()->route('users.edit')->with('success', 'Registo editado com sucesso!');
     }
 
     /**
@@ -242,7 +263,36 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        return redirect('users/edit')->with('status', 'Registo apagado com sucesso');
+        return redirect()->route('users.edit')->with('success', 'Registo apagado com sucesso');
+    }
+
+    //###############################
+    //OTHER METHODS
+    //###############################
+    
+    public function updateNotes(Request $request)
+    {
+               
+        $request->validate(
+            [
+                'notes' => 'string|max:255|regex:/^[\pL\sÇç\.]+$/u',
+            ],
+            [
+                'notes.regex' => 'As notas só podem conter letras, acentuação, pontos e Ç ou ç.',
+            ]
+        );         
+
+        try {
+
+            $user = Auth::user();
+            $user->notes = $request->notes;
+            $user->save();
+        
+            return redirect()->route('teacher-availabilities.index')->with('success', 'Notas de utilizador actualizadas com sucesso');
+        } catch (\Exception $e) {
+            //This way we resolve gracefully any errors, return the error message and the old form data
+            return back()->withInput()->with('error', 'Ocorreu um erro ao atualizar o utilizador: ' . $e->getMessage());        
+        }
     }
 
     public function changePasswordView()
@@ -252,35 +302,104 @@ class UserController extends Controller
 
     public function changePasswordLogic(Request $request)
     {
-        //identiifcar o ID para chegar ao utilizador em que dou update a password
-        //ver a BL do update do COurseController
-
-
         $request->validate([
-            'current_password'  => 'required',
-            'new_password'      => 'required|string|min:4|confirmed',
-        ], [
-            'current_password.required' => 'A password atual é obrigatória.',
+            'new_password'      => 'required|string|min:8|confirmed',
+        ], 
+        [
             'new_password.required'     => 'A nova password é obrigatória.',
         ]);
         
-
-        // Obtenha o usuário autenticado
         $user = Auth::user();
+        $user->password = bcrypt(($request->new_password));
+        $user->token_password = null; //significa que a pw foi alterada
+        $user->save();
+        return redirect('home')->with('status', 'Password alterada com sucesso.');
+    }
 
-        // Verifique se a senha atual fornecida corresponde à senha atual do usuário
-        if (Hash::check($request->current_password, $user->password)) {
-            // Atualize a senha do usuário
-            $user->password = Hash::make($request->new_password);
-            $user->save();
+    public function verifyEmail($token)
+    {
+        //procura o user com base no token passado na URL
+        $user = User::where('token_password', $token)->first();
 
-            return redirect('home')->with('status', 'Password alterada com sucesso.');
-            // Redirecione de volta com uma mensagem de sucesso
-        } 
-        else 
+        if(!$user)
         {
-            // Senha atual incorreta, retorne com uma mensagem de erro
-            return back()->withErrors(['current_password' => 'A password atual não coincide.'])->withInput();
+            abort(403, 'Este link de verificação já foi utilizado.');
         }
+
+        $tokenCreatedAt  = Carbon::parse($user->token_created_at); //necessário para podermos usar o gt()
+        if (!$tokenCreatedAt->gt(now()->subDay()))
+        {
+            abort(403, 'Este link de verificação econtra-se expirado. Por favor, peça novo link.');
+        }
+
+        if ($user->email_verified_at == null)
+        {
+            $user->email_verified_at = now();
+            $user->save();
+        }
+
+        //user fica com login feito para ser redirecionado para a página de alteração de pw
+        auth()->login($user); 
+
+        return redirect()->route('users.passwordForm')->with('success', 'Email verificado com sucesso.');
+    }
+
+    public function resetPassword($id)
+    {
+        //To re-use the logic that we implemented for the verify email method that already
+        //forsees the use case of password reset
+        $user = User::find($id);
+
+        $temporaryPassword = bcrypt(Str::random(20));
+        $token = Str::random(32);
+
+        $user->update([
+            'password'          => $temporaryPassword,
+            'token_password'    => $token,
+            'token_created_at'  => now()
+        ]);
+
+        $verificationUrl = route('verify.email', ['token' => $token]);
+
+        Mail::send('pages.emails.verify-email-new-user', ['user' => $user, 'verificationUrl' => $verificationUrl], function ($message) use ($user)
+        {
+            $message->to($user->email)->subject('Reset palavra-passe');
+        });
+
+        return redirect('users')->with('success', 'Reset palavra-passe com sucesso!');
+    } 
+    /**
+     * Display a listing of the resource. For the use case of teacher availabilities
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function indexTeachers()
+    {
+        $users = User::with('specializationAreas', 'pedagogicalGroups')
+            ->where('user_type_id', 2)
+            ->get();
+
+        foreach ($users as $user) {
+            $lastAvailability = $user->teacherAvailabilities()
+                ->where('is_locked', 1) // verifica apenas disponibilidades bloqueadas
+                ->latest('updated_at')
+                ->first();
+    
+            if ($lastAvailability) {
+                $lastUpdated = $lastAvailability->updated_at->format('Y-m-d H:i:s');
+                $lastLogin = $user->last_login;
+            } else {
+                $lastUpdated = 'N/A';
+                $lastLogin = 'N/A';
+            }
+            $user->lastUpdated = $lastUpdated; // adiciona lastUpdated ao objeto do user
+            $user->lastLogin = $lastLogin; // adiciona lastLogin ao objeto do user
+        }
+    
+        return view('pages.teacher_availabilities.index-users', [
+            'users'         => $users,
+            'lastUpdated'   => $lastUpdated,
+            'lastLogin'     => $lastLogin,
+        ]);
     }
 }

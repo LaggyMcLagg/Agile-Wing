@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class CourseClassController extends Controller
 {
+
+    //###############################
+    //CRUD METHODS
+    //###############################
+
     /**
      * Display a listing of the resource.
      *
@@ -15,9 +20,11 @@ class CourseClassController extends Controller
      */
     public function index()
     {
-        $courseClasses = CourseClass::orderBy('id', 'desc')->get();
-        $courses = Course::orderBy('id', 'desc')->get();
-        return view('pages.course-classes.index', ['courseClasses' => $courseClasses, 'courses' => $courses]);
+        $courseClasses = CourseClass::with('course', 'hourBlockCourseClasses')->get();
+
+        $courses = Course::all();
+
+        return view('pages.course_classes.crud',  compact('courseClasses', 'courses'));
     }
 
     /**
@@ -27,27 +34,34 @@ class CourseClassController extends Controller
      */
     public function create()
     {
-        $courses = Course::all();
-        return view('pages.course-classes.create', compact('courses'));
+        //
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illrouteuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'number' => 'required',
-            'course_id' => 'required',
+        $request->validate([
+            'name' => 'required|string|max:255|regex:/^[\pL\sÇç]+$/u',
+            'number' => 'required|string|regex:/^\d{2}\.\d{2}$/',
+            'course_id' => 'required|exists:courses,id',
+        ],
+        [
+            'number.required' => 'O campo é obrigatório.',
+            'number.regex' => 'O número deve estar no formato XX.XX (por exemplo, 12.34).',
+            'number.unique' => 'O número fornecido já existe.',
+            'name.required' => 'O campo é obrigatório.',
+            'name.regex' => 'O nome só pode conter letras, acentuação e Ç ou ç.',
+
         ]);
 
         CourseClass::create($request->all());
 
-        return redirect()->route('course-classes.index')->with('status', 'Item created successfully!');
+        return redirect()->route('course-classes.index')->with('success', 'Item created successfully!');
     }
 
     /**
@@ -58,9 +72,7 @@ class CourseClassController extends Controller
      */
     public function show(CourseClass $courseClass)
     {
-
-        $courseClass->load('course');
-        return view('pages.course-classes.show', compact('courseClass'));
+        //
     }
 
     /**
@@ -71,9 +83,7 @@ class CourseClassController extends Controller
      */
     public function edit(CourseClass $courseClass)
     {
-        $courses = Course::all();
-
-        return view('pages.course-classes.edit', compact('courseClass', 'courses'));
+        //
     }
 
     /**
@@ -83,10 +93,21 @@ class CourseClassController extends Controller
      * @param  \App\CourseClass  $courseClass
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CourseClass $courseClass)
+    public function update(Request $request, $id)
     {
+        $courseClass = CourseClass::find($id);
+
         $request->validate([
+            'name' => 'required|string|max:255|regex:/^[\pL\sÇç]+$/u',
+            'number' => 'required|string|regex:/^\d{2}\.\d{2}$/u',
             'course_id' => 'required|exists:courses,id',
+        ],
+        [
+            'number.required' => 'O campo numérico é obrigatório.',
+            'number.regex' => 'O número deve estar no formato XX.XX (por exemplo, 12.34).',
+            'number.unique' => 'O número fornecido já existe.',
+            'name.required' => 'O campo nome é obrigatório.',
+            'name.regex' => 'O nome só pode conter letras, acentuação e Ç ou ç.',
         ]);
 
         $courseClass->update($request->all());
@@ -108,14 +129,19 @@ class CourseClassController extends Controller
             ->with('success', 'Course Class deleted successfully');
     }
 
+    //###############################
+    //OTHER METHODS
+    //###############################
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function indexForScheduleAtribution()
+    public function indexCourseClassesPlanning()
     {
         $courseClasses = CourseClass::with('course.specializationArea')->get();
-        return view('pages.course_classes.indexForScheduleAtribution', compact('courseClasses'));
+        return view('pages.schedule_atributions.index-course-classes', compact ('courseClasses'));
     }
+
 }

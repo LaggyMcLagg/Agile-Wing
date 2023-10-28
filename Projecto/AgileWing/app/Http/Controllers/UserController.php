@@ -12,7 +12,7 @@ use Illuminate\Support\Str; //para poder gerar pw aleatoria ao criar um user
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Log; // apagar, so serviu para testes
 use Carbon\Carbon; //para usarmos o gt() e verificação do tempo útil do link de verf de email
-use PDF;
+
 
 use Illuminate\Http\Request;
 
@@ -84,7 +84,8 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name'          => 'required',
+
+            'name'      => 'required|string|max:255|regex:/^[\pL\sÇç]+$/u',
             'email'         => 'required|email',
             'user_type_id'  => 'required',
             'color_1'       => 'required',
@@ -232,12 +233,12 @@ class UserController extends Controller
                 'color_2'   => 'required',
             ],
             [
-                'name.required'     => 'The name field is required.',
-                'email.required'    => 'The email field is required.',
-                'email.email'       => 'Please provide a valid email address.',
-                'email.unique'      => 'This email is already in use.',
-                'color_1.required'  => 'Color 1 is required.',
-                'color_2.required'  => 'Color 2 is required.',
+                'name.required' => 'O campo de nome é obrigatório.',
+                'email.required' => 'O campo de correio eletrónico é obrigatório.',
+                'email.email' => 'Forneça um endereço de correio eletrónico válido.',
+                'email.unique' => 'Este correio eletrónico já está a ser utilizado.',
+                'color_1.required' => 'A cor 1 é obrigatória.',
+                'color_2.required' => 'A cor 2 é obrigatória.',
             ]
         );
         
@@ -262,7 +263,7 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        return redirect()->route('users.edit')->with('status', 'Registo apagado com sucesso');
+        return redirect()->route('users.edit')->with('success', 'Registo apagado com sucesso');
     }
 
     //###############################
@@ -287,10 +288,10 @@ class UserController extends Controller
             $user->notes = $request->notes;
             $user->save();
         
-            return redirect()->route('teacher-availabilities.index')->with('success', 'User notes updated successfully');
+            return redirect()->route('teacher-availabilities.index')->with('success', 'Notas de utilizador actualizadas com sucesso');
         } catch (\Exception $e) {
             //This way we resolve gracefully any errors, return the error message and the old form data
-            return back()->withInput()->with('error', 'There was an error updating the user: ' . $e->getMessage());        
+            return back()->withInput()->with('error', 'Ocorreu um erro ao atualizar o utilizador: ' . $e->getMessage());        
         }
     }
 
@@ -302,7 +303,7 @@ class UserController extends Controller
     public function changePasswordLogic(Request $request)
     {
         $request->validate([
-            'new_password'      => 'required|string|min:4|confirmed',
+            'new_password'      => 'required|string|min:8|confirmed',
         ], 
         [
             'new_password.required'     => 'A nova password é obrigatória.',

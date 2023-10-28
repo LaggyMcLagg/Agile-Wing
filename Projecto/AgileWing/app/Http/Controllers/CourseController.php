@@ -51,16 +51,17 @@ class CourseController extends Controller
                 'ufcds.*' => 'exists:ufcds,id',
             ],
             [
-                'name.required' => 'The name field is required.',
-                'name.regex' => 'The name may only contain letters, accentuation, and Ç or ç.',
-                'initials.required' => 'The initials field is required.',
-                'initials.regex' => 'The initials may only contain uppercase letters and Ç.',
-                'specialization_area_number.required' => 'The specialization area number field is required.',
-                'ufcds.required' => 'You must select at least one UFCD.',
-                'ufcds.*.exists' => 'One or more selected UFCDs do not exist.',
+                'name.required' => 'O campo nome é obrigatório.',
+                'name.regex' => 'O nome só pode conter letras, acentuação e Ç ou ç.',
+                'initials.required' => 'O campo iniciais é obrigatório.',
+                'initials.regex' => 'As iniciais só podem conter letras maiúsculas e Ç.',
+                'specialization_area_number.required' => 'O número da Área de Formação é obrigatório.',
+                'ufcds.required' => 'Deve selecionar pelo menos uma UFCD.',
+                'ufcds.*.exists' => 'Uma ou mais UFCDs selecionadas não existem.',
+
             ]
-        );        
-        
+        );
+
         try {
             // Get the specialization_area_id using the unique number
             $specializationArea = SpecializationArea::where('number', $request->specialization_area_number)->first();
@@ -74,9 +75,9 @@ class CourseController extends Controller
                 'initials' => $request->initials,
                 'specialization_area_id' => $specializationArea->id,
             ]);
-        
+
             $course->ufcds()->attach($request->ufcds);
-    
+
             return redirect()->route('courses.index')->with('success', 'Course created successfully');
 
         } catch (\Exception $e) {
@@ -126,16 +127,17 @@ class CourseController extends Controller
                 'ufcds.*' => 'exists:ufcds,id',
             ],
             [
-                'name.required' => 'The name field is required.',
-                'name.regex' => 'The name may only contain letters, accentuation, and Ç or ç.',
-                'initials.required' => 'The initials field is required.',
-                'initials.regex' => 'The initials may only contain uppercase letters and Ç.',
-                'specialization_area_number.required' => 'The specialization area number field is required.',
-                'specialization_area_number.exists' => 'The provided specialization area number does not exist.',
-                'ufcds.required' => 'You must select at least one UFCD.',
-                'ufcds.*.exists' => 'One or more selected UFCDs do not exist.',
+                'name.required' => 'O campo nome é obrigatório.',
+                'name.regex' => 'O nome só pode conter letras, acentuação e Ç ou ç.',
+                'initials.required' => 'O campo iniciais é obrigatório.',
+                'initials.regex' => 'As iniciais só podem conter letras maiúsculas e Ç.',
+                'specialization_area_number.required' => 'O número da Área de Formação é obrigatório.',
+                'specialization_area_number.exists' => 'O número da Área de Formação inserido não existe.',
+                'ufcds.required' => 'Deve selecionar pelo menos uma UFCD.',
+                'ufcds.*.exists' => 'Uma ou mais UFCDs selecionadas não existem.',
+
             ]
-        );        
+        );
 
         try {
             // Get the specialization_area_id using the unique number
@@ -144,24 +146,24 @@ class CourseController extends Controller
             if (!$specializationArea) {
                 throw new \Exception("Specialization area not found for number: " . $request->specialization_area_number);
             }
-            
+
             $course = Course::find($id);
-            
+
             $course->update([
                 'name' => $request->name,
                 'initials' => $request->initials,
                 'specialization_area_id' => $specializationArea->id,
             ]);
-            
+
             $course->ufcds()->sync($request->ufcds);
         
-            return redirect()->route('courses.index')->with('success', 'Course deleted successfully');
+            return redirect()->route('courses.index')->with('success', 'Course editado com sucesso.');
         } catch (\Exception $e) {
             //This way we resolve gracefully any errors, return the error message the old form data
-            session()->flash('error', 'There was an error updating the course: ' . $e->getMessage());
+            session()->flash('error', 'Houve um erro a editar o curso. ' . $e->getMessage());
             return back()->withInput();
         }
-    }    
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -176,14 +178,14 @@ class CourseController extends Controller
             \DB::table('course_ufcds')
                 ->where('course_id', $course->id)
                 ->update(['deleted_at' => now()]);
-    
+
             // Soft delete the course
             $course->delete();
     
-            return redirect()->route('courses.index')->with('success', 'Course deleted successfully');
+            return redirect()->route('courses.index')->with('success', 'Curso apagado com sucesso');
         } catch (\Exception $e) {            
     
-            return redirect()->route('courses.index')->with('error', 'There was an error deleting the course.' . $e->getMessage());
+            return redirect()->route('courses.index')->with('error', 'Houve um erro a apagar o curso.' . $e->getMessage());
         }
     }
 }

@@ -1,43 +1,4 @@
-
-@section('styles')
-<style>
-    /* <!-- SARA DPS RETIRA ISTO PARA O FICHEIRO CSS E ELIMINA ESTA SECTION STYLES--> */
-    .legend-color-box {
-        display: inline-block;
-        width: 20px;
-        height: 20px;
-        border: 1px solid #333;
-    }
-
-    .month-year-nav {
-        display: flex; 
-        align-items: center; 
-        width: 250px; 
-    }  
-
-    #currentMonthYear {
-        flex-grow: 1; 
-        text-align: center; 
-    }
-
-    .days-grid {
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        gap: 5px;
-    }
-
-    .day-name {
-        font-weight: bold; 
-    }
-    
-    .scheduler-container {
-        width: 100%;
-        overflow-x: auto;
-    }
-
-</style>
-@endsection
-
+<link rel="stylesheet" href="{{ asset('css/geral2.css') }}">
 
 @if (session('success'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -65,9 +26,9 @@
             <!-- Calendar Component -->
             <div class="calendar-component">
                 <div class="month-year-nav">
-                    <button id="prevMonth" class="btn btn-secondary">←</button>
+                    <button id="prevMonth" class="btn btn-blue">←</button>
                     <span id="currentMonthYear"></span>
-                    <button id="nextMonth" class="btn btn-secondary">→</button>
+                    <button id="nextMonth" class="btn btn-blue">→</button>
                 </div>
                 <div id="daysGrid" class="days-grid">
                     <!-- JS will populate this -->
@@ -91,7 +52,7 @@
                 @if($showExportBtn)
                     <a 
                         class="btn btn-light" 
-                        href="{{ $userId ? route('user-timeline-export', $userId) : route('course-class-timeline-export', $courseClassId) }}">
+                        href="{{ $userId != 0 ? route('user-timeline-export', $userId) : route('course-class-timeline-export', $courseClassId) }}">
                     Exportar Horário
                     </a>
                 @endif

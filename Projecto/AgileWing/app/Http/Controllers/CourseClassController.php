@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class CourseClassController extends Controller
 {
-    
+
     //###############################
     //CRUD METHODS
     //###############################
@@ -40,7 +40,7 @@ class CourseClassController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illrouteuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -51,11 +51,12 @@ class CourseClassController extends Controller
             'course_id' => 'required|exists:courses,id',
         ],
         [
-            'number.required' => 'The number field is required.',
-            'number.regex' => 'The number should be in the format XX.XX (e.g., 12.34).',
-            'number.unique' => 'The provided number already exists.',
-            'name.required' => 'The name field is required.',
-            'name.regex' => 'The name may only contain letters, accentuation, and Ç or ç.',
+            'number.required' => 'O campo é obrigatório.',
+            'number.regex' => 'O número deve estar no formato XX.XX (por exemplo, 12.34).',
+            'number.unique' => 'O número fornecido já existe.',
+            'name.required' => 'O campo é obrigatório.',
+            'name.regex' => 'O nome só pode conter letras, acentuação e Ç ou ç.',
+
         ]);
 
         CourseClass::create($request->all());
@@ -93,7 +94,7 @@ class CourseClassController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {    
+    {
         $courseClass = CourseClass::find($id);
 
         $request->validate([
@@ -102,15 +103,15 @@ class CourseClassController extends Controller
             'course_id' => 'required|exists:courses,id',
         ],
         [
-            'number.required' => 'The number field is required.',
-            'number.regex' => 'The number should be in the format XX.XX (e.g., 12.34).',
-            'number.unique' => 'The provided number already exists.',
-            'name.required' => 'The name field is required.',
-            'name.regex' => 'The name may only contain letters, accentuation, and Ç or ç.',
+            'number.required' => 'O campo numérico é obrigatório.',
+            'number.regex' => 'O número deve estar no formato XX.XX (por exemplo, 12.34).',
+            'number.unique' => 'O número fornecido já existe.',
+            'name.required' => 'O campo nome é obrigatório.',
+            'name.regex' => 'O nome só pode conter letras, acentuação e Ç ou ç.',
         ]);
-    
+
         $courseClass->update($request->all());
-    
+
         return redirect()->route('course-classes.index')->with('success', 'Course Class updated successfully');
     }
 
@@ -142,5 +143,5 @@ class CourseClassController extends Controller
         $courseClasses = CourseClass::with('course.specializationArea')->get();
         return view('pages.schedule_atributions.index-course-classes', compact ('courseClasses'));
     }
-    
+
 }

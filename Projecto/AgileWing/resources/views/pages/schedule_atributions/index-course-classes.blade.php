@@ -2,10 +2,10 @@
 
 @section('content')
 
-@component('components.schedule_atributions.course-classes-list', 
+@component('components.schedule_atributions.course-classes-list',
     compact (
         'courseClasses'
     ))
 @endcomponent
 
-@endsection 
+@endsection

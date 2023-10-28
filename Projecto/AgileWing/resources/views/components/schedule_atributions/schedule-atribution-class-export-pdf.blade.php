@@ -1,12 +1,10 @@
 <h3>Cronograma turma</h3>
 
-CET: {{ $courseClass->name }}
-<br>
-Turma: {{ $courseClass->course->name }}
-<br>
+<p>CET: {{ $courseClass->name }}</p>
+<p>Turma: {{ $courseClass->course->name }}</p>
     <div class="container">
         @foreach ($tables as $table)
-            <h3>{{ $table['month'] }}</h3>
+            <h3 class= "date">{{ $table['month'] }}</h3>
             <table class="custom-table">
                 <thead>
                     <tr>
@@ -41,25 +39,38 @@ Turma: {{ $courseClass->course->name }}
 
 
 <style>
+    .date{
+        background-color:#dfe3e5;
+    }
+  h3, p {
+    text-align: center;
+    color: #617add;
+    margin-top:10px;
+}
+
     .container
     {
         width: 100%;
         max-width: 100%;
-
     }
 
-    .custom-table 
+    .custom-table
     {
         width: 100%;
         border-collapse: collapse;
+
     }
 
-    .custom-table th, .custom-table td 
+    .custom-table th, .custom-table td
     {
         border: 1px solid #000;
-        text-align: left;
+        text-align: center;
         font-size: 5px;
         word-wrap: break-word;
+
+    }
+    li{
+        text-align:center;
     }
 
     .custom-table tr td {

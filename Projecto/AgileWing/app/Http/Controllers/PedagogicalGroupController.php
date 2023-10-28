@@ -43,7 +43,7 @@ class PedagogicalGroupController extends Controller
             ]);
 
         PedagogicalGroup::create($request->all());
-        return redirect()->route('pedagogical-groups.index')->with('success', 'Pedagogical Groups created successfully');
+        return redirect()->route('pedagogical-groups.index')->with('success', 'Grupo pedagógico criado com sucesso.');
     }
 
     /**
@@ -80,7 +80,7 @@ class PedagogicalGroupController extends Controller
         $pedagogicalGroup = PedagogicalGroup::find($id);
 
         $pedagogicalGroup->update($request->all());
-        return redirect('pedagogical-groups')->with('success','Item edited successfully!');
+        return redirect('pedagogical-groups')->with('success','Grupo pedagógico editado com sucesso.');
     }
 
     /**
@@ -92,6 +92,6 @@ class PedagogicalGroupController extends Controller
     public function destroy(PedagogicalGroup $pedagogicalGroup)
     {
         $pedagogicalGroup->delete();
-        return redirect('pedagogical-groups')->with('success','Item deleted successfully!');;
+        return redirect('pedagogical-groups')->with('success','Grupo pedagógico eliminado com sucesso.');;
     }
 }

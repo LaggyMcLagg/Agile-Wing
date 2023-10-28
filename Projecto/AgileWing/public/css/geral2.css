@@ -71,9 +71,6 @@ body {
         color: var(--white);
     }
 
-
-
-
     .month-year-nav {
         display: flex;
         align-items: center;
@@ -95,3 +92,36 @@ body {
         border-radius: 10px;
         color: var(--black);
       }
+
+      .legend-color-box {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 1px solid #333;
+    }
+
+    .month-year-nav {
+        display: flex;
+        align-items: center;
+        width: 250px;
+    }
+
+    #currentMonthYear {
+        flex-grow: 1;
+        text-align: center;
+    }
+
+    .days-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 5px;
+    }
+
+    .day-name {
+        font-weight: bold;
+    }
+
+    .scheduler-container {
+        width: 100%;
+        overflow-x: auto;
+    }

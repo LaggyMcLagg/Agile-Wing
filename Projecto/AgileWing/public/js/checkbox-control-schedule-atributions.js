@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\LOCAL REPOS\Agile-Wing\Projecto\AgileWing\resources\js\logic\checkbox-control-schedule-atributions.js */"./resources/js/logic/checkbox-control-schedule-atributions.js");
+module.exports = __webpack_require__(/*! D:\ATEC\repos\Agile-Wing\Projecto\AgileWing\resources\js\logic\checkbox-control-schedule-atributions.js */"./resources/js/logic/checkbox-control-schedule-atributions.js");
 
 
 /***/ })

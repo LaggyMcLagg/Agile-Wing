@@ -77,7 +77,7 @@
 
         <!-- TABELA LIST/SHOW -->
         <div class="col-md-8">
-            <h3 class="title">Gestão de Áreas de formação
+            <h3 class="title title-m mt-5">Gestão de Áreas de formação
                 <a id="createBtn" class="btn btn-blue">Criar</a>
                 <a id="editBtn" type="button" class="btn btn-blue">Editar</a>
             </h3>

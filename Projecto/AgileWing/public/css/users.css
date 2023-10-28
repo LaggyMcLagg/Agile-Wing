@@ -127,10 +127,6 @@ input[type="checkbox"]:checked {
     padding-left: 6%;
 }
 
-.edit-professor {
-    margin-left: 6%;
-}
-
 /* Table */
 
 .table-container {
@@ -388,7 +384,8 @@ input[type="password"][disabled] {
         margin-top: 0vh;
     }
 
-    .mt-md-4, .mt-sm-2 {
+    .mt-md-4,
+    .mt-sm-2 {
         margin: 0%;
     }
 

@@ -64,6 +64,10 @@
     margin-left: 10vw;
 }
 
+.navbar-f li:last-child {
+    margin-left: 30vw;
+}
+
 .containernav {
     display: flex;
     align-items: center;
@@ -74,6 +78,8 @@
     border-radius: 20px;
     height: 22px;
 }
+
+
 
 .logout {
     color: white;
@@ -97,6 +103,7 @@
         margin-bottom: 5px;
     }
 
+    
     .navbar-nav {
         padding: 0%;
     }
@@ -113,7 +120,7 @@
         margin-left: 0vw;
     }
 
-span.mr-2{
-    width: 100%;
-}
+    .navbar-f li:last-child {
+        margin-left: 0vw;
+    }
 }

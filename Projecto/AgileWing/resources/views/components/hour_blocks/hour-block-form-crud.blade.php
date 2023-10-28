@@ -81,7 +81,7 @@
         <!-- Right Column: List of hour blocks -->
         <div class="col-md-8">
 
-            <h3 class="title">Lista de Blocos de Horário - LIST
+            <h3 class="title title-m">Lista de Blocos de Horário - LIST
                 <a id="createBtn" class="btn btn-blue">Criar</a>
                 <a id="editBtn" type="button" class="btn btn-blue">Editar</a>
             </h3>

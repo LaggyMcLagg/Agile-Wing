@@ -68,7 +68,7 @@
 
         <!-- Right Column: List of hour blocks -->
         <div class="col-md-8">
-            <h3 class="title">Tipos de disponibilidade
+            <h3 class="title title-m">Tipos de disponibilidade
                 <a id="createBtn" class="btn btn-blue">Criar</a>
                 <a id="editBtn" type="button" class="btn btn-blue">Editar</a>
             </h3>

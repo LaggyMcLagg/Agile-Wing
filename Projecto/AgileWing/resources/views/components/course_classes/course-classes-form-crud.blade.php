@@ -31,7 +31,7 @@
         <div class="col-md-4">
 
             <!-- FORM -->
-            <form class="atec-form" action="{{ route('course-classes.store') }}" id="controlForm" method="POST">
+            <form class="atec-form mt-5" action="{{ route('course-classes.store') }}" id="controlForm" method="POST">
                 @csrf
 
                 <!-- Hidden input for HTTP method override. Needed because HTML forms only support GET/POST natively and we're not using
@@ -110,7 +110,7 @@
 
         <!-- TABELA LIST/SHOW -->
         <div class="col-md-8">
-            <h3 class="title">Gestão de Turmas
+            <h3 class="title title-m mt-5">Gestão de Turmas
                 <a id="createBtn" class="btn btn-blue">Criar</a>
                 <a id="editBtn" type="button" class="btn btn-blue">Editar</a>
             </h3>

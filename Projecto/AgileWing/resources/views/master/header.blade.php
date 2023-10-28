@@ -64,8 +64,8 @@
 
 @elseif(auth()->user()->user_type_id == 2)
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Agile Wing</a>
+<nav class="navbar navbar-f navbar-expand-lg navbar-light">
+    <a class="navbar-brand" href="{{ route ('home') }}"><img src="{{ asset('images/atec-logo.png') }}" alt="atec-logo"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -82,15 +82,11 @@
                 </a>
             </li>
             <li class="containernav nav-item">
-                <div class="justify-content-end d-flex">
-                    <div class="d-flex align-items-center">
-                        <span class="mr-2">Bem-vindo(a), {{ auth()->user()->name }}</span>
+                        <span class="mr-2">{{ auth()->user()->name }}</span>
                         <form action="{{ route('logout') }}" method="post">
                             @csrf
-                            <button class="btn nav-link" type="submit">Logout</button>
+                            <button class="btn logout" type="submit">Logout</button>
                         </form>
-                    </div>
-                </div>
             </li>
         </ul>
     </div>
